@@ -2,4 +2,7 @@
 
 == PREREQUISITES
 
+IMPORTANT: First go to `git-hooks` directory,
+use `chmod +x add-hooks` and then `./add-hooks` to activate git hooks.
+
 == RUNNING
