@@ -177,6 +177,32 @@
                             <goal>prepare-agent</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>jacoco-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <rule>
+                                    <limits>
+                                        <limit>
+                                            <counter>LINE</counter>
+                                            <minimum>0.75</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                                <rule>
+                                    <limits>
+                                        <limit>
+                                            <counter>BRANCH</counter>
+                                            <minimum>0.75</minimum>
+                                        </limit>
+                                    </limits>
+                                </rule>
+                            </rules>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>

@@ -16,3 +16,5 @@ target/
 *.tar.gz
 *.rar
 .mvn/
+# Temp files from using bash scripts
+*.un~
