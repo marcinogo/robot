@@ -10,6 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>template</artifactId>
+
+
+
     <dependencies>
         <dependency>
             <groupId>edition.academy.seventh</groupId>
@@ -19,5 +22,15 @@
         </dependency>
     </dependencies>
 
+
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
