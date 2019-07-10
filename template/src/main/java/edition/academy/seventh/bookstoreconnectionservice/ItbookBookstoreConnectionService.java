@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Connects with bookstore ItBook
+ * Return books from ItBook bookstore.
  *
  * @author Marcin Ogorzałek
  * @author Ola Podorska
@@ -34,9 +34,10 @@ public class ItbookBookstoreConnectionService implements BookstoreConnectionServ
   }
 
   /**
-   * connects with https://api.itbook.store/1.0/new and gets books list as string
+   * <p>{@inheritDoc}</p>
+   * <p>Connection url is <a href="https://api.itbook.store/1.0/new">https://api.itbook.store/1.0/new</a></p>
    *
-   * @return list of books as strings
+   * @return {@inheritDoc}
    */
   @Override
   public List<String> getListOfBooksAsString() {

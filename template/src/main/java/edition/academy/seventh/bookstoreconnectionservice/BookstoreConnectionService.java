@@ -3,7 +3,7 @@ package edition.academy.seventh.bookstoreconnectionservice;
 import java.util.List;
 
 /**
- * Connects with bookstore
+ * Provide API to get books on sale from given bookstore.
  *
  * @author Marcin Ogorzałek
  * @author Ola Podorska
@@ -11,9 +11,9 @@ import java.util.List;
 public interface BookstoreConnectionService {
 
   /**
-   * connects with specified url and gets books list as string
+   * Return books from bookstore as list JSON String to further processing.
    *
-   * @return list of books as strings
+   * @return list of book JSON as strings
    */
   List<String> getListOfBooksAsString();
 }
