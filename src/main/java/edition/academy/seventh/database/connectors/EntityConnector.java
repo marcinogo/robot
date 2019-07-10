@@ -1,4 +1,4 @@
-package edition.academy.seventh.connectors;
+package edition.academy.seventh.database.connectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

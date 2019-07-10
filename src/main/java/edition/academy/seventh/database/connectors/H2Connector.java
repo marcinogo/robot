@@ -1,4 +1,4 @@
-package edition.academy.seventh.connectors;
+package edition.academy.seventh.database.connectors;
 
 /** @author Kamil Rojek */
 public class H2Connector extends EntityConnector {

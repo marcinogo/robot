@@ -1,4 +1,4 @@
-package edition.academy.seventh.connectors;
+package edition.academy.seventh.database.connectors;
 
 /** @author Kamil Rojek */
 public class PostgresConnector extends EntityConnector {
