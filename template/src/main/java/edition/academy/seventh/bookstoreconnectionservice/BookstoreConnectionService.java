@@ -10,10 +10,10 @@ import java.util.List;
  */
 public interface BookstoreConnectionService {
 
-    /**
-     * connects with specified url and gets books list as string
-     *
-     * @return list of books as strings
-     */
-    List<String> getListOfBooksAsString();
+  /**
+   * connects with specified url and gets books list as string
+   *
+   * @return list of books as strings
+   */
+  List<String> getListOfBooksAsString();
 }

@@ -10,7 +10,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class Main {
   public static void main(String[] args) {
     ConfigurableApplicationContext applicationContext = SpringApplication.run(Main.class, args);
-    BookstoreConnectionService bookstoreConnectionService = applicationContext.getBean(ItbookBookstoreConnectionService.class);
+    BookstoreConnectionService bookstoreConnectionService =
+        applicationContext.getBean(ItbookBookstoreConnectionService.class);
     bookstoreConnectionService.getListOfBooksAsString();
   }
 }
