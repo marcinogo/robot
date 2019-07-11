@@ -21,7 +21,8 @@ public class Main {
   public static void main(String[] args) {
     ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
 
-    BookstoreConnectionService connectionService = context.getBean(BookstoreConnectionService.class);
+    BookstoreConnectionService connectionService =
+        context.getBean(BookstoreConnectionService.class);
     List<String> listOfBooksAsString = connectionService.getListOfBooksAsString();
 
     ItBookMapper bookMapper = context.getBean(ItBookMapper.class);
@@ -34,6 +35,7 @@ public class Main {
     }
 
     BooksService booksService = context.getBean(BooksService.class);
-    booksService.addBooksToDataBase(books);
+    //    booksService.addBooksToDataBase(books);
+    booksService.getBooksFromDataBase().forEach(b -> System.out.println(b.getAuthors()));
   }
 }
