@@ -1,11 +1,11 @@
 package edition.academy.seventh.serivce;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
 /**
  * Return books from ItBook bookstore.
@@ -16,18 +16,18 @@ import java.util.List;
 @Service
 public class ItbookBookstoreConnectionService implements BookstoreConnectionService {
 
-  private final String BOOKSTORE_ALL_BOOKS_URL;
+  private final String bookstoreAllBooksUrl;
   private final BookstoreConnector bookstoreConnector;
   private final BookDataDownloader bookDataDownloader;
   private final JsonDataProcessor jsonDataProcessor;
 
   @Autowired
   public ItbookBookstoreConnectionService(
-      @Value("https://api.itbook.store/1.0/new") String BOOKSTORE_URL,
+      @Value("https://api.itbook.store/1.0/new") String bookstoreUrl,
       BookstoreConnector bookstoreConnector,
       BookDataDownloader bookDataDownloader,
       JsonDataProcessor jsonDataProcessor) {
-    this.BOOKSTORE_ALL_BOOKS_URL = BOOKSTORE_URL;
+    this.bookstoreAllBooksUrl = bookstoreUrl;
     this.bookstoreConnector = bookstoreConnector;
     this.bookDataDownloader = bookDataDownloader;
     this.jsonDataProcessor = jsonDataProcessor;
@@ -43,8 +43,8 @@ public class ItbookBookstoreConnectionService implements BookstoreConnectionServ
    */
   @Override
   public List<String> getListOfBooksAsString() {
-    bookstoreConnector.getJsonResponse(BOOKSTORE_ALL_BOOKS_URL);
-    String booksAsJson = bookstoreConnector.getJsonResponse(BOOKSTORE_ALL_BOOKS_URL);
+    bookstoreConnector.getJsonResponse(bookstoreAllBooksUrl);
+    String booksAsJson = bookstoreConnector.getJsonResponse(bookstoreAllBooksUrl);
     JsonNode mappedBooksJson = jsonDataProcessor.mapJsonString(booksAsJson);
     List<String> isbns = jsonDataProcessor.convertJsonToBookIsbn(mappedBooksJson);
     return bookDataDownloader.listBooksByIsbn(isbns);

@@ -1,11 +1,11 @@
 package edition.academy.seventh.serivce;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Marcin Ogorzałek
@@ -14,14 +14,14 @@ import java.util.List;
 @Component
 class BookDataDownloader {
 
-  private final String BOOKSTORE_BOOK_URL;
+  private final String bookstoreBookUrl;
   private final BookstoreConnector bookstoreConnector;
 
   @Autowired
   BookDataDownloader(
-      @Value("https://api.itbook.store/1.0/books/") String BOOKSTORE_BOOK_URL,
+      @Value("https://api.itbook.store/1.0/books/") String bookstoreBookUrl,
       BookstoreConnector bookstoreConnector) {
-    this.BOOKSTORE_BOOK_URL = BOOKSTORE_BOOK_URL;
+    this.bookstoreBookUrl = bookstoreBookUrl;
     this.bookstoreConnector = bookstoreConnector;
   }
 
@@ -34,6 +34,6 @@ class BookDataDownloader {
   }
 
   private String createBookFullUrl(String isbn) {
-    return new StringBuilder(BOOKSTORE_BOOK_URL).append(isbn).toString();
+    return new StringBuilder(bookstoreBookUrl).append(isbn).toString();
   }
 }

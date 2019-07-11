@@ -19,13 +19,14 @@ import static edition.academy.seventh.database.connector.ConnectorFactory.Databa
 @Repository
 public class BookRepository {
   private EntityManager entityManager;
+  private ConnectorProvider connectorProvider;
 
   public BookRepository() {
-    ConnectorProvider connectorProvider = ConnectorFactory.of(H2);
-    entityManager = connectorProvider.getEntityManager();
+    connectorProvider = ConnectorFactory.of(H2);
   }
 
   public void addBooksToDataBase(List<Book> books) {
+    entityManager = connectorProvider.getEntityManager();
     EntityTransaction transaction = entityManager.getTransaction();
     transaction.begin();
     books.forEach(this::addBookToDataBase);

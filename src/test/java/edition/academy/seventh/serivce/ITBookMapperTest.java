@@ -19,7 +19,7 @@ public class ITBookMapperTest {
 
   @BeforeTest
   public void prepareListOfBooks() throws IOException {
-    ITBookMapper itBookMapper = new ITBookMapper();
+    ItBookMapper itBookMapper = new ItBookMapper();
     String bookJSON =
         "{\n"
             + " \"title\": \"Learning JavaScript\",\n"
@@ -30,7 +30,7 @@ public class ITBookMapperTest {
             + "}";
 
     List<String> partialBook = List.of(bookJSON);
-    bookList = itBookMapper.mapListOfJSON(partialBook);
+    bookList = itBookMapper.mapListOfJson(partialBook);
   }
 
   @DataProvider
