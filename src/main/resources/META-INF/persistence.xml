@@ -1,0 +1,15 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0">
+
+    <persistence-unit name="PostgreSQLUnit" transaction-type="RESOURCE_LOCAL">
+        <description>Persistence unit for PostgreSQL</description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    </persistence-unit>
+
+    <persistence-unit name="H2Unit" transaction-type="RESOURCE_LOCAL">
+        <description>Persistence unit for H2</description>
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    </persistence-unit>
+
+</persistence>

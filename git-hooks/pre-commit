@@ -47,11 +47,12 @@ fi
 
 # Prevent git commit if mvn package fail
 echo "Building project..."
-if $(mvn clean package -q)
+if mvn clean package -q
 then
 	echo "Build succeed"
 else
 	echo "Build failed"
+	exit 1
 fi
 
 # If there are whitespace errors, print the offending file names and fail.
