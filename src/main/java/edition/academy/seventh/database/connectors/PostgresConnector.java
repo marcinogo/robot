@@ -13,7 +13,7 @@ public class PostgresConnector extends EntityConnector {
   }
 
   @Override
-  Map<String, String> loadPersistenceSettings() {
+  final Map<String, String> loadPersistenceSettings() {
     Map<String, String> settings = new HashMap<>();
     settings.put("javax.persistence.jdbc.driver", "org.postgresql.Driver");
     settings.put("javax.persistence.jdbc.user", credentials.get("DB_USER"));

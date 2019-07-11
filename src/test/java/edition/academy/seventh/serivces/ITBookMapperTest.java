@@ -1,50 +1,50 @@
 package edition.academy.seventh.serivces;
 
+import edition.academy.seventh.database.models.Book;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import edition.academy.seventh.database.models.Book;
-import java.util.LinkedList;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
 /**
  * @author Bartosz Kupajski
+ * @author Kamil Rojek
  */
-
 public class ITBookMapperTest {
+  private static List<Book> bookList;
 
-    @Test
-    public void shouldReturnActualTitle() throws IOException {
-        String bookJSON = "{\n" +
-                "    \"error\": \"0\",\n" +
-                "    \"title\": \"Learning JavaScript\",\n" +
-                "    \"subtitle\": \"A Hands-On Guide to the Fundamentals of Modern JavaScript\",\n" +
-                "    \"authors\": \"Tim Wright\",\n" +
-                "    \"publisher\": \"Addison-Wesley\",\n" +
-                "    \"language\": \"English\",\n" +
-                "    \"isbn10\": \"0321832744\",\n" +
-                "    \"isbn13\": \"9780321832740\",\n" +
-                "    \"pages\": \"360\",\n" +
-                "    \"year\": \"2012\",\n" +
-                "    \"rating\": \"4\",\n" +
-                "    \"desc\": \"With the arrival of HTML5, jQuery, and Ajax, JavaScript web development skills are more valuable  than ever! This complete, hands-on JavaScript tutorial covers everything you need to know now.  Using line-by-line code walkthroughs and end-of-chapter exercises, top web developer and speaker Tim Wrigh...\",\n" +
-                "    \"price\": \"$8.99\",\n" +
-                "    \"image\": \"https://itbook.store/img/books/9780321832740.png\",\n" +
-                "    \"url\": \"https://itbook.store/books/9780321832740\"\n" +
-                "}";
+  @BeforeTest
+  public void prepareListOfBooks() throws IOException {
+    ITBookMapper itBookMapper = new ITBookMapper();
+    String bookJSON =
+        "{\n"
+            + " \"title\": \"Learning JavaScript\",\n"
+            + " \"subtitle\": \"A Hands-On Guide to the Fundamentals of Modern JavaScript\",\n"
+            + " \"authors\": \"Tim Wright\",\n"
+            + " \"price\": \"$8.99\",\n"
+            + " \"url\": \"https://itbook.store/books/9780321832740\"\n"
+            + "}";
 
-        List<String> listOfBooks = new LinkedList<>();
+    List<String> partialBook = List.of(bookJSON);
+    bookList = itBookMapper.mapListOfJSON(partialBook);
+  }
 
-        listOfBooks.add(bookJSON);
+  @DataProvider
+  public static Object[][] dataProviderForJSONMapping() {
+    return new Object[][] {
+      {bookList.get(0).getTitle(), "Learning JavaScript"},
+      {bookList.get(0).getSubtitle(), "A Hands-On Guide to the Fundamentals of Modern JavaScript"},
+      {bookList.get(0).getAuthors(), "Tim Wright"},
+      {bookList.get(0).getPrice(), "$8.99"}
+    };
+  }
 
-        ITBookMapper itBookMapper = new ITBookMapper();
-
-        List<Book> list = itBookMapper.mapListOfJSON(listOfBooks);
-
-        String title = list.get(0).getTitle();
-
-        assertEquals(title,"Learning JavaScript");
-    }
+  @Test(dataProvider = "dataProviderForJSONMapping")
+  public void should_returnActualBookProperties_fromValidJson(String bookPart, String expected) {
+    assertEquals(bookPart, expected);
+  }
 }

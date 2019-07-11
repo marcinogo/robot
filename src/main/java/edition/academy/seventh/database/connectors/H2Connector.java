@@ -10,7 +10,7 @@ public class H2Connector extends EntityConnector {
   }
 
   @Override
-  Map<String, String> loadPersistenceSettings() {
+  final Map<String, String> loadPersistenceSettings() {
     Map<String, String> settings = new HashMap<>();
     settings.put("javax.persistence.jdbc.driver", "org.h2.Driver");
     settings.put("javax.persistence.jdbc.user", "sa");

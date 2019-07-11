@@ -4,9 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import edition.academy.seventh.database.models.Book;
 import java.util.LinkedList;
 import java.util.List;
+
+import edition.academy.seventh.database.models.Book;
 
 /** @author Bartosz Kupajski */
 @Service
