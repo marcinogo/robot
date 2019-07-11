@@ -1,4 +1,4 @@
-package edition.academy.seventh.database.models;
+package edition.academy.seventh.database.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -18,6 +18,7 @@ public class Book {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
   private String title;
   private String subtitle;
   private String authors;

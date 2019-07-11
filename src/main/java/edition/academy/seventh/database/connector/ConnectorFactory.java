@@ -1,7 +1,7 @@
-package edition.academy.seventh.database.connectors;
+package edition.academy.seventh.database.connector;
 
 /**
- * Factory for connectors providers.
+ * Factory for connector providers.
  *
  * @author Kamil Rojek
  */
@@ -23,7 +23,7 @@ public class ConnectorFactory {
     }
   }
 
-  /** Available types for database's connectors. */
+  /** Available types for database's connector. */
   public enum DatabaseTypes {
     H2,
     POSTGRESQL

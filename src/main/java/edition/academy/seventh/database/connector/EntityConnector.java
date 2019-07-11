@@ -1,9 +1,9 @@
-package edition.academy.seventh.database.connectors;
+package edition.academy.seventh.database.connector;
 
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.Map;
 
 /**
  * Adapter for connection to database using {@link javax.persistence.EntityManager}.
@@ -41,7 +41,7 @@ abstract class EntityConnector implements ConnectorProvider {
   /**
    * Loads programmatically child database properties.
    *
-   * @return Map<String, String> database properties.
+   * @return {@code Map<String, String>} database properties.
    */
   abstract Map<String, String> loadPersistenceSettings();
 }

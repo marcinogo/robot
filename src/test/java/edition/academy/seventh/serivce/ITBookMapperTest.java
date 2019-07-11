@@ -1,6 +1,6 @@
-package edition.academy.seventh.serivces;
+package edition.academy.seventh.serivce;
 
-import edition.academy.seventh.database.models.Book;
+import edition.academy.seventh.database.model.Book;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -19,7 +19,7 @@ public class ITBookMapperTest {
 
   @BeforeTest
   public void prepareListOfBooks() throws IOException {
-    ITBookMapper itBookMapper = new ITBookMapper();
+    ItBookMapper itBookMapper = new ItBookMapper();
     String bookJSON =
         "{\n"
             + " \"title\": \"Learning JavaScript\",\n"
@@ -30,7 +30,7 @@ public class ITBookMapperTest {
             + "}";
 
     List<String> partialBook = List.of(bookJSON);
-    bookList = itBookMapper.mapListOfJSON(partialBook);
+    bookList = itBookMapper.mapListOfJson(partialBook);
   }
 
   @DataProvider

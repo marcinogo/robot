@@ -1,14 +1,14 @@
-package edition.academy.seventh.serivces;
+package edition.academy.seventh.serivce;
 
-import edition.academy.seventh.repositories.BookRepository;
+import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.repository.BookRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import edition.academy.seventh.database.models.Book;
-import java.util.List;
 
 /**
- * Service that provides API reponsible for adding books into database.
+ * Service that provides API responsible for adding books into database.
  *
  * @author Agnieszka Trzewik
  */

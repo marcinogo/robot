@@ -1,4 +1,4 @@
-package edition.academy.seventh.database.connectors;
+package edition.academy.seventh.database.connector;
 
 import java.util.HashMap;
 import java.util.Map;
