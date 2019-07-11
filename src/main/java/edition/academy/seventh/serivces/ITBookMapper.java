@@ -10,15 +10,22 @@ import java.util.List;
 
 /** @author Bartosz Kupajski */
 @Service
-public class ITBookMapper {
+class ITBookMapper {
 
   private ObjectMapper objectMapper;
 
-  public ITBookMapper() {
+  ITBookMapper() {
     this.objectMapper = new ObjectMapper();
   }
 
-  public List<Book> mapListOfJSON(List<String> listOfJSONBook) throws IOException {
+  /**
+   * Maps JSON books file into List<Book>
+   *
+   * @param listOfJSONBook list with books' JSONs
+   * @return List<Book>
+   * @throws IOException
+   */
+  List<Book> mapListOfJSON(List<String> listOfJSONBook) throws IOException {
 
     List<Book> listOfBooks = new LinkedList<>();
 
