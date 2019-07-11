@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 
 /** @author Bartosz Kupajski */
 @Service
-class ItBookMapper {
+public class ItBookMapper {
 
   private ObjectMapper objectMapper;
 
-  ItBookMapper() {
+  public ItBookMapper() {
     this.objectMapper = new ObjectMapper();
   }
 
@@ -25,7 +25,7 @@ class ItBookMapper {
    * @return {@code List<Book>}
    * @throws IOException when JSON isn't read properly
    */
-  List<Book> mapListOfJson(List<String> listOfJSONBook) throws IOException {
+  public List<Book> mapListOfJson(List<String> listOfJSONBook) throws IOException {
     List<Book> listOfBooks = new LinkedList<>();
 
     for (String bookJSON : listOfJSONBook) {
