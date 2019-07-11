@@ -2,7 +2,6 @@ package edition.academy.seventh.database.connectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.Map;
 
@@ -11,12 +10,12 @@ import java.util.Map;
  *
  * @author Kamil Rojek
  */
-public abstract class EntityConnector {
+abstract class EntityConnector implements ConnectorProvider {
   private EntityManagerFactory entityManagerFactory;
-  private final String PERSISTENCE_UNIT_NAME;
+  private final String persistenceUnitName;
 
-  EntityConnector(final String PERSISTENCE_UNIT_NAME) {
-    this.PERSISTENCE_UNIT_NAME = PERSISTENCE_UNIT_NAME;
+  EntityConnector(final String persistenceUnitName) {
+    this.persistenceUnitName = persistenceUnitName;
   }
 
   /**
@@ -24,6 +23,7 @@ public abstract class EntityConnector {
    *
    * @return Entity manager factory.
    */
+  @Override
   public final EntityManager getEntityManager() {
     return getEntityManagerFactory().createEntityManager();
   }
@@ -35,7 +35,7 @@ public abstract class EntityConnector {
     }
 
     return entityManagerFactory =
-        Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME, loadPersistenceSettings());
+        Persistence.createEntityManagerFactory(persistenceUnitName, loadPersistenceSettings());
   }
 
   /**

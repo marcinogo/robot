@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /** @author Kamil Rojek */
-public class PostgresConnector extends EntityConnector {
+class PostgresConnector extends EntityConnector {
   private Map<String, String> credentials = new HashMap<>();
 
-  public PostgresConnector() {
+  PostgresConnector() {
     super("PostgreSQLUnit");
     credentials = System.getenv();
   }

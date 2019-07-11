@@ -1,13 +1,15 @@
 package edition.academy.seventh.repositories;
 
-import edition.academy.seventh.database.connectors.EntityConnector;
-import edition.academy.seventh.database.connectors.H2Connector;
+import edition.academy.seventh.database.connectors.ConnectorFactory;
+import edition.academy.seventh.database.connectors.ConnectorProvider;
+import edition.academy.seventh.database.models.Book;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import edition.academy.seventh.database.models.Book;
 import java.util.List;
+
+import static edition.academy.seventh.database.connectors.ConnectorFactory.DatabaseTypes.H2;
 
 /**
  * Repository that persists book entities in database.
@@ -19,8 +21,8 @@ public class BookRepository {
   private EntityManager entityManager;
 
   public BookRepository() {
-    EntityConnector connector = new H2Connector();
-    entityManager = connector.getEntityManager();
+    ConnectorProvider connectorProvider = ConnectorFactory.of(H2);
+    entityManager = connectorProvider.getEntityManager();
   }
 
   public void addBooksToDataBase(List<Book> books) {

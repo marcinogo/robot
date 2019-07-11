@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /** @author Kamil Rojek */
-public class H2Connector extends EntityConnector {
-  public H2Connector() {
+class H2Connector extends EntityConnector {
+  H2Connector() {
     super("H2Unit");
   }
 
