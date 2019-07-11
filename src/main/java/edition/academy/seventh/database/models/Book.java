@@ -1,4 +1,4 @@
-package edition.academy.seventh.models;
+package edition.academy.seventh.database.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
