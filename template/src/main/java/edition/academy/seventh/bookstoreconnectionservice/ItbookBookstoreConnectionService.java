@@ -34,8 +34,10 @@ public class ItbookBookstoreConnectionService implements BookstoreConnectionServ
   }
 
   /**
-   * <p>{@inheritDoc}</p>
-   * <p>Connection url is <a href="https://api.itbook.store/1.0/new">https://api.itbook.store/1.0/new</a></p>
+   * {@inheritDoc}
+   *
+   * <p>Connection url is <a
+   * href="https://api.itbook.store/1.0/new">https://api.itbook.store/1.0/new</a>
    *
    * @return {@inheritDoc}
    */

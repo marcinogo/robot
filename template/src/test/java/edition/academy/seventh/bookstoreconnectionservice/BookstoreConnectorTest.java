@@ -6,20 +6,20 @@ import org.testng.annotations.Test;
 /**
  * @author Ola Podorska
  */
-
 @Test
 public class BookstoreConnectorTest {
 
-  @Test(dataProviderClass = DataProviderForJsonParser.class, dataProvider = "dataProviderForJsonResponse")
+  @Test(
+      dataProviderClass = DataProviderForJsonParser.class,
+      dataProvider = "dataProviderForJsonResponse")
   public void should_returnJsonWithBooksString_when_givenProperUrl(String url, String response) {
-    //Given
+    // Given
     BookstoreConnector bookstoreConnector = new BookstoreConnector();
 
-    //When
+    // When
     String jsonResponse = bookstoreConnector.getJsonResponse(url);
 
-    //Then
+    // Then
     Assert.assertEquals(jsonResponse, response);
   }
-
 }
