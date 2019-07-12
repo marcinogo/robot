@@ -1,7 +1,7 @@
 package edition.academy.seventh;
 
 import edition.academy.seventh.database.model.Book;
-import edition.academy.seventh.serivce.BooksService;
+import edition.academy.seventh.serivce.BookService;
 import edition.academy.seventh.serivce.BookstoreConnectionService;
 import edition.academy.seventh.serivce.ItBookMapper;
 import org.springframework.boot.SpringApplication;
@@ -34,8 +34,8 @@ public class Main {
       System.err.println(e.getMessage());
     }
 
-    BooksService booksService = context.getBean(BooksService.class);
-    //    booksService.addBooksToDataBase(books);
-    booksService.getBooksFromDataBase().forEach(b -> System.out.println(b.getAuthors()));
+    BookService bookService = context.getBean(BookService.class);
+    //    bookService.addBooksToDataBase(books);
+    bookService.getBooksFromDataBase().forEach(b -> System.out.println(b.getAuthors()));
   }
 }
