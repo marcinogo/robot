@@ -23,6 +23,14 @@ public class Book {
   private String subtitle;
   private String authors;
   private String price;
+  private String promotion;
+
+  public Book(String title, String authors, String price, String promotion) {
+    this.title = title;
+    this.authors = authors;
+    this.price = price;
+    this.promotion = promotion;
+  }
 
   public String getTitle() {
     return title;

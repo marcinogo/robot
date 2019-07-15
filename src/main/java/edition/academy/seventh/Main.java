@@ -35,7 +35,7 @@ public class Main {
     }
 
     BooksService booksService = context.getBean(BooksService.class);
-    //    booksService.addBooksToDataBase(books);
+    booksService.addBooksToDataBase(books);
     booksService.getBooksFromDataBase().forEach(b -> System.out.println(b.getAuthors()));
   }
 }
