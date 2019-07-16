@@ -1,15 +1,15 @@
 package edition.academy.seventh;
 
 import edition.academy.seventh.database.model.Book;
-import edition.academy.seventh.serivce.*;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import edition.academy.seventh.serivce.BooksService;
+import edition.academy.seventh.serivce.BookstoreConnectionService;
+import edition.academy.seventh.serivce.EmpikScrapping;
+import edition.academy.seventh.serivce.IPromotionScrapping;
+import edition.academy.seventh.serivce.ItBookMapper;
+import java.util.List;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Entry point for entire app.
@@ -21,8 +21,6 @@ public class Main {
   public static void main(String[] args) {
     ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
 
-//    Document doc = Jsoup.connect("https://www.empik.com/promocje?searchCategory=31&hideUnavailable=true&start=2881&qtype=facetForm").get();
-
     IPromotionScrapping iPromotionScrapping = new EmpikScrapping();
     BookstoreConnectionService connectionService =
         context.getBean(BookstoreConnectionService.class);
@@ -31,19 +29,9 @@ public class Main {
     ItBookMapper bookMapper = context.getBean(ItBookMapper.class);
     List<Book> books = null;
 
-    try {
-      long start = System.currentTimeMillis();
-      books = iPromotionScrapping.scrapPromotion();
-      long end = System.currentTimeMillis();
-     // books = bookMapper.mapListOfJson(listOfBooksAsString);
-      System.out.println(end-start);
-
-    } catch (IOException e) {
-      System.err.println(e.getMessage());
-    }
+    books = iPromotionScrapping.scrapPromotion();
 
     BooksService booksService = context.getBean(BooksService.class);
     booksService.addBooksToDataBase(books);
-//    booksService.getBooksFromDataBase().forEach(b -> System.out.println(b.getAuthors()));
   }
 }

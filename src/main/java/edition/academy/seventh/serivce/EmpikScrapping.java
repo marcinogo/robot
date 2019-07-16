@@ -1,16 +1,19 @@
 package edition.academy.seventh.serivce;
 
 import edition.academy.seventh.database.model.Book;
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Phaser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
 import org.jsoup.select.Elements;
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.*;
 
 /**
+ * Scrap data from empik.com bookstore website in sales section using JSoup library.
+ *
  * @author Bartosz Kupajski
  */
 public class EmpikScrapping implements IPromotionScrapping {
@@ -18,51 +21,53 @@ public class EmpikScrapping implements IPromotionScrapping {
     private List<Book> listOfBooks = new CopyOnWriteArrayList<>();
     private ExecutorService service = Executors.newFixedThreadPool(40);
     private Phaser phaser = new Phaser(1);
-    /**
+
+  /**
         Above that number SSLException is thrown
      */
-    private static final int MAX_CONNECTIONS = 1201;
+    private final int maxConnections = 1201;
 
-    @Override
-    public List<Book> scrapPromotion() throws IOException {
+  /**
+   * Index in for loop is incremented by 30 because of the fact that
+   * every page URL of empik sales section contains id witch is incremented by 30.
+   *
+   * @return list of books after all threads finish their jobs
+   * */
+  @Override
+  public List<Book> scrapPromotion() {
 
-        for(int i = MAX_CONNECTIONS*2; i<= MAX_CONNECTIONS*3 ; i=i+30){
-
-            int finalI = i;
-      service.submit(
-          () -> {
-            phaser.register();
-            String url = createUrl(finalI);
-            Document doc = null;
-            try {
-              doc = Jsoup.connect(url).get();
-            } catch (IOException e) {
-              e.printStackTrace();
-            }
-            Elements elementsByClass =
-                doc.getElementsByClass("product-details-wrapper ta-details-box");
-
-            mappingToBookList(listOfBooks, elementsByClass);
-          });
+      for (int i = 1; i <= maxConnections; i = i + 30) {
+        service.submit(createScrappingTask(i));
         }
+
         phaser.arriveAndAwaitAdvance();
-
-    System.out.println("------------------------------------KONIEC----------------------------------------------");
-
-        return listOfBooks;
+      return listOfBooks;
     }
 
-    private String createUrl(int i) {
+  private Runnable createScrappingTask(int serchSiteNumber) {
+    return () -> {
+      phaser.register();
+      String url = createUrl(serchSiteNumber);
+      Document document = null;
+      try {
+        document = Jsoup.connect(url).get();
+      } catch (IOException exception) {
+        System.err.println(exception.getMessage());
+      }
+      Elements elementsByClass =
+          document.getElementsByClass("product-details-wrapper ta-details-box");
 
-        String startOfUrl = "https://www.empik.com/promocje?searchCategory=31&hideUnavailable=true&start=";
-        String endOfUrl = "&qtype=facetForm";
+      mappingToBookList(listOfBooks, elementsByClass);
+    };
+  }
 
-        return startOfUrl +
-                i +
-                endOfUrl;
-    }
+  private String createUrl(int numberOfPage) {
+    String startOfUrl = "https://www.empik.com/promocje?searchCategory=31&hideUnavailable=true&start=";
+    String endOfUrl = "&qtype=facetForm";
+    return startOfUrl + numberOfPage + endOfUrl;
+  }
 
-    private void mappingToBookList(List<Book> listOfBooks, Elements elementsByClass) {
+  private void mappingToBookList(List<Book> listOfBooks, Elements elementsByClass) {
     elementsByClass.stream()
         .map(
             element -> {
@@ -70,7 +75,6 @@ public class EmpikScrapping implements IPromotionScrapping {
               String author = element.getElementsByClass("smartAuthor").text();
               String promotionPrice = element.getElementsByClass("ta-price-tile").text();
               String[] prices = promotionPrice.split(" ");
-             // System.out.println(title + author + promotionPrice);
               Book book = new Book();
               book.setTitle(title);
               book.setAuthors(author);
@@ -82,6 +86,4 @@ public class EmpikScrapping implements IPromotionScrapping {
         .forEach(listOfBooks::add);
         phaser.arrive();
     }
-
-
 }
