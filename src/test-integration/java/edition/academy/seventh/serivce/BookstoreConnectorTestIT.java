@@ -3,11 +3,9 @@ package edition.academy.seventh.serivce;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-/**
- * @author Ola Podorska
- */
+/** @author Ola Podorska */
 @Test
-public class BookstoreConnectorTest {
+public class BookstoreConnectorTestIT {
 
   @Test(
       dataProviderClass = DataProviderForJsonParser.class,
