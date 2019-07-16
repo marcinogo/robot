@@ -29,8 +29,11 @@ public class EmpikScrapping implements IPromotionScrapping {
      */
     private static final int MAX_CONNECTIONS = 1201;
 
-    @Override
-    public List<Book> scrapPromotion() {
+  /**
+   * @return list of mapped books
+   */
+  @Override
+  public List<Book> scrapPromotion() {
 
       for (int i = 1; i <= MAX_CONNECTIONS; i = i + 30) {
         service.submit(createScrappingTask(i));

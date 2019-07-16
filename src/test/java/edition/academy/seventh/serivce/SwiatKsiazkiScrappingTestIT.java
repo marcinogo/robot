@@ -9,17 +9,15 @@ import org.testng.annotations.Test;
 /**
  * @author Kacper Staszek
  *
- * Integration test of EmpikScrapping class.
+ * Integration test of SwiatKsiazkiScrapping class.
  */
 @Test
-public class EmpikScrappingIntegrationTest {
-
-  private static final int EXPECTED_BOOKS_SIZE_AFTER_SCRAPPING = 1230;
+public class SwiatKsiazkiScrappingTestIT {
 
   public void checkIfScrappingGeneratesBooks()
       throws IOException {
-    IPromotionScrapping promotionScrapping = new EmpikScrapping();
+    IPromotionScrapping promotionScrapping = new SwiatKsiazkiScrapping();
     List<Book> books = promotionScrapping.scrapPromotion();
-    Assert.assertEquals(books.size(), EXPECTED_BOOKS_SIZE_AFTER_SCRAPPING);
+    Assert.assertTrue(books.size() > 1);
   }
 }
