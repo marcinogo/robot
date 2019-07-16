@@ -40,23 +40,16 @@ public class BookRepository {
 
   public List<Book> getBooksFromDataBase() {
     entityManager = connectorProvider.getEntityManager();
-    List<Book> bookList = entityManager.createQuery("from Book", Book.class).getResultList();
-    entityManager.close();
-    return bookList;
-  }
-
-  public List<Book> getAllBooks() {
-    entityManager = connectorProvider.getEntityManager();
 
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Book> query = criteriaBuilder.createQuery(Book.class);
 
     Root<Book> from = query.from(Book.class);
     query.select(from);
-    List<Book> resultList = entityManager.createQuery(query).getResultList();
+    List<Book> bookList = entityManager.createQuery(query).getResultList();
 
     entityManager.close();
-    return resultList;
+    return bookList;
   }
 
   private void addBookToDataBase(Book book) {
