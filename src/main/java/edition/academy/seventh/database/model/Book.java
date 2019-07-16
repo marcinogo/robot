@@ -23,6 +23,7 @@ public class Book {
   private String subtitle;
   private String authors;
   private String price;
+  private String promotion;
 
   public String getTitle() {
     return title;
@@ -54,6 +55,14 @@ public class Book {
 
   public void setPrice(String price) {
     this.price = price;
+  }
+
+  public String getPromotion() {
+    return promotion;
+  }
+
+  public void setPromotion(String promotion) {
+    this.promotion = promotion;
   }
 
   @Override

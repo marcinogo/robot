@@ -1,9 +1,7 @@
 package edition.academy.seventh;
 
 import edition.academy.seventh.database.model.Book;
-import edition.academy.seventh.serivce.BookService;
-import edition.academy.seventh.serivce.BookstoreConnectionService;
-import edition.academy.seventh.serivce.ItBookMapper;
+import edition.academy.seventh.serivce.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -28,14 +26,16 @@ public class Main {
     ItBookMapper bookMapper = context.getBean(ItBookMapper.class);
     List<Book> books = null;
 
+    IPromotionScrapping iPromotionScrapping = new PwnScrapping();
+
     try {
-      books = bookMapper.mapListOfJson(listOfBooksAsString);
+      books = iPromotionScrapping.scrapPromotion();
     } catch (IOException e) {
       System.err.println(e.getMessage());
     }
 
     BookService bookService = context.getBean(BookService.class);
-    //    bookService.addBooksToDataBase(books);
-    bookService.getBooksFromDataBase().forEach(b -> System.out.println(b.getAuthors()));
+        bookService.addBooksToDataBase(books);
+   // bookService.getBooksFromDataBase().forEach(b -> System.out.println(b.getAuthors()));
   }
 }
