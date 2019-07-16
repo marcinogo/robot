@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.POSTGRESQL;
@@ -50,6 +53,20 @@ public class BookRepository {
     List<Book> bookList = entityManager.createQuery("from Book", Book.class).getResultList();
     entityManager.close();
     return bookList;
+  }
+
+  public List<Book> getAllBooks() {
+    entityManager = connectorProvider.getEntityManager();
+
+    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+    CriteriaQuery<Book> query = criteriaBuilder.createQuery(Book.class);
+
+    Root<Book> from = query.from(Book.class);
+    query.select(from);
+    List<Book> resultList = entityManager.createQuery(query).getResultList();
+
+    entityManager.close();
+    return resultList;
   }
 
   private void addBookToDataBase(Book book) {
