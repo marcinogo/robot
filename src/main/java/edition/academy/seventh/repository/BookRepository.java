@@ -22,13 +22,15 @@ import static edition.academy.seventh.database.connector.ConnectorFactory.Databa
 public class BookRepository {
   private EntityManager entityManager;
   private ConnectorProvider connectorProvider;
+  private CriteriaBuilder criteriaBuilder;
 
   public BookRepository() {
     connectorProvider = ConnectorFactory.of(POSTGRESQL);
+    entityManager = connectorProvider.getEntityManager();
+    criteriaBuilder = entityManager.getCriteriaBuilder();
   }
 
   public void addBooksToDataBase(List<Book> books) {
-    entityManager = connectorProvider.getEntityManager();
     EntityTransaction transaction = entityManager.getTransaction();
 
     transaction.begin();
@@ -41,9 +43,7 @@ public class BookRepository {
   public List<Book> getBooksFromDataBase() {
     entityManager = connectorProvider.getEntityManager();
 
-    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Book> query = criteriaBuilder.createQuery(Book.class);
-
     Root<Book> from = query.from(Book.class);
     query.select(from);
     List<Book> bookList = entityManager.createQuery(query).getResultList();
