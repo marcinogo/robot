@@ -44,12 +44,17 @@ public class EmpikScrapping implements IPromotionScrapping {
 
     private void mappingToBookList(List<Book> listOfBooks, Elements elementsByClass) {
         elementsByClass.stream()
-                .map(s -> {
-                    String title = s.getElementsByClass("ta-product-title").text();
-                    String author = s.getElementsByClass("smartAuthor").text();
-                    String promotionPrice = s.getElementsByClass("ta-price-tile").text();
+                .map(element -> {
+                    String title = element.getElementsByClass("ta-product-title").text();
+                    String author = element.getElementsByClass("smartAuthor").text();
+                    String promotionPrice = element.getElementsByClass("ta-price-tile").text();
                     String[] prices = promotionPrice.split(" ");
-                    return new Book(title, author, prices[0], prices[2]);
+                    Book book = new Book();
+                    book.setTitle(title);
+                    book.setAuthors(author);
+                    book.setPrice(prices[0]);
+                    book.setPromotion(prices[2]);
+                    return book;
                 }).forEach(listOfBooks::add);
     }
 
