@@ -36,7 +36,7 @@ class MainController {
     return scheduleRobot();
   }
 
-  @SuppressWarnings({"WeakerAccess", "MethodMayBeStatic", "BooleanMethodNameMustStartWithQuestion"})
+  @SuppressWarnings({"WeakerAccess", "BooleanMethodNameMustStartWithQuestion"})
   public boolean scheduleRobot() {
     List<String> listOfBooksAsString = bookstoreConnectionService.getListOfBooksAsString();
     List<Book> books;
