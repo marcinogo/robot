@@ -13,6 +13,8 @@ import java.util.List;
 public interface PromotionProvider {
 
   /**
+   * Retrieve books on sales from bookstore website.
+   *
    * @return list of books ready to save in DataBase
    */
   List<Book> getPromotions();
