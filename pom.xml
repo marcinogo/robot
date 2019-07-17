@@ -39,11 +39,11 @@
         <version.plugin.spotbugs>3.1.11</version.plugin.spotbugs>
         <version.plugin.checkstyle>3.0.0</version.plugin.checkstyle>
         <version.plugin.jdepend>2.0</version.plugin.jdepend>
+        <version.org.jsoup>1.12.1</version.org.jsoup>
         <version.maven.failsafe>3.0.0-M3</version.maven.failsafe>
 
         <!-- Plugins settings -->
         <skipIntegrationTests>false</skipIntegrationTests>
-
     </properties>
 
     <dependencies>
@@ -108,6 +108,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${version.org.jsoup}</version>
+        </dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
             <version>${version.maven.failsafe}</version>
