@@ -41,8 +41,6 @@ public class BookRepository {
   }
 
   public List<Book> getBooksFromDataBase() {
-    entityManager = connectorProvider.getEntityManager();
-
     CriteriaQuery<Book> query = criteriaBuilder.createQuery(Book.class);
     Root<Book> from = query.from(Book.class);
     query.select(from);
