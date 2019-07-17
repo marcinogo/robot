@@ -31,7 +31,7 @@ public class Main {
 
     books = iPromotionScrapping.scrapPromotion();
 
-    BooksService booksService = context.getBean(BooksService.class);
+    BookService booksService = context.getBean(BookService.class);
     booksService.addBooksToDataBase(books);
   }
 }

@@ -112,6 +112,7 @@
             <artifactId>jsoup</artifactId>
             <version>${version.org.jsoup}</version>
         </dependency>
+        <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
             <version>${version.maven.failsafe}</version>
