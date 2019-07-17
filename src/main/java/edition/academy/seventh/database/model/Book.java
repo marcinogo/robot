@@ -24,8 +24,8 @@ public class Book {
   private String authors;
   private String price;
   private String promotion;
-  private String href;
   private String img;
+  private String href;
   private String bookstore;
 
   public String getTitle() {
@@ -68,20 +68,20 @@ public class Book {
     this.promotion = promotion;
   }
 
-  public String getHref() {
-    return href;
-  }
-
-  public void setHref(String href) {
-    this.href = href;
-  }
-
   public String getImg() {
     return img;
   }
 
   public void setImg(String img) {
     this.img = img;
+  }
+
+  public String getHref() {
+    return href;
+  }
+
+  public void setHref(String href) {
+    this.href = href;
   }
 
   public String getBookstore() {

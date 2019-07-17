@@ -9,7 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
-import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.H2;
+import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.*;
 
 /**
  * Repository that persists book entities in database.
@@ -22,7 +22,7 @@ public class BookRepository {
   private ConnectorProvider connectorProvider;
 
   public BookRepository() {
-    connectorProvider = ConnectorFactory.of(H2);
+    connectorProvider = ConnectorFactory.of(POSTGRESQL);
   }
 
   /**
