@@ -39,6 +39,12 @@
         <version.plugin.spotbugs>3.1.11</version.plugin.spotbugs>
         <version.plugin.checkstyle>3.0.0</version.plugin.checkstyle>
         <version.plugin.jdepend>2.0</version.plugin.jdepend>
+        <version.org.jsoup>1.12.1</version.org.jsoup>
+        <version.maven.failsafe>3.0.0-M3</version.maven.failsafe>
+        <version.build-helper-maven-plugin>1.9.1</version.build-helper-maven-plugin>
+
+        <!-- Plugins settings -->
+        <skipIntegrationTests>true</skipIntegrationTests>
     </properties>
 
     <dependencies>
@@ -105,7 +111,12 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.12.1</version>
+            <version>${version.org.jsoup}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <version>${version.maven.failsafe}</version>
         </dependency>
     </dependencies>
     <build>
@@ -133,6 +144,42 @@
                                     <version>${version.maven}</version>
                                 </requireMavenVersion>
                             </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${version.maven.failsafe}</version>
+                <configuration>
+                    <skipITs>${skipIntegrationTests}</skipITs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <!-- adding second test source directory (just for integration tests) -->
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${version.build-helper-maven-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>add-integration-test-source</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/test-integration/java</source>
+                            </sources>
                         </configuration>
                     </execution>
                 </executions>

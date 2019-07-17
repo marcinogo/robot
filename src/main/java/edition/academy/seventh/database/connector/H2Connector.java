@@ -18,7 +18,8 @@ class H2Connector extends EntityConnector {
     settings.put("javax.persistence.jdbc.url", "jdbc:h2:tcp://localhost/~/test");
     settings.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
     settings.put("hibernate.show_sql", "true");
-    settings.put("hibernate.hbm2ddl.auto", "create-drop");
+    settings.put("hibernate.hbm2ddl.auto", "create");
+
     return settings;
   }
 }

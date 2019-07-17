@@ -10,7 +10,7 @@ import java.util.List;
  * @author Bartosz Kupajski
  */
 @Test
-public class PwnScrappingIntegrationTest {
+public class PwnScrappingTestIT {
 
     public void should_scrapAtLeastOneBook_forGivenUrl(){
         // Given

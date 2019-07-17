@@ -1,7 +1,9 @@
 package edition.academy.seventh;
 
 import edition.academy.seventh.database.model.Book;
-import edition.academy.seventh.serivce.*;
+import edition.academy.seventh.serivce.BookService;
+import edition.academy.seventh.serivce.EmpikScrapper;
+import edition.academy.seventh.serivce.PromotionProvider;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -18,22 +20,9 @@ public class Main {
   public static void main(String[] args) {
     ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
 
-    BookstoreConnectionService connectionService =
-        context.getBean(BookstoreConnectionService.class);
-    List<String> listOfBooksAsString = connectionService.getListOfBooksAsString();
-
-    ItBookMapper bookMapper = context.getBean(ItBookMapper.class);
-    List<Book> books = null;
-
-    PromotionProvider promotionProvider = new PwnScrapper();
-
-
-      books = promotionProvider.getPromotions();
-
-    System.out.println(books);
-
-    BookService bookService = context.getBean(BookService.class);
-    bookService.addBooksToDataBase(books);
-   // bookService.getBooksFromDataBase().forEach(b -> System.out.println(b.getAuthors()));
+    PromotionProvider iPromotionScrapping = new EmpikScrapper();
+    List<Book> books = iPromotionScrapping.getPromotions();
+    BookService booksService = context.getBean(BookService.class);
+    booksService.addBooksToDatabase(books);
   }
 }

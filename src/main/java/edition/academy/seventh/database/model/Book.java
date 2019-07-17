@@ -28,30 +28,6 @@ public class Book {
   private String img;
   private String bookstore;
 
-  public String getHref() {
-    return href;
-  }
-
-  public void setHref(String href) {
-    this.href = href;
-  }
-
-  public String getImg() {
-    return img;
-  }
-
-  public void setImg(String img) {
-    this.img = img;
-  }
-
-  public String getBookstore() {
-    return bookstore;
-  }
-
-  public void setBookstore(String bookstore) {
-    this.bookstore = bookstore;
-  }
-
   public String getTitle() {
     return title;
   }
@@ -90,6 +66,30 @@ public class Book {
 
   public void setPromotion(String promotion) {
     this.promotion = promotion;
+  }
+
+  public String getHref() {
+    return href;
+  }
+
+  public void setHref(String href) {
+    this.href = href;
+  }
+
+  public String getImg() {
+    return img;
+  }
+
+  public void setImg(String img) {
+    this.img = img;
+  }
+
+  public String getBookstore() {
+    return bookstore;
+  }
+
+  public void setBookstore(String bookstore) {
+    this.bookstore = bookstore;
   }
 
   @Override

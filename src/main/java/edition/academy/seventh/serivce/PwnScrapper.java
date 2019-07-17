@@ -7,7 +7,10 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Phaser;
 
 /**
  * Scrap data from pwn bookstore website in sales section using Jsoup library
@@ -19,8 +22,7 @@ public class PwnScrapper implements PromotionProvider {
   private List<Book> listOfBooks = new CopyOnWriteArrayList<>();
   private ExecutorService service = Executors.newFixedThreadPool(40);
   private Phaser phaser = new Phaser(1);
-  private static final String START_OF_URL =
-      "https://ksiegarnia.pwn.pl/promocje?limit=96&vt=list&page=";
+
 
   @Override
   public List<Book> getPromotions() {
@@ -34,9 +36,10 @@ public class PwnScrapper implements PromotionProvider {
   }
 
   private Runnable createScrappingTask(int serchSiteNumber) {
+      String startOfUrl = "https://ksiegarnia.pwn.pl/promocje?limit=96&vt=list&page=";
     return () -> {
       phaser.register();
-      String url = START_OF_URL + serchSiteNumber;
+      String url = startOfUrl + serchSiteNumber;
       Document document = null;
       try {
         document = Jsoup.connect(url).timeout(0).get();

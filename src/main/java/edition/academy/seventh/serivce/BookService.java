@@ -2,11 +2,12 @@ package edition.academy.seventh.serivce;
 
 import edition.academy.seventh.database.model.Book;
 import edition.academy.seventh.repository.BookRepository;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 /**
- * Service that provides API responsible for adding books into database.
+ * Service that provides API responsible for adding books to database.
  *
  * @author Agnieszka Trzewik
  */
@@ -20,20 +21,20 @@ public class BookService {
   }
 
   /**
-   * Add books to database.
+   * Adds given books to database {@link edition.academy.seventh.database.model.Book}.
    *
-   * @param books books
+   * @param books list of books to be added
    */
-  public void addBooksToDataBase(List<Book> books) {
-    bookRepository.addBooksToDataBase(books);
+  public void addBooksToDatabase(List<Book> books) {
+    bookRepository.addBooksToDatabase(books);
   }
 
   /**
-   * Get books entities from database and pack them into List<Book>
+   * Retrieves book entities from database and packs them into the List
    *
    * @return List of books.
    */
-  public List<Book> getBooksFromDataBase() {
-    return bookRepository.getBooksFromDataBase();
+  public List<Book> getBooksFromDatabase() {
+    return bookRepository.getBooksFromDatabase();
   }
 }
