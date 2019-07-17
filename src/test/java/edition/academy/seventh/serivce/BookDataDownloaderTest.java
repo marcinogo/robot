@@ -1,13 +1,12 @@
 package edition.academy.seventh.serivce;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
 import static org.mockito.Mockito.*;
+import static org.testng.Assert.*;
 
-/** @author Ola Podorska */
 @Test
 public class BookDataDownloaderTest {
 
@@ -27,6 +26,6 @@ public class BookDataDownloaderTest {
     List<String> books = bookDataDownloader.listBooksByIsbn(isbns);
 
     // Then
-    Assert.assertEquals(books, expectedBooks);
+    assertEquals(books, expectedBooks);
   }
 }

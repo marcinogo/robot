@@ -10,10 +10,6 @@ import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
-/**
- * @author Bartosz Kupajski
- * @author Kamil Rojek
- */
 public class BookMapperTest {
   private static List<Book> bookList;
 

@@ -5,7 +5,6 @@ import org.testng.annotations.DataProvider;
 import java.util.ArrayList;
 import java.util.List;
 
-/** @author Ola Podorska */
 public class DataProviderForJsonParser {
 
   @DataProvider
