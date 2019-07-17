@@ -1,13 +1,11 @@
 package edition.academy.seventh.serivce;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
-/**
- * @author Ola Podorska
- */
+import static org.testng.Assert.*;
+
 @Test
-public class BookstoreConnectorTest {
+public class BookstoreConnectorTestIT {
 
   @Test(
       dataProviderClass = DataProviderForJsonParser.class,
@@ -20,6 +18,6 @@ public class BookstoreConnectorTest {
     String jsonResponse = bookstoreConnector.getJsonResponse(url);
 
     // Then
-    Assert.assertEquals(jsonResponse, response);
+    assertEquals(jsonResponse, response);
   }
 }
