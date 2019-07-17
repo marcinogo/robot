@@ -10,11 +10,7 @@ import java.util.List;
 
 import static org.testng.Assert.assertEquals;
 
-/**
- * @author Bartosz Kupajski
- * @author Kamil Rojek
- */
-public class ITBookMapperTest {
+public class BookMapperTest {
   private static List<Book> bookList;
 
   @BeforeTest
@@ -44,7 +40,8 @@ public class ITBookMapperTest {
   }
 
   @Test(dataProvider = "dataProviderForJSONMapping")
-  public void should_returnActualBookProperties_when_fromValidJson(String bookPart, String expected) {
+  public void should_returnActualBookProperties_when_fromValidJson(
+      String bookPart, String expected) {
     assertEquals(bookPart, expected);
   }
 }

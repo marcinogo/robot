@@ -36,7 +36,9 @@ public class BookRepository {
 
   public List<Book> getBooksFromDataBase() {
     entityManager = connectorProvider.getEntityManager();
-    return entityManager.createQuery("from Book", Book.class).getResultList();
+    List<Book> bookList = entityManager.createQuery("from Book", Book.class).getResultList();
+    entityManager.close();
+    return bookList;
   }
 
   private void addBookToDataBase(Book book) {

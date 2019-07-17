@@ -1,7 +1,7 @@
 package edition.academy.seventh;
 
 import edition.academy.seventh.database.model.Book;
-import edition.academy.seventh.serivce.BooksService;
+import edition.academy.seventh.serivce.BookService;
 import edition.academy.seventh.serivce.BookstoreConnectionService;
 import edition.academy.seventh.serivce.EmpikScrapping;
 import edition.academy.seventh.serivce.IPromotionScrapping;

@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
  * @author Agnieszka Trzewik
  */
 @Service
-public class BooksService {
+public class BookService {
   private BookRepository bookRepository;
 
   @Autowired
-  public BooksService(BookRepository bookRepository) {
+  public BookService(BookRepository bookRepository) {
     this.bookRepository = bookRepository;
   }
 

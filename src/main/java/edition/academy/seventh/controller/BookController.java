@@ -1,8 +1,10 @@
 package edition.academy.seventh.controller;
 
 import edition.academy.seventh.database.model.Book;
-import edition.academy.seventh.serivce.BooksService;
+import edition.academy.seventh.serivce.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,11 +15,11 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 class BookController {
-  private BooksService booksService;
+  private BookService bookService;
 
   @Autowired
-  public BookController(BooksService booksService) {
-    this.booksService = booksService;
+  public BookController(BookService bookService) {
+    this.bookService = bookService;
   }
 
   /**
@@ -26,7 +28,7 @@ class BookController {
    * @return List of books.
    */
   @GetMapping("/books")
-  public List<Book> getBooks() {
-    return booksService.getBooksFromDataBase();
+  public ResponseEntity<List<Book>> getBooks() {
+    return new ResponseEntity<>(bookService.getBooksFromDataBase(), HttpStatus.OK);
   }
 }
