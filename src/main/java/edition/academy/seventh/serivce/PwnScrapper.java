@@ -14,7 +14,7 @@ import java.util.concurrent.*;
  *
  * @author Bartosz Kupajski
  */
-public class PwnProvider implements PromotionProvider {
+public class PwnScrapper implements PromotionProvider {
 
   private List<Book> listOfBooks = new CopyOnWriteArrayList<>();
   private ExecutorService service = Executors.newFixedThreadPool(40);
@@ -25,17 +25,11 @@ public class PwnProvider implements PromotionProvider {
   @Override
   public List<Book> getPromotion() {
 
-    for (int i = 1; i <= 5; i++) {
+    for (int i = 1; i <= 2; i++) {
       service.submit(createScrappingTask(i));
     }
 
     phaser.arriveAndAwaitAdvance();
-
-//    try {
-//      phaser.awaitAdvanceInterruptibly(0, 5000, TimeUnit.MILLISECONDS);
-//    } catch (InterruptedException | TimeoutException e) {
-//      e.printStackTrace();
-//    }
     return listOfBooks;
   }
 
@@ -62,6 +56,7 @@ public class PwnProvider implements PromotionProvider {
               String href = element.getElementsByClass("titleLink").attr("href");
               String title = element.getElementsByClass("emp-info-title").text();
               String author = element.getElementsByClass("emp-info-authors").text();
+              String img = element.getElementsByTag("img").attr("src");
               author = deleteAuthorTag(author);
               String promotionPrice = element.getElementsByClass("emp-sale-price-value").text();
               promotionPrice = deleteCurrencyFromPrice(promotionPrice);
@@ -73,8 +68,8 @@ public class PwnProvider implements PromotionProvider {
               book.setPrice(basePrice);
               book.setPromotion(promotionPrice);
               book.setHref(href);
+              book.setImg(img);
               book.setBookstore("PWN");
-              System.out.println(book);
               return book;
             })
         .forEach(listOfBooks::add);

@@ -26,7 +26,7 @@ public class Main {
     ItBookMapper bookMapper = context.getBean(ItBookMapper.class);
     List<Book> books = null;
 
-    PromotionProvider promotionProvider = new PwnProvider();
+    PromotionProvider promotionProvider = new PwnScrapper();
 
     try {
       books = promotionProvider.getPromotion();
