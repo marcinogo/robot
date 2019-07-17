@@ -23,12 +23,12 @@ class BookController {
   }
 
   /**
-   * Gets the list of the books.
+   * Retrieves list of books from database.
    *
    * @return List of books.
    */
   @GetMapping("/books")
   public ResponseEntity<List<Book>> getBooks() {
-    return new ResponseEntity<>(bookService.getBooksFromDataBase(), HttpStatus.OK);
+    return new ResponseEntity<>(bookService.getBooksFromDatabase(), HttpStatus.OK);
   }
 }

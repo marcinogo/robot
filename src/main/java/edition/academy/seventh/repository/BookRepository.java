@@ -1,5 +1,6 @@
 package edition.academy.seventh.repository;
 
+import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.H2;
 import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.POSTGRESQL;
 
 import edition.academy.seventh.database.connector.ConnectorFactory;
@@ -20,10 +21,15 @@ public class BookRepository {
   private ConnectorProvider connectorProvider;
 
   public BookRepository() {
-    connectorProvider = ConnectorFactory.of(POSTGRESQL);
+    connectorProvider = ConnectorFactory.of(H2);
   }
 
-  public void addBooksToDataBase(List<Book> books) {
+  /**
+   * Add books records to the database.
+   *
+   * @param books list of books
+   */
+  public void addBooksToDatabase(List<Book> books) {
     entityManager = connectorProvider.getEntityManager();
     EntityTransaction transaction = entityManager.getTransaction();
 
@@ -34,7 +40,12 @@ public class BookRepository {
     entityManager.close();
   }
 
-  public List<Book> getBooksFromDataBase() {
+  /**
+   * Retrieves all books from database.
+   *
+   * @return list of books
+   */
+  public List<Book> getBooksFromDatabase() {
     entityManager = connectorProvider.getEntityManager();
     List<Book> bookList = entityManager.createQuery("from Book", Book.class).getResultList();
     entityManager.close();
