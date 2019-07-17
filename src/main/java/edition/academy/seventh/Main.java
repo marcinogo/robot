@@ -2,10 +2,8 @@ package edition.academy.seventh;
 
 import edition.academy.seventh.database.model.Book;
 import edition.academy.seventh.serivce.BookService;
-import edition.academy.seventh.serivce.BookstoreConnectionService;
-import edition.academy.seventh.serivce.EmpikScrapping;
-import edition.academy.seventh.serivce.IPromotionScrapping;
-import edition.academy.seventh.serivce.ItBookMapper;
+import edition.academy.seventh.serivce.EmpikScrapper;
+import edition.academy.seventh.serivce.PromotionProvider;
 import java.util.List;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,18 +18,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class Main {
   public static void main(String[] args) {
     ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
-
-    IPromotionScrapping iPromotionScrapping = new EmpikScrapping();
-    BookstoreConnectionService connectionService =
-        context.getBean(BookstoreConnectionService.class);
-    List<String> listOfBooksAsString = connectionService.getListOfBooksAsString();
-
-    ItBookMapper bookMapper = context.getBean(ItBookMapper.class);
-    List<Book> books = null;
-
-    books = iPromotionScrapping.scrapPromotion();
-
+    PromotionProvider promotionProvider = new EmpikScrapper();
+    List<Book> books = promotionProvider.getPromotions();
     BookService booksService = context.getBean(BookService.class);
-    booksService.addBooksToDataBase(books);
+    booksService.addBooksToDatabase(books);
   }
 }

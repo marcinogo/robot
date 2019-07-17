@@ -1,8 +1,6 @@
 package edition.academy.seventh.serivce;
 
 import edition.academy.seventh.database.model.Book;
-
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -12,11 +10,11 @@ import java.util.List;
  * @author Bartosz Kupajski
  *
  */
-public interface IPromotionScrapping {
+public interface PromotionProvider {
 
   /**
    * @return list of books ready to save in DataBase
    */
-  List<Book> scrapPromotion();
+  List<Book> getPromotions();
 
 }

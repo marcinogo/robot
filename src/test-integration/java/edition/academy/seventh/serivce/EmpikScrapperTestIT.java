@@ -8,17 +8,17 @@ import org.testng.annotations.Test;
 /**
  * @author Kacper Staszek
  *
- * Integration test of EmpikScrapping class.
+ * Integration test of EmpikScrapper class.
  */
 @Test
-public class EmpikScrappingIntegrationTest {
+public class EmpikScrapperTestIT {
 
   public void should_scrapAtLeastOneBook_forGivenUrl() {
     // Given
-    IPromotionScrapping promotionScrapping = new EmpikScrapping();
+    PromotionProvider promotionScrapping = new EmpikScrapper();
 
     // When
-    List<Book> books = promotionScrapping.scrapPromotion();
+    List<Book> books = promotionScrapping.getPromotions();
 
     // Then
     Assert.assertTrue(books.size()>0);

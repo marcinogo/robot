@@ -16,7 +16,7 @@ import static org.testng.Assert.*;
 public class BookServiceTest {
 
   @Test
-  public void should_addAllBooksByBookRepository_when_booksAdding() {
+  public void should_addBooksToDatabaseMethodBeInvokedOnce_when_listOfBooksPassedAsParameterIsGreaterThanOne() {
     // Given
     BookRepository bookRepository = mock(BookRepository.class);
     Book book = mock(Book.class);
@@ -27,12 +27,12 @@ public class BookServiceTest {
     // When
     books.add(book);
     books.add(book);
-    bookService.addBooksToDataBase(books);
+    bookService.addBooksToDatabase(books);
 
     Collection<Invocation> invocations = mockingDetails(bookRepository).getInvocations();
     long validationCalls =
         invocations.stream()
-            .filter(invocation -> invocation.toString().contains("addBooksToDataBase"))
+            .filter(invocation -> invocation.toString().contains("addBooksToDatabase"))
             .count();
 
     // Then
@@ -40,7 +40,7 @@ public class BookServiceTest {
   }
 
   @Test
-  public void should_getAllBooksByBookRepository_when_booksGetting() {
+  public void should_getAllBooksFromDatabaseMethodBeInvokedOnce_when_getBooksFromDatabaseIsCalled() {
     // Given
     BookRepository bookRepository = mock(BookRepository.class);
     Book book = mock(Book.class);
@@ -48,14 +48,14 @@ public class BookServiceTest {
     BookService bookService = new BookService(bookRepository);
 
     // When
-    when(bookRepository.getBooksFromDataBase()).thenReturn(List.of(book));
+    when(bookRepository.getBooksFromDatabase()).thenReturn(List.of(book));
 
-    bookService.getBooksFromDataBase();
+    bookService.getBooksFromDatabase();
 
     Collection<Invocation> invocations = mockingDetails(bookRepository).getInvocations();
     long validationCalls =
         invocations.stream()
-            .filter(invocation -> invocation.toString().contains("getBooksFromDataBase"))
+            .filter(invocation -> invocation.toString().contains("getBooksFromDatabase"))
             .count();
 
     // Then
