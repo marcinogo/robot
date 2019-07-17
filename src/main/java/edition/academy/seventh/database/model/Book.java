@@ -24,6 +24,33 @@ public class Book {
   private String authors;
   private String price;
   private String promotion;
+  private String href;
+  private String img;
+  private String bookstore;
+
+  public String getHref() {
+    return href;
+  }
+
+  public void setHref(String href) {
+    this.href = href;
+  }
+
+  public String getImg() {
+    return img;
+  }
+
+  public void setImg(String img) {
+    this.img = img;
+  }
+
+  public String getBookstore() {
+    return bookstore;
+  }
+
+  public void setBookstore(String bookstore) {
+    this.bookstore = bookstore;
+  }
 
   public String getTitle() {
     return title;

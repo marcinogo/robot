@@ -26,16 +26,17 @@ public class Main {
     ItBookMapper bookMapper = context.getBean(ItBookMapper.class);
     List<Book> books = null;
 
-    IPromotionScrapping iPromotionScrapping = new PwnScrapping();
+    PromotionProvider promotionProvider = new PwnProvider();
 
     try {
-      books = iPromotionScrapping.scrapPromotion();
+      books = promotionProvider.getPromotion();
     } catch (IOException e) {
       System.err.println(e.getMessage());
     }
+    System.out.println(books);
 
     BookService bookService = context.getBean(BookService.class);
-        bookService.addBooksToDataBase(books);
+    bookService.addBooksToDataBase(books);
    // bookService.getBooksFromDataBase().forEach(b -> System.out.println(b.getAuthors()));
   }
 }

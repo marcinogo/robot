@@ -13,11 +13,11 @@ import java.util.List;
  *
  *
  */
-public interface IPromotionScrapping {
+public interface PromotionProvider {
 
     /**
      * @return list of books ready to save in DataBase
      */
-    List<Book> scrapPromotion() throws IOException;
+    List<Book> getPromotion() throws IOException;
 
 }
