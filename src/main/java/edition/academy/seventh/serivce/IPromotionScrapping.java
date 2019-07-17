@@ -11,7 +11,6 @@ import java.util.List;
  *
  * @author Bartosz Kupajski
  *
- *
  */
 public interface IPromotionScrapping {
 
@@ -19,4 +18,5 @@ public interface IPromotionScrapping {
    * @return list of books ready to save in DataBase
    */
   List<Book> scrapPromotion();
+
 }

@@ -21,7 +21,6 @@ public class EmpikScrapping implements IPromotionScrapping {
     private List<Book> listOfBooks = new CopyOnWriteArrayList<>();
     private ExecutorService service = Executors.newFixedThreadPool(40);
     private Phaser phaser = new Phaser(1);
-
   /**
         Above that number SSLException is thrown
      */
@@ -32,7 +31,8 @@ public class EmpikScrapping implements IPromotionScrapping {
    * every page URL of empik sales section contains id witch is incremented by 30.
    *
    * @return list of books after all threads finish their jobs
-   * */
+   *
+   */
   @Override
   public List<Book> scrapPromotion() {
 
