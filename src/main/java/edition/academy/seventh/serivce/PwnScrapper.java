@@ -23,7 +23,7 @@ public class PwnScrapper implements PromotionProvider {
       "https://ksiegarnia.pwn.pl/promocje?limit=96&vt=list&page=";
 
   @Override
-  public List<Book> getPromotion() {
+  public List<Book> getPromotions() {
 
     for (int i = 1; i <= 2; i++) {
       service.submit(createScrappingTask(i));

@@ -18,6 +18,6 @@ public interface PromotionProvider {
     /**
      * @return list of books ready to save in DataBase
      */
-    List<Book> getPromotion() throws IOException;
+    List<Book> getPromotions();
 
 }

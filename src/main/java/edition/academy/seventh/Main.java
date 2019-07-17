@@ -6,7 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -28,11 +27,9 @@ public class Main {
 
     PromotionProvider promotionProvider = new PwnScrapper();
 
-    try {
-      books = promotionProvider.getPromotion();
-    } catch (IOException e) {
-      System.err.println(e.getMessage());
-    }
+
+      books = promotionProvider.getPromotions();
+
     System.out.println(books);
 
     BookService bookService = context.getBean(BookService.class);
