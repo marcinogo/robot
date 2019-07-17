@@ -1,6 +1,7 @@
 package edition.academy.seventh.serivce;
 
-import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.database.model.DTBook;
+import edition.academy.seventh.model.BookstoreBook;
 import edition.academy.seventh.repository.BookRepository;
 import org.mockito.invocation.Invocation;
 import org.testng.annotations.Test;
@@ -19,10 +20,10 @@ public class BookServiceTest {
   public void should_addAllBooksByBookRepository_when_booksAdding() {
     // Given
     BookRepository bookRepository = mock(BookRepository.class);
-    Book book = mock(Book.class);
+    BookstoreBook book = mock(BookstoreBook.class);
 
     BookService bookService = new BookService(bookRepository);
-    List<Book> books = new ArrayList<>();
+    List<BookstoreBook> books = new ArrayList<>();
 
     // When
     books.add(book);
@@ -43,7 +44,7 @@ public class BookServiceTest {
   public void should_getAllBooksByBookRepository_when_booksGetting() {
     // Given
     BookRepository bookRepository = mock(BookRepository.class);
-    Book book = mock(Book.class);
+    DTBook book = mock(DTBook.class);
 
     BookService bookService = new BookService(bookRepository);
 

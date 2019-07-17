@@ -1,6 +1,6 @@
 package edition.academy.seventh.controller;
 
-import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.database.model.DTBook;
 import edition.academy.seventh.serivce.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +28,7 @@ class BookController {
    * @return List of books.
    */
   @GetMapping("/books")
-  public ResponseEntity<List<Book>> getBooks() {
+  public ResponseEntity<List<DTBook>> getBooks() {
     return new ResponseEntity<>(bookService.getBooksFromDataBase(), HttpStatus.OK);
   }
 }

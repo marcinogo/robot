@@ -1,6 +1,7 @@
 package edition.academy.seventh.serivce;
 
-import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.database.model.DTBook;
+import edition.academy.seventh.model.BookstoreBook;
 import edition.academy.seventh.repository.BookRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class BookService {
    *
    * @param books books
    */
-  public void addBooksToDataBase(List<Book> books) {
+  public void addBooksToDataBase(List<BookstoreBook> books) {
     bookRepository.addBooksToDataBase(books);
   }
 
@@ -33,7 +34,7 @@ public class BookService {
    *
    * @return List of books.
    */
-  public List<Book> getBooksFromDataBase() {
+  public List<DTBook> getBooksFromDataBase() {
     return bookRepository.getBooksFromDataBase();
   }
 }

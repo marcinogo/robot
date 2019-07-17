@@ -1,7 +1,7 @@
 package edition.academy.seventh.serivce;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.database.model.DTBook;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,11 +25,11 @@ public class ItBookMapper {
    * @return {@code List<Book>}
    * @throws IOException when JSON isn't read properly
    */
-  public List<Book> mapListOfJson(List<String> listOfJSONBook) throws IOException {
-    List<Book> listOfBooks = new LinkedList<>();
+  public List<DTBook> mapListOfJson(List<String> listOfJSONBook) throws IOException {
+    List<DTBook> listOfBooks = new LinkedList<>();
 
     for (String bookJSON : listOfJSONBook) {
-      Book book = objectMapper.readValue(bookJSON, Book.class);
+      DTBook book = objectMapper.readValue(bookJSON, DTBook.class);
       listOfBooks.add(book);
     }
 
