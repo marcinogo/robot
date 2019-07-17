@@ -14,7 +14,7 @@ public class BookDataDownloaderTest {
       dataProviderClass = DataProviderForConvertingIsbnToBook.class,
       dataProvider = "dataProviderForConvertingIsbnToBook")
   public void should_returnListOfBooksAsString_when_haveListOfIsbns(
-      List<String> isbns, List<String> expectedBooks) {
+          List<String> isbns, List<String> expectedBooks) {
     // Given
     BookstoreConnector bookstoreConnector = mock(BookstoreConnector.class);
     when(bookstoreConnector.getJsonResponse(anyString())).thenReturn(expectedBooks.get(0));

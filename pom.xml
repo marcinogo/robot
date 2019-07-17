@@ -41,9 +41,10 @@
         <version.plugin.jdepend>2.0</version.plugin.jdepend>
         <version.org.jsoup>1.12.1</version.org.jsoup>
         <version.maven.failsafe>3.0.0-M3</version.maven.failsafe>
+        <version.build-helper-maven-plugin>1.9.1</version.build-helper-maven-plugin>
 
         <!-- Plugins settings -->
-        <skipIntegrationTests>false</skipIntegrationTests>
+        <skipIntegrationTests>true</skipIntegrationTests>
     </properties>
 
     <dependencies>
@@ -112,6 +113,7 @@
             <artifactId>jsoup</artifactId>
             <version>${version.org.jsoup}</version>
         </dependency>
+        <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
             <version>${version.maven.failsafe}</version>
@@ -150,7 +152,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
-                <version>3.0.0-M3</version>
+                <version>${version.maven.failsafe}</version>
                 <configuration>
                     <skipITs>${skipIntegrationTests}</skipITs>
                 </configuration>
@@ -167,7 +169,7 @@
                 <!-- adding second test source directory (just for integration tests) -->
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.9.1</version>
+                <version>${version.build-helper-maven-plugin}</version>
                 <executions>
                     <execution>
                         <id>add-integration-test-source</id>
