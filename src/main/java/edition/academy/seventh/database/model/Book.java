@@ -41,6 +41,9 @@ public class Book {
     this.bookstore = bookstore;
   }
 
+  public Book() {
+  }
+
   public String getTitle() {
     return title;
   }
