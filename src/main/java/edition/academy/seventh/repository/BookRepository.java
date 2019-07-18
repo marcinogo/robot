@@ -27,7 +27,7 @@ public class BookRepository {
   /**
    * Add books records to the database.
    *
-   * @param books list of books
+   * @param books list of books to be added
    */
   public void addBooksToDatabase(List<Book> books) {
     entityManager = connectorProvider.getEntityManager();

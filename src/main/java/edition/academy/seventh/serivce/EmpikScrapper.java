@@ -14,7 +14,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 /**
- * Scrap data from empik.com bookstore website in sales section using JSoup library.
+ * Scraps data from empik.com bookstore website in sales section using JSoup library.
  *
  * @author Bartosz Kupajski
  */
@@ -27,7 +27,7 @@ public class EmpikScrapper implements PromotionProvider {
 
   /**
    * Index in for loop is incremented by 30 because of the fact that every page URL of empik sales
-   * section contains id witch is incremented by 30.
+   * section contains id which is incremented by 30.
    *
    * <p>Loop condition is 30 books per page x 20 pages, can be changed later.
    *

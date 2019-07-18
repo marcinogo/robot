@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 /**
- * Service that provides API responsible for adding books to database.
+ * Provides API responsible for adding books to database.
  *
  * @author Agnieszka Trzewik
  */
