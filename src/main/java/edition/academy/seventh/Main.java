@@ -4,10 +4,11 @@ import edition.academy.seventh.database.model.Book;
 import edition.academy.seventh.serivce.BookService;
 import edition.academy.seventh.serivce.EmpikScrapper;
 import edition.academy.seventh.serivce.PromotionProvider;
-import java.util.List;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
+
+import java.util.List;
 
 /**
  * Entry point for entire app.

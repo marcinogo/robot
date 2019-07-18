@@ -1,17 +1,17 @@
 package edition.academy.seventh.repository;
 
-import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.H2;
-import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.POSTGRESQL;
-
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.database.model.Book;
-import java.util.List;
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import org.springframework.stereotype.Repository;
+import java.util.List;
+
+import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.POSTGRESQL;
 /**
- * Repository that persists book entities in database.
+ * Allows to persists and retrieves book entities in database.
  *
  * @author Agnieszka Trzewik
  */
@@ -25,9 +25,9 @@ public class BookRepository {
   }
 
   /**
-   * Add books records to the database.
+   * Adds books records to the database.
    *
-   * @param books list of books
+   * @param books list of books to be added
    */
   public void addBooksToDatabase(List<Book> books) {
     entityManager = connectorProvider.getEntityManager();
