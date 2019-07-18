@@ -7,11 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
-import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.POSTGRESQL;
+import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
 /**
- * Allows to persists and retrieves book entities in database.
+ * Allows to persists and retrieve book entities from database.
  *
  * @author Agnieszka Trzewik
  */
@@ -36,8 +39,8 @@ public class BookRepository {
     transaction.begin();
     books.forEach(this::addBookToDataBase);
     transaction.commit();
-
     entityManager.close();
+    connectorProvider.getEntityManagerFactory().close();
   }
 
   /**
@@ -47,7 +50,14 @@ public class BookRepository {
    */
   public List<Book> getBooksFromDatabase() {
     entityManager = connectorProvider.getEntityManager();
-    List<Book> bookList = entityManager.createQuery("from Book", Book.class).getResultList();
+
+    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+    CriteriaQuery<Book> query = criteriaBuilder.createQuery(Book.class);
+
+    Root<Book> from = query.from(Book.class);
+    query.select(from);
+    List<Book> bookList = entityManager.createQuery(query).getResultList();
+
     entityManager.close();
     return bookList;
   }

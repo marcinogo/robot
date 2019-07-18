@@ -1,7 +1,7 @@
 package edition.academy.seventh.controller;
 
 import edition.academy.seventh.database.model.Book;
-import edition.academy.seventh.serivce.BookService;
+import edition.academy.seventh.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

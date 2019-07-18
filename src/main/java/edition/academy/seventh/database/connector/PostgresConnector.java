@@ -5,7 +5,7 @@ import java.util.Map;
 
 /** @author Kamil Rojek */
 class PostgresConnector extends EntityConnector {
-  private Map<String, String> credentials = new HashMap<>();
+  private Map<String, String> credentials;
 
   PostgresConnector() {
     super("PostgreSQLUnit");
@@ -22,6 +22,7 @@ class PostgresConnector extends EntityConnector {
     settings.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
     settings.put("hibernate.show_sql", "true");
     settings.put("hibernate.hbm2ddl.auto", "update");
+
     return settings;
   }
 }

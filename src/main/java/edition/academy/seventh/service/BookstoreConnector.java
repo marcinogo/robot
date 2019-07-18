@@ -1,4 +1,4 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
