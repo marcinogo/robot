@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
- * Returns books from ItBook bookstore.
+ * Returns books from ITBook bookstore.
  *
  * @author Marcin Ogorzałek
  * @author Ola Podorska

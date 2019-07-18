@@ -7,7 +7,10 @@ import java.util.LinkedList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
-/** @author Bartosz Kupajski */
+/**
+ * Responsible for mapping JSON objects from ITBook library to {@link Book}
+ *
+ * @author Bartosz Kupajski */
 @Service
 public class ItBookMapper {
 
