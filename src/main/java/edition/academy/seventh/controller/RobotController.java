@@ -11,20 +11,21 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Controller for starting persists actions Starting is possible by HTTP request or schedule action
+ * Responsible for starting persistence actions. Running is possible either by HTTP request or
+ * scheduled action.
  *
  * @author krzysztof.kramarz
  */
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
-class MainController {
+class RobotController {
 
   private BookstoreConnectionService bookstoreConnectionService;
   private ItBookMapper itBookMapper;
   private BookService bookService;
 
   @Autowired
-  MainController(
+  RobotController(
       BookstoreConnectionService bookstoreConnectionService,
       ItBookMapper itBookMapper,
       BookService bookService) {
@@ -34,7 +35,7 @@ class MainController {
   }
 
   /**
-   * Controller for starting books persistence
+   * Starts robot's run.
    *
    * @return result of persist action
    */
@@ -48,13 +49,13 @@ class MainController {
    *
    * @return result of persist action
    */
-  boolean scheduleRobot() {
-    boolean persistItBookStore = persistItBookStore();
-    boolean persistEmpik = persistEmpik();
+  private boolean scheduleRobot() {
+    boolean persistItBookStore = startItBookStoreRobot();
+    boolean persistEmpik = startEmpikRobot();
     return persistItBookStore && persistEmpik;
   }
 
-  private boolean persistItBookStore() {
+  private boolean startItBookStoreRobot() {
     List<String> listOfBooksAsString = bookstoreConnectionService.getListOfBooksAsString();
     List<Book> books;
 
@@ -69,7 +70,7 @@ class MainController {
     return true;
   }
 
-  private boolean persistEmpik() {
+  private boolean startEmpikRobot() {
     // TODO zmienić na autowired, gdy EmpikScrapper będzie beanem
     PromotionProvider promotionProvider = new EmpikScrapper();
     List<Book> books = promotionProvider.getPromotions();
