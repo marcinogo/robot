@@ -19,9 +19,5 @@ import java.util.List;
 public class Main {
   public static void main(String[] args) {
     ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
-    PromotionProvider promotionProvider = new EmpikScrapper();
-    List<Book> books = promotionProvider.getPromotions();
-    BookService booksService = context.getBean(BookService.class);
-    booksService.addBooksToDatabase(books);
   }
 }
