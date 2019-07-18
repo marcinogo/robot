@@ -52,6 +52,11 @@ class RobotController {
    */
   @Scheduled(cron = "0 0 */12 * * *")
   private boolean scheduleRobot() {
+    try {
+      new ProcessBuilder("./check_environment_variables_script.sh").start();
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
+    }
     return startItBookStoreRobot() && startEmpikRobot() && startPwnRobot();
   }
 
