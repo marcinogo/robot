@@ -1,6 +1,7 @@
 package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.service.scrapper.SwiatKsiazkiScrapper;
 import org.testng.annotations.Test;
 
 import java.util.List;

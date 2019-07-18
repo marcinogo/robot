@@ -1,6 +1,7 @@
-package edition.academy.seventh.service;
+package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.service.PromotionProvider;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
