@@ -2,9 +2,6 @@ package edition.academy.seventh.serivce;
 
 import org.testng.annotations.DataProvider;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class DataProviderForJsonParser {
 
   @DataProvider

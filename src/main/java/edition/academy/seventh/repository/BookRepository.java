@@ -1,15 +1,15 @@
 package edition.academy.seventh.repository;
 
-import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.H2;
-import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.POSTGRESQL;
-
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.database.model.Book;
-import java.util.List;
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import org.springframework.stereotype.Repository;
+import java.util.List;
+
+import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.POSTGRESQL;
 /**
  * Repository that persists book entities in database.
  *

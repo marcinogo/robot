@@ -1,17 +1,13 @@
 package edition.academy.seventh.serivce;
 
 import edition.academy.seventh.database.model.Book;
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Phaser;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * Scraps data from empik.com bookstore website in sales section using JSoup library.

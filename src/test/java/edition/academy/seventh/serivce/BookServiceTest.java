@@ -10,13 +10,14 @@ import java.util.Collection;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertEquals;
 
 @Test
 public class BookServiceTest {
 
   @Test
-  public void should_addBooksToDatabaseMethodBeInvokedOnce_when_listOfBooksPassedAsParameterIsGreaterThanOne() {
+  public void
+      should_addBooksToDatabaseMethodBeInvokedOnce_when_listOfBooksPassedAsParameterIsGreaterThanOne() {
     // Given
     BookRepository bookRepository = mock(BookRepository.class);
     Book book = mock(Book.class);
@@ -40,7 +41,8 @@ public class BookServiceTest {
   }
 
   @Test
-  public void should_getAllBooksFromDatabaseMethodBeInvokedOnce_when_getBooksFromDatabaseIsCalled() {
+  public void
+      should_getAllBooksFromDatabaseMethodBeInvokedOnce_when_getBooksFromDatabaseIsCalled() {
     // Given
     BookRepository bookRepository = mock(BookRepository.class);
     Book book = mock(Book.class);
