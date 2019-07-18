@@ -69,15 +69,14 @@ public class PwnScrapper implements PromotionProvider {
               promotionPrice = deleteCurrencyFromPrice(promotionPrice);
               String basePrice = element.getElementsByClass("emp-base-price").text();
               basePrice = deleteCurrencyFromPrice(basePrice);
-              Book book = new Book();
-              book.setTitle(title);
-              book.setAuthors(author);
-              book.setPrice(basePrice);
-              book.setPromotion(promotionPrice);
-              book.setHref(href);
-              book.setImg(img);
-              book.setBookstore("PWN");
-              return book;
+                //              book.setTitle(title);
+//              book.setAuthors(author);
+//              book.setPrice(basePrice);
+//              book.setPromotion(promotionPrice);
+//              book.setHref(href);
+//              book.setImg(img);
+//              book.setBookstore("PWN");
+              return new Book(title,author,basePrice,promotionPrice,href,img,"PWN");
             })
         .forEach(listOfBooks::add);
     phaser.arrive();

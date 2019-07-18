@@ -6,9 +6,11 @@ import edition.academy.seventh.database.model.Book;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
+import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.H2;
 import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.POSTGRESQL;
 /**
  * Allows to persists and retrieves book entities in database.
@@ -36,8 +38,12 @@ public class BookRepository {
     transaction.begin();
     books.forEach(this::addBookToDataBase);
     transaction.commit();
-
+    System.out.println("Koncze transakcje");
     entityManager.close();
+    System.out.println("Zamykam entity manager");
+    System.out.println(entityManager.isOpen());
+    EntityManagerFactory entityManagerFactory = connectorProvider.getEntityManagerFactory();
+    entityManagerFactory.close();
   }
 
   /**

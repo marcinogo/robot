@@ -28,6 +28,20 @@ public class Book {
   private String href;
   private String bookstore;
 
+  public Book() {
+  }
+
+  public Book(String title, String authors, String price, String promotion, String img, String href, String bookstore) {
+    this.title = title;
+    this.subtitle = subtitle;
+    this.authors = authors;
+    this.price = price;
+    this.promotion = promotion;
+    this.img = img;
+    this.href = href;
+    this.bookstore = bookstore;
+  }
+
   public String getTitle() {
     return title;
   }

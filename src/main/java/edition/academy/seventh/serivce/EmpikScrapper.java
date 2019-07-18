@@ -81,16 +81,15 @@ public class EmpikScrapper implements PromotionProvider {
               String author = element.getElementsByClass("smartAuthor").text();
               String promotionPrice = element.getElementsByClass("ta-price-tile").text();
               String[] prices = promotionPrice.split(" ");
-              Book book = new Book();
-              book.setTitle(title);
-              book.setAuthors(author);
-              book.setSubtitle("");
-              book.setPrice(prices[2] + " " + prices[3]);
-              book.setPromotion(prices[0] + " " + prices[1]);
-              book.setBookstore(nameOfTheBookstore);
-              book.setHref(href);
-              book.setImg(img);
-              return book;
+                //              book.setTitle(title);
+//              book.setAuthors(author);
+//              book.setSubtitle("");
+//              book.setPrice(prices[2] + " " + prices[3]);
+//              book.setPromotion(prices[0] + " " + prices[1]);
+//              book.setBookstore(nameOfTheBookstore);
+//              book.setHref(href);
+//              book.setImg(img);
+              return new Book(title,author,prices[2] + " " + prices[3], prices[0] + " " + prices[1],href,img, nameOfTheBookstore);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();
