@@ -1,7 +1,7 @@
 package edition.academy.seventh.controller;
 
 import edition.academy.seventh.database.model.Book;
-import edition.academy.seventh.serivce.*;
+import edition.academy.seventh.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

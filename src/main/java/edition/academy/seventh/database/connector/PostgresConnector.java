@@ -5,7 +5,7 @@ import java.util.Map;
 
 /** @author Kamil Rojek */
 class PostgresConnector extends EntityConnector {
-  private Map<String, String> credentials = new HashMap<>();
+  private Map<String, String> credentials;
 
   PostgresConnector() {
     super("PostgreSQLUnit");
