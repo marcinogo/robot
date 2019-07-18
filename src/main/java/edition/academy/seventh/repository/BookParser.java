@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 class BookParser {
 
   static BookstoreBook parseDTBookIntoModel(DTBook dtBook) {
-    Book book = new Book(dtBook.getSubtitle(), new BookId(dtBook.getTitle(), dtBook.getAuthors()));
+    BookClass book = new BookClass(dtBook.getSubtitle(), new BookId(dtBook.getTitle(), dtBook.getAuthors()));
     Bookstore bookstore = new Bookstore(dtBook.getBookstore());
     HrefAndImage hrefAndImage = new HrefAndImage(dtBook.getHref(), dtBook.getImage());
 

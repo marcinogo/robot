@@ -34,7 +34,7 @@ public class BookParserTest {
     BookstoreBook expectedBookstoreBook =
         new BookstoreBook(
             new Bookstore(bookstore),
-            new Book(subtitle, new BookId(title, author)),
+            new BookClass(subtitle, new BookId(title, author)),
             retailPrice,
             promotionalPrice,
             LocalDate.now(),
@@ -64,7 +64,7 @@ public class BookParserTest {
     BookstoreBook bookstoreBook =
         new BookstoreBook(
             new Bookstore(bookstore),
-            new Book(subtitle, new BookId(title, author)),
+            new BookClass(subtitle, new BookId(title, author)),
             retailPrice,
             promotionalPrice,
             LocalDate.now(),

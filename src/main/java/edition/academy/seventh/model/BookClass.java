@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Book {
+public class BookClass {
 
   @EmbeddedId
   @Column(name = "book_id")
@@ -18,9 +18,9 @@ public class Book {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
   private List<BookstoreBook> bookstoreBooks = new ArrayList<>();
 
-  public Book() {}
+  public BookClass() {}
 
-  public Book(String subtitle, BookId bookId) {
+  public BookClass(String subtitle, BookId bookId) {
     this.subtitle = subtitle;
     this.bookId = bookId;
   }
@@ -53,7 +53,7 @@ public class Book {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    Book book = (Book) o;
+    BookClass book = (BookClass) o;
     return Objects.equals(bookId, book.bookId)
         && Objects.equals(subtitle, book.subtitle)
         && Objects.equals(bookstoreBooks, book.bookstoreBooks);

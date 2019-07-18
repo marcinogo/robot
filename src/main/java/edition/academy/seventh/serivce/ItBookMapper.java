@@ -19,10 +19,10 @@ public class ItBookMapper {
   }
 
   /**
-   * Maps JSON books file into {@code List<Book>}
+   * Maps JSON books file into {@code List<BookClass>}
    *
    * @param listOfJSONBook list with books' JSONs
-   * @return {@code List<Book>}
+   * @return {@code List<BookClass>}
    * @throws IOException when JSON isn't read properly
    */
   public List<DTBook> mapListOfJson(List<String> listOfJSONBook) throws IOException {

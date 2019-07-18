@@ -29,7 +29,7 @@ public class BookService {
   }
 
   /**
-   * Get books entities from database and pack them into List<Book>
+   * Get books entities from database and pack them into List<BookClass>
    *
    * @return List of books.
    */

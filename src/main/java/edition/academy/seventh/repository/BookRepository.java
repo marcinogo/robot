@@ -3,7 +3,7 @@ package edition.academy.seventh.repository;
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.database.model.DTBook;
-import edition.academy.seventh.model.Book;
+import edition.academy.seventh.model.BookClass;
 import edition.academy.seventh.model.Bookstore;
 import edition.academy.seventh.model.BookstoreBook;
 import edition.academy.seventh.model.HrefAndImage;
@@ -74,7 +74,7 @@ public class BookRepository {
 
     Bookstore bookstore =
         entityManager.find(Bookstore.class, bookstoreBook.getBookstore().getName());
-    Book book = entityManager.find(Book.class, bookstoreBook.getBook().getBookId());
+    BookClass book = entityManager.find(BookClass.class, bookstoreBook.getBook().getBookId());
     HrefAndImage hrefAndImage =
         entityManager.find(HrefAndImage.class, bookstoreBook.getHrefAndImage().getHyperLink());
 
@@ -84,7 +84,7 @@ public class BookRepository {
   }
 
   private void refreshVariablesFromBookstoreBook(
-      BookstoreBook bookstoreBook, Bookstore bookstore, Book book, HrefAndImage hrefAndImage) {
+          BookstoreBook bookstoreBook, Bookstore bookstore, BookClass book, HrefAndImage hrefAndImage) {
     if (bookstore != null) {
       entityManager.refresh(bookstore);
       bookstoreBook.setBookstore(bookstore);

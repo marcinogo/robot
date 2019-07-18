@@ -18,7 +18,7 @@ public class BookstoreBook {
 
   @ManyToOne(cascade = CascadeType.PERSIST)
   @JoinColumns({@JoinColumn(name = "title"), @JoinColumn(name = "author")})
-  private Book book;
+  private BookClass book;
 
   @Column(name = "retailPrice")
   private String retailPrice;
@@ -37,7 +37,7 @@ public class BookstoreBook {
 
   public BookstoreBook(
       Bookstore bookstore,
-      Book book,
+      BookClass book,
       String retailPrice,
       String promotionalPrice,
       LocalDate date,
@@ -66,11 +66,11 @@ public class BookstoreBook {
     this.bookstore = bookstore;
   }
 
-  public Book getBook() {
+  public BookClass getBook() {
     return book;
   }
 
-  public void setBook(Book book) {
+  public void setBook(BookClass book) {
     this.book = book;
   }
 
