@@ -3,6 +3,7 @@ package edition.academy.seventh.controller;
 import edition.academy.seventh.database.model.Book;
 import edition.academy.seventh.serivce.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +50,7 @@ class RobotController {
    *
    * @return result of persist action
    */
+  @Scheduled(cron = "* * * * * *")
   private boolean scheduleRobot() {
     boolean persistItBookStore = startItBookStoreRobot();
     boolean persistEmpik = startEmpikRobot();
