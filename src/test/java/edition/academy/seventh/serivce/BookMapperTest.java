@@ -40,7 +40,7 @@ public class BookMapperTest {
   }
 
   @Test(dataProvider = "dataProviderForJSONMapping")
-  public void should_returnActualBookProperties_when_fromValidJson(
+  public void should_returnActualBookProperties_fromGivenJson(
       String bookPart, String expected) {
     assertEquals(bookPart, expected);
   }
