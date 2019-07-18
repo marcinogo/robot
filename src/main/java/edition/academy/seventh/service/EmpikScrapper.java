@@ -1,19 +1,25 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.Book;
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Phaser;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.*;
+import org.springframework.stereotype.Service;
 
 /**
  * Scraps data from empik.com bookstore website in sales section using JSoup library.
  *
  * @author Bartosz Kupajski
  */
+@Service
 public class EmpikScrapper implements PromotionProvider {
 
   private List<Book> listOfBooks = new CopyOnWriteArrayList<>();
@@ -47,10 +53,10 @@ public class EmpikScrapper implements PromotionProvider {
     return listOfBooks;
   }
 
-  private Runnable createScrappingTask(int serchSiteNumber) {
+  private Runnable createScrappingTask(int searchSiteNumber) {
     return () -> {
       phaser.register();
-      String url = createUrl(serchSiteNumber);
+      String url = createUrl(searchSiteNumber);
       Document document = null;
       try {
         document = Jsoup.connect(url).timeout(0).get();
@@ -59,7 +65,7 @@ public class EmpikScrapper implements PromotionProvider {
       }
       Elements elementsByClass = document.getElementsByClass("productWrapper");
 
-      mappingToBookList(listOfBooks, elementsByClass);
+      mappingToBookList(elementsByClass);
     };
   }
 
@@ -70,27 +76,23 @@ public class EmpikScrapper implements PromotionProvider {
     return startOfUrl + numberOfPage + endOfUrl;
   }
 
-  private void mappingToBookList(List<Book> listOfBooks, Elements elementsByClass) {
+  private void mappingToBookList(Elements elementsByClass) {
     String nameOfTheBookstore = "EMPIK";
+    String startOfTheUrl = "https://www.empik.com/";
     elementsByClass.stream()
         .map(
             element -> {
               String title = element.getElementsByClass("ta-product-title").text();
               String href = element.getElementsByClass("seoTitle").attr("href");
+              href = startOfTheUrl + href;
               String img = element.getElementsByClass("lazy").attr("lazy-img");
               String author = element.getElementsByClass("smartAuthor").text();
-              String promotionPrice = element.getElementsByClass("ta-price-tile").text();
-              String[] prices = promotionPrice.split(" ");
-              Book book = new Book();
-              book.setTitle(title);
-              book.setAuthors(author);
-              book.setSubtitle("");
-              book.setPrice(prices[2] + " " + prices[3]);
-              book.setPromotion(prices[0] + " " + prices[1]);
-              book.setBookstore(nameOfTheBookstore);
-              book.setHref(href);
-              book.setImg(img);
-              return book;
+              String prices = element.getElementsByClass("ta-price-tile").text();
+              String[] pricesArray = prices.split(" ");
+              String basePrice = pricesArray[0] + " " + pricesArray[1];
+              String promotionPrice = pricesArray[2] + " " + pricesArray[3];
+              return new Book(title, "", author, basePrice, promotionPrice, img, href,
+                  nameOfTheBookstore);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();

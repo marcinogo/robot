@@ -1,7 +1,7 @@
 package edition.academy.seventh.controller;
 
 import edition.academy.seventh.database.model.Book;
-import edition.academy.seventh.serivce.*;
+import edition.academy.seventh.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,15 +46,13 @@ class RobotController {
   }
 
   /**
-   * Schedules books persistence
+   * Schedules books persistence. Starts every 12 hours from
    *
    * @return result of persist action
    */
-  @Scheduled(cron = "* * * * * *")
+  @Scheduled(cron = "0 0 */12 * * *")
   private boolean scheduleRobot() {
-    boolean persistItBookStore = startItBookStoreRobot();
-    boolean persistEmpik = startEmpikRobot();
-    return persistItBookStore && persistEmpik;
+    return startItBookStoreRobot() && startEmpikRobot() && startPwnRobot();
   }
 
   private boolean startItBookStoreRobot() {
@@ -75,6 +73,15 @@ class RobotController {
   private boolean startEmpikRobot() {
     // TODO zmienić na autowired, gdy EmpikScrapper będzie beanem
     PromotionProvider promotionProvider = new EmpikScrapper();
+    List<Book> books = promotionProvider.getPromotions();
+    bookService.addBooksToDatabase(books);
+    // TODO wrpowadzić try catch i zwracać true/false po zrobieni zadania #118
+    return true;
+  }
+
+  private boolean startPwnRobot() {
+    // TODO zmienić na autowired, gdy EmpikScrapper będzie beanem
+    PromotionProvider promotionProvider = new PwnScrapper();
     List<Book> books = promotionProvider.getPromotions();
     bookService.addBooksToDatabase(books);
     // TODO wrpowadzić try catch i zwracać true/false po zrobieni zadania #118
