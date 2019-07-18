@@ -1,6 +1,8 @@
 package edition.academy.seventh.database.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,8 +26,10 @@ public class Book {
   private String authors;
   private String price;
   private String promotion;
+  @JsonProperty(value = "image")
   private String img;
   @Column(length = 300)
+  @JsonProperty(value = "url")
   private String href;
   private String bookstore;
 

@@ -31,9 +31,12 @@ public class ItBookMapper {
    */
   public List<Book> mapListOfJson(List<String> listOfJSONBook) throws IOException {
     List<Book> listOfBooks = new LinkedList<>();
+    String nameOfTheBookstore = "ITBookstore";
 
     for (String bookJSON : listOfJSONBook) {
       Book book = objectMapper.readValue(bookJSON, Book.class);
+      book.setBookstore(nameOfTheBookstore);
+      book.setPromotion("");
       listOfBooks.add(book);
     }
 

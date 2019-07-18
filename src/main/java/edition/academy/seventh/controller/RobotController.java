@@ -4,6 +4,7 @@ import edition.academy.seventh.database.model.Book;
 import edition.academy.seventh.service.*;
 import edition.academy.seventh.service.mapper.ItBookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,10 +49,11 @@ class RobotController {
   }
 
   /**
-   * Schedules books persistence
+   * Schedules robot run. Starts every 12 hours.
    *
    * @return result of persist action
    */
+  @Scheduled(cron = "0 0 */12 * * *")
   private boolean scheduleRobot() {
     return startGatheringData();
   }
