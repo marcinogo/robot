@@ -39,7 +39,7 @@ class RobotController {
   }
 
   /**
-   * Starts robot's startGatheringData.
+   * Starts robot's run.
    *
    * @return result of persist action
    */
@@ -58,6 +58,9 @@ class RobotController {
     return startGatheringData();
   }
 
+  /**
+   *  @return true if gathering data complite without issuess
+   */
   private boolean startGatheringData() {
     return getDataFromAPI() && getDataFromScrapping();
   }
