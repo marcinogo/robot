@@ -28,6 +28,7 @@ abstract class EntityConnector implements ConnectorProvider {
     return getEntityManagerFactory().createEntityManager();
   }
 
+  @Override
   public EntityManagerFactory getEntityManagerFactory() {
 
     if (entityManagerFactory != null) {

@@ -26,9 +26,4 @@ class PostgresConnector extends EntityConnector {
 
     return settings;
   }
-
-  @Override
-  public EntityManagerFactory getEntityManagerFactory() {
-    return super.getEntityManagerFactory();
-  }
 }
