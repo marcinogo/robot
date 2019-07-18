@@ -13,9 +13,9 @@ class H2Connector extends EntityConnector {
   final Map<String, String> loadPersistenceSettings() {
     Map<String, String> settings = new HashMap<>();
     settings.put("javax.persistence.jdbc.driver", "org.h2.Driver");
-    settings.put("javax.persistence.jdbc.user", "admin");
+    settings.put("javax.persistence.jdbc.user", "sa");
     settings.put("javax.persistence.jdbc.password", "");
-    settings.put("javax.persistence.jdbc.url", "jdbc:h2:tcp://localhost/~/mojabaza");
+    settings.put("javax.persistence.jdbc.url", "jdbc:h2:tcp://localhost/~/test");
     settings.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
     settings.put("hibernate.show_sql", "true");
     settings.put("hibernate.hbm2ddl.auto", "create");
