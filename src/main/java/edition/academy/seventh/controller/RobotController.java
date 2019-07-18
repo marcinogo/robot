@@ -46,7 +46,7 @@ class RobotController {
   }
 
   /**
-   * Schedules books persistence. Starts every 12 hours from
+   * Schedules robot run. Starts every 12 hours.
    *
    * @return result of persist action
    */
