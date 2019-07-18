@@ -1,16 +1,17 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockingDetails;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
 
 import edition.academy.seventh.database.model.Book;
 import edition.academy.seventh.repository.BookRepository;
-import org.mockito.invocation.Invocation;
-import org.testng.annotations.Test;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.assertEquals;
+import org.mockito.invocation.Invocation;
+import org.testng.annotations.Test;
 
 @Test
 public class BookServiceTest {

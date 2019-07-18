@@ -1,20 +1,14 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.Book;
+import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
-/**
- * @author Bartosz Kupajski
- *
- * Integration test of PwnScrapper class.
- */
 @Test
 public class PwnScrappingTestIT {
 
-    public void should_scrapAtLeastOneBook_forGivenUrl(){
+    public void should_scrapAtLeastOneBook_forGivenUrl() {
         // Given
         PromotionProvider promotionScrapping = new PwnScrapper();
 
@@ -22,7 +16,6 @@ public class PwnScrappingTestIT {
         List<Book> books = promotionScrapping.getPromotions();
 
         // Then
-        Assert.assertTrue(books.size()>0);
+        Assert.assertTrue(books.size() > 0);
     }
-
 }

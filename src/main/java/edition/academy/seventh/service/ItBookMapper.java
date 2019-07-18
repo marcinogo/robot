@@ -1,12 +1,11 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edition.academy.seventh.database.model.Book;
-import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
 /** @author Bartosz Kupajski */
 @Service

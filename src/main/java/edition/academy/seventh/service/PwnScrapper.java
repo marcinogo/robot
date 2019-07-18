@@ -1,16 +1,15 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.Book;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 /**
  * Scraps data from pwn bookstore website in sales section using Jsoup library
@@ -52,32 +51,26 @@ public class PwnScrapper implements PromotionProvider {
       }
       Elements elementsByClass = document.getElementsByClass("emp-product-tile-list");
 
-      mappingToBookList(listOfBooks, elementsByClass);
+      mappingToBookList(elementsByClass);
     };
   }
 
-  private void mappingToBookList(List<Book> listOfBooks, Elements elementsByClass) {
+  private void mappingToBookList(Elements elementsByClass) {
+    String nameOfTheBookstore = "PWN";
+    String startOfTheUrl = "https://ksiegarnia.pwn.pl";
     elementsByClass.stream()
         .map(
             element -> {
-              String href = element.getElementsByClass("titleLink").attr("href");
               String title = element.getElementsByClass("emp-info-title").text();
               String author = element.getElementsByClass("emp-info-authors").text();
-              String img = element.getElementsByTag("img").attr("src");
               author = deleteAuthorTag(author);
-              String promotionPrice = element.getElementsByClass("emp-sale-price-value").text();
-              promotionPrice = deleteCurrencyFromPrice(promotionPrice);
               String basePrice = element.getElementsByClass("emp-base-price").text();
-              basePrice = deleteCurrencyFromPrice(basePrice);
-              Book book = new Book();
-              book.setTitle(title);
-              book.setAuthors(author);
-              book.setPrice(basePrice);
-              book.setPromotion(promotionPrice);
-              book.setHref(href);
-              book.setImg(img);
-              book.setBookstore("PWN");
-              return book;
+              String promotionPrice = element.getElementsByClass("emp-sale-price-value").text();
+              String img = element.getElementsByTag("img").attr("src");
+              String href = element.getElementsByClass("titleLink").attr("href");
+              href = startOfTheUrl + href;
+              return new Book(title, "", author, basePrice, promotionPrice, img, href,
+                  nameOfTheBookstore);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();
@@ -87,7 +80,4 @@ public class PwnScrapper implements PromotionProvider {
     return author.replace("Autor: ", "");
   }
 
-  private String deleteCurrencyFromPrice(String price) {
-    return price.replace(" zł", "");
-  }
 }
