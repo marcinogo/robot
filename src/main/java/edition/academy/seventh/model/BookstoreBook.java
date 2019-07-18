@@ -6,97 +6,102 @@ import java.time.LocalDate;
 @Entity
 public class BookstoreBook {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id", nullable = false)
+  private long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "bookstore_id")
-    private Bookstore bookstore;
+  @ManyToOne(cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "bookstore_id")
+  private Bookstore bookstore;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinColumns({
-            @JoinColumn(name = "title"),
-            @JoinColumn(name = "author")
-    })
-     private Book book;
+  @ManyToOne(cascade = CascadeType.PERSIST)
+  @JoinColumns({@JoinColumn(name = "title"), @JoinColumn(name = "author")})
+  private Book book;
 
-    @Column(name = "retailPrice")
-    private int retailPrice;
+  @Column(name = "retailPrice")
+  private String retailPrice;
 
-    @Column(name = "promotionalPrice")
-    private int promotionalPrice;
+  @Column(name = "promotionalPrice")
+  private String promotionalPrice;
 
-    @Column(name = "date")
-    private LocalDate date;
+  @Column(name = "date")
+  private LocalDate date;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "hrefAndImage_id")
-    private HrefAndImage hrefAndImage;
+  @ManyToOne(cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "hrefAndImage_id")
+  private HrefAndImage hrefAndImage;
 
-    public BookstoreBook(Bookstore bookstore, Book book, int retailPrice, int promotionalPrice, LocalDate date, HrefAndImage hrefAndImage) {
-        this.bookstore = bookstore;
-        this.book = book;
-        this.retailPrice = retailPrice;
-        this.promotionalPrice =promotionalPrice;
-        this.date = date;
-        this.hrefAndImage = hrefAndImage;
-    }
+  public BookstoreBook() {}
 
-    public long getId() {
-        return id;
-    }
+  public BookstoreBook(
+      Bookstore bookstore,
+      Book book,
+      String retailPrice,
+      String promotionalPrice,
+      LocalDate date,
+      HrefAndImage hrefAndImage) {
+    this.bookstore = bookstore;
+    this.book = book;
+    this.retailPrice = retailPrice;
+    this.promotionalPrice = promotionalPrice;
+    this.date = date;
+    this.hrefAndImage = hrefAndImage;
+  }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+  public long getId() {
+    return id;
+  }
 
-    public Bookstore getBookstore() {
-        return bookstore;
-    }
+  public void setId(long id) {
+    this.id = id;
+  }
 
-    public void setBookstore(Bookstore bookstore) {
-        this.bookstore = bookstore;
-    }
+  public Bookstore getBookstore() {
+    return bookstore;
+  }
 
-    public Book getBook() {
-        return book;
-    }
+  public void setBookstore(Bookstore bookstore) {
+    this.bookstore = bookstore;
+  }
 
-    public void setBook(Book book) {
-        this.book = book;
-    }
+  public Book getBook() {
+    return book;
+  }
 
-    public int getRetailPrice() {
-        return retailPrice;
-    }
+  public void setBook(Book book) {
+    this.book = book;
+  }
 
-    public void setRetailPrice(int retailPrice) {
-        this.retailPrice = retailPrice;
-    }
+  public String getRetailPrice() {
+    return retailPrice;
+  }
 
-    public int getPromotionalPrice() {
-        return promotionalPrice;
-    }
+  public void setRetailPrice(String retailPrice) {
+    this.retailPrice = retailPrice;
+  }
 
-    public void setPromotionalPrice(int promotionalPrice) {
-        this.promotionalPrice = promotionalPrice;
-    }
+  public String getPromotionalPrice() {
+    return promotionalPrice;
+  }
 
-    public LocalDate getDate() {
-        return date;
-    }
+  public void setPromotionalPrice(String promotionalPrice) {
+    this.promotionalPrice = promotionalPrice;
+  }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
+  public LocalDate getDate() {
+    return date;
+  }
 
-    public HrefAndImage getHrefAndImage() {
-        return hrefAndImage;
-    }
+  public void setDate(LocalDate date) {
+    this.date = date;
+  }
 
-    public void setHrefAndImage(HrefAndImage hrefAndImage) {
-        this.hrefAndImage = hrefAndImage;
-    }
+  public HrefAndImage getHrefAndImage() {
+    return hrefAndImage;
+  }
+
+  public void setHrefAndImage(HrefAndImage hrefAndImage) {
+    this.hrefAndImage = hrefAndImage;
+  }
 }

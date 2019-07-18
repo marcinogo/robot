@@ -18,6 +18,9 @@ public class DTBook {
   private String href;
   private String image;
 
+  public DTBook() {
+  }
+
   public DTBook(
       String title,
       String subtitle,

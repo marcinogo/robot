@@ -14,6 +14,8 @@ public class BookId implements Serializable {
   @Column(name = "author")
   private String author;
 
+  public BookId() {}
+
   public BookId(String title, String author) {
     this.title = title;
     this.author = author;

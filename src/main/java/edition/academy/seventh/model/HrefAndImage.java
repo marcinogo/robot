@@ -7,42 +7,44 @@ import java.util.List;
 @Entity
 public class HrefAndImage {
 
-    @Id
-    @Column(name = "hyperLink")
-    private String hyperLink;
+  @Id
+  @Column(name = "hyperLink")
+  private String hyperLink;
 
-    @Column(name = "image")
-    private String image;
+  @Column(name = "image")
+  private String image;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy="bookstore")
-    private List<BookstoreBook> bookstoreBooks = new ArrayList<>();
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookstore")
+  private List<BookstoreBook> bookstoreBooks = new ArrayList<>();
 
-    public HrefAndImage(String hyperLink, String image) {
-        this.hyperLink = hyperLink;
-        this.image = image;
-    }
+  public HrefAndImage() {}
 
-    public String getHyperLink() {
-        return hyperLink;
-    }
+  public HrefAndImage(String hyperLink, String image) {
+    this.hyperLink = hyperLink;
+    this.image = image;
+  }
 
-    public void setHyperLink(String hyperLink) {
-        this.hyperLink = hyperLink;
-    }
+  public String getHyperLink() {
+    return hyperLink;
+  }
 
-    public List<BookstoreBook> getBookstoreBooks() {
-        return bookstoreBooks;
-    }
+  public void setHyperLink(String hyperLink) {
+    this.hyperLink = hyperLink;
+  }
 
-    public void setBookstoreBooks(List<BookstoreBook> bookstoreBooks) {
-        this.bookstoreBooks = bookstoreBooks;
-    }
+  public List<BookstoreBook> getBookstoreBooks() {
+    return bookstoreBooks;
+  }
 
-    public String getImage() {
-        return image;
-    }
+  public void setBookstoreBooks(List<BookstoreBook> bookstoreBooks) {
+    this.bookstoreBooks = bookstoreBooks;
+  }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+  public String getImage() {
+    return image;
+  }
+
+  public void setImage(String image) {
+    this.image = image;
+  }
 }

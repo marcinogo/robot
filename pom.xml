@@ -44,7 +44,6 @@
 
         <!-- Plugins settings -->
         <skipIntegrationTests>true</skipIntegrationTests>
-        <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <dependencies>
