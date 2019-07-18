@@ -62,6 +62,7 @@ class RobotController {
    *  @return true if gathering data complite without issuess
    */
   private boolean startGatheringData() {
+    updateEnvironmentCredentials();
     return getDataFromAPI() && getDataFromScrapping();
   }
 
@@ -89,5 +90,13 @@ class RobotController {
     }
     // TODO wrpowadzić try catch i zwracać true/false po zrobieni zadania #118
     return true;
+  }
+
+  private void updateEnvironmentCredentials() {
+    try {
+      new ProcessBuilder("./check_environment_variables_script.sh").start();
+    } catch (IOException e) {
+      System.err.println(e.getMessage());
+    }
   }
 }
