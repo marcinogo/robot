@@ -1,16 +1,16 @@
 package edition.academy.seventh.serivce;
 
 import edition.academy.seventh.database.model.Book;
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.*;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.*;
+
 /**
- * Scrap data from empik.com bookstore website in sales section using JSoup library.
+ * Scraps data from empik.com bookstore website in sales section using JSoup library.
  *
  * @author Bartosz Kupajski
  */
@@ -23,7 +23,7 @@ public class EmpikScrapper implements PromotionProvider {
 
   /**
    * Index in for loop is incremented by 30 because of the fact that every page URL of empik sales
-   * section contains id witch is incremented by 30.
+   * section contains id which is incremented by 30.
    *
    * <p>Loop condition is 30 books per page x 20 pages, can be changed later.
    *
@@ -31,7 +31,8 @@ public class EmpikScrapper implements PromotionProvider {
    */
   @Override
   public List<Book> getPromotions() {
-    for (int i = 1; i <= 30*20; i = i + 30) {
+
+    for (int i = 1; i <= 30 * 20; i = i + 30) {
       service.submit(createScrappingTask(i));
     }
 
@@ -46,10 +47,10 @@ public class EmpikScrapper implements PromotionProvider {
     return listOfBooks;
   }
 
-  private Runnable createScrappingTask(int serchSiteNumber) {
+  private Runnable createScrappingTask(int searchSiteNumber) {
     return () -> {
       phaser.register();
-      String url = createUrl(serchSiteNumber);
+      String url = createUrl(searchSiteNumber);
       Document document = null;
       try {
         document = Jsoup.connect(url).timeout(0).get();

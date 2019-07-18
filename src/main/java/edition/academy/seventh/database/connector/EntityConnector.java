@@ -11,8 +11,8 @@ import java.util.Map;
  * @author Kamil Rojek
  */
 abstract class EntityConnector implements ConnectorProvider {
-  private EntityManagerFactory entityManagerFactory;
   private final String persistenceUnitName;
+  private EntityManagerFactory entityManagerFactory;
 
   EntityConnector(final String persistenceUnitName) {
     this.persistenceUnitName = persistenceUnitName;

@@ -13,6 +13,16 @@ import static org.testng.Assert.assertEquals;
 public class BookMapperTest {
   private static List<Book> bookList;
 
+  @DataProvider
+  public static Object[][] dataProviderForJSONMapping() {
+    return new Object[][] {
+      {bookList.get(0).getTitle(), "Learning JavaScript"},
+      {bookList.get(0).getSubtitle(), "A Hands-On Guide to the Fundamentals of Modern JavaScript"},
+      {bookList.get(0).getAuthors(), "Tim Wright"},
+      {bookList.get(0).getPrice(), "$8.99"}
+    };
+  }
+
   @BeforeTest
   public void prepareListOfBooks() throws IOException {
     ItBookMapper itBookMapper = new ItBookMapper();
@@ -29,19 +39,8 @@ public class BookMapperTest {
     bookList = itBookMapper.mapListOfJson(partialBook);
   }
 
-  @DataProvider
-  public static Object[][] dataProviderForJSONMapping() {
-    return new Object[][] {
-      {bookList.get(0).getTitle(), "Learning JavaScript"},
-      {bookList.get(0).getSubtitle(), "A Hands-On Guide to the Fundamentals of Modern JavaScript"},
-      {bookList.get(0).getAuthors(), "Tim Wright"},
-      {bookList.get(0).getPrice(), "$8.99"}
-    };
-  }
-
   @Test(dataProvider = "dataProviderForJSONMapping")
-  public void should_returnActualBookProperties_when_fromValidJson(
-      String bookPart, String expected) {
+  public void should_returnActualBookProperties_fromGivenJson(String bookPart, String expected) {
     assertEquals(bookPart, expected);
   }
 }

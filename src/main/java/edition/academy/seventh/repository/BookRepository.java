@@ -9,10 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
-import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.*;
-
+import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.POSTGRESQL;
 /**
- * Repository that persists book entities in database.
+ * Allows to persists and retrieves book entities in database.
  *
  * @author Agnieszka Trzewik
  */
@@ -26,9 +25,9 @@ public class BookRepository {
   }
 
   /**
-   * Add books records to the database.
+   * Adds books records to the database.
    *
-   * @param books list of books
+   * @param books list of books to be added
    */
   public void addBooksToDatabase(List<Book> books) {
     entityManager = connectorProvider.getEntityManager();

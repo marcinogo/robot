@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 /**
- * Service that provides API responsible for adding books to database.
+ * Provides API responsible for adding books to database.
  *
  * @author Agnieszka Trzewik
  */
