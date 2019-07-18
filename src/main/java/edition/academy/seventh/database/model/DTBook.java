@@ -1,6 +1,7 @@
 package edition.academy.seventh.database.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
@@ -14,11 +15,16 @@ public class DTBook {
   private String title;
   private String subtitle;
   private String authors;
-  private String bookstore;
   private String price;
-  private String promoPrice;
+  private String promotion;
+
+  @JsonProperty(value = "image")
+  private String img;
+
+  @JsonProperty(value = "url")
   private String href;
-  private String image;
+
+  private String bookstore;
 
   public DTBook() {}
 
@@ -26,19 +32,19 @@ public class DTBook {
       String title,
       String subtitle,
       String authors,
-      String bookstore,
       String price,
-      String promoPrice,
+      String promotion,
+      String img,
       String href,
-      String image) {
+      String bookstore) {
     this.title = title;
     this.subtitle = subtitle;
     this.authors = authors;
-    this.bookstore = bookstore;
     this.price = price;
-    this.promoPrice = promoPrice;
+    this.promotion = promotion;
+    this.img = img;
     this.href = href;
-    this.image = image;
+    this.bookstore = bookstore;
   }
 
   public String getTitle() {
@@ -65,14 +71,6 @@ public class DTBook {
     this.authors = authors;
   }
 
-  public String getBookstore() {
-    return bookstore;
-  }
-
-  public void setBookstore(String bookstore) {
-    this.bookstore = bookstore;
-  }
-
   public String getPrice() {
     return price;
   }
@@ -81,12 +79,20 @@ public class DTBook {
     this.price = price;
   }
 
-  public String getPromoPrice() {
-    return promoPrice;
+  public String getPromotion() {
+    return promotion;
   }
 
-  public void setPromoPrice(String promoPrice) {
-    this.promoPrice = promoPrice;
+  public void setPromotion(String promotion) {
+    this.promotion = promotion;
+  }
+
+  public String getImg() {
+    return img;
+  }
+
+  public void setImg(String img) {
+    this.img = img;
   }
 
   public String getHref() {
@@ -97,32 +103,32 @@ public class DTBook {
     this.href = href;
   }
 
-  public String getImage() {
-    return image;
+  public String getBookstore() {
+    return bookstore;
   }
 
-  public void setImage(String image) {
-    this.image = image;
+  public void setBookstore(String bookstore) {
+    this.bookstore = bookstore;
   }
 
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    DTBook dtBook = (DTBook) o;
-    return Objects.equals(title, dtBook.title)
-        && Objects.equals(subtitle, dtBook.subtitle)
-        && Objects.equals(authors, dtBook.authors)
-        && Objects.equals(bookstore, dtBook.bookstore)
-        && Objects.equals(price, dtBook.price)
-        && Objects.equals(promoPrice, dtBook.promoPrice)
-        && Objects.equals(href, dtBook.href)
-        && Objects.equals(image, dtBook.image);
+    DTBook book = (DTBook) o;
+    return Objects.equals(title, book.title)
+        && Objects.equals(subtitle, book.subtitle)
+        && Objects.equals(authors, book.authors)
+        && Objects.equals(price, book.price)
+        && Objects.equals(promotion, book.promotion)
+        && Objects.equals(img, book.img)
+        && Objects.equals(href, book.href)
+        && Objects.equals(bookstore, book.bookstore);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(title, subtitle, authors, bookstore, price, promoPrice, href, image);
+    return Objects.hash(title, subtitle, authors, price, promotion, img, href, bookstore);
   }
 
   @Override
@@ -137,20 +143,8 @@ public class DTBook {
         + ", authors='"
         + authors
         + '\''
-        + ", bookstore='"
-        + bookstore
-        + '\''
         + ", price='"
         + price
-        + '\''
-        + ", promoPrice='"
-        + promoPrice
-        + '\''
-        + ", href='"
-        + href
-        + '\''
-        + ", image='"
-        + image
         + '\''
         + '}';
   }

@@ -1,9 +1,9 @@
 package edition.academy.seventh.database.connector;
 
-import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.Map;
 
 /**
  * Adapter for connection to database using {@link javax.persistence.EntityManager}.
@@ -11,8 +11,8 @@ import javax.persistence.Persistence;
  * @author Kamil Rojek
  */
 abstract class EntityConnector implements ConnectorProvider {
-  private EntityManagerFactory entityManagerFactory;
   private final String persistenceUnitName;
+  private EntityManagerFactory entityManagerFactory;
 
   EntityConnector(final String persistenceUnitName) {
     this.persistenceUnitName = persistenceUnitName;

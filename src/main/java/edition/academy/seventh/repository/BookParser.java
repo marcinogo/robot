@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 class BookParser {
 
   static BookstoreBook parseDTBookIntoModel(DTBook dtBook) {
-    BookClass book = new BookClass(dtBook.getSubtitle(), new BookId(dtBook.getTitle(), dtBook.getAuthors()));
+    Book book = new Book(dtBook.getSubtitle(), new BookId(dtBook.getTitle(), dtBook.getAuthors()));
     Bookstore bookstore = new Bookstore(dtBook.getBookstore());
-    HrefAndImage hrefAndImage = new HrefAndImage(dtBook.getHref(), dtBook.getImage());
+    HrefAndImage hrefAndImage = new HrefAndImage(dtBook.getHref(), dtBook.getImg());
 
     return new BookstoreBook(
-        bookstore, book, dtBook.getPrice(), dtBook.getPromoPrice(), LocalDate.now(), hrefAndImage);
+        book, dtBook.getPrice(), dtBook.getPromotion(), LocalDate.now(), hrefAndImage, bookstore);
   }
 
   static List<DTBook> parseBookstoreBookListIntoDTBookList(List<BookstoreBook> bookstoreBooks) {
@@ -32,11 +32,11 @@ class BookParser {
                     bookstoreBook.getBook().getBookId().getTitle(),
                     bookstoreBook.getBook().getSubtitle(),
                     bookstoreBook.getBook().getBookId().getAuthor(),
-                    bookstoreBook.getBookstore().getName(),
                     bookstoreBook.getRetailPrice(),
                     bookstoreBook.getPromotionalPrice(),
+                    bookstoreBook.getHrefAndImage().getImage(),
                     bookstoreBook.getHrefAndImage().getHyperLink(),
-                    bookstoreBook.getHrefAndImage().getImage()))
+                    bookstoreBook.getBookstore().getName()))
         .collect(Collectors.toList());
   }
 }

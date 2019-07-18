@@ -1,4 +1,4 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.List;
@@ -6,9 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-
 /**
- * Return books from ItBook bookstore.
+ * Returns books from ITBook bookstore.
  *
  * @author Marcin Ogorzałek
  * @author Ola Podorska

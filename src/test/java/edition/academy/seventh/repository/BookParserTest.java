@@ -21,24 +21,24 @@ public class BookParserTest {
       String title,
       String subtitle,
       String author,
-      String bookstore,
       String retailPrice,
       String promotionalPrice,
       String hyperLink,
-      String image) {
+      String image,
+      String bookstore) {
 
     // Given
     DTBook dtBook =
         new DTBook(
-            title, subtitle, author, bookstore, retailPrice, promotionalPrice, hyperLink, image);
+            title, subtitle, author, retailPrice, promotionalPrice, image, hyperLink, bookstore);
     BookstoreBook expectedBookstoreBook =
         new BookstoreBook(
-            new Bookstore(bookstore),
-            new BookClass(subtitle, new BookId(title, author)),
+            new Book(subtitle, new BookId(title, author)),
             retailPrice,
             promotionalPrice,
             LocalDate.now(),
-            new HrefAndImage(hyperLink, image));
+            new HrefAndImage(hyperLink, image),
+            new Bookstore(bookstore));
 
     // When
     BookstoreBook bookstoreBook = parseDTBookIntoModel(dtBook);
@@ -54,25 +54,25 @@ public class BookParserTest {
       String title,
       String subtitle,
       String author,
-      String bookstore,
       String retailPrice,
       String promotionalPrice,
+      String image,
       String hyperLink,
-      String image) {
+      String bookstore) {
 
     // Given
     BookstoreBook bookstoreBook =
         new BookstoreBook(
-            new Bookstore(bookstore),
-            new BookClass(subtitle, new BookId(title, author)),
+            new Book(subtitle, new BookId(title, author)),
             retailPrice,
             promotionalPrice,
             LocalDate.now(),
-            new HrefAndImage(hyperLink, image));
+            new HrefAndImage(hyperLink, image),
+            new Bookstore(bookstore));
 
     DTBook dtBook =
         new DTBook(
-            title, subtitle, author, bookstore, retailPrice, promotionalPrice, hyperLink, image);
+            title, subtitle, author, retailPrice, promotionalPrice, image, hyperLink, bookstore);
 
     List<BookstoreBook> bookstoreBooks = List.of(bookstoreBook);
 

@@ -9,7 +9,7 @@ import java.util.Objects;
 public class HrefAndImage {
 
   @Id
-  @Column(name = "hyperLink")
+  @Column(name = "hyperLink", length = 300)
   private String hyperLink;
 
   @Column(name = "image")

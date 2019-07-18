@@ -1,0 +1,23 @@
+package edition.academy.seventh.service;
+
+import edition.academy.seventh.database.model.DTBook;
+import java.util.List;
+
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertTrue;
+
+@Test
+public class PwnScrappingTestIT {
+
+  public void should_scrapAtLeastOneBook_forGivenUrl() {
+    // Given
+    PromotionProvider promotionScrapping = new PwnScrapper();
+
+    // When
+    List<DTBook> books = promotionScrapping.getPromotions();
+
+    // Then
+    assertTrue(books.size() > 0);
+  }
+}

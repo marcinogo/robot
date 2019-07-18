@@ -19,6 +19,7 @@ class H2Connector extends EntityConnector {
     settings.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
     settings.put("hibernate.show_sql", "true");
     settings.put("hibernate.hbm2ddl.auto", "create");
+
     return settings;
   }
 }

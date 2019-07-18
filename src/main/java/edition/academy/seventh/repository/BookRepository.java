@@ -3,7 +3,7 @@ package edition.academy.seventh.repository;
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.database.model.DTBook;
-import edition.academy.seventh.model.BookClass;
+import edition.academy.seventh.model.Book;
 import edition.academy.seventh.model.Bookstore;
 import edition.academy.seventh.model.BookstoreBook;
 import edition.academy.seventh.model.HrefAndImage;
@@ -20,7 +20,7 @@ import static edition.academy.seventh.repository.BookParser.parseDTBookIntoModel
 import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
 
 /**
- * Repository that persists book entities in database.
+ * Allows to persists and retrieve {@link DTBook} from database.
  *
  * @author Agnieszka Trzewik
  */
@@ -38,7 +38,7 @@ public class BookRepository {
    *
    * @param dtBookList {@code List<DTBook>} to be added
    */
-  public void addBooksToDataBase(List<DTBook> dtBookList) {
+  public void addBooksToDatabase(List<DTBook> dtBookList) {
     entityManager = connectorProvider.getEntityManager();
     EntityTransaction transaction = entityManager.getTransaction();
 
@@ -54,7 +54,7 @@ public class BookRepository {
    *
    * @return {@code List<DTBook>}
    */
-  public List<DTBook> getBooksFromDataBase() {
+  public List<DTBook> getBooksFromDatabase() {
 
     entityManager = connectorProvider.getEntityManager();
 
@@ -74,7 +74,7 @@ public class BookRepository {
 
     Bookstore bookstore =
         entityManager.find(Bookstore.class, bookstoreBook.getBookstore().getName());
-    BookClass book = entityManager.find(BookClass.class, bookstoreBook.getBook().getBookId());
+    Book book = entityManager.find(Book.class, bookstoreBook.getBook().getBookId());
     HrefAndImage hrefAndImage =
         entityManager.find(HrefAndImage.class, bookstoreBook.getHrefAndImage().getHyperLink());
 
@@ -84,7 +84,7 @@ public class BookRepository {
   }
 
   private void refreshVariablesFromBookstoreBook(
-          BookstoreBook bookstoreBook, Bookstore bookstore, BookClass book, HrefAndImage hrefAndImage) {
+      BookstoreBook bookstoreBook, Bookstore bookstore, Book book, HrefAndImage hrefAndImage) {
     if (bookstore != null) {
       entityManager.refresh(bookstore);
       bookstoreBook.setBookstore(bookstore);

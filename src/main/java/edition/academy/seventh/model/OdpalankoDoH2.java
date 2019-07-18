@@ -26,8 +26,8 @@ public class OdpalankoDoH2 {
     books.add(book3);
 
     BookRepository bookRepository = new BookRepository();
-    bookRepository.addBooksToDataBase(books);
+    bookRepository.addBooksToDatabase(books);
 
-    bookRepository.getBooksFromDataBase().forEach(b -> System.out.println(b.getTitle()));
+    bookRepository.getBooksFromDatabase().forEach(b -> System.out.println(b.getTitle()));
   }
 }
