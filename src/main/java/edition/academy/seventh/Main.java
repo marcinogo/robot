@@ -23,5 +23,6 @@ public class Main {
     List<Book> books = promotionProvider.getPromotions();
     BookService booksService = context.getBean(BookService.class);
     booksService.addBooksToDatabase(books);
+
   }
 }
