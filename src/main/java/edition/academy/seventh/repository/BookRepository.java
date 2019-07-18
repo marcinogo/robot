@@ -1,6 +1,6 @@
 package edition.academy.seventh.repository;
 
-import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.POSTGRESQL;
+import static edition.academy.seventh.database.connector.DatabaseTypes.*;
 
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;

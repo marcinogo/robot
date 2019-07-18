@@ -1,8 +1,10 @@
 package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.Book;
-import java.util.List;
+import edition.academy.seventh.service.scrapper.EmpikScrapper;
 import org.testng.annotations.Test;
+
+import java.util.List;
 
 import static org.testng.Assert.assertTrue;
 
