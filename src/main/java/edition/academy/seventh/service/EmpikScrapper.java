@@ -39,6 +39,7 @@ public class EmpikScrapper implements PromotionProvider {
 
     for (int i = 1; i <= 30 * 20; i = i + 30) {
       service.submit(createScrappingTask(i));
+      logger.info("Submitting scrapping task for page no" + i + " on Empik.com");
     }
 
     try {
