@@ -1,6 +1,6 @@
 package edition.academy.seventh.repository;
 
-import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.POSTGRESQL;
+import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.*;
 
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
@@ -12,6 +12,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
+
 /**
  * Allows to persists and retrieves book entities in database.
  *
@@ -23,7 +24,7 @@ public class BookRepository {
   private ConnectorProvider connectorProvider;
 
   public BookRepository() {
-    connectorProvider = ConnectorFactory.of(POSTGRESQL);
+    connectorProvider = ConnectorFactory.of(H2);
   }
 
   /**

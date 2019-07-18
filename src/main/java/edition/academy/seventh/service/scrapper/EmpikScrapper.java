@@ -1,18 +1,15 @@
-package edition.academy.seventh.service;
+package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.Book;
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Phaser;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import edition.academy.seventh.service.PromotionProvider;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * Scraps data from empik.com bookstore website in sales section using JSoup library.
@@ -91,8 +88,8 @@ public class EmpikScrapper implements PromotionProvider {
               String[] pricesArray = prices.split(" ");
               String basePrice = pricesArray[0] + " " + pricesArray[1];
               String promotionPrice = pricesArray[2] + " " + pricesArray[3];
-              return new Book(title, "", author, basePrice, promotionPrice, img, href,
-                  nameOfTheBookstore);
+              return new Book(
+                  title, "", author, basePrice, promotionPrice, img, href, nameOfTheBookstore);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();

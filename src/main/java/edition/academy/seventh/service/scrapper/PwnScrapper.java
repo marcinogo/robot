@@ -1,4 +1,4 @@
-package edition.academy.seventh.service;
+package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.Book;
 import java.io.IOException;
@@ -7,6 +7,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
+
+import edition.academy.seventh.service.PromotionProvider;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
