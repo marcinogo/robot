@@ -12,8 +12,9 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
+
 /**
- * Allows to persists and retrieves book entities in database.
+ * Allows to persists and retrieve book entities from database.
  *
  * @author Agnieszka Trzewik
  */
