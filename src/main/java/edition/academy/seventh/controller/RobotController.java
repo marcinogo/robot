@@ -3,7 +3,6 @@ package edition.academy.seventh.controller;
 import edition.academy.seventh.database.model.Book;
 import edition.academy.seventh.service.*;
 import edition.academy.seventh.service.mapper.ItBookMapper;
-import edition.academy.seventh.service.scrapper.EmpikScrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,29 +20,31 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 class RobotController {
-
   private BookstoreConnectionService bookstoreConnectionService;
+  private PromotionProviderManager providerManager;
   private ItBookMapper itBookMapper;
   private BookService bookService;
 
   @Autowired
   RobotController(
       BookstoreConnectionService bookstoreConnectionService,
+      PromotionProviderManager providerManager,
       ItBookMapper itBookMapper,
       BookService bookService) {
     this.bookstoreConnectionService = bookstoreConnectionService;
+    this.providerManager = providerManager;
     this.itBookMapper = itBookMapper;
     this.bookService = bookService;
   }
 
   /**
-   * Starts robot's run.
+   * Starts robot's startGatheringData.
    *
    * @return result of persist action
    */
   @GetMapping("/start")
   public boolean startRobot() {
-    return scheduleRobot();
+    return startGatheringData();
   }
 
   /**
@@ -52,12 +53,14 @@ class RobotController {
    * @return result of persist action
    */
   private boolean scheduleRobot() {
-    boolean persistItBookStore = startItBookStoreRobot();
-    boolean persistEmpik = startEmpikRobot();
-    return persistItBookStore && persistEmpik;
+    return startGatheringData();
   }
 
-  private boolean startItBookStoreRobot() {
+  private boolean startGatheringData() {
+    return getDataFromAPI() && getDataFromScrapping();
+  }
+
+  private boolean getDataFromAPI() {
     List<String> listOfBooksAsString = bookstoreConnectionService.getListOfBooksAsString();
     List<Book> books;
 
@@ -72,11 +75,13 @@ class RobotController {
     return true;
   }
 
-  private boolean startEmpikRobot() {
-    // TODO zmienić na autowired, gdy EmpikScrapper będzie beanem
-    PromotionProvider promotionProvider = new EmpikScrapper();
-    List<Book> books = promotionProvider.getPromotions();
-    bookService.addBooksToDatabase(books);
+  private boolean getDataFromScrapping() {
+    try {
+      List<Book> books = providerManager.getScrappedBooks();
+      bookService.addBooksToDatabase(books);
+    } catch (ProvidersNotFoundException e) {
+      System.err.println(e.getMessage());
+    }
     // TODO wrpowadzić try catch i zwracać true/false po zrobieni zadania #118
     return true;
   }

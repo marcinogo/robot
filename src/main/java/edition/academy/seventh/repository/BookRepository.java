@@ -1,6 +1,6 @@
 package edition.academy.seventh.repository;
 
-import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.*;
+import static edition.academy.seventh.database.connector.DatabaseTypes.*;
 
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
@@ -24,7 +24,7 @@ public class BookRepository {
   private ConnectorProvider connectorProvider;
 
   public BookRepository() {
-    connectorProvider = ConnectorFactory.of(H2);
+    connectorProvider = ConnectorFactory.of(POSTGRESQL);
   }
 
   /**
