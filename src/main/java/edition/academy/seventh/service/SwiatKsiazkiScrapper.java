@@ -4,6 +4,7 @@ import edition.academy.seventh.database.model.Book;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.concurrent.*;
  * Scraps data from swiatksiazki.pl bookstore website in sales section using JSoup library.
  *
  * @author Kacper Staszek */
+@Service
 public class SwiatKsiazkiScrapper implements PromotionProvider {
 
   private List<Book> listOfBooks = new CopyOnWriteArrayList<>();
@@ -71,7 +73,6 @@ public class SwiatKsiazkiScrapper implements PromotionProvider {
               String author =
                   element.getElementsByClass("product author product-item-author").text();
               String promotionPrice = element.getElementsByClass("special-price").text();
-              System.out.println(promotionPrice);
               String oldPrice = element.getElementsByClass("old-price").text();
               return new Book(
                   title, "", author, oldPrice, promotionPrice, img, href, nameOfTheBookstore);

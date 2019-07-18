@@ -4,6 +4,7 @@ import edition.academy.seventh.database.model.Book;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.concurrent.*;
  *
  * @author Bartosz Kupajski
  */
+@Service
 public class EmpikScrapper implements PromotionProvider {
 
   private List<Book> listOfBooks = new CopyOnWriteArrayList<>();
