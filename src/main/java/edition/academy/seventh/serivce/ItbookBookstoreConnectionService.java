@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Return books from ItBook bookstore.
+ * Returns books from ItBook bookstore.
  *
  * @author Marcin Ogorzałek
  * @author Ola Podorska
