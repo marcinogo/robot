@@ -11,10 +11,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @author Kamil Rojek
  */
 
-// @SpringBootApplication(scanBasePackages = "edition.academy.seventh")
-// @EnableScheduling
-// public class Main {
-//  public static void main(String[] args) {
-//    ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
-//  }
-// }
+@SpringBootApplication(scanBasePackages = "edition.academy.seventh")
+@EnableScheduling
+public class Main {
+  public static void main(String[] args) {
+    SpringApplication.run(Main.class, args);
+  }
+}
