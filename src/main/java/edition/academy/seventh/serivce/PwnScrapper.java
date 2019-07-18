@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
 
 /**
- * Scrap data from pwn bookstore website in sales section using Jsoup library
+ * Scraps data from pwn bookstore website in sales section using Jsoup library
  *
  * @author Bartosz Kupajski
  */
@@ -23,7 +23,11 @@ public class PwnScrapper implements PromotionProvider {
   private ExecutorService service = Executors.newFixedThreadPool(40);
   private Phaser phaser = new Phaser(1);
 
-
+  /**
+   * Scraps 96 positions for each iteration.
+   *
+   * @return list of books after all threads finish their jobs
+   */
   @Override
   public List<Book> getPromotions() {
 
@@ -35,11 +39,11 @@ public class PwnScrapper implements PromotionProvider {
     return listOfBooks;
   }
 
-  private Runnable createScrappingTask(int serchSiteNumber) {
+  private Runnable createScrappingTask(int searchSiteNumber) {
       String startOfUrl = "https://ksiegarnia.pwn.pl/promocje?limit=96&vt=list&page=";
     return () -> {
       phaser.register();
-      String url = startOfUrl + serchSiteNumber;
+      String url = startOfUrl + searchSiteNumber;
       Document document = null;
       try {
         document = Jsoup.connect(url).timeout(0).get();

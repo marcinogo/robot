@@ -8,6 +8,8 @@ import java.util.List;
 
 /**
  * @author Bartosz Kupajski
+ *
+ * Integration test of PwnScrapper class.
  */
 @Test
 public class PwnScrappingTestIT {
