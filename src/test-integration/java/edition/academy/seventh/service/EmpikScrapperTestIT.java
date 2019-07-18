@@ -1,15 +1,10 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.Book;
+import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
-/**
- * @author Kacper Staszek
- *     <p>Integration test of EmpikScrapper class.
- */
 @Test
 public class EmpikScrapperTestIT {
 
