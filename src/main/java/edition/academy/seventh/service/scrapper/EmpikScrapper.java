@@ -94,26 +94,12 @@ public class EmpikScrapper implements PromotionProvider {
               href = startOfTheUrl + href;
               String img = element.getElementsByClass("lazy").attr("lazy-img");
               String author = element.getElementsByClass("smartAuthor").text();
-<<<<<<< HEAD:src/main/java/edition/academy/seventh/serivce/EmpikScrapper.java
-              String promotionPrice = element.getElementsByClass("ta-price-tile").text();
-              String[] prices = promotionPrice.split(" ");
-                //              book.setTitle(title);
-//              book.setAuthors(author);
-//              book.setSubtitle("");
-//              book.setPrice(prices[2] + " " + prices[3]);
-//              book.setPromotion(prices[0] + " " + prices[1]);
-//              book.setBookstore(nameOfTheBookstore);
-//              book.setHref(href);
-//              book.setImg(img);
-              return new Book(title,author,prices[2] + " " + prices[3], prices[0] + " " + prices[1],href,img, nameOfTheBookstore);
-=======
               String prices = element.getElementsByClass("ta-price-tile").text();
               String[] pricesArray = prices.split(" ");
               String basePrice = pricesArray[0] + " " + pricesArray[1];
               String promotionPrice = pricesArray[2] + " " + pricesArray[3];
               return new Book(
                   title, "", author, basePrice, promotionPrice, img, href, nameOfTheBookstore);
->>>>>>> eea77c3b34d814bad39b174566c2c781d29322ee:src/main/java/edition/academy/seventh/service/scrapper/EmpikScrapper.java
             })
         .forEach(listOfBooks::add);
     phaser.arrive();
