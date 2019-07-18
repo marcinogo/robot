@@ -11,7 +11,7 @@ import java.util.List;
 
 import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.POSTGRESQL;
 /**
- * Allow to persists and retrieves book entities in database.
+ * Allows to persists and retrieves book entities in database.
  *
  * @author Agnieszka Trzewik
  */
