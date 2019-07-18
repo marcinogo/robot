@@ -36,14 +36,14 @@ public class BookRepository {
   /**
    * Adds books records to the database.
    *
-   * @param books list of books to be added
+   * @param dtBookList {@code List<DTBook>} to be added
    */
-  public void addBooksToDataBase(List<DTBook> books) {
+  public void addBooksToDataBase(List<DTBook> dtBookList) {
     entityManager = connectorProvider.getEntityManager();
     EntityTransaction transaction = entityManager.getTransaction();
 
     transaction.begin();
-    books.forEach(this::addBookToDatabase);
+    dtBookList.forEach(this::addBookToDatabase);
     transaction.commit();
 
     entityManager.close();
@@ -52,7 +52,7 @@ public class BookRepository {
   /**
    * Retrieves all books from database.
    *
-   * @return list of books
+   * @return {@code List<DTBook>}
    */
   public List<DTBook> getBooksFromDataBase() {
 

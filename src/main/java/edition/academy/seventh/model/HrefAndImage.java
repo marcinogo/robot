@@ -3,6 +3,7 @@ package edition.academy.seventh.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class HrefAndImage {
@@ -46,5 +47,20 @@ public class HrefAndImage {
 
   public void setImage(String image) {
     this.image = image;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    HrefAndImage that = (HrefAndImage) o;
+    return Objects.equals(hyperLink, that.hyperLink)
+        && Objects.equals(image, that.image)
+        && Objects.equals(bookstoreBooks, that.bookstoreBooks);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(hyperLink, image, bookstoreBooks);
   }
 }

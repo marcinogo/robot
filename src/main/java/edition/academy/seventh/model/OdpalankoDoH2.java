@@ -18,7 +18,6 @@ public class OdpalankoDoH2 {
     DTBook book3 =
         new DTBook("Title2", "Substitile2", "Author2", "Bookstore", "520", "400", "http", "http2");
 
-
     List<DTBook> books = new ArrayList<>();
 
     books.add(book);

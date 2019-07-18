@@ -2,6 +2,8 @@ package edition.academy.seventh.database.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.util.Objects;
+
 /**
  * @author Kamil Rojek
  * @author Bartosz Kupajski
@@ -18,8 +20,7 @@ public class DTBook {
   private String href;
   private String image;
 
-  public DTBook() {
-  }
+  public DTBook() {}
 
   public DTBook(
       String title,
@@ -105,16 +106,52 @@ public class DTBook {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    DTBook dtBook = (DTBook) o;
+    return Objects.equals(title, dtBook.title)
+        && Objects.equals(subtitle, dtBook.subtitle)
+        && Objects.equals(authors, dtBook.authors)
+        && Objects.equals(bookstore, dtBook.bookstore)
+        && Objects.equals(price, dtBook.price)
+        && Objects.equals(promoPrice, dtBook.promoPrice)
+        && Objects.equals(href, dtBook.href)
+        && Objects.equals(image, dtBook.image);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(title, subtitle, authors, bookstore, price, promoPrice, href, image);
+  }
+
+  @Override
   public String toString() {
-    return "DTBook{" +
-            "title='" + title + '\'' +
-            ", subtitle='" + subtitle + '\'' +
-            ", authors='" + authors + '\'' +
-            ", bookstore='" + bookstore + '\'' +
-            ", price='" + price + '\'' +
-            ", promoPrice='" + promoPrice + '\'' +
-            ", href='" + href + '\'' +
-            ", image='" + image + '\'' +
-            '}';
+    return "DTBook{"
+        + "title='"
+        + title
+        + '\''
+        + ", subtitle='"
+        + subtitle
+        + '\''
+        + ", authors='"
+        + authors
+        + '\''
+        + ", bookstore='"
+        + bookstore
+        + '\''
+        + ", price='"
+        + price
+        + '\''
+        + ", promoPrice='"
+        + promoPrice
+        + '\''
+        + ", href='"
+        + href
+        + '\''
+        + ", image='"
+        + image
+        + '\''
+        + '}';
   }
 }

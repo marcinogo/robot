@@ -7,16 +7,21 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/** @author Agnieszka Trzewik */
-public class BookParser {
+/**
+ * Provides parsing {@link DTBook} into {@link BookstoreBook} and {@code List<BookstoreBook>} into
+ * {@code List<DTBook>}.
+ *
+ * @author Agnieszka Trzewik
+ */
+class BookParser {
 
-  static BookstoreBook parseDTBookIntoModel(DTBook book) {
-    Book book2 = new Book(book.getSubtitle(), new BookId(book.getTitle(), book.getAuthors()));
-    Bookstore bookstore = new Bookstore(book.getBookstore());
-    HrefAndImage hrefAndImage = new HrefAndImage(book.getHref(), book.getImage());
+  static BookstoreBook parseDTBookIntoModel(DTBook dtBook) {
+    Book book = new Book(dtBook.getSubtitle(), new BookId(dtBook.getTitle(), dtBook.getAuthors()));
+    Bookstore bookstore = new Bookstore(dtBook.getBookstore());
+    HrefAndImage hrefAndImage = new HrefAndImage(dtBook.getHref(), dtBook.getImage());
 
     return new BookstoreBook(
-        bookstore, book2, book.getPrice(), book.getPromoPrice(), LocalDate.now(), hrefAndImage);
+        bookstore, book, dtBook.getPrice(), dtBook.getPromoPrice(), LocalDate.now(), hrefAndImage);
   }
 
   static List<DTBook> parseBookstoreBookListIntoDTBookList(List<BookstoreBook> bookstoreBooks) {

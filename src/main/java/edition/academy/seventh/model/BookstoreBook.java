@@ -2,6 +2,7 @@ package edition.academy.seventh.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 public class BookstoreBook {
@@ -103,5 +104,24 @@ public class BookstoreBook {
 
   public void setHrefAndImage(HrefAndImage hrefAndImage) {
     this.hrefAndImage = hrefAndImage;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    BookstoreBook that = (BookstoreBook) o;
+    return id == that.id
+        && Objects.equals(bookstore, that.bookstore)
+        && Objects.equals(book, that.book)
+        && Objects.equals(retailPrice, that.retailPrice)
+        && Objects.equals(promotionalPrice, that.promotionalPrice)
+        && Objects.equals(date, that.date)
+        && Objects.equals(hrefAndImage, that.hrefAndImage);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, bookstore, book, retailPrice, promotionalPrice, date, hrefAndImage);
   }
 }
