@@ -1,4 +1,4 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edition.academy.seventh.database.model.Book;
@@ -8,7 +8,11 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-/** @author Bartosz Kupajski */
+/**
+ * Responsible for mapping JSON objects from ITBook library to {@link Book}
+ *
+ * @author Bartosz Kupajski
+ */
 @Service
 public class ItBookMapper {
 
@@ -27,9 +31,12 @@ public class ItBookMapper {
    */
   public List<Book> mapListOfJson(List<String> listOfJSONBook) throws IOException {
     List<Book> listOfBooks = new LinkedList<>();
+    String nameOfTheBookstore = "ITBookstore";
 
     for (String bookJSON : listOfJSONBook) {
       Book book = objectMapper.readValue(bookJSON, Book.class);
+      book.setBookstore(nameOfTheBookstore);
+      book.setPromotion("");
       listOfBooks.add(book);
     }
 

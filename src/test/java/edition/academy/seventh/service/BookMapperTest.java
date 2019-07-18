@@ -1,14 +1,15 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
+
+import static org.testng.Assert.assertEquals;
 
 import edition.academy.seventh.database.model.Book;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
 import java.io.IOException;
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
+import edition.academy.seventh.service.mapper.ItBookMapper;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 public class BookMapperTest {
   private static List<Book> bookList;
@@ -19,7 +20,10 @@ public class BookMapperTest {
       {bookList.get(0).getTitle(), "Learning JavaScript"},
       {bookList.get(0).getSubtitle(), "A Hands-On Guide to the Fundamentals of Modern JavaScript"},
       {bookList.get(0).getAuthors(), "Tim Wright"},
-      {bookList.get(0).getPrice(), "$8.99"}
+      {bookList.get(0).getPrice(), "$8.99"},
+      {bookList.get(0).getImg(), "https://itbook.store/img/books/9780321832740.png"},
+      {bookList.get(0).getHref(), "https://itbook.store/books/9780321832740"},
+      {bookList.get(0).getBookstore(), "ITBookstore"}
     };
   }
 
@@ -32,6 +36,7 @@ public class BookMapperTest {
             + " \"subtitle\": \"A Hands-On Guide to the Fundamentals of Modern JavaScript\",\n"
             + " \"authors\": \"Tim Wright\",\n"
             + " \"price\": \"$8.99\",\n"
+            + " \"image\": \"https://itbook.store/img/books/9780321832740.png\",\n"
             + " \"url\": \"https://itbook.store/books/9780321832740\"\n"
             + "}";
 

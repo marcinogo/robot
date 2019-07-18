@@ -1,11 +1,9 @@
 package edition.academy.seventh.database.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * @author Kamil Rojek
@@ -24,14 +22,27 @@ public class Book {
   private String authors;
   private String price;
   private String promotion;
+
+  @JsonProperty(value = "image")
   private String img;
+
+  @Column(length = 300)
+  @JsonProperty(value = "url")
   private String href;
+
   private String bookstore;
 
-  public Book() {
-  }
+  public Book() {}
 
-  public Book(String title, String authors, String price, String promotion, String img, String href, String bookstore) {
+  public Book(
+      String title,
+      String subtitle,
+      String authors,
+      String price,
+      String promotion,
+      String img,
+      String href,
+      String bookstore) {
     this.title = title;
     this.subtitle = subtitle;
     this.authors = authors;

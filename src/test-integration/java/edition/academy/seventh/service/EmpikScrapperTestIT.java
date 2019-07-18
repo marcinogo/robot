@@ -1,15 +1,13 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.Book;
-import org.testng.Assert;
+import edition.academy.seventh.service.scrapper.EmpikScrapper;
 import org.testng.annotations.Test;
 
 import java.util.List;
 
-/**
- * @author Kacper Staszek
- *     <p>Integration test of EmpikScrapper class.
- */
+import static org.testng.Assert.assertTrue;
+
 @Test
 public class EmpikScrapperTestIT {
 
@@ -21,6 +19,6 @@ public class EmpikScrapperTestIT {
     List<Book> books = promotionScrapping.getPromotions();
 
     // Then
-    Assert.assertTrue(books.size() > 0);
+    assertTrue(books.size() > 0);
   }
 }
