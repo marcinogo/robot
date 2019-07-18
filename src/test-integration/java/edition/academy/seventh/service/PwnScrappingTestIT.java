@@ -2,8 +2,9 @@ package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.Book;
 import java.util.List;
-import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertTrue;
 
 @Test
 public class PwnScrappingTestIT {
@@ -16,6 +17,6 @@ public class PwnScrappingTestIT {
         List<Book> books = promotionScrapping.getPromotions();
 
         // Then
-        Assert.assertTrue(books.size() > 0);
+        assertTrue(books.size() > 0);
     }
 }
