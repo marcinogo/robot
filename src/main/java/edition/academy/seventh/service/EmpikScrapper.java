@@ -12,12 +12,14 @@ import java.util.concurrent.TimeoutException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
 
 /**
  * Scraps data from empik.com bookstore website in sales section using JSoup library.
  *
  * @author Bartosz Kupajski
  */
+@Service
 public class EmpikScrapper implements PromotionProvider {
 
   private List<Book> listOfBooks = new CopyOnWriteArrayList<>();

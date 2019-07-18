@@ -10,12 +10,14 @@ import java.util.concurrent.Phaser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
 
 /**
  * Scraps data from pwn bookstore website in sales section using Jsoup library
  *
  * @author Bartosz Kupajski
  */
+@Service
 public class PwnScrapper implements PromotionProvider {
 
   private List<Book> listOfBooks = new CopyOnWriteArrayList<>();
