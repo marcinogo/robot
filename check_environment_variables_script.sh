@@ -24,9 +24,3 @@ if [ "${DB_PASSWORD_CRED[1]}" != "${DB_PASSWORD_CONF[1]}" ] |
 else
 	echo "Credentials are OK!"
 fi
-
-
-
-
-
-
