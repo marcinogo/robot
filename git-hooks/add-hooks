@@ -1,3 +1,4 @@
 #!/bin/sh
-echo "Nadawanie uprawnień i kopiowanie haków do .git/hooks"
+echo "Granting permissions for the git hooks and copying them to .git/hooks directory..."
 chmod +x pre-commit | cp pre-commit ../.git/hooks
+echo "Operation has been completed successfully"

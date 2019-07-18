@@ -23,6 +23,10 @@ public class Book {
   private String subtitle;
   private String authors;
   private String price;
+  private String promotion;
+  private String img;
+  private String href;
+  private String bookstore;
 
   public String getTitle() {
     return title;
@@ -54,6 +58,38 @@ public class Book {
 
   public void setPrice(String price) {
     this.price = price;
+  }
+
+  public String getPromotion() {
+    return promotion;
+  }
+
+  public void setPromotion(String promotion) {
+    this.promotion = promotion;
+  }
+
+  public String getImg() {
+    return img;
+  }
+
+  public void setImg(String img) {
+    this.img = img;
+  }
+
+  public String getHref() {
+    return href;
+  }
+
+  public void setHref(String href) {
+    this.href = href;
+  }
+
+  public String getBookstore() {
+    return bookstore;
+  }
+
+  public void setBookstore(String bookstore) {
+    this.bookstore = bookstore;
   }
 
   @Override
