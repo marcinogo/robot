@@ -11,5 +11,6 @@ public interface ConnectorProvider {
    * @return {@link javax.persistence.EntityManager}
    */
   EntityManager getEntityManager();
+
   EntityManagerFactory getEntityManagerFactory();
 }

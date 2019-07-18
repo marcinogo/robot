@@ -1,18 +1,18 @@
 package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.service.PromotionProvider;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
-
-import edition.academy.seventh.service.PromotionProvider;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import org.springframework.stereotype.Service;
 
 /**
  * Scraps data from pwn bookstore website in sales section using Jsoup library
@@ -43,7 +43,7 @@ public class PwnScrapper implements PromotionProvider {
   }
 
   private Runnable createScrappingTask(int searchSiteNumber) {
-      String startOfUrl = "https://ksiegarnia.pwn.pl/promocje?limit=96&vt=list&page=";
+    String startOfUrl = "https://ksiegarnia.pwn.pl/promocje?limit=96&vt=list&page=";
     return () -> {
       phaser.register();
       String url = startOfUrl + searchSiteNumber;
@@ -73,8 +73,8 @@ public class PwnScrapper implements PromotionProvider {
               String img = element.getElementsByTag("img").attr("src");
               String href = element.getElementsByClass("titleLink").attr("href");
               href = startOfTheUrl + href;
-              return new Book(title, "", author, basePrice, promotionPrice, img, href,
-                  nameOfTheBookstore);
+              return new Book(
+                  title, "", author, basePrice, promotionPrice, img, href, nameOfTheBookstore);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();
@@ -83,5 +83,4 @@ public class PwnScrapper implements PromotionProvider {
   private String deleteAuthorTag(String author) {
     return author.replace("Autor: ", "");
   }
-
 }

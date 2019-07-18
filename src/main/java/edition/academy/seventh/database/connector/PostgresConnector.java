@@ -1,6 +1,5 @@
 package edition.academy.seventh.database.connector;
 
-import javax.persistence.EntityManagerFactory;
 import java.util.HashMap;
 import java.util.Map;
 

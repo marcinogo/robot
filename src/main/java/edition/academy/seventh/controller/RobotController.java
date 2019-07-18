@@ -1,7 +1,10 @@
 package edition.academy.seventh.controller;
 
 import edition.academy.seventh.database.model.Book;
-import edition.academy.seventh.service.*;
+import edition.academy.seventh.service.BookService;
+import edition.academy.seventh.service.BookstoreConnectionService;
+import edition.academy.seventh.service.PromotionProviderManager;
+import edition.academy.seventh.service.ProvidersNotFoundException;
 import edition.academy.seventh.service.mapper.ItBookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -58,9 +61,7 @@ class RobotController {
     return startGatheringData();
   }
 
-  /**
-   *  @return true if gathering data complite without issuess
-   */
+  /** @return true if gathering data complite without issuess */
   private boolean startGatheringData() {
     updateEnvironmentCredentials();
     return getDataFromAPI() && getDataFromScrapping();
