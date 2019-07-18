@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-/** @author Bartosz Kupajski */
 @Test
 public class SwiatKsiazkiScrapperTestIT {
   public void should_scrapAtLeastOneBook_forGivenUrl() {

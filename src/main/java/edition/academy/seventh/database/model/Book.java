@@ -1,7 +1,7 @@
 package edition.academy.seventh.database.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,10 +25,12 @@ public class Book {
   private String price;
   private String promotion;
   private String img;
+  @Column(length = 300)
   private String href;
   private String bookstore;
 
-  public Book(String title, String subtitle, String authors, String price, String promotion, String img, String href, String bookstore) {
+  public Book(String title, String subtitle, String authors, String price, String promotion,
+      String img, String href, String bookstore) {
     this.title = title;
     this.subtitle = subtitle;
     this.authors = authors;
@@ -39,7 +41,8 @@ public class Book {
     this.bookstore = bookstore;
   }
 
-  public Book(){}
+  public Book() {
+  }
 
   public String getTitle() {
     return title;

@@ -1,10 +1,9 @@
 package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.Book;
+import java.util.List;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.util.List;
 
 @Test
 public class EmpikScrapperTestIT {

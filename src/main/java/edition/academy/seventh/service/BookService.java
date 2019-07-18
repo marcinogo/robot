@@ -2,10 +2,9 @@ package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.Book;
 import edition.academy.seventh.repository.BookRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 /**
  * Provides API responsible for adding books to database.
  *
