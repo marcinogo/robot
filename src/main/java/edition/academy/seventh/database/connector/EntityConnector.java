@@ -28,9 +28,14 @@ abstract class EntityConnector implements ConnectorProvider {
     return getEntityManagerFactory().createEntityManager();
   }
 
-  private EntityManagerFactory getEntityManagerFactory() {
+  @Override
+  public EntityManagerFactory getEntityManagerFactory() {
 
     if (entityManagerFactory != null) {
+      if (!entityManagerFactory.isOpen()) {
+        entityManagerFactory =
+            Persistence.createEntityManagerFactory(persistenceUnitName, loadPersistenceSettings());
+      }
       return entityManagerFactory;
     }
 

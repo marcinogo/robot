@@ -1,18 +1,18 @@
 package edition.academy.seventh.repository;
 
-import static edition.academy.seventh.database.connector.DatabaseTypes.*;
-
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.database.model.Book;
-import java.util.List;
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
+import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
 /**
  * Allows to persists and retrieve book entities from database.
  *
@@ -39,8 +39,8 @@ public class BookRepository {
     transaction.begin();
     books.forEach(this::addBookToDataBase);
     transaction.commit();
-
     entityManager.close();
+    connectorProvider.getEntityManagerFactory().close();
   }
 
   /**

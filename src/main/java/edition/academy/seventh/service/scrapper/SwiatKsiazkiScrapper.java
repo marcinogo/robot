@@ -9,12 +9,16 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.*;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Phaser;
 
 /**
  * Scraps data from swiatksiazki.pl bookstore website in sales section using JSoup library.
  *
- * @author Kacper Staszek */
+ * @author Kacper Staszek
+ */
 @Service
 public class SwiatKsiazkiScrapper implements PromotionProvider {
 
@@ -22,12 +26,11 @@ public class SwiatKsiazkiScrapper implements PromotionProvider {
   private ExecutorService service = Executors.newFixedThreadPool(40);
   private Phaser phaser = new Phaser(1);
 
-    /**
-     * Scraps 30 positions for each iteration.
-     *
-     * @return list of books after all threads finish their jobs
-     */
-
+  /**
+   * Scraps 30 positions for each iteration.
+   *
+   * @return list of books after all threads finish their jobs
+   */
   @Override
   public List<Book> getPromotions() {
     for (int i = 1; i <= 3; i++) {

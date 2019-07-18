@@ -1,15 +1,15 @@
 package edition.academy.seventh.service;
 
-import static org.testng.Assert.assertEquals;
-
 import edition.academy.seventh.database.model.Book;
-import java.io.IOException;
-import java.util.List;
-
 import edition.academy.seventh.service.mapper.ItBookMapper;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
 
 public class BookMapperTest {
   private static List<Book> bookList;

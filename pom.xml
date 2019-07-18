@@ -120,6 +120,7 @@
             <artifactId>maven-failsafe-plugin</artifactId>
             <version>${version.plugin.maven.failsafe}</version>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>
