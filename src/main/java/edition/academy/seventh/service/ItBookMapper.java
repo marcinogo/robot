@@ -1,4 +1,4 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edition.academy.seventh.database.model.Book;

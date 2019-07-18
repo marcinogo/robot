@@ -1,4 +1,4 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.Book;
 import org.jsoup.Jsoup;
@@ -59,7 +59,7 @@ public class EmpikScrapper implements PromotionProvider {
       }
       Elements elementsByClass = document.getElementsByClass("productWrapper");
 
-      mappingToBookList(listOfBooks, elementsByClass);
+      mappingToBookList(elementsByClass);
     };
   }
 
@@ -70,7 +70,7 @@ public class EmpikScrapper implements PromotionProvider {
     return startOfUrl + numberOfPage + endOfUrl;
   }
 
-  private void mappingToBookList(List<Book> listOfBooks, Elements elementsByClass) {
+  private void mappingToBookList(Elements elementsByClass) {
     String nameOfTheBookstore = "EMPIK";
     elementsByClass.stream()
         .map(

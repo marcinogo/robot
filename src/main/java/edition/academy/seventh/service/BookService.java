@@ -1,4 +1,4 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.Book;
 import edition.academy.seventh.repository.BookRepository;

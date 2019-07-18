@@ -1,4 +1,4 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.Book;
 import org.testng.annotations.BeforeTest;

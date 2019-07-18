@@ -1,4 +1,4 @@
-package edition.academy.seventh.serivce;
+package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.Book;
 import org.testng.Assert;
@@ -6,16 +6,12 @@ import org.testng.annotations.Test;
 
 import java.util.List;
 
-/**
- * @author Kacper Staszek
- *     <p>Integration test of EmpikScrapper class.
- */
+/** @author Bartosz Kupajski */
 @Test
-public class EmpikScrapperTestIT {
-
+public class SwiatKsiazkiScrapperTestIT {
   public void should_scrapAtLeastOneBook_forGivenUrl() {
     // Given
-    PromotionProvider promotionScrapping = new EmpikScrapper();
+    PromotionProvider promotionScrapping = new SwiatKsiazkiScrapper();
 
     // When
     List<Book> books = promotionScrapping.getPromotions();

@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.List;
 
+import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.H2;
 import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.POSTGRESQL;
 /**
  * Allows to persists and retrieves book entities in database.
