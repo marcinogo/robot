@@ -12,7 +12,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
+import static edition.academy.seventh.database.connector.DatabaseTypes.*;
 /**
  * Allows to persists and retrieve book entities from database.
  *

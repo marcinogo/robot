@@ -96,8 +96,8 @@ public class EmpikScrapper implements PromotionProvider {
               String author = element.getElementsByClass("smartAuthor").text();
               String prices = element.getElementsByClass("ta-price-tile").text();
               String[] pricesArray = prices.split(" ");
-              String basePrice = pricesArray[0] + " " + pricesArray[1];
-              String promotionPrice = pricesArray[2] + " " + pricesArray[3];
+              String promotionPrice = pricesArray[0] + " " + pricesArray[1];
+              String basePrice = pricesArray[2] + " " + pricesArray[3];
               return new Book(
                   title, "", author, basePrice, promotionPrice, img, href, nameOfTheBookstore);
             })

@@ -5,9 +5,9 @@ package edition.academy.seventh.database.connector;
  *
  * <ul>
  *   <li>{@link #H2}<br>
- *       A thread that has not yet started is in this state.
+ *      Cached database used mostly for debugging.
  *   <li>{@link #POSTGRESQL}<br>
- *       A thread executing in the Java virtual machine is in this state.
+ *      Our main database, used on production.
  * </ul>
  *
  * @author Kamil Rojek
