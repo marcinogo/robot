@@ -38,25 +38,24 @@ public class BookstoreBook {
   private LocalDate date;
 
   @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "href_and_image_id")
-  private HrefAndImage hrefAndImage;
+  @JoinColumn(name = "url_resources_id")
+  private UrlResources urlResources;
 
-  public BookstoreBook() {
-  }
+  public BookstoreBook() {}
 
   public BookstoreBook(
       Book book,
       String retailPrice,
       String promotionalPrice,
       LocalDate date,
-      HrefAndImage hrefAndImage,
+      UrlResources hrefAndImage,
       Bookstore bookstore) {
     this.bookstore = bookstore;
     this.book = book;
     this.retailPrice = retailPrice;
     this.promotionalPrice = promotionalPrice;
     this.date = date;
-    this.hrefAndImage = hrefAndImage;
+    this.urlResources = hrefAndImage;
   }
 
   public long getId() {
@@ -107,12 +106,12 @@ public class BookstoreBook {
     this.date = date;
   }
 
-  public HrefAndImage getHrefAndImage() {
-    return hrefAndImage;
+  public UrlResources getUrlResources() {
+    return urlResources;
   }
 
-  public void setHrefAndImage(HrefAndImage hrefAndImage) {
-    this.hrefAndImage = hrefAndImage;
+  public void setUrlResources(UrlResources urlResources) {
+    this.urlResources = urlResources;
   }
 
   @Override
@@ -130,11 +129,11 @@ public class BookstoreBook {
         && Objects.equals(retailPrice, that.retailPrice)
         && Objects.equals(promotionalPrice, that.promotionalPrice)
         && Objects.equals(date, that.date)
-        && Objects.equals(hrefAndImage, that.hrefAndImage);
+        && Objects.equals(urlResources, that.urlResources);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, bookstore, book, retailPrice, promotionalPrice, date, hrefAndImage);
+    return Objects.hash(id, bookstore, book, retailPrice, promotionalPrice, date, urlResources);
   }
 }

@@ -1,6 +1,6 @@
 package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.DtoBook;
+import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.service.PromotionProvider;
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +27,7 @@ abstract class AbstractScrapper implements PromotionProvider {
   static final Logger logger = LoggerFactory.getLogger(AbstractScrapper.class);
   private final String documentClassName;
 
-  List<DtoBook> listOfBooks = new CopyOnWriteArrayList<>();
+  List<BookDto> listOfBooks = new CopyOnWriteArrayList<>();
   protected ExecutorService service = Executors.newFixedThreadPool(40);
   Phaser phaser = new Phaser(1);
 
@@ -38,13 +38,12 @@ abstract class AbstractScrapper implements PromotionProvider {
   }
 
   /**
-   * Create {@link Runnable} task which is responsible for creating GET request
-   * to given page based on {@link AbstractScrapper#startOfUrl}
-   * and {@link AbstractScrapper#endOfUrl}, then extracting all {@link org.jsoup.nodes.Element}
-   * of the given name {@link AbstractScrapper#documentClassName}.
+   * Create {@link Runnable} task which is responsible for creating GET request to given page based
+   * on {@link AbstractScrapper#startOfUrl} and {@link AbstractScrapper#endOfUrl}, then extracting
+   * all {@link org.jsoup.nodes.Element} of the given name {@link
+   * AbstractScrapper#documentClassName}.
    *
    * @param numberOfSearchedSite number of site which is concatenated to the URL.
-   *
    * @return task which is later used in {@link ExecutorService}.
    */
   Runnable createScrappingTask(int numberOfSearchedSite) {
@@ -53,8 +52,8 @@ abstract class AbstractScrapper implements PromotionProvider {
       phaser.register();
       String url = getUrlWithPageNumber(numberOfSearchedSite);
       Document document = getDocument(url);
-      Elements elementsByClass = Objects.requireNonNull(document)
-            .getElementsByClass(documentClassName);
+      Elements elementsByClass =
+          Objects.requireNonNull(document).getElementsByClass(documentClassName);
 
       mappingToBookList(elementsByClass);
     };
@@ -62,7 +61,7 @@ abstract class AbstractScrapper implements PromotionProvider {
 
   /**
    * @param url of website to scrap.
-   * @return {@link Document} which will mapped to {@link DtoBook}.
+   * @return {@link Document} which will mapped to {@link BookDto}.
    */
   private Document getDocument(String url) {
     Document document = null;
@@ -79,7 +78,7 @@ abstract class AbstractScrapper implements PromotionProvider {
   }
 
   /**
-   * Responsible for mapping HTML content to {@link List<DtoBook>}.
+   * Responsible for mapping HTML content to {@link List< BookDto >}.
    *
    * @param elementsByClass main HTML element that contains all required data.
    */
