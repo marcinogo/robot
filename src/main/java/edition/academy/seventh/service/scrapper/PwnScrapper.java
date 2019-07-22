@@ -5,7 +5,7 @@ import java.util.List;
 import org.jsoup.select.Elements;
 
 /**
- * Scraps data from pwn bookstore website in sales section using Jsoup library
+ * Scraps data from pwn bookstore website in sales section using Jsoup library.
 
  * {@link AbstractScrapper}
  * {@link edition.academy.seventh.service.PromotionProvider}
@@ -46,7 +46,7 @@ class PwnScrapper extends AbstractScrapper {
 
   @Override
   void mappingToBookList(Elements elementsByClass) {
-    String startOfTheUrl = "https://ksiegarnia.pwn.pl";
+    final String startOfHrefUrl = "https://ksiegarnia.pwn.pl";
     elementsByClass.stream()
         .map(
             element -> {
@@ -57,7 +57,7 @@ class PwnScrapper extends AbstractScrapper {
               String promotionPrice = element.getElementsByClass("emp-sale-price-value").text();
               String img = element.getElementsByTag("img").attr("src");
               String href = element.getElementsByClass("titleLink").attr("href");
-              href = startOfTheUrl + href;
+              href = startOfHrefUrl + href;
               return new Book(
                   title, "", author, basePrice, promotionPrice, img, href, bookstoreName);
             })

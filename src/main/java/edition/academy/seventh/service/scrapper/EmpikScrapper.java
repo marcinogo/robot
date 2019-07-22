@@ -59,13 +59,13 @@ public class EmpikScrapper extends AbstractScrapper {
 
   @Override
   void mappingToBookList(Elements elementsByClass) {
-    String startOfTheUrl = "https://www.empik.com/";
+    final String startOfHrefUrl = "https://www.empik.com/";
     elementsByClass.stream()
         .map(
             element -> {
               String title = element.getElementsByClass("ta-product-title").text();
               String href = element.getElementsByClass("seoTitle").attr("href");
-              href = startOfTheUrl + href;
+              href = startOfHrefUrl + href;
               String img = element.getElementsByClass("lazy").attr("lazy-img");
               String author = element.getElementsByClass("smartAuthor").text();
               String prices = element.getElementsByClass("ta-price-tile").text();

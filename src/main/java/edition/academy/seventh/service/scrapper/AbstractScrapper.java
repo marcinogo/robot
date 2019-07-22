@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Implements sharded behaviour of all Scrapping classes.
+ * Implements shared behaviour of all Scrapping classes.
  *
  * @author Kacper Staszek
  */
@@ -72,7 +72,7 @@ abstract class AbstractScrapper implements PromotionProvider {
   /**
    * Responsible for mapping HTML content to {@link List<Book>}.
    *
-   * @param elementsByClass main HTML element thant contains all required data.
+   * @param elementsByClass main HTML element that contains all required data.
    */
   abstract void mappingToBookList(Elements elementsByClass);
 }

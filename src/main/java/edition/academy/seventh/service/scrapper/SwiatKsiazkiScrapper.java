@@ -12,8 +12,7 @@ import org.jsoup.select.Elements;
  *
  * @author Kacper Staszek
  */
-class SwiatKsiazkiScrapper extends AbstractScrapper{
-
+class SwiatKsiazkiScrapper extends AbstractScrapper {
   private final String bookstoreName;
 
   SwiatKsiazkiScrapper(String startOfUrl, String endOfUrl, String documentClassName,
