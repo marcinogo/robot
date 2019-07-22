@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Parses {@link DtoBook} into {@link BookstoreBook} and {@code List<BookstoreBook>} into
- * {@code List<DtoBook>}.
+ * Parses {@link DtoBook} into {@link BookstoreBook} and {@code List<BookstoreBook>} into {@code
+ * List<DtoBook>}.
  *
  * @author Agnieszka Trzewik
  */

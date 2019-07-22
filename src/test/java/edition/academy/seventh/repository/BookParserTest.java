@@ -30,7 +30,14 @@ public class BookParserTest {
     // Given
     DtoBook dtBook =
         new DtoBook(
-            title, subtitle, author, retailPrice, promotionalPrice, imageLink, hyperLink, bookstore);
+            title,
+            subtitle,
+            author,
+            retailPrice,
+            promotionalPrice,
+            imageLink,
+            hyperLink,
+            bookstore);
     BookstoreBook expectedBookstoreBook =
         new BookstoreBook(
             new Book(subtitle, new BookId(title, author)),
@@ -72,7 +79,14 @@ public class BookParserTest {
 
     DtoBook dtBook =
         new DtoBook(
-            title, subtitle, author, retailPrice, promotionalPrice, imageLink, hyperLink, bookstore);
+            title,
+            subtitle,
+            author,
+            retailPrice,
+            promotionalPrice,
+            imageLink,
+            hyperLink,
+            bookstore);
 
     List<BookstoreBook> bookstoreBooks = List.of(bookstoreBook);
 
