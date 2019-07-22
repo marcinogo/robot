@@ -22,10 +22,4 @@ public class ConnectorFactory {
         return new PostgresConnector();
     }
   }
-
-  /** Available types for database's connector. */
-  public enum DatabaseTypes {
-    H2,
-    POSTGRESQL
-  }
 }

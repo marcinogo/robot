@@ -7,11 +7,12 @@ import static org.testng.Assert.assertEquals;
 
 import edition.academy.seventh.database.model.DTBook;
 import edition.academy.seventh.repository.BookRepository;
+import org.mockito.invocation.Invocation;
+import org.testng.annotations.Test;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.mockito.invocation.Invocation;
-import org.testng.annotations.Test;
 
 @Test
 public class BookServiceTest {

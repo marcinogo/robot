@@ -1,8 +1,9 @@
 package edition.academy.seventh.service;
 
+import org.testng.annotations.DataProvider;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.testng.annotations.DataProvider;
 
 public class DataProviderForConvertingIsbnToBook {
 

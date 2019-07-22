@@ -41,7 +41,6 @@
         <version.plugin.spotbugs>3.1.11</version.plugin.spotbugs>
         <version.plugin.checkstyle>3.0.0</version.plugin.checkstyle>
         <version.plugin.jdepend>2.0</version.plugin.jdepend>
-        <version.maven.failsafe>3.0.0-M3</version.maven.failsafe>
         <version.plugin.jsoup>1.12.1</version.plugin.jsoup>
         <version.plugin.buildhelper>1.9.1</version.plugin.buildhelper>
 
@@ -120,6 +119,7 @@
             <artifactId>maven-failsafe-plugin</artifactId>
             <version>${version.plugin.maven.failsafe}</version>
         </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -163,26 +163,6 @@
                             <goal>integration-test</goal>
                             <goal>verify</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!-- adding second test source directory (just for integration tests) -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>${version.plugin.buildhelper}</version>
-                <executions>
-                    <execution>
-                        <id>add-integration-test-source</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>add-test-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/test-integration/java</source>
-                            </sources>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -265,11 +245,6 @@
                     <linkXRef>false</linkXRef>
                     <configLocation>google_checks.xml</configLocation>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jdepend-maven-plugin</artifactId>
-                <version>${version.plugin.jdepend}</version>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>

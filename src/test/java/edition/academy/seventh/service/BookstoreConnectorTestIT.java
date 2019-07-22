@@ -1,8 +1,9 @@
 package edition.academy.seventh.service;
 
-import static org.testng.Assert.assertNotNull;
-
+import edition.academy.seventh.DataProviderForJsonParser;
 import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertNotNull;
 
 @Test
 public class BookstoreConnectorTestIT {

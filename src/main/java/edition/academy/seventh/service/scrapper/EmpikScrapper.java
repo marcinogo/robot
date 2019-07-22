@@ -1,16 +1,17 @@
-package edition.academy.seventh.service;
+package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.DTBook;
+import edition.academy.seventh.service.PromotionProvider;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.*;
 
 /**
  * Scraps data from empik.com bookstore website in sales section using JSoup library.

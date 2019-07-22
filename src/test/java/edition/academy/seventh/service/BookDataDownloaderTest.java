@@ -1,12 +1,11 @@
 package edition.academy.seventh.service;
 
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.testng.Assert.assertEquals;
+import org.testng.annotations.Test;
 
 import java.util.List;
-import org.testng.annotations.Test;
+
+import static org.mockito.Mockito.*;
+import static org.testng.Assert.assertEquals;
 
 @Test
 public class BookDataDownloaderTest {

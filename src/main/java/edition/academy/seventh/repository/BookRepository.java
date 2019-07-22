@@ -15,7 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
-import static edition.academy.seventh.database.connector.ConnectorFactory.DatabaseTypes.H2;
+import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
 import static edition.academy.seventh.repository.BookParser.parseDTBookIntoModel;
 import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
 
@@ -45,8 +45,8 @@ public class BookRepository {
     transaction.begin();
     dtBookList.forEach(this::addBookToDatabase);
     transaction.commit();
-
     entityManager.close();
+    connectorProvider.getEntityManagerFactory().close();
   }
 
   /**

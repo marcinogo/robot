@@ -1,6 +1,8 @@
-package edition.academy.seventh.service;
+package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.DTBook;
+import edition.academy.seventh.service.PromotionProvider;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -14,7 +16,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 /**
- * Scraps data from pwn bookstore website in sales section using Jsoup library
+ * Scraps data from pwn bookstore website in sales section using Jsoup library.
  *
  * @author Bartosz Kupajski
  */

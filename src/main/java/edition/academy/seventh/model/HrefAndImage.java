@@ -1,9 +1,9 @@
 package edition.academy.seventh.model;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.*;
 
 @Entity
 public class HrefAndImage {

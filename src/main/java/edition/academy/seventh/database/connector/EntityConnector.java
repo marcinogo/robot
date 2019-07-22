@@ -1,9 +1,9 @@
 package edition.academy.seventh.database.connector;
 
+import java.util.Map;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.util.Map;
 
 /**
  * Adapter for connection to database using {@link javax.persistence.EntityManager}.
@@ -28,9 +28,14 @@ abstract class EntityConnector implements ConnectorProvider {
     return getEntityManagerFactory().createEntityManager();
   }
 
-  private EntityManagerFactory getEntityManagerFactory() {
+  @Override
+  public EntityManagerFactory getEntityManagerFactory() {
 
     if (entityManagerFactory != null) {
+      if (!entityManagerFactory.isOpen()) {
+        entityManagerFactory =
+            Persistence.createEntityManagerFactory(persistenceUnitName, loadPersistenceSettings());
+      }
       return entityManagerFactory;
     }
 

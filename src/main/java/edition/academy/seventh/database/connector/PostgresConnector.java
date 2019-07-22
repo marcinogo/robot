@@ -22,6 +22,7 @@ class PostgresConnector extends EntityConnector {
     settings.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL10Dialect");
     settings.put("hibernate.show_sql", "true");
     settings.put("hibernate.hbm2ddl.auto", "update");
+
     return settings;
   }
 }

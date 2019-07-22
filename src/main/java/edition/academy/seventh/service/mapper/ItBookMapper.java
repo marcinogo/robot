@@ -1,4 +1,4 @@
-package edition.academy.seventh.service;
+package edition.academy.seventh.service.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edition.academy.seventh.database.model.DTBook;
@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
- * Responsible for mapping JSON objects from ITBook library to {@link Book}
+ * Responsible for mapping JSON objects from ITBook library to {@link DTBook}.
  *
  * @author Bartosz Kupajski
  */
@@ -35,6 +35,7 @@ public class ItBookMapper {
     for (String bookJSON : listOfJSONBook) {
       DTBook book = objectMapper.readValue(bookJSON, DTBook.class);
       book.setBookstore(nameOfTheBookstore);
+      book.setPromotion("");
       listOfBooks.add(book);
     }
 

@@ -1,6 +1,8 @@
-package edition.academy.seventh.service;
+package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.DTBook;
+import edition.academy.seventh.service.PromotionProvider;
+
 import org.testng.annotations.Test;
 
 import java.util.List;
