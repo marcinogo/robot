@@ -15,7 +15,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
-import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
+import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
 import static edition.academy.seventh.repository.BookParser.parseDTBookIntoModel;
 import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
 
@@ -30,7 +30,7 @@ public class BookRepository {
   private ConnectorProvider connectorProvider;
 
   public BookRepository() {
-    connectorProvider = ConnectorFactory.of(H2);
+    connectorProvider = ConnectorFactory.of(POSTGRESQL);
   }
 
   /**
