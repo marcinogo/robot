@@ -42,7 +42,6 @@
         <version.plugin.checkstyle>3.0.0</version.plugin.checkstyle>
         <version.plugin.jdepend>2.0</version.plugin.jdepend>
         <version.plugin.jsoup>1.12.1</version.plugin.jsoup>
-        <version.plugin.buildhelper>1.9.1</version.plugin.buildhelper>
 
         <!-- Plugins settings -->
         <skipIntegrationTests>true</skipIntegrationTests>
