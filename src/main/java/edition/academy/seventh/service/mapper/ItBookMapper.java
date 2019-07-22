@@ -1,14 +1,15 @@
 package edition.academy.seventh.service.mapper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import edition.academy.seventh.database.model.DTBook;
+import edition.academy.seventh.database.model.DtoBook;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 /**
- * Responsible for mapping JSON objects from ITBook library to {@link DTBook}.
+ * Responsible for mapping JSON objects from ITBook library to {@link DtoBook}.
  *
  * @author Bartosz Kupajski
  */
@@ -28,12 +29,12 @@ public class ItBookMapper {
    * @return {@code List<Book>}
    * @throws IOException when JSON isn't read properly
    */
-  public List<DTBook> mapListOfJson(List<String> listOfJSONBook) throws IOException {
-    List<DTBook> listOfBooks = new LinkedList<>();
+  public List<DtoBook> mapListOfJson(List<String> listOfJSONBook) throws IOException {
+    List<DtoBook> listOfBooks = new LinkedList<>();
     String nameOfTheBookstore = "ITBookstore";
 
     for (String bookJSON : listOfJSONBook) {
-      DTBook book = objectMapper.readValue(bookJSON, DTBook.class);
+      DtoBook book = objectMapper.readValue(bookJSON, DtoBook.class);
       book.setBookstore(nameOfTheBookstore);
       book.setPromotionalPrice("");
       listOfBooks.add(book);

@@ -1,6 +1,6 @@
 package edition.academy.seventh.service;
 
-import edition.academy.seventh.database.model.DTBook;
+import edition.academy.seventh.database.model.DtoBook;
 import edition.academy.seventh.repository.BookRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,20 +21,20 @@ public class BookService {
   }
 
   /**
-   * Adds given books to database {@link DTBook}.
+   * Adds given books to database {@link DtoBook}.
    *
-   * @param dtBooks {@code List<DTBook>} to be added
+   * @param dtBooks {@code List<DtoBook>} to be added
    */
-  public void addBooksToDatabase(List<DTBook> dtBooks) {
+  public void addBooksToDatabase(List<DtoBook> dtBooks) {
     bookRepository.addBooksToDatabase(dtBooks);
   }
 
   /**
-   * Retrieves book entities from database and packs them into the {@code List<DTBook>}.
+   * Retrieves book entities from database and packs them into the {@code List<DtoBook>}.
    *
-   * @return {@code List<DTBook>}.
+   * @return {@code List<DtoBook>}.
    */
-  public List<DTBook> getBooksFromDatabase() {
+  public List<DtoBook> getBooksFromDatabase() {
     return bookRepository.getBooksFromDatabase();
   }
 }

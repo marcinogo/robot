@@ -5,7 +5,7 @@ import static org.testng.Assert.assertEquals;
 import java.io.IOException;
 import java.util.List;
 
-import edition.academy.seventh.database.model.DTBook;
+import edition.academy.seventh.database.model.DtoBook;
 
 import edition.academy.seventh.service.mapper.ItBookMapper;
 
@@ -14,7 +14,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class BookMapperTest {
-  private static List<DTBook> bookList;
+  private static List<DtoBook> bookList;
 
   @DataProvider
   public static Object[][] dataProviderForJSONMapping() {

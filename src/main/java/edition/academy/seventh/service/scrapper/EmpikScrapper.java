@@ -1,6 +1,6 @@
 package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.DTBook;
+import edition.academy.seventh.database.model.DtoBook;
 import edition.academy.seventh.service.PromotionProvider;
 import java.io.IOException;
 import java.util.List;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 public class EmpikScrapper implements PromotionProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(EmpikScrapper.class);
-  private List<DTBook> listOfBooks = new CopyOnWriteArrayList<>();
+  private List<DtoBook> listOfBooks = new CopyOnWriteArrayList<>();
   private ExecutorService service = Executors.newFixedThreadPool(40);
   private Phaser phaser = new Phaser(1);
   private int numberOfPhase = 0;
@@ -36,7 +36,7 @@ public class EmpikScrapper implements PromotionProvider {
    * @return list of books after all scrapping threads finish their jobs.
    */
   @Override
-  public List<DTBook> getPromotions() {
+  public List<DtoBook> getPromotions() {
 
     for (int i = 1; i <= 30 * 20; i = i + 30) {
       service.submit(createScrappingTask(i));
@@ -97,7 +97,7 @@ public class EmpikScrapper implements PromotionProvider {
               String[] pricesArray = prices.split(" ");
               String retailPrice = pricesArray[0] + " " + pricesArray[1];
               String promotionalPrice = pricesArray[2] + " " + pricesArray[3];
-              return new DTBook(
+              return new DtoBook(
                   title,
                   "",
                   author,

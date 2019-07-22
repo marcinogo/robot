@@ -10,7 +10,7 @@ import java.util.Objects;
  * @author Bartosz Kupajski
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DTBook {
+public class DtoBook {
 
   private String title;
   private String subtitle;
@@ -29,9 +29,9 @@ public class DTBook {
 
   private String bookstore;
 
-  public DTBook() {}
+  public DtoBook() {}
 
-  public DTBook(
+  public DtoBook(
       String title,
       String subtitle,
       String authors,
@@ -118,7 +118,7 @@ public class DTBook {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    DTBook book = (DTBook) o;
+    DtoBook book = (DtoBook) o;
     return Objects.equals(title, book.title)
         && Objects.equals(subtitle, book.subtitle)
         && Objects.equals(authors, book.authors)
@@ -137,7 +137,7 @@ public class DTBook {
 
   @Override
   public String toString() {
-    return "DTBook{"
+    return "DtoBook{"
         + "title='"
         + title
         + '\''

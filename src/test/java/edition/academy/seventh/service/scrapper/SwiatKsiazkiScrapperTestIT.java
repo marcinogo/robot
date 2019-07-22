@@ -1,6 +1,6 @@
 package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.DTBook;
+import edition.academy.seventh.database.model.DtoBook;
 import edition.academy.seventh.service.PromotionProvider;
 
 import org.testng.annotations.Test;
@@ -16,7 +16,7 @@ public class SwiatKsiazkiScrapperTestIT {
     PromotionProvider promotionScrapping = new SwiatKsiazkiScrapper();
 
     // When
-    List<DTBook> books = promotionScrapping.getPromotions();
+    List<DtoBook> books = promotionScrapping.getPromotions();
 
     // Then
     assertTrue(books.size() > 0);

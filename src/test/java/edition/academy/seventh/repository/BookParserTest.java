@@ -1,6 +1,6 @@
 package edition.academy.seventh.repository;
 
-import edition.academy.seventh.database.model.DTBook;
+import edition.academy.seventh.database.model.DtoBook;
 import edition.academy.seventh.model.*;
 import org.testng.annotations.Test;
 
@@ -24,20 +24,20 @@ public class BookParserTest {
       String retailPrice,
       String promotionalPrice,
       String hyperLink,
-      String image,
+      String imageLink,
       String bookstore) {
 
     // Given
-    DTBook dtBook =
-        new DTBook(
-            title, subtitle, author, retailPrice, promotionalPrice, image, hyperLink, bookstore);
+    DtoBook dtBook =
+        new DtoBook(
+            title, subtitle, author, retailPrice, promotionalPrice, imageLink, hyperLink, bookstore);
     BookstoreBook expectedBookstoreBook =
         new BookstoreBook(
             new Book(subtitle, new BookId(title, author)),
             retailPrice,
             promotionalPrice,
             LocalDate.now(),
-            new HrefAndImage(hyperLink, image),
+            new HrefAndImage(hyperLink, imageLink),
             new Bookstore(bookstore));
 
     // When
@@ -56,7 +56,7 @@ public class BookParserTest {
       String author,
       String retailPrice,
       String promotionalPrice,
-      String image,
+      String imageLink,
       String hyperLink,
       String bookstore) {
 
@@ -67,19 +67,19 @@ public class BookParserTest {
             retailPrice,
             promotionalPrice,
             LocalDate.now(),
-            new HrefAndImage(hyperLink, image),
+            new HrefAndImage(hyperLink, imageLink),
             new Bookstore(bookstore));
 
-    DTBook dtBook =
-        new DTBook(
-            title, subtitle, author, retailPrice, promotionalPrice, image, hyperLink, bookstore);
+    DtoBook dtBook =
+        new DtoBook(
+            title, subtitle, author, retailPrice, promotionalPrice, imageLink, hyperLink, bookstore);
 
     List<BookstoreBook> bookstoreBooks = List.of(bookstoreBook);
 
-    List<DTBook> expectedDTBooks = List.of(dtBook);
+    List<DtoBook> expectedDTBooks = List.of(dtBook);
 
     // When
-    List<DTBook> dtBooks = parseBookstoreBookListIntoDTBookList(bookstoreBooks);
+    List<DtoBook> dtBooks = parseBookstoreBookListIntoDTBookList(bookstoreBooks);
 
     // Then
     assertEquals(dtBooks, expectedDTBooks);

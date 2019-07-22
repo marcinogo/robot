@@ -1,6 +1,6 @@
 package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.DTBook;
+import edition.academy.seventh.database.model.DtoBook;
 import edition.academy.seventh.service.PromotionProvider;
 
 import java.io.IOException;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PwnScrapper implements PromotionProvider {
 
-  private List<DTBook> listOfBooks = new CopyOnWriteArrayList<>();
+  private List<DtoBook> listOfBooks = new CopyOnWriteArrayList<>();
   private ExecutorService service = Executors.newFixedThreadPool(40);
   private Phaser phaser = new Phaser(1);
 
@@ -33,7 +33,7 @@ public class PwnScrapper implements PromotionProvider {
    * @return list of books after all threads finish their jobs
    */
   @Override
-  public List<DTBook> getPromotions() {
+  public List<DtoBook> getPromotions() {
 
     for (int i = 1; i <= 2; i++) {
       service.submit(createScrappingTask(i));
@@ -74,7 +74,7 @@ public class PwnScrapper implements PromotionProvider {
               String imageLink = element.getElementsByTag("img").attr("src");
               String href = element.getElementsByClass("titleLink").attr("href");
               href = startOfTheUrl + href;
-              return new DTBook(
+              return new DtoBook(
                   title,
                   "",
                   author,

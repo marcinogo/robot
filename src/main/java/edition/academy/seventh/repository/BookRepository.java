@@ -2,7 +2,7 @@ package edition.academy.seventh.repository;
 
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
-import edition.academy.seventh.database.model.DTBook;
+import edition.academy.seventh.database.model.DtoBook;
 import edition.academy.seventh.model.Book;
 import edition.academy.seventh.model.Bookstore;
 import edition.academy.seventh.model.BookstoreBook;
@@ -21,7 +21,7 @@ import static edition.academy.seventh.repository.BookParser.parseBookstoreBookLi
 
 /**
  * Allows to persists and retrieve data about books from the database. This information is transfer
- * through the application as {@link DTBook}.
+ * through the application as {@link DtoBook}.
  *
  * @author Agnieszka Trzewik
  */
@@ -37,9 +37,9 @@ public class BookRepository {
   /**
    * Adds books records to the database.
    *
-   * @param dtBookList {@code List<DTBook>} to be added
+   * @param dtBookList {@code List<DtoBook>} to be added
    */
-  public void addBooksToDatabase(List<DTBook> dtBookList) {
+  public void addBooksToDatabase(List<DtoBook> dtBookList) {
     entityManager = connectorProvider.getEntityManager();
     EntityTransaction transaction = entityManager.getTransaction();
 
@@ -53,9 +53,9 @@ public class BookRepository {
   /**
    * Retrieves all books from database.
    *
-   * @return {@code List<DTBook>}
+   * @return {@code List<DtoBook>}
    */
-  public List<DTBook> getBooksFromDatabase() {
+  public List<DtoBook> getBooksFromDatabase() {
 
     entityManager = connectorProvider.getEntityManager();
 
@@ -70,7 +70,7 @@ public class BookRepository {
     return parseBookstoreBookListIntoDTBookList(bookstoreBookList);
   }
 
-  private void addBookToDatabase(DTBook dtBook) {
+  private void addBookToDatabase(DtoBook dtBook) {
     BookstoreBook bookstoreBook = parseDTBookIntoModel(dtBook);
 
     Bookstore bookstore =

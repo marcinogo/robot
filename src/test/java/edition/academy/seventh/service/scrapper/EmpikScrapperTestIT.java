@@ -1,6 +1,6 @@
 package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.DTBook;
+import edition.academy.seventh.database.model.DtoBook;
 import java.util.List;
 
 import edition.academy.seventh.service.PromotionProvider;
@@ -16,7 +16,7 @@ public class EmpikScrapperTestIT {
     PromotionProvider promotionScrapping = new EmpikScrapper();
 
     // When
-    List<DTBook> books = promotionScrapping.getPromotions();
+    List<DtoBook> books = promotionScrapping.getPromotions();
 
     // Then
     assertTrue(books.size() > 0);
