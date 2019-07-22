@@ -14,7 +14,8 @@ public class BookId implements Serializable {
   @Column(name = "author")
   private String author;
 
-  public BookId() {}
+  public BookId() {
+  }
 
   public BookId(String title, String author) {
     this.title = title;
@@ -39,8 +40,12 @@ public class BookId implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     BookId bookId = (BookId) o;
     return Objects.equals(title, bookId.title) && Objects.equals(author, bookId.author);
   }

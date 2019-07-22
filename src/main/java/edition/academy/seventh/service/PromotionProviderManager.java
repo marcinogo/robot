@@ -7,7 +7,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +18,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PromotionProviderManager {
+
   private List<DtoBook> scrappedBooks;
   private List<PromotionProvider> providers;
   private Phaser phaser = new Phaser(1);

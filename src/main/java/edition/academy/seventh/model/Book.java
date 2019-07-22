@@ -3,7 +3,11 @@ package edition.academy.seventh.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
 @Entity(name = "book")
 public class Book {
@@ -18,7 +22,8 @@ public class Book {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
   private List<BookstoreBook> bookstoreBooks = new ArrayList<>();
 
-  public Book() {}
+  public Book() {
+  }
 
   public Book(String subtitle, BookId bookId) {
     this.subtitle = subtitle;
@@ -51,8 +56,12 @@ public class Book {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Book book = (Book) o;
     return Objects.equals(bookId, book.bookId)
         && Objects.equals(subtitle, book.subtitle)

@@ -1,7 +1,6 @@
 package edition.academy.seventh.controller;
 
 import edition.academy.seventh.database.model.DtoBook;
-
 import edition.academy.seventh.service.BookService;
 import edition.academy.seventh.service.BookstoreConnectionService;
 import edition.academy.seventh.service.PromotionProviderManager;
@@ -9,7 +8,6 @@ import edition.academy.seventh.service.ProvidersNotFoundException;
 import edition.academy.seventh.service.mapper.ItBookMapper;
 import java.io.IOException;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;

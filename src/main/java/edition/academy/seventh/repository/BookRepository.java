@@ -1,5 +1,9 @@
 package edition.academy.seventh.repository;
 
+import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
+import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
+import static edition.academy.seventh.repository.BookParser.parseDTBookIntoModel;
+
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.database.model.DtoBook;
@@ -14,10 +18,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
-
-import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
-import static edition.academy.seventh.repository.BookParser.parseDTBookIntoModel;
-import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
 
 /**
  * Allows to persists and retrieve data about books from the database. This information is transfer

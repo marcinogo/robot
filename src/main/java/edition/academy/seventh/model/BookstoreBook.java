@@ -2,7 +2,15 @@ package edition.academy.seventh.model;
 
 import java.time.LocalDate;
 import java.util.Objects;
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
 
 @Entity(name = "bookstore_book")
 public class BookstoreBook {
@@ -33,7 +41,8 @@ public class BookstoreBook {
   @JoinColumn(name = "href_and_image_id")
   private HrefAndImage hrefAndImage;
 
-  public BookstoreBook() {}
+  public BookstoreBook() {
+  }
 
   public BookstoreBook(
       Book book,
@@ -108,8 +117,12 @@ public class BookstoreBook {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     BookstoreBook that = (BookstoreBook) o;
     return id == that.id
         && Objects.equals(bookstore, that.bookstore)

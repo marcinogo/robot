@@ -1,8 +1,11 @@
 package edition.academy.seventh.repository;
 
 import edition.academy.seventh.database.model.DtoBook;
-import edition.academy.seventh.model.*;
-
+import edition.academy.seventh.model.Book;
+import edition.academy.seventh.model.BookId;
+import edition.academy.seventh.model.Bookstore;
+import edition.academy.seventh.model.BookstoreBook;
+import edition.academy.seventh.model.HrefAndImage;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;

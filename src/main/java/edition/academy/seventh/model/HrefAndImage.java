@@ -3,7 +3,11 @@ package edition.academy.seventh.model;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity(name = "href_and_image")
 public class HrefAndImage {
@@ -18,7 +22,8 @@ public class HrefAndImage {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookstore")
   private List<BookstoreBook> bookstoreBooks = new ArrayList<>();
 
-  public HrefAndImage() {}
+  public HrefAndImage() {
+  }
 
   public HrefAndImage(String hyperLink, String image) {
     this.hyperLink = hyperLink;
@@ -51,8 +56,12 @@ public class HrefAndImage {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     HrefAndImage that = (HrefAndImage) o;
     return Objects.equals(hyperLink, that.hyperLink)
         && Objects.equals(imageLink, that.imageLink)
