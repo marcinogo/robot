@@ -1,18 +1,17 @@
 package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.database.model.DtoBook;
 import edition.academy.seventh.service.PromotionProvider;
+import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.*;
 
 /**
  * Scraps data from empik.com bookstore website in sales section using JSoup library.
@@ -23,7 +22,7 @@ import java.util.concurrent.*;
 public class EmpikScrapper implements PromotionProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(EmpikScrapper.class);
-  private List<Book> listOfBooks = new CopyOnWriteArrayList<>();
+  private List<DtoBook> listOfBooks = new CopyOnWriteArrayList<>();
   private ExecutorService service = Executors.newFixedThreadPool(40);
   private Phaser phaser = new Phaser(1);
   private int numberOfPhase = 0;
@@ -37,7 +36,7 @@ public class EmpikScrapper implements PromotionProvider {
    * @return list of books after all scrapping threads finish their jobs.
    */
   @Override
-  public List<Book> getPromotions() {
+  public List<DtoBook> getPromotions() {
 
     for (int i = 1; i <= 30 * 20; i = i + 30) {
       service.submit(createScrappingTask(i));
@@ -92,14 +91,21 @@ public class EmpikScrapper implements PromotionProvider {
               String title = element.getElementsByClass("ta-product-title").text();
               String href = element.getElementsByClass("seoTitle").attr("href");
               href = startOfTheUrl + href;
-              String img = element.getElementsByClass("lazy").attr("lazy-img");
+              String imageLink = element.getElementsByClass("lazy").attr("lazy-img");
               String author = element.getElementsByClass("smartAuthor").text();
               String prices = element.getElementsByClass("ta-price-tile").text();
               String[] pricesArray = prices.split(" ");
-              String promotionPrice = pricesArray[0] + " " + pricesArray[1];
-              String basePrice = pricesArray[2] + " " + pricesArray[3];
-              return new Book(
-                  title, "", author, basePrice, promotionPrice, img, href, nameOfTheBookstore);
+              String retailPrice = pricesArray[0] + " " + pricesArray[1];
+              String promotionalPrice = pricesArray[2] + " " + pricesArray[3];
+              return new DtoBook(
+                  title,
+                  "",
+                  author,
+                  retailPrice,
+                  promotionalPrice,
+                  imageLink,
+                  href,
+                  nameOfTheBookstore);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();

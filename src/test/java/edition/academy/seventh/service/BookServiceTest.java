@@ -1,6 +1,11 @@
 package edition.academy.seventh.service;
 
-import edition.academy.seventh.database.model.Book;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.mockingDetails;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+
+import edition.academy.seventh.database.model.DtoBook;
 import edition.academy.seventh.repository.BookRepository;
 import org.mockito.invocation.Invocation;
 import org.testng.annotations.Test;
@@ -8,9 +13,6 @@ import org.testng.annotations.Test;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.assertEquals;
 
 @Test
 public class BookServiceTest {
@@ -20,10 +22,10 @@ public class BookServiceTest {
       should_addBooksToDatabaseMethodBeInvokedOnce_when_listOfBooksPassedAsParameterIsGreaterThanOne() {
     // Given
     BookRepository bookRepository = mock(BookRepository.class);
-    Book book = mock(Book.class);
+    DtoBook book = mock(DtoBook.class);
 
     BookService bookService = new BookService(bookRepository);
-    List<Book> books = new ArrayList<>();
+    List<DtoBook> books = new ArrayList<>();
 
     // When
     books.add(book);
@@ -45,7 +47,7 @@ public class BookServiceTest {
       should_getAllBooksFromDatabaseMethodBeInvokedOnce_when_getBooksFromDatabaseIsCalled() {
     // Given
     BookRepository bookRepository = mock(BookRepository.class);
-    Book book = mock(Book.class);
+    DtoBook book = mock(DtoBook.class);
 
     BookService bookService = new BookService(bookRepository);
 

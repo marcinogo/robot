@@ -1,18 +1,17 @@
 package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.database.model.DtoBook;
 import edition.academy.seventh.service.PromotionProvider;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
 
 /**
  * Scraps data from swiatksiazki.pl bookstore website in sales section using JSoup library.
@@ -22,7 +21,7 @@ import java.util.concurrent.Phaser;
 @Service
 public class SwiatKsiazkiScrapper implements PromotionProvider {
 
-  private List<Book> listOfBooks = new CopyOnWriteArrayList<>();
+  private List<DtoBook> listOfBooks = new CopyOnWriteArrayList<>();
   private ExecutorService service = Executors.newFixedThreadPool(40);
   private Phaser phaser = new Phaser(1);
 
@@ -32,7 +31,7 @@ public class SwiatKsiazkiScrapper implements PromotionProvider {
    * @return list of books after all threads finish their jobs
    */
   @Override
-  public List<Book> getPromotions() {
+  public List<DtoBook> getPromotions() {
     for (int i = 1; i <= 3; i++) {
       service.submit(createScrappingTask(i));
     }
@@ -73,13 +72,21 @@ public class SwiatKsiazkiScrapper implements PromotionProvider {
               String title = element.getElementsByClass("product name product-item-name").text();
               title = deleteOutletSign(title);
               String href = element.getElementsByClass("product-item-link").attr("href");
-              String img = element.getElementsByClass("product-image-photo lazy").attr("data-src");
+              String imageLink =
+                  element.getElementsByClass("product-image-photo lazy").attr("data-src");
               String author =
                   element.getElementsByClass("product author product-item-author").text();
-              String promotionPrice = element.getElementsByClass("special-price").text();
-              String oldPrice = element.getElementsByClass("old-price").text();
-              return new Book(
-                  title, "", author, oldPrice, promotionPrice, img, href, nameOfTheBookstore);
+              String promotionalPrice = element.getElementsByClass("special-price").text();
+              String retailPrice = element.getElementsByClass("old-price").text();
+              return new DtoBook(
+                  title,
+                  "",
+                  author,
+                  retailPrice,
+                  promotionalPrice,
+                  imageLink,
+                  href,
+                  nameOfTheBookstore);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();

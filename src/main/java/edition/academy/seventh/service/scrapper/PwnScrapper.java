@@ -1,11 +1,7 @@
 package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.database.model.DtoBook;
 import edition.academy.seventh.service.PromotionProvider;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
@@ -14,15 +10,20 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
+
 /**
- * Scraps data from pwn bookstore website in sales section using Jsoup library
+ * Scraps data from pwn bookstore website in sales section using Jsoup library.
  *
  * @author Bartosz Kupajski
  */
 @Service
 public class PwnScrapper implements PromotionProvider {
 
-  private List<Book> listOfBooks = new CopyOnWriteArrayList<>();
+  private List<DtoBook> listOfBooks = new CopyOnWriteArrayList<>();
   private ExecutorService service = Executors.newFixedThreadPool(40);
   private Phaser phaser = new Phaser(1);
 
@@ -32,7 +33,7 @@ public class PwnScrapper implements PromotionProvider {
    * @return list of books after all threads finish their jobs
    */
   @Override
-  public List<Book> getPromotions() {
+  public List<DtoBook> getPromotions() {
 
     for (int i = 1; i <= 2; i++) {
       service.submit(createScrappingTask(i));
@@ -68,13 +69,20 @@ public class PwnScrapper implements PromotionProvider {
               String title = element.getElementsByClass("emp-info-title").text();
               String author = element.getElementsByClass("emp-info-authors").text();
               author = deleteAuthorTag(author);
-              String basePrice = element.getElementsByClass("emp-base-price").text();
-              String promotionPrice = element.getElementsByClass("emp-sale-price-value").text();
-              String img = element.getElementsByTag("img").attr("src");
+              String retailPrice = element.getElementsByClass("emp-base-price").text();
+              String promotionalPrice = element.getElementsByClass("emp-sale-price-value").text();
+              String imageLink = element.getElementsByTag("img").attr("src");
               String href = element.getElementsByClass("titleLink").attr("href");
               href = startOfTheUrl + href;
-              return new Book(
-                  title, "", author, basePrice, promotionPrice, img, href, nameOfTheBookstore);
+              return new DtoBook(
+                  title,
+                  "",
+                  author,
+                  retailPrice,
+                  promotionalPrice,
+                  imageLink,
+                  href,
+                  nameOfTheBookstore);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();

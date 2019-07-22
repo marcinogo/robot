@@ -1,18 +1,20 @@
 package edition.academy.seventh.service;
 
-import edition.academy.seventh.database.model.Book;
-import edition.academy.seventh.service.mapper.ItBookMapper;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
+import edition.academy.seventh.database.model.DtoBook;
+
+import edition.academy.seventh.service.mapper.ItBookMapper;
+
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 public class BookMapperTest {
-  private static List<Book> bookList;
+  private static List<DtoBook> bookList;
 
   @DataProvider
   public static Object[][] dataProviderForJSONMapping() {
@@ -20,8 +22,8 @@ public class BookMapperTest {
       {bookList.get(0).getTitle(), "Learning JavaScript"},
       {bookList.get(0).getSubtitle(), "A Hands-On Guide to the Fundamentals of Modern JavaScript"},
       {bookList.get(0).getAuthors(), "Tim Wright"},
-      {bookList.get(0).getPrice(), "$8.99"},
-      {bookList.get(0).getImg(), "https://itbook.store/img/books/9780321832740.png"},
+      {bookList.get(0).getRetailPrice(), "$8.99"},
+      {bookList.get(0).getImageLink(), "https://itbook.store/img/books/9780321832740.png"},
       {bookList.get(0).getHref(), "https://itbook.store/books/9780321832740"},
       {bookList.get(0).getBookstore(), "ITBookstore"}
     };

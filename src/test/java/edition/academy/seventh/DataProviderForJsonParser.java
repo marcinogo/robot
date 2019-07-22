@@ -1,4 +1,4 @@
-package edition.academy.seventh.service;
+package edition.academy.seventh;
 
 import org.testng.annotations.DataProvider;
 

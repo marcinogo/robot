@@ -1,10 +1,10 @@
-package edition.academy.seventh.service;
+package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.Book;
-import edition.academy.seventh.service.scrapper.EmpikScrapper;
-import org.testng.annotations.Test;
-
+import edition.academy.seventh.database.model.DtoBook;
 import java.util.List;
+
+import edition.academy.seventh.service.PromotionProvider;
+import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertTrue;
 
@@ -16,7 +16,7 @@ public class EmpikScrapperTestIT {
     PromotionProvider promotionScrapping = new EmpikScrapper();
 
     // When
-    List<Book> books = promotionScrapping.getPromotions();
+    List<DtoBook> books = promotionScrapping.getPromotions();
 
     // Then
     assertTrue(books.size() > 0);
