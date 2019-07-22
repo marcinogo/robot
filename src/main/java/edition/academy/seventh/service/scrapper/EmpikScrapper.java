@@ -2,31 +2,30 @@ package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.Book;
 import edition.academy.seventh.service.PromotionProvider;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.*;
 
 /**
  * Scraps data from empik.com bookstore website in sales section using JSoup library.
  *
  * @author Bartosz Kupajski
  */
-@Service
-public class EmpikScrapper implements PromotionProvider {
 
-  private static final Logger logger = LoggerFactory.getLogger(EmpikScrapper.class);
-  private List<Book> listOfBooks = new CopyOnWriteArrayList<>();
-  private ExecutorService service = Executors.newFixedThreadPool(40);
-  private Phaser phaser = new Phaser(1);
+public class EmpikScrapper extends AbstractScrapper {
+
+  private String bookstoreName;
   private int numberOfPhase = 0;
+
+  EmpikScrapper(String startOfUrl, String endOfUrl, String documentClassName,
+      String bookstoreName) {
+    super(startOfUrl, endOfUrl, documentClassName);
+    this.bookstoreName = bookstoreName;
+  }
 
   /**
    * Index in "for" loop is incremented by 30 since every URL page of Empik's sales section contains
@@ -43,9 +42,9 @@ public class EmpikScrapper implements PromotionProvider {
       service.submit(createScrappingTask(i));
       logger.info(
           "Submitting scrapping task for page: "
-              + "https://www.empik.com/promocje?searchCategory=31&hideUnavailable=true&start="
+              + super.startOfUrl
               + i
-              + "&qtype=facetForm");
+              + super.endOfUrl);
     }
 
     try {
@@ -55,36 +54,13 @@ public class EmpikScrapper implements PromotionProvider {
           "Could not scrap every page from empik. Anyway - returned what was already scrapped successfully");
     }
     numberOfPhase++;
+    phaser.register();
 
     return listOfBooks;
   }
 
-  private Runnable createScrappingTask(int numberOfSiteToBeSearched) {
-    return () -> {
-      phaser.register();
-      String url = createUrl(numberOfSiteToBeSearched);
-      Document document = null;
-      try {
-        document = Jsoup.connect(url).timeout(0).get();
-      } catch (IOException exception) {
-        logger.error(exception.getMessage());
-      }
-      Elements elementsByClass =
-          Objects.requireNonNull(document).getElementsByClass("productWrapper");
-
-      mappingToBookList(elementsByClass);
-    };
-  }
-
-  private String createUrl(int numberOfPage) {
-    String startOfUrl =
-        "https://www.empik.com/promocje?searchCategory=31&hideUnavailable=true&start=";
-    String endOfUrl = "&qtype=facetForm";
-    return startOfUrl + numberOfPage + endOfUrl;
-  }
-
-  private void mappingToBookList(Elements elementsByClass) {
-    String nameOfTheBookstore = "EMPIK";
+  @Override
+  void mappingToBookList(Elements elementsByClass) {
     String startOfTheUrl = "https://www.empik.com/";
     elementsByClass.stream()
         .map(
@@ -99,7 +75,7 @@ public class EmpikScrapper implements PromotionProvider {
               String promotionPrice = pricesArray[0] + " " + pricesArray[1];
               String basePrice = pricesArray[2] + " " + pricesArray[3];
               return new Book(
-                  title, "", author, basePrice, promotionPrice, img, href, nameOfTheBookstore);
+                  title, "", author, basePrice, promotionPrice, img, href, bookstoreName);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();
