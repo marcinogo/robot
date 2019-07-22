@@ -5,15 +5,15 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "href_and_image")
 public class HrefAndImage {
 
   @Id
-  @Column(name = "hyperLink", length = 300)
+  @Column(name = "hyper_link", length = 300)
   private String hyperLink;
 
-  @Column(name = "image")
-  private String image;
+  @Column(name = "image_link")
+  private String imageLink;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookstore")
   private List<BookstoreBook> bookstoreBooks = new ArrayList<>();
@@ -22,7 +22,7 @@ public class HrefAndImage {
 
   public HrefAndImage(String hyperLink, String image) {
     this.hyperLink = hyperLink;
-    this.image = image;
+    this.imageLink = image;
   }
 
   public String getHyperLink() {
@@ -41,12 +41,12 @@ public class HrefAndImage {
     this.bookstoreBooks = bookstoreBooks;
   }
 
-  public String getImage() {
-    return image;
+  public String getImageLink() {
+    return imageLink;
   }
 
-  public void setImage(String image) {
-    this.image = image;
+  public void setImageLink(String imageLink) {
+    this.imageLink = imageLink;
   }
 
   @Override
@@ -55,12 +55,12 @@ public class HrefAndImage {
     if (o == null || getClass() != o.getClass()) return false;
     HrefAndImage that = (HrefAndImage) o;
     return Objects.equals(hyperLink, that.hyperLink)
-        && Objects.equals(image, that.image)
+        && Objects.equals(imageLink, that.imageLink)
         && Objects.equals(bookstoreBooks, that.bookstoreBooks);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(hyperLink, image, bookstoreBooks);
+    return Objects.hash(hyperLink, imageLink, bookstoreBooks);
   }
 }

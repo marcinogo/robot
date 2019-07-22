@@ -69,13 +69,20 @@ public class PwnScrapper implements PromotionProvider {
               String title = element.getElementsByClass("emp-info-title").text();
               String author = element.getElementsByClass("emp-info-authors").text();
               author = deleteAuthorTag(author);
-              String basePrice = element.getElementsByClass("emp-base-price").text();
-              String promotionPrice = element.getElementsByClass("emp-sale-price-value").text();
-              String img = element.getElementsByTag("img").attr("src");
+              String retailPrice = element.getElementsByClass("emp-base-price").text();
+              String promotionalPrice = element.getElementsByClass("emp-sale-price-value").text();
+              String imageLink = element.getElementsByTag("img").attr("src");
               String href = element.getElementsByClass("titleLink").attr("href");
               href = startOfTheUrl + href;
               return new DTBook(
-                  title, "", author, basePrice, promotionPrice, img, href, nameOfTheBookstore);
+                  title,
+                  "",
+                  author,
+                  retailPrice,
+                  promotionalPrice,
+                  imageLink,
+                  href,
+                  nameOfTheBookstore);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();

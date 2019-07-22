@@ -72,13 +72,21 @@ public class SwiatKsiazkiScrapper implements PromotionProvider {
               String title = element.getElementsByClass("product name product-item-name").text();
               title = deleteOutletSign(title);
               String href = element.getElementsByClass("product-item-link").attr("href");
-              String img = element.getElementsByClass("product-image-photo lazy").attr("data-src");
+              String imageLink =
+                  element.getElementsByClass("product-image-photo lazy").attr("data-src");
               String author =
                   element.getElementsByClass("product author product-item-author").text();
-              String promotionPrice = element.getElementsByClass("special-price").text();
-              String oldPrice = element.getElementsByClass("old-price").text();
+              String promotionalPrice = element.getElementsByClass("special-price").text();
+              String retailPrice = element.getElementsByClass("old-price").text();
               return new DTBook(
-                  title, "", author, oldPrice, promotionPrice, img, href, nameOfTheBookstore);
+                  title,
+                  "",
+                  author,
+                  retailPrice,
+                  promotionalPrice,
+                  imageLink,
+                  href,
+                  nameOfTheBookstore);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();

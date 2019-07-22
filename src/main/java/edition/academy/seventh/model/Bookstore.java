@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "bookstore")
 public class Bookstore {
 
   @Id

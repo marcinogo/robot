@@ -17,11 +17,16 @@ class BookParser {
 
   static BookstoreBook parseDTBookIntoModel(DTBook dtBook) {
     Book book = new Book(dtBook.getSubtitle(), new BookId(dtBook.getTitle(), dtBook.getAuthors()));
+    HrefAndImage hrefAndImage = new HrefAndImage(dtBook.getHref(), dtBook.getImageLink());
     Bookstore bookstore = new Bookstore(dtBook.getBookstore());
-    HrefAndImage hrefAndImage = new HrefAndImage(dtBook.getHref(), dtBook.getImg());
 
     return new BookstoreBook(
-        book, dtBook.getPrice(), dtBook.getPromotion(), LocalDate.now(), hrefAndImage, bookstore);
+        book,
+        dtBook.getRetailPrice(),
+        dtBook.getPromotionalPrice(),
+        LocalDate.now(),
+        hrefAndImage,
+        bookstore);
   }
 
   static List<DTBook> parseBookstoreBookListIntoDTBookList(List<BookstoreBook> bookstoreBooks) {
@@ -34,7 +39,7 @@ class BookParser {
                     bookstoreBook.getBook().getBookId().getAuthor(),
                     bookstoreBook.getRetailPrice(),
                     bookstoreBook.getPromotionalPrice(),
-                    bookstoreBook.getHrefAndImage().getImage(),
+                    bookstoreBook.getHrefAndImage().getImageLink(),
                     bookstoreBook.getHrefAndImage().getHyperLink(),
                     bookstoreBook.getBookstore().getName()))
         .collect(Collectors.toList());

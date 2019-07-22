@@ -35,7 +35,7 @@ public class ItBookMapper {
     for (String bookJSON : listOfJSONBook) {
       DTBook book = objectMapper.readValue(bookJSON, DTBook.class);
       book.setBookstore(nameOfTheBookstore);
-      book.setPromotion("");
+      book.setPromotionalPrice("");
       listOfBooks.add(book);
     }
 

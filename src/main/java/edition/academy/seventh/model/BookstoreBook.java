@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "bookstore_book")
 public class BookstoreBook {
 
   @Id
@@ -20,17 +20,17 @@ public class BookstoreBook {
   @JoinColumns({@JoinColumn(name = "title"), @JoinColumn(name = "author")})
   private Book book;
 
-  @Column(name = "retailPrice")
+  @Column(name = "retail_price")
   private String retailPrice;
 
-  @Column(name = "promotionalPrice")
+  @Column(name = "promotional_price")
   private String promotionalPrice;
 
   @Column(name = "date")
   private LocalDate date;
 
-  @ManyToOne(cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "hrefAndImage_id")
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "href_and_image_id")
   private HrefAndImage hrefAndImage;
 
   public BookstoreBook() {}

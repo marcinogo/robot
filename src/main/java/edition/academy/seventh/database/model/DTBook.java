@@ -15,11 +15,14 @@ public class DTBook {
   private String title;
   private String subtitle;
   private String authors;
-  private String price;
-  private String promotion;
+
+  @JsonProperty(value = "price")
+  private String retailPrice;
+
+  private String promotionalPrice;
 
   @JsonProperty(value = "image")
-  private String img;
+  private String imageLink;
 
   @JsonProperty(value = "url")
   private String href;
@@ -32,17 +35,17 @@ public class DTBook {
       String title,
       String subtitle,
       String authors,
-      String price,
-      String promotion,
-      String img,
+      String retailPrice,
+      String promotionalPrice,
+      String imageLink,
       String href,
       String bookstore) {
     this.title = title;
     this.subtitle = subtitle;
     this.authors = authors;
-    this.price = price;
-    this.promotion = promotion;
-    this.img = img;
+    this.retailPrice = retailPrice;
+    this.promotionalPrice = promotionalPrice;
+    this.imageLink = imageLink;
     this.href = href;
     this.bookstore = bookstore;
   }
@@ -71,28 +74,28 @@ public class DTBook {
     this.authors = authors;
   }
 
-  public String getPrice() {
-    return price;
+  public String getRetailPrice() {
+    return retailPrice;
   }
 
-  public void setPrice(String price) {
-    this.price = price;
+  public void setRetailPrice(String retailPrice) {
+    this.retailPrice = retailPrice;
   }
 
-  public String getPromotion() {
-    return promotion;
+  public String getPromotionalPrice() {
+    return promotionalPrice;
   }
 
-  public void setPromotion(String promotion) {
-    this.promotion = promotion;
+  public void setPromotionalPrice(String promotionalPrice) {
+    this.promotionalPrice = promotionalPrice;
   }
 
-  public String getImg() {
-    return img;
+  public String getImageLink() {
+    return imageLink;
   }
 
-  public void setImg(String img) {
-    this.img = img;
+  public void setImageLink(String imageLink) {
+    this.imageLink = imageLink;
   }
 
   public String getHref() {
@@ -119,16 +122,17 @@ public class DTBook {
     return Objects.equals(title, book.title)
         && Objects.equals(subtitle, book.subtitle)
         && Objects.equals(authors, book.authors)
-        && Objects.equals(price, book.price)
-        && Objects.equals(promotion, book.promotion)
-        && Objects.equals(img, book.img)
+        && Objects.equals(retailPrice, book.retailPrice)
+        && Objects.equals(promotionalPrice, book.promotionalPrice)
+        && Objects.equals(imageLink, book.imageLink)
         && Objects.equals(href, book.href)
         && Objects.equals(bookstore, book.bookstore);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(title, subtitle, authors, price, promotion, img, href, bookstore);
+    return Objects.hash(
+        title, subtitle, authors, retailPrice, promotionalPrice, imageLink, href, bookstore);
   }
 
   @Override
@@ -143,8 +147,8 @@ public class DTBook {
         + ", authors='"
         + authors
         + '\''
-        + ", price='"
-        + price
+        + ", retailPrice='"
+        + retailPrice
         + '\''
         + '}';
   }

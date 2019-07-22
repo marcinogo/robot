@@ -20,7 +20,8 @@ import static edition.academy.seventh.repository.BookParser.parseDTBookIntoModel
 import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
 
 /**
- * Allows to persists and retrieve {@link DTBook} from database.
+ * Allows to persists and retrieve data about books from the database. This information is transfer
+ * through the application as {@link DTBook}.
  *
  * @author Agnieszka Trzewik
  */
