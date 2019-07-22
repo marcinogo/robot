@@ -41,7 +41,7 @@ abstract class AbstractScrapper implements PromotionProvider {
    * Create {@link Runnable} task which is responsible for creating GET request
    * to given page based on {@link AbstractScrapper#startOfUrl}
    * and {@link AbstractScrapper#endOfUrl}, then extracting all {@link org.jsoup.nodes.Element}
-   * of the given name {@link AbstractScrapper#documentClassName}
+   * of the given name {@link AbstractScrapper#documentClassName}.
    *
    * @param numberOfSearchedSite number of site which is concatenated to the URL.
    *
@@ -52,17 +52,35 @@ abstract class AbstractScrapper implements PromotionProvider {
     return () -> {
       phaser.register();
       String url = getUrlWithPageNumber(numberOfSearchedSite);
-      Document document = null;
       try {
-        document = Jsoup.connect(url).timeout(0).get();
-      } catch (IOException e) {
+        Document document = getDocument(url);
+        Elements elementsByClass = Objects.requireNonNull(document)
+            .getElementsByClass(documentClassName);
+
+        mappingToBookList(elementsByClass);
+      } catch (CannotGetDocumentToScrapException e) {
         logger.error(e.getMessage());
       }
-      Elements elementsByClass = Objects.requireNonNull(document)
-          .getElementsByClass(documentClassName);
-
-      mappingToBookList(elementsByClass);
     };
+  }
+
+  /**
+   * @param url of website to scrap.
+   * @return {@link Document} which will mapped to {@link Book}.
+   * @throws CannotGetDocumentToScrapException when on given url HTML class with name : {@link
+   * #AbstractScrapper#documentClassName} is absent.
+   */
+  private Document getDocument(String url) throws CannotGetDocumentToScrapException {
+    Document document = null;
+    try {
+      document = Objects.requireNonNull(Jsoup.connect(url).timeout(0).get());
+    } catch (IOException e) {
+      logger.error(e.getMessage());
+    } catch (NullPointerException e) {
+      throw new CannotGetDocumentToScrapException(
+          "Given HTML element class name don't match any element on page.");
+    }
+    return document;
   }
 
   private String getUrlWithPageNumber(int numberOfSearchedSite) {
