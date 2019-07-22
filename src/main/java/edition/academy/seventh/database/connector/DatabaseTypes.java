@@ -5,9 +5,9 @@ package edition.academy.seventh.database.connector;
  *
  * <ul>
  *   <li>{@link #H2}<br>
- *      Cached database used mostly for debugging.
+ *       Cached database used mostly for debugging.
  *   <li>{@link #POSTGRESQL}<br>
- *      Our main database, used on production.
+ *       Our main database, used on production.
  * </ul>
  *
  * @author Kamil Rojek

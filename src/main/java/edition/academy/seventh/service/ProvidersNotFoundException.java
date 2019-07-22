@@ -1,8 +1,8 @@
 package edition.academy.seventh.service;
 
 /**
- * This exception will be thrown by the {@link PromotionProviderManager} getPromotion() method when
- * none of providers were found nor detected
+ * This exception will be thrown by the {@link PromotionProviderManager} getPromotionalPrice()
+ * method when none of providers were found nor detected.
  *
  * @author Kamil Rojek
  */

@@ -1,15 +1,14 @@
 package edition.academy.seventh.service;
 
-import edition.academy.seventh.database.model.Book;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import edition.academy.seventh.database.model.DtoBook;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Manages providers that have been registered by <code>registerPromotionProvider</code> method.
@@ -19,7 +18,8 @@ import java.util.concurrent.Phaser;
  */
 @Service
 public class PromotionProviderManager {
-  private List<Book> scrappedBooks;
+
+  private List<DtoBook> scrappedBooks;
   private List<PromotionProvider> providers;
   private Phaser phaser = new Phaser(1);
 
@@ -64,11 +64,11 @@ public class PromotionProviderManager {
   /**
    * Provides results of single providers' run.
    *
-   * @return List of scrapped {@link Book books}
+   * @return List of scrapped {@link DtoBook books}
    * @throws ProvidersNotFoundException when there are no registered {@link PromotionProvider
    *     promotion providers}.
    */
-  public List<Book> getScrappedBooks() throws ProvidersNotFoundException {
+  public List<DtoBook> getScrappedBooks() throws ProvidersNotFoundException {
     if (providers.isEmpty()) throw new ProvidersNotFoundException("No providers detected");
 
     scrappedBooks.clear();
@@ -92,7 +92,7 @@ public class PromotionProviderManager {
     };
   }
 
-  private void storeBooks(List<Book> booksOnPromotion) {
+  private void storeBooks(List<DtoBook> booksOnPromotion) {
     scrappedBooks.addAll(booksOnPromotion);
     phaser.arrive();
   }
