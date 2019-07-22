@@ -46,7 +46,7 @@ public class EmpikScrapper extends AbstractScrapper {
     }
 
     try {
-      phaser.awaitAdvanceInterruptibly(numberOfPhase, 5000, TimeUnit.MILLISECONDS);
+      phaser.awaitAdvanceInterruptibly(numberOfPhase, 3000, TimeUnit.MILLISECONDS);
     } catch (TimeoutException | InterruptedException e) {
       logger.error(
           "Could not scrap every page from empik. Anyway - returned what was already scrapped successfully");
