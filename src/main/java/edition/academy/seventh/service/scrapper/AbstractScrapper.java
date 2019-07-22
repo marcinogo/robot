@@ -22,10 +22,10 @@ import org.slf4j.LoggerFactory;
  */
 abstract class AbstractScrapper implements PromotionProvider {
 
-  String startOfUrl;
-  String endOfUrl;
+  final String startOfUrl;
+  final String endOfUrl;
   static final Logger logger = LoggerFactory.getLogger(AbstractScrapper.class);
-  private String documentClassName;
+  private final String documentClassName;
 
   List<Book> listOfBooks = new CopyOnWriteArrayList<>();
   protected ExecutorService service = Executors.newFixedThreadPool(40);
@@ -38,14 +38,14 @@ abstract class AbstractScrapper implements PromotionProvider {
   }
 
   /**
-   * Create {@link Runnable} task witch is responsible to create GET request
+   * Create {@link Runnable} task which is responsible for creating GET request
    * to given page based on {@link AbstractScrapper#startOfUrl}
-   * and {@link AbstractScrapper#endOfUrl}, then extract all {@link org.jsoup.nodes.Element}
+   * and {@link AbstractScrapper#endOfUrl}, then extracting all {@link org.jsoup.nodes.Element}
    * of the given name {@link AbstractScrapper#documentClassName}
    *
-   * @param numberOfSearchedSite number of site witch is concat to the URL.
+   * @param numberOfSearchedSite number of site which is concatenated to the URL.
    *
-   * @return task witch is later use in {@link ExecutorService}.
+   * @return task which is later used in {@link ExecutorService}.
    */
   Runnable createScrappingTask(int numberOfSearchedSite) {
 
@@ -70,7 +70,7 @@ abstract class AbstractScrapper implements PromotionProvider {
   }
 
   /**
-   * Responsible for mapping HTML content to {@link List<Book>}
+   * Responsible for mapping HTML content to {@link List<Book>}.
    *
    * @param elementsByClass main HTML element thant contains all required data.
    */

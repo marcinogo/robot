@@ -5,8 +5,10 @@ import java.util.List;
 import org.jsoup.select.Elements;
 
 /**
- *
  * Scraps data from pwn bookstore website in sales section using Jsoup library
+
+ * {@link AbstractScrapper}
+ * {@link edition.academy.seventh.service.PromotionProvider}
  *
  * @author Kacper Staszek
  */
@@ -23,7 +25,7 @@ class PwnScrapper extends AbstractScrapper {
   /**
    * Scraps 96 positions for each iteration.
    *
-   * @return list of books after all threads finish their jobs
+   * @return list of books after all threads finish their jobs.
    */
 
   @Override
@@ -33,9 +35,9 @@ class PwnScrapper extends AbstractScrapper {
       service.submit(createScrappingTask(i));
       logger.info(
           "Submitting scrapping task for page: "
-              + super.startOfUrl
+              + startOfUrl
               + i
-              + super.endOfUrl);
+              + endOfUrl);
     }
 
     phaser.arriveAndAwaitAdvance();

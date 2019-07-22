@@ -1,24 +1,22 @@
 package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.Book;
-import edition.academy.seventh.service.PromotionProvider;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 /**
  * Scraps data from empik.com bookstore website in sales section using JSoup library.
+ * {@link AbstractScrapper}
+ * {@link edition.academy.seventh.service.PromotionProvider}
  *
  * @author Bartosz Kupajski
  */
 
 public class EmpikScrapper extends AbstractScrapper {
 
-  private String bookstoreName;
+  private final String bookstoreName;
   private int numberOfPhase = 0;
 
   EmpikScrapper(String startOfUrl, String endOfUrl, String documentClassName,
@@ -42,9 +40,9 @@ public class EmpikScrapper extends AbstractScrapper {
       service.submit(createScrappingTask(i));
       logger.info(
           "Submitting scrapping task for page: "
-              + super.startOfUrl
+              + startOfUrl
               + i
-              + super.endOfUrl);
+              + endOfUrl);
     }
 
     try {

@@ -13,6 +13,7 @@ import org.testng.annotations.Test;
 @Test
 public class PwnScrappingTestIT {
 
+  @Test
   public void should_scrapAtLeastOneBook_forGivenUrl() {
     // Given
     PromotionProvider promotionScrapping = new ScrapperConfiguration().pwnPromotionProvider();
