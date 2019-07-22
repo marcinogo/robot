@@ -42,8 +42,6 @@
         <version.plugin.checkstyle>3.0.0</version.plugin.checkstyle>
         <version.plugin.jdepend>2.0</version.plugin.jdepend>
         <version.plugin.jsoup>1.12.1</version.plugin.jsoup>
-        <version.plugin.buildhelper>1.9.1</version.plugin.buildhelper>
-
 
         <!-- Plugins settings -->
         <skipIntegrationTests>true</skipIntegrationTests>
@@ -164,26 +162,6 @@
                             <goal>integration-test</goal>
                             <goal>verify</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!-- adding second test source directory (just for integration tests) -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>${version.plugin.buildhelper}</version>
-                <executions>
-                    <execution>
-                        <id>add-integration-test-source</id>
-                        <phase>generate-test-sources</phase>
-                        <goals>
-                            <goal>add-test-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>src/test-integration/java</source>
-                            </sources>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

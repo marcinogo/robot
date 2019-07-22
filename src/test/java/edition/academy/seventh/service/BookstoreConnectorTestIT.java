@@ -1,8 +1,8 @@
 package edition.academy.seventh.service;
 
-import org.testng.annotations.Test;
-
 import static org.testng.Assert.assertNotNull;
+
+import org.testng.annotations.Test;
 
 @Test
 public class BookstoreConnectorTestIT {

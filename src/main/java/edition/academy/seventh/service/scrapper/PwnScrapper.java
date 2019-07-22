@@ -1,6 +1,6 @@
 package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.database.model.DtoBook;
 import java.util.List;
 import org.jsoup.select.Elements;
 
@@ -29,7 +29,7 @@ class PwnScrapper extends AbstractScrapper {
    */
 
   @Override
-  public List<Book> getPromotions() {
+  public List<DtoBook> getPromotions() {
 
     for (int i = 1; i <= 2; i++) {
       service.submit(createScrappingTask(i));
@@ -53,13 +53,20 @@ class PwnScrapper extends AbstractScrapper {
               String title = element.getElementsByClass("emp-info-title").text();
               String author = element.getElementsByClass("emp-info-authors").text();
               author = deleteAuthorTag(author);
-              String basePrice = element.getElementsByClass("emp-base-price").text();
-              String promotionPrice = element.getElementsByClass("emp-sale-price-value").text();
-              String img = element.getElementsByTag("img").attr("src");
+              String retailPrice = element.getElementsByClass("emp-base-price").text();
+              String promotionalPrice = element.getElementsByClass("emp-sale-price-value").text();
+              String imageLink = element.getElementsByTag("img").attr("src");
               String href = element.getElementsByClass("titleLink").attr("href");
               href = startOfHrefUrl + href;
-              return new Book(
-                  title, "", author, basePrice, promotionPrice, img, href, bookstoreName);
+              return new DtoBook(
+                  title,
+                  "",
+                  author,
+                  retailPrice,
+                  promotionalPrice,
+                  imageLink,
+                  href,
+                  bookstoreName);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();

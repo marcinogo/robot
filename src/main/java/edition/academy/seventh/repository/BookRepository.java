@@ -1,20 +1,27 @@
 package edition.academy.seventh.repository;
 
+import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
+import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
+import static edition.academy.seventh.repository.BookParser.parseDTBookIntoModel;
+
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
-import edition.academy.seventh.database.model.Book;
-import org.springframework.stereotype.Repository;
-
+import edition.academy.seventh.database.model.DtoBook;
+import edition.academy.seventh.model.Book;
+import edition.academy.seventh.model.Bookstore;
+import edition.academy.seventh.model.BookstoreBook;
+import edition.academy.seventh.model.HrefAndImage;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.List;
+import org.springframework.stereotype.Repository;
 
-import static edition.academy.seventh.database.connector.DatabaseTypes.*;
 /**
- * Allows to persists and retrieve book entities from database.
+ * Allows to persists and retrieve data about books from the database. This information is transfer
+ * through the application as {@link DtoBook}.
  *
  * @author Agnieszka Trzewik
  */
@@ -30,14 +37,14 @@ public class BookRepository {
   /**
    * Adds books records to the database.
    *
-   * @param books list of books to be added
+   * @param dtBookList {@code List<DtoBook>} to be added
    */
-  public void addBooksToDatabase(List<Book> books) {
+  public void addBooksToDatabase(List<DtoBook> dtBookList) {
     entityManager = connectorProvider.getEntityManager();
     EntityTransaction transaction = entityManager.getTransaction();
 
     transaction.begin();
-    books.forEach(this::addBookToDataBase);
+    dtBookList.forEach(this::addBookToDatabase);
     transaction.commit();
     entityManager.close();
     connectorProvider.getEntityManagerFactory().close();
@@ -46,23 +53,50 @@ public class BookRepository {
   /**
    * Retrieves all books from database.
    *
-   * @return list of books
+   * @return {@code List<DtoBook>}
    */
-  public List<Book> getBooksFromDatabase() {
+  public List<DtoBook> getBooksFromDatabase() {
+
     entityManager = connectorProvider.getEntityManager();
 
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-    CriteriaQuery<Book> query = criteriaBuilder.createQuery(Book.class);
+    CriteriaQuery<BookstoreBook> query = criteriaBuilder.createQuery(BookstoreBook.class);
 
-    Root<Book> from = query.from(Book.class);
+    Root<BookstoreBook> from = query.from(BookstoreBook.class);
     query.select(from);
-    List<Book> bookList = entityManager.createQuery(query).getResultList();
+    List<BookstoreBook> bookstoreBookList = entityManager.createQuery(query).getResultList();
 
     entityManager.close();
-    return bookList;
+    return parseBookstoreBookListIntoDTBookList(bookstoreBookList);
   }
 
-  private void addBookToDataBase(Book book) {
-    entityManager.persist(book);
+  private void addBookToDatabase(DtoBook dtBook) {
+    BookstoreBook bookstoreBook = parseDTBookIntoModel(dtBook);
+
+    Bookstore bookstore =
+        entityManager.find(Bookstore.class, bookstoreBook.getBookstore().getName());
+    Book book = entityManager.find(Book.class, bookstoreBook.getBook().getBookId());
+    HrefAndImage hrefAndImage =
+        entityManager.find(HrefAndImage.class, bookstoreBook.getHrefAndImage().getHyperLink());
+
+    refreshVariablesFromBookstoreBook(bookstoreBook, bookstore, book, hrefAndImage);
+
+    entityManager.persist(bookstoreBook);
+  }
+
+  private void refreshVariablesFromBookstoreBook(
+      BookstoreBook bookstoreBook, Bookstore bookstore, Book book, HrefAndImage hrefAndImage) {
+    if (bookstore != null) {
+      entityManager.refresh(bookstore);
+      bookstoreBook.setBookstore(bookstore);
+    }
+    if (book != null) {
+      entityManager.refresh(book);
+      bookstoreBook.setBook(book);
+    }
+    if (hrefAndImage != null) {
+      entityManager.refresh(hrefAndImage);
+      bookstoreBook.setHrefAndImage(hrefAndImage);
+    }
   }
 }

@@ -1,6 +1,6 @@
 package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.database.model.DtoBook;
 import edition.academy.seventh.service.PromotionProvider;
 import java.io.IOException;
 import java.util.List;
@@ -27,7 +27,7 @@ abstract class AbstractScrapper implements PromotionProvider {
   static final Logger logger = LoggerFactory.getLogger(AbstractScrapper.class);
   private final String documentClassName;
 
-  List<Book> listOfBooks = new CopyOnWriteArrayList<>();
+  List<DtoBook> listOfBooks = new CopyOnWriteArrayList<>();
   protected ExecutorService service = Executors.newFixedThreadPool(40);
   Phaser phaser = new Phaser(1);
 
@@ -66,7 +66,7 @@ abstract class AbstractScrapper implements PromotionProvider {
 
   /**
    * @param url of website to scrap.
-   * @return {@link Document} which will mapped to {@link Book}.
+   * @return {@link Document} which will mapped to {@link DtoBook}.
    * @throws CannotGetDocumentToScrapException when on given url HTML class with name : {@link
    * #AbstractScrapper#documentClassName} is absent.
    */
@@ -88,7 +88,7 @@ abstract class AbstractScrapper implements PromotionProvider {
   }
 
   /**
-   * Responsible for mapping HTML content to {@link List<Book>}.
+   * Responsible for mapping HTML content to {@link List<DtoBook>}.
    *
    * @param elementsByClass main HTML element that contains all required data.
    */

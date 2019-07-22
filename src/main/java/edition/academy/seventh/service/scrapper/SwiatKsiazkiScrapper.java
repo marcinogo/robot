@@ -1,6 +1,6 @@
 package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.database.model.DtoBook;
 import java.util.List;
 import org.jsoup.select.Elements;
 
@@ -24,12 +24,12 @@ class SwiatKsiazkiScrapper extends AbstractScrapper {
   /**
    * Scraps 30 positions for each iteration.
    *
-   * @return {@link List<Book>} after all threads finish their jobs.
+   * @return {@link List<DtoBook>} after all threads finish their jobs.
    *
    */
 
   @Override
-  public List<Book> getPromotions() {
+  public List<DtoBook> getPromotions() {
     for (int i = 1; i <= 3; i++) {
       service.submit(createScrappingTask(i));
       logger.info(
@@ -51,13 +51,21 @@ class SwiatKsiazkiScrapper extends AbstractScrapper {
               String title = element.getElementsByClass("product name product-item-name").text();
               title = deleteOutletSign(title);
               String href = element.getElementsByClass("product-item-link").attr("href");
-              String img = element.getElementsByClass("product-image-photo lazy").attr("data-src");
+              String imageLink =
+                  element.getElementsByClass("product-image-photo lazy").attr("data-src");
               String author =
                   element.getElementsByClass("product author product-item-author").text();
-              String promotionPrice = element.getElementsByClass("special-price").text();
-              String oldPrice = element.getElementsByClass("old-price").text();
-              return new Book(
-                  title, "", author, oldPrice, promotionPrice, img, href, bookstoreName);
+              String promotionalPrice = element.getElementsByClass("special-price").text();
+              String retailPrice = element.getElementsByClass("old-price").text();
+              return new DtoBook(
+                  title,
+                  "",
+                  author,
+                  retailPrice,
+                  promotionalPrice,
+                  imageLink,
+                  href,
+                  bookstoreName);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();

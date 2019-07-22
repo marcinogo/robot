@@ -1,7 +1,6 @@
 package edition.academy.seventh.service;
 
-import edition.academy.seventh.database.model.Book;
-
+import edition.academy.seventh.database.model.DtoBook;
 import java.util.List;
 
 /**
@@ -16,5 +15,5 @@ public interface PromotionProvider {
    *
    * @return list of books ready to save in DataBase
    */
-  List<Book> getPromotions();
+  List<DtoBook> getPromotions();
 }

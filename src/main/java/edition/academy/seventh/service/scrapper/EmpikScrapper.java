@@ -1,6 +1,6 @@
 package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.database.model.DtoBook;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -34,7 +34,7 @@ public class EmpikScrapper extends AbstractScrapper {
    * @return list of books after all scrapping threads finish their jobs.
    */
   @Override
-  public List<Book> getPromotions() {
+  public List<DtoBook> getPromotions() {
 
     for (int i = 1; i <= 30 * 20; i = i + 30) {
       service.submit(createScrappingTask(i));
@@ -66,14 +66,21 @@ public class EmpikScrapper extends AbstractScrapper {
               String title = element.getElementsByClass("ta-product-title").text();
               String href = element.getElementsByClass("seoTitle").attr("href");
               href = startOfHrefUrl + href;
-              String img = element.getElementsByClass("lazy").attr("lazy-img");
+              String imageLink = element.getElementsByClass("lazy").attr("lazy-img");
               String author = element.getElementsByClass("smartAuthor").text();
               String prices = element.getElementsByClass("ta-price-tile").text();
               String[] pricesArray = prices.split(" ");
-              String promotionPrice = pricesArray[0] + " " + pricesArray[1];
-              String basePrice = pricesArray[2] + " " + pricesArray[3];
-              return new Book(
-                  title, "", author, basePrice, promotionPrice, img, href, bookstoreName);
+              String retailPrice = pricesArray[0] + " " + pricesArray[1];
+              String promotionalPrice = pricesArray[2] + " " + pricesArray[3];
+              return new DtoBook(
+                  title,
+                  "",
+                  author,
+                  retailPrice,
+                  promotionalPrice,
+                  imageLink,
+                  href,
+                  bookstoreName);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();

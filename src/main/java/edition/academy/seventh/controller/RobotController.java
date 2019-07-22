@@ -1,19 +1,18 @@
 package edition.academy.seventh.controller;
 
-import edition.academy.seventh.database.model.Book;
+import edition.academy.seventh.database.model.DtoBook;
 import edition.academy.seventh.service.BookService;
 import edition.academy.seventh.service.BookstoreConnectionService;
 import edition.academy.seventh.service.PromotionProviderManager;
 import edition.academy.seventh.service.ProvidersNotFoundException;
 import edition.academy.seventh.service.mapper.ItBookMapper;
+import java.io.IOException;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Responsible for starting persistence actions. Running is possible either by HTTP request or
@@ -69,7 +68,7 @@ class RobotController {
 
   private boolean getDataFromAPI() {
     List<String> listOfBooksAsString = bookstoreConnectionService.getListOfBooksAsString();
-    List<Book> books;
+    List<DtoBook> books;
 
     try {
       books = itBookMapper.mapListOfJson(listOfBooksAsString);
@@ -84,7 +83,7 @@ class RobotController {
 
   private boolean getDataFromScrapping() {
     try {
-      List<Book> books = providerManager.getScrappedBooks();
+      List<DtoBook> books = providerManager.getScrappedBooks();
       bookService.addBooksToDatabase(books);
     } catch (ProvidersNotFoundException e) {
       System.err.println(e.getMessage());
