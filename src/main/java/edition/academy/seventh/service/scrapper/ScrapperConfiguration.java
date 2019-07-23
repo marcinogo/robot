@@ -39,4 +39,13 @@ class ScrapperConfiguration {
         "item product product-item",
         "ŚWIAT KSIĄŻKI");
   }
+
+  @Bean(name = "bookoffScrapper")
+  PromotionProvider bookoffPromotionProvider() {
+    return new BookoffScrapper(
+            "https://www.bookoff.pl/Wyprzedaz-spromo-pol.html?counter=",
+            "",
+            "product_wrapper_sub",
+            "BookOff");
+  }
 }
