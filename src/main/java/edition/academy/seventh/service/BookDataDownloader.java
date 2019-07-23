@@ -34,6 +34,6 @@ class BookDataDownloader {
   }
 
   private String createBookFullUrl(String isbn) {
-    return new StringBuilder(bookstoreBookUrl).append(isbn).toString();
+    return bookstoreBookUrl + isbn;
   }
 }

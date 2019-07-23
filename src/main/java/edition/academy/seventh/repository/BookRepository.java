@@ -7,27 +7,31 @@ import edition.academy.seventh.model.Book;
 import edition.academy.seventh.model.Bookstore;
 import edition.academy.seventh.model.BookstoreBook;
 import edition.academy.seventh.model.UrlResources;
-import org.springframework.stereotype.Repository;
-
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+
 
 import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
 import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
 import static edition.academy.seventh.repository.BookParser.parseDTBookIntoModel;
 
+
 /**
  * Allows to persists and retrieve data about books from the database. This information is
- * transfered through the application as {@link BookDto}.
+ * transferred through the application as {@link BookDto}.
  *
  * @author Agnieszka Trzewik
  */
 @Repository
 public class BookRepository {
+  private final static Logger logger = LoggerFactory.getLogger(BookRepository.class);
   private EntityManager entityManager;
   private ConnectorProvider connectorProvider;
 
@@ -46,6 +50,7 @@ public class BookRepository {
 
     transaction.begin();
     bookDtos.forEach(this::addBookToDatabase);
+    logger.info("Saving " + bookDtos.size() + " books in database");
     transaction.commit();
     entityManager.close();
     connectorProvider.getEntityManagerFactory().close();
@@ -66,6 +71,8 @@ public class BookRepository {
     Root<BookstoreBook> from = query.from(BookstoreBook.class);
     query.select(from);
     List<BookstoreBook> bookstoreBookList = entityManager.createQuery(query).getResultList();
+
+    logger.info("Called getBooksFromDatebase(), returning " + bookstoreBookList.size() + " books");
     List<BookDto> booksFromDataBase = parseBookstoreBookListIntoDTBookList(bookstoreBookList);
 
     entityManager.close();

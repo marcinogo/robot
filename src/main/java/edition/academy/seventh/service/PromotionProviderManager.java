@@ -58,7 +58,7 @@ public class PromotionProviderManager {
    *
    * @param promotionProvider {@link PromotionProvider promotion provider} to be registered.
    */
-  public void registerPromotionProvider(PromotionProvider promotionProvider) {
+  private void registerPromotionProvider(PromotionProvider promotionProvider) {
     providers.add(promotionProvider);
   }
 
@@ -89,12 +89,14 @@ public class PromotionProviderManager {
 
   private Runnable runProvider(PromotionProvider provider) {
     return () -> {
-      storeBooks(provider.getPromotions());
+      List<BookDto> promotions = provider.getPromotions();
+      storeBooks(promotions);
+      promotions.clear();
     };
   }
 
   private void storeBooks(List<BookDto> booksOnPromotion) {
     scrappedBooks.addAll(booksOnPromotion);
-    phaser.arrive();
+    phaser.arriveAndDeregister();
   }
 }

@@ -71,6 +71,6 @@ public class EmpikScrapper extends AbstractScrapper {
                   title, "", author, retailPrice, promotionalPrice, imageLink, href, bookstoreName);
             })
         .forEach(listOfBooks::add);
-    phaser.arrive();
+    phaser.arriveAndDeregister();
   }
 }

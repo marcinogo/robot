@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
 
 /**
- * Implements shared behaviour of all Scrapping classes.
+ * Implements shared behaviour of all scrapping classes.
  *
  * @author Kacper Staszek
  */

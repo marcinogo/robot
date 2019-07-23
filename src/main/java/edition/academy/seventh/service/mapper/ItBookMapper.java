@@ -27,7 +27,7 @@ public class ItBookMapper {
    *
    * @param booksAsJson list with books' JSONs
    * @return {@code List<Book>}
-   * @throws IOException when JSON isn't read properly
+   * @throws IOException when JSON wasn't read properly
    */
   public List<BookDto> mapListOfJson(List<String> booksAsJson) throws IOException {
     List<BookDto> listOfBooks = new LinkedList<>();
@@ -39,7 +39,6 @@ public class ItBookMapper {
       book.setPromotionalPrice("");
       listOfBooks.add(book);
     }
-
     return listOfBooks;
   }
 }
