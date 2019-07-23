@@ -1,13 +1,9 @@
 package edition.academy.seventh.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity(name = "url_resources")
 public class UrlResources {
@@ -19,7 +15,7 @@ public class UrlResources {
   @Column(name = "image_link")
   private String imageLink;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookstore")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "urlResources")
   private List<BookstoreBook> bookstoreBooks = new ArrayList<>();
 
   public UrlResources() {}

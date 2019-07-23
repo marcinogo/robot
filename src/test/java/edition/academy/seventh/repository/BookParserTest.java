@@ -5,6 +5,7 @@ import edition.academy.seventh.model.*;
 import org.testng.annotations.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
@@ -40,12 +41,9 @@ public class BookParserTest {
             bookstore);
     BookstoreBook expectedBookstoreBook =
         new BookstoreBook(
-            new Book(subtitle, new BookId(title, author)),
-            retailPrice,
-            promotionalPrice,
-            LocalDate.now(),
-            new UrlResources(hyperLink, imageLink),
-            new Bookstore(bookstore));
+            new BookstoreBookId(
+                new Bookstore(bookstore), new Book(subtitle, new BookId(title, author))),
+            new UrlResources(hyperLink, imageLink));
 
     // When
     BookstoreBook bookstoreBook = parseDTBookIntoModel(dtBook);
@@ -70,12 +68,12 @@ public class BookParserTest {
     // Given
     BookstoreBook bookstoreBook =
         new BookstoreBook(
-            new Book(subtitle, new BookId(title, author)),
-            retailPrice,
-            promotionalPrice,
-            LocalDate.now(),
-            new UrlResources(hyperLink, imageLink),
-            new Bookstore(bookstore));
+            new BookstoreBookId(
+                new Bookstore(bookstore), new Book(subtitle, new BookId(title, author))),
+            new UrlResources(hyperLink, imageLink));
+    PriceHistory priceHistory =
+        new PriceHistory(bookstoreBook, retailPrice, promotionalPrice, LocalDateTime.now());
+    bookstoreBook.getPriceHistories().add(priceHistory);
 
     BookDto dtBook =
         new BookDto(

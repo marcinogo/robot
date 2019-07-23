@@ -1,13 +1,9 @@
 package edition.academy.seventh.model;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 
 @Entity(name = "bookstore")
 public class Bookstore {
@@ -16,7 +12,7 @@ public class Bookstore {
   @Column(name = "name")
   private String name;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookstore")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookstoreBookId.bookstore")
   private List<BookstoreBook> bookstoreBooks = new ArrayList<>();
 
   public Bookstore() {}

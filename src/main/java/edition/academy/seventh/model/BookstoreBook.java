@@ -1,110 +1,37 @@
 package edition.academy.seventh.model;
 
-import java.time.LocalDate;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
 
 @Entity(name = "bookstore_book")
 public class BookstoreBook {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id", nullable = false)
-  private long id;
+  @EmbeddedId
+  @Column(name = "bookstore_book_id")
+  private BookstoreBookId bookstoreBookId;
 
-  @ManyToOne(cascade = CascadeType.PERSIST)
-  @JoinColumn(name = "bookstore_id")
-  private Bookstore bookstore;
-
-  @ManyToOne(cascade = CascadeType.PERSIST)
-  @JoinColumns({@JoinColumn(name = "title"), @JoinColumn(name = "author")})
-  private Book book;
-
-  @Column(name = "retail_price")
-  private String retailPrice;
-
-  @Column(name = "promotional_price")
-  private String promotionalPrice;
-
-  @Column(name = "date")
-  private LocalDate date;
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "bookstoreBook")
+  private List<PriceHistory> priceHistories = new ArrayList<>();
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "url_resources_id")
   private UrlResources urlResources;
 
-  public BookstoreBook() {
+  public BookstoreBook() {}
+
+  public BookstoreBook(BookstoreBookId bookstoreBookId, UrlResources urlResources) {
+    this.bookstoreBookId = bookstoreBookId;
+    this.urlResources = urlResources;
   }
 
-  public BookstoreBook(
-      Book book,
-      String retailPrice,
-      String promotionalPrice,
-      LocalDate date,
-      UrlResources hrefAndImage,
-      Bookstore bookstore) {
-    this.bookstore = bookstore;
-    this.book = book;
-    this.retailPrice = retailPrice;
-    this.promotionalPrice = promotionalPrice;
-    this.date = date;
-    this.urlResources = hrefAndImage;
+  public BookstoreBookId getBookstoreBookId() {
+    return bookstoreBookId;
   }
 
-  public long getId() {
-    return id;
-  }
-
-  public void setId(long id) {
-    this.id = id;
-  }
-
-  public Bookstore getBookstore() {
-    return bookstore;
-  }
-
-  public void setBookstore(Bookstore bookstore) {
-    this.bookstore = bookstore;
-  }
-
-  public Book getBook() {
-    return book;
-  }
-
-  public void setBook(Book book) {
-    this.book = book;
-  }
-
-  public String getRetailPrice() {
-    return retailPrice;
-  }
-
-  public void setRetailPrice(String retailPrice) {
-    this.retailPrice = retailPrice;
-  }
-
-  public String getPromotionalPrice() {
-    return promotionalPrice;
-  }
-
-  public void setPromotionalPrice(String promotionalPrice) {
-    this.promotionalPrice = promotionalPrice;
-  }
-
-  public LocalDate getDate() {
-    return date;
-  }
-
-  public void setDate(LocalDate date) {
-    this.date = date;
+  public void setBookstoreBookId(BookstoreBookId bookstoreBookId) {
+    this.bookstoreBookId = bookstoreBookId;
   }
 
   public UrlResources getUrlResources() {
@@ -115,26 +42,30 @@ public class BookstoreBook {
     this.urlResources = urlResources;
   }
 
+  public List<PriceHistory> getPriceHistories() {
+    return priceHistories;
+  }
+
+  public void setPriceHistories(List<PriceHistory> priceHistories) {
+    this.priceHistories = priceHistories;
+  }
+
+  public PriceHistory getLastElementOfPriceHistories() {
+    int lastIndexOfPriceHistories = this.priceHistories.size() - 1;
+    return this.priceHistories.get(lastIndexOfPriceHistories);
+  }
+
   @Override
   public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
     BookstoreBook that = (BookstoreBook) o;
-    return id == that.id
-        && Objects.equals(bookstore, that.bookstore)
-        && Objects.equals(book, that.book)
-        && Objects.equals(retailPrice, that.retailPrice)
-        && Objects.equals(promotionalPrice, that.promotionalPrice)
-        && Objects.equals(date, that.date)
+    return Objects.equals(bookstoreBookId, that.bookstoreBookId)
         && Objects.equals(urlResources, that.urlResources);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, bookstore, book, retailPrice, promotionalPrice, date, urlResources);
+    return Objects.hash(bookstoreBookId, urlResources);
   }
 }

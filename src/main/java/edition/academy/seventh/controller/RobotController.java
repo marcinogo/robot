@@ -6,13 +6,14 @@ import edition.academy.seventh.service.BookstoreConnectionService;
 import edition.academy.seventh.service.PromotionProviderManager;
 import edition.academy.seventh.service.ProvidersNotFoundException;
 import edition.academy.seventh.service.mapper.ItBookMapper;
-import java.io.IOException;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Responsible for starting persistence actions. Running is possible either by HTTP request or
