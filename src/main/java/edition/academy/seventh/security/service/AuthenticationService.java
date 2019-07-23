@@ -41,7 +41,7 @@ public class AuthenticationService {
   private PasswordEncoder encoder;
   private UserRepository userRepository;
   private RoleRepository roleRepository;
-  private static final Logger logger = LoggerFactory.getLogger(JwtAuthEntryPoint.class);
+  private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
   /**
    * Creates bean for {@link org.springframework.context.ApplicationContext}.
@@ -78,10 +78,10 @@ public class AuthenticationService {
             registerForm.getEmail(),
             encoder.encode(registerForm.getPassword()));
 
-    Set<String> strRoles = registerForm.getRole();
+    Set<String> rolesAsString = registerForm.getRole();
     Set<Role> roles = new HashSet<>();
 
-    strRoles.forEach(
+    rolesAsString.forEach(
         role -> {
           if ("admin".equals(role)) {
             Role adminRole =
