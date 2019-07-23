@@ -52,8 +52,8 @@ public class BookRepository {
     bookDtos.forEach(this::addBookToDatabase);
     logger.info("Saving " + bookDtos.size() + " books in database");
     transaction.commit();
-    entityManager.close();
-    connectorProvider.getEntityManagerFactory().close();
+
+    connectorProvider.close();
   }
 
   /**
@@ -72,7 +72,7 @@ public class BookRepository {
     query.select(from);
     List<BookstoreBook> bookstoreBookList = entityManager.createQuery(query).getResultList();
 
-    entityManager.close();
+    connectorProvider.close();
     logger.info("Called getBooksFromDatebase(), returning " + bookstoreBookList.size() + " books");
     return parseBookstoreBookListIntoDTBookList(bookstoreBookList);
   }
