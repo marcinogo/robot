@@ -1,6 +1,7 @@
 package edition.academy.seventh.service;
 
-import edition.academy.seventh.database.model.DtoBook;
+import edition.academy.seventh.database.model.BookDto;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PromotionProviderManager {
 
-  private List<DtoBook> scrappedBooks;
+  private List<BookDto> scrappedBooks;
   private List<PromotionProvider> providers;
   private Phaser phaser = new Phaser(1);
 
@@ -64,11 +65,11 @@ public class PromotionProviderManager {
   /**
    * Provides results of single providers' run.
    *
-   * @return List of scrapped {@link DtoBook books}
+   * @return List of scrapped {@link BookDto books}
    * @throws ProvidersNotFoundException when there are no registered {@link PromotionProvider
    *     promotion providers}.
    */
-  public List<DtoBook> getScrappedBooks() throws ProvidersNotFoundException {
+  public List<BookDto> getScrappedBooks() throws ProvidersNotFoundException {
     if (providers.isEmpty()) throw new ProvidersNotFoundException("No providers detected");
 
     scrappedBooks.clear();
@@ -92,7 +93,7 @@ public class PromotionProviderManager {
     };
   }
 
-  private void storeBooks(List<DtoBook> booksOnPromotion) {
+  private void storeBooks(List<BookDto> booksOnPromotion) {
     scrappedBooks.addAll(booksOnPromotion);
     phaser.arrive();
   }

@@ -5,9 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- *
- * Provides beans of {@link PromotionProvider} type to the
- * {@link org.springframework.context.ApplicationContext}.
+ * Provides beans of {@link PromotionProvider} type to the {@link
+ * org.springframework.context.ApplicationContext}.
  *
  * @author Kacper Staszek
  */

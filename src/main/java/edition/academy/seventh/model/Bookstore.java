@@ -19,8 +19,7 @@ public class Bookstore {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookstore")
   private List<BookstoreBook> bookstoreBooks = new ArrayList<>();
 
-  public Bookstore() {
-  }
+  public Bookstore() {}
 
   public Bookstore(String name) {
     this.name = name;

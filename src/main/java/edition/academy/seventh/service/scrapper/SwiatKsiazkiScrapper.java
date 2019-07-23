@@ -1,22 +1,22 @@
 package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.DtoBook;
+import edition.academy.seventh.database.model.BookDto;
+
 import java.util.List;
 import org.jsoup.select.Elements;
 
 /**
  * Scraps data from swiatksiazki.pl bookstore website in sales section using JSoup library.
  *
- * {@link AbstractScrapper}
- * {@link edition.academy.seventh.service.PromotionProvider}
+ * <p>{@link AbstractScrapper} {@link edition.academy.seventh.service.PromotionProvider}
  *
  * @author Kacper Staszek
  */
 class SwiatKsiazkiScrapper extends AbstractScrapper {
   private final String bookstoreName;
 
-  SwiatKsiazkiScrapper(String startOfUrl, String endOfUrl, String documentClassName,
-      String bookstoreName) {
+  SwiatKsiazkiScrapper(
+      String startOfUrl, String endOfUrl, String documentClassName, String bookstoreName) {
     super(startOfUrl, endOfUrl, documentClassName);
     this.bookstoreName = bookstoreName;
   }
@@ -24,19 +24,13 @@ class SwiatKsiazkiScrapper extends AbstractScrapper {
   /**
    * Scraps 30 positions for each iteration.
    *
-   * @return {@link List<DtoBook>} after all threads finish their jobs.
-   *
+   * @return {@link List< BookDto >} after all threads finish their jobs.
    */
-
   @Override
-  public List<DtoBook> getPromotions() {
-    for (int i = 1; i <= 3; i++) {
+  public List<BookDto> getPromotions() {
+    for (int i = 1; i <= 2; i++) {
       service.submit(createScrappingTask(i));
-      logger.info(
-          "Submitting scrapping task for page: "
-              + startOfUrl
-              + i
-              + endOfUrl);
+      logger.info("Submitting scrapping task for page: " + startOfUrl + i + endOfUrl);
     }
 
     phaser.arriveAndAwaitAdvance();
@@ -57,15 +51,8 @@ class SwiatKsiazkiScrapper extends AbstractScrapper {
                   element.getElementsByClass("product author product-item-author").text();
               String promotionalPrice = element.getElementsByClass("special-price").text();
               String retailPrice = element.getElementsByClass("old-price").text();
-              return new DtoBook(
-                  title,
-                  "",
-                  author,
-                  retailPrice,
-                  promotionalPrice,
-                  imageLink,
-                  href,
-                  bookstoreName);
+              return new BookDto(
+                  title, "", author, retailPrice, promotionalPrice, imageLink, href, bookstoreName);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();
