@@ -1,7 +1,6 @@
 package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.BookDto;
-
 import java.util.List;
 import org.jsoup.select.Elements;
 
@@ -28,17 +27,19 @@ class SwiatKsiazkiScrapper extends AbstractScrapper {
    */
   @Override
   public List<BookDto> getPromotions() {
-    for (int i = 1; i <= 2; i++) {
+    for (int i = 1; i <= 1; i++) {
       service.submit(createScrappingTask(i));
       logger.info("Submitting scrapping task for page: " + startOfUrl + i + endOfUrl);
     }
 
     phaser.arriveAndAwaitAdvance();
+
     return listOfBooks;
   }
 
   @Override
   void mappingToBookList(Elements elementsByClass) {
+    logger.info("Starting particular task. Executor is: " + service + " AND Phaser is: " + phaser);
     elementsByClass.stream()
         .map(
             element -> {
@@ -55,7 +56,8 @@ class SwiatKsiazkiScrapper extends AbstractScrapper {
                   title, "", author, retailPrice, promotionalPrice, imageLink, href, bookstoreName);
             })
         .forEach(listOfBooks::add);
-    phaser.arrive();
+    phaser.arriveAndDeregister();
+    logger.info("Ending particular task. Executor is: " + service + " AND Phaser is: " + phaser);
   }
 
   private String deleteOutletSign(String title) {

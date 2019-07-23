@@ -46,8 +46,9 @@ class RobotController {
    * @return result of persist action
    */
   @GetMapping("/start")
-  public boolean startRobot() {
-    return startGatheringData();
+  public String startRobot() {
+    return startGatheringData() ? "Pomyślnie przeprowadzono operację."
+        : "Wystąpiły problemy przy przeprowadzaniu operacji.";
   }
 
   /**
@@ -59,8 +60,9 @@ class RobotController {
   private boolean scheduleRobot() {
     return startGatheringData();
   }
-
-  /** @return true if gathering data complite without issuess */
+  /**
+   *  @return true if gathering data complite without issuess.
+   */
   private boolean startGatheringData() {
     updateEnvironmentCredentials();
     return getDataFromAPI() && getDataFromScrapping();
