@@ -1,6 +1,6 @@
 package edition.academy.seventh.controller;
 
-import edition.academy.seventh.database.model.DtoBook;
+import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.service.BookService;
 import edition.academy.seventh.service.BookstoreConnectionService;
 import edition.academy.seventh.service.PromotionProviderManager;
@@ -68,7 +68,7 @@ class RobotController {
 
   private boolean getDataFromAPI() {
     List<String> listOfBooksAsString = bookstoreConnectionService.getListOfBooksAsString();
-    List<DtoBook> books;
+    List<BookDto> books;
 
     try {
       books = itBookMapper.mapListOfJson(listOfBooksAsString);
@@ -83,7 +83,7 @@ class RobotController {
 
   private boolean getDataFromScrapping() {
     try {
-      List<DtoBook> books = providerManager.getScrappedBooks();
+      List<BookDto> books = providerManager.getScrappedBooks();
       bookService.addBooksToDatabase(books);
     } catch (ProvidersNotFoundException e) {
       System.err.println(e.getMessage());

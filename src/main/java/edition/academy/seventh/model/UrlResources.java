@@ -9,8 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-@Entity(name = "href_and_image")
-public class HrefAndImage {
+@Entity(name = "url_resources")
+public class UrlResources {
 
   @Id
   @Column(name = "hyper_link", length = 300)
@@ -22,10 +22,9 @@ public class HrefAndImage {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookstore")
   private List<BookstoreBook> bookstoreBooks = new ArrayList<>();
 
-  public HrefAndImage() {
-  }
+  public UrlResources() {}
 
-  public HrefAndImage(String hyperLink, String image) {
+  public UrlResources(String hyperLink, String image) {
     this.hyperLink = hyperLink;
     this.imageLink = image;
   }
@@ -62,7 +61,7 @@ public class HrefAndImage {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    HrefAndImage that = (HrefAndImage) o;
+    UrlResources that = (UrlResources) o;
     return Objects.equals(hyperLink, that.hyperLink)
         && Objects.equals(imageLink, that.imageLink)
         && Objects.equals(bookstoreBooks, that.bookstoreBooks);

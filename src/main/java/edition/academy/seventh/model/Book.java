@@ -22,8 +22,7 @@ public class Book {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
   private List<BookstoreBook> bookstoreBooks = new ArrayList<>();
 
-  public Book() {
-  }
+  public Book() {}
 
   public Book(String subtitle, BookId bookId) {
     this.subtitle = subtitle;

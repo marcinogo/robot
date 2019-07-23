@@ -1,26 +1,24 @@
 package edition.academy.seventh.service.scrapper;
 
-import edition.academy.seventh.database.model.DtoBook;
+import edition.academy.seventh.database.model.BookDto;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.jsoup.select.Elements;
 
 /**
- * Scraps data from empik.com bookstore website in sales section using JSoup library.
- * {@link AbstractScrapper}
- * {@link edition.academy.seventh.service.PromotionProvider}
+ * Scraps data from empik.com bookstore website in sales section using JSoup library. {@link
+ * AbstractScrapper} {@link edition.academy.seventh.service.PromotionProvider}
  *
  * @author Bartosz Kupajski
  */
-
 public class EmpikScrapper extends AbstractScrapper {
 
   private final String bookstoreName;
   private int numberOfPhase = 0;
 
-  EmpikScrapper(String startOfUrl, String endOfUrl, String documentClassName,
-      String bookstoreName) {
+  EmpikScrapper(
+      String startOfUrl, String endOfUrl, String documentClassName, String bookstoreName) {
     super(startOfUrl, endOfUrl, documentClassName);
     this.bookstoreName = bookstoreName;
   }
@@ -34,15 +32,11 @@ public class EmpikScrapper extends AbstractScrapper {
    * @return list of books after all scrapping threads finish their jobs.
    */
   @Override
-  public List<DtoBook> getPromotions() {
+  public List<BookDto> getPromotions() {
 
-    for (int i = 1; i <= 30 * 20; i = i + 30) {
+    for (int i = 1; i <= 30 * 3; i = i + 30) {
       service.submit(createScrappingTask(i));
-      logger.info(
-          "Submitting scrapping task for page: "
-              + startOfUrl
-              + i
-              + endOfUrl);
+      logger.info("Submitting scrapping task for page: " + startOfUrl + i + endOfUrl);
     }
 
     try {
@@ -72,15 +66,8 @@ public class EmpikScrapper extends AbstractScrapper {
               String[] pricesArray = prices.split(" ");
               String retailPrice = pricesArray[0] + " " + pricesArray[1];
               String promotionalPrice = pricesArray[2] + " " + pricesArray[3];
-              return new DtoBook(
-                  title,
-                  "",
-                  author,
-                  retailPrice,
-                  promotionalPrice,
-                  imageLink,
-                  href,
-                  bookstoreName);
+              return new BookDto(
+                  title, "", author, retailPrice, promotionalPrice, imageLink, href, bookstoreName);
             })
         .forEach(listOfBooks::add);
     phaser.arrive();
