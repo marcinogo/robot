@@ -1,9 +1,12 @@
 package edition.academy.seventh.database.connector;
 
-import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.Map;
 
 /**
  * Adapter for connection to database using {@link javax.persistence.EntityManager}.
@@ -11,6 +14,7 @@ import javax.persistence.Persistence;
  * @author Kamil Rojek
  */
 abstract class EntityConnector implements ConnectorProvider {
+  private static final Logger logger = LoggerFactory.getLogger(EntityConnector.class);
   private final String persistenceUnitName;
   private EntityManagerFactory entityManagerFactory;
 
@@ -36,6 +40,7 @@ abstract class EntityConnector implements ConnectorProvider {
   public final void close() {
     if (entityManagerFactory.isOpen()) {
       entityManagerFactory.close();
+      logger.info("EntityManagerFactory has been closed");
     }
   }
 
