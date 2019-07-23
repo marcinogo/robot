@@ -17,16 +17,20 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 /**
  * Allows to persists and retrieve data about books from the database. This information is
- * transfered through the application as {@link BookDto}.
+ * transferred through the application as {@link BookDto}.
  *
  * @author Agnieszka Trzewik
  */
 @Repository
 public class BookRepository {
+  private final static Logger logger = LoggerFactory.getLogger(BookRepository.class);
   private EntityManager entityManager;
   private ConnectorProvider connectorProvider;
 
@@ -45,6 +49,7 @@ public class BookRepository {
 
     transaction.begin();
     bookDtos.forEach(this::addBookToDatabase);
+    logger.info("Saving " + bookDtos.size() + " books in database");
     transaction.commit();
     entityManager.close();
     connectorProvider.getEntityManagerFactory().close();
@@ -67,6 +72,7 @@ public class BookRepository {
     List<BookstoreBook> bookstoreBookList = entityManager.createQuery(query).getResultList();
 
     entityManager.close();
+    logger.info("Called getBooksFromDatebase(), returning " + bookstoreBookList.size() + " books");
     return parseBookstoreBookListIntoDTBookList(bookstoreBookList);
   }
 
