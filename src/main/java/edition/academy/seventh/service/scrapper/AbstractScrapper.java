@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Implements shared behaviour of all Scrapping classes.
+ * Implements shared behaviour of all scrapping classes.
  *
  * @author Kacper Staszek
  */

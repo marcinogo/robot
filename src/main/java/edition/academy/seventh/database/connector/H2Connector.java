@@ -3,7 +3,9 @@ package edition.academy.seventh.database.connector;
 import java.util.HashMap;
 import java.util.Map;
 
-/** @author Kamil Rojek */
+/**
+ * @author Kamil Rojek
+ */
 class H2Connector extends EntityConnector {
   H2Connector() {
     super("H2Unit");
