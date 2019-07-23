@@ -13,11 +13,11 @@ public class PriceHistory {
   @Column(name = "id", nullable = false)
   private Long id;
 
-  @ManyToOne(cascade = CascadeType.PERSIST)
+  @ManyToOne()
   @JoinColumns({
     @JoinColumn(name = "author"),
     @JoinColumn(name = "title"),
-    @JoinColumn(name = "bookstoreBook")
+    @JoinColumn(name = "bookstore")
   })
   private BookstoreBook bookstoreBook;
 

@@ -3,10 +3,8 @@ package edition.academy.seventh.repository;
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.database.model.BookDto;
-import edition.academy.seventh.model.Book;
-import edition.academy.seventh.model.Bookstore;
-import edition.academy.seventh.model.BookstoreBook;
-import edition.academy.seventh.model.UrlResources;
+import edition.academy.seventh.model.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -17,11 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-
 import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
+import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
 import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
 import static edition.academy.seventh.repository.BookParser.parseDTBookIntoModel;
-
 
 /**
  * Allows to persists and retrieve data about books from the database. This information is
@@ -31,7 +28,7 @@ import static edition.academy.seventh.repository.BookParser.parseDTBookIntoModel
  */
 @Repository
 public class BookRepository {
-  private final static Logger logger = LoggerFactory.getLogger(BookRepository.class);
+  private static final Logger logger = LoggerFactory.getLogger(BookRepository.class);
   private EntityManager entityManager;
   private ConnectorProvider connectorProvider;
 
@@ -79,46 +76,86 @@ public class BookRepository {
     return booksFromDataBase;
   }
 
-  private void addBookToDatabase(BookDto bookDtos) {
-    BookstoreBook bookstoreBook = parseDTBookIntoModel(bookDtos);
+  private void addBookToDatabase(BookDto bookDto) {
 
-    Bookstore bookstore =
+    BookId bookId = new BookId(bookDto.getTitle(), bookDto.getAuthors());
+    Book book =
+        new Book(bookDto.getSubtitle(), bookId);
+    UrlResources urlResources = new UrlResources(bookDto.getHref(), bookDto.getImageLink());
+    Bookstore bookstore = new Bookstore(bookDto.getBookstore());
+
+    BookstoreBookId bookstoreBookId = new BookstoreBookId(bookstore, book);
+    BookstoreBook bookstoreBook =
+        new BookstoreBook(bookstoreBookId, urlResources);
+
+    Bookstore previousBookstore =
         entityManager.find(
             Bookstore.class, bookstoreBook.getBookstoreBookId().getBookstore().getName());
-    Book book =
+    Book previousBook =
         entityManager.find(Book.class, bookstoreBook.getBookstoreBookId().getBook().getBookId());
-    UrlResources urlResources =
+    UrlResources previousUrlResources =
         entityManager.find(UrlResources.class, bookstoreBook.getUrlResources().getHyperLink());
     BookstoreBook previousBookstoreBook =
         entityManager.find(BookstoreBook.class, bookstoreBook.getBookstoreBookId());
 
     refreshVariablesFromBookstoreBook(
-        bookstoreBook, bookstore, book, urlResources, previousBookstoreBook);
-
-    if (previousBookstoreBook == null) entityManager.persist(bookstoreBook);
+        bookstore,
+        previousBookstore,
+        book,
+        previousBook,
+        urlResources,
+        previousUrlResources,
+        bookstoreBook,
+        previousBookstoreBook,
+        bookDto);
   }
 
   private void refreshVariablesFromBookstoreBook(
-      BookstoreBook bookstoreBook,
       Bookstore bookstore,
+      Bookstore previousBookstore,
       Book book,
+      Book previousBook,
       UrlResources urlResources,
-      BookstoreBook previousBookstoreBook) {
-    if (bookstore != null) {
-      entityManager.refresh(bookstore);
-      bookstoreBook.getBookstoreBookId().setBookstore(bookstore);
-    }
-    if (book != null) {
-      entityManager.refresh(book);
+      UrlResources previousUrlResources,
+      BookstoreBook bookstoreBook,
+      BookstoreBook previousBookstoreBook,
+      BookDto bookDto) {
+
+
+    if (previousBook != null) {
+      book.setBookId(previousBook.getBookId());
+      entityManager.refresh(entityManager.merge(book));
       bookstoreBook.getBookstoreBookId().setBook(book);
-    }
-    if (urlResources != null) {
-      entityManager.refresh(urlResources);
+    } else entityManager.persist(book);
+    if (previousUrlResources != null) {
+      urlResources.setHyperLink(previousUrlResources.getHyperLink());
+      entityManager.refresh(entityManager.merge(urlResources));
       bookstoreBook.setUrlResources(urlResources);
-    }
+    } else entityManager.persist(urlResources);
+    if (previousBookstore != null) {
+      entityManager.refresh(entityManager.merge(previousBookstore));
+      bookstoreBook.getBookstoreBookId().setBookstore(previousBookstore);
+    } else entityManager.persist(bookstore);
+
     if (previousBookstoreBook != null) {
       bookstoreBook.setBookstoreBookId(previousBookstoreBook.getBookstoreBookId());
-      entityManager.refresh(bookstoreBook);
+      PriceHistory priceHistory =
+          new PriceHistory(
+              bookstoreBook,
+              bookDto.getRetailPrice(),
+              bookDto.getPromotionalPrice(),
+              LocalDateTime.now());
+      bookstoreBook.getPriceHistories().add(priceHistory);
+      entityManager.refresh(entityManager.merge(bookstoreBook));
+    } else {
+      PriceHistory priceHistory =
+              new PriceHistory(
+                      bookstoreBook,
+                      bookDto.getRetailPrice(),
+                      bookDto.getPromotionalPrice(),
+                      LocalDateTime.now());
+      bookstoreBook.getPriceHistories().add(priceHistory);
+      entityManager.persist(bookstoreBook);
     }
   }
 }

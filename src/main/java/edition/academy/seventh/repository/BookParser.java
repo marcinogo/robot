@@ -20,17 +20,8 @@ class BookParser {
         new Book(bookDto.getSubtitle(), new BookId(bookDto.getTitle(), bookDto.getAuthors()));
     UrlResources urlResources = new UrlResources(bookDto.getHref(), bookDto.getImageLink());
     Bookstore bookstore = new Bookstore(bookDto.getBookstore());
-    BookstoreBook bookstoreBook =
-        new BookstoreBook(new BookstoreBookId(bookstore, book), urlResources);
-    PriceHistory priceHistory =
-        new PriceHistory(
-            bookstoreBook,
-            bookDto.getRetailPrice(),
-            bookDto.getPromotionalPrice(),
-            LocalDateTime.now());
-    bookstoreBook.getPriceHistories().add(priceHistory);
 
-    return bookstoreBook;
+    return new BookstoreBook(new BookstoreBookId(bookstore, book), urlResources);
   }
 
   static List<BookDto> parseBookstoreBookListIntoDTBookList(List<BookstoreBook> bookstoreBooks) {
