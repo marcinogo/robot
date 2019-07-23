@@ -40,7 +40,7 @@ abstract class AbstractScrapper implements PromotionProvider {
   /**
    * Create {@link Runnable} task which is responsible for creating GET request to given page based
    * on {@link AbstractScrapper#startOfUrl} and {@link AbstractScrapper#endOfUrl}, then extracting
-   * all {@link org.jsoup.nodes.Element} of the given name {@link
+   * all {@link org.jsoup.nodes.Element} of the given userRole {@link
    * AbstractScrapper#documentClassName}.
    *
    * @param numberOfSearchedSite number of site which is concatenated to the URL.

@@ -17,10 +17,7 @@ import java.util.stream.Collectors;
  * Class which is a representation of authenticated User {@link User} with granted authority.
  * UserPrinciple is returned after successful authentication in {@link UserDetailsServiceImpl}.
  *
- * @author Wiktor Rup
  * @author Patryk Kucharski
- * @author Krzysztof Niedzielski
- * @author Bartosz Kupajski
  */
 @Getter
 @AllArgsConstructor
@@ -35,13 +32,15 @@ public class UserPrinciple implements UserDetails {
   private Collection<? extends GrantedAuthority> authorities;
 
   /**
-   * @param user
-   * @return
+   * Creates new {@code UserPrinciple} instance based on given data.
+   *
+   * @param user {@link User} with required data.
+   * @return UserPrinciple based on User passed as parameter.
    */
   public static UserPrinciple build(User user) {
     List<GrantedAuthority> authorities =
         user.getRoles().stream()
-            .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+            .map(role -> new SimpleGrantedAuthority(role.getUserRole().name()))
             .collect(Collectors.toList());
 
     return new UserPrinciple(

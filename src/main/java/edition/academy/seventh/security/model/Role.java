@@ -6,7 +6,11 @@ import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 
-/** @author Patryk Kucharski */
+/**
+ * Represents user roles in terms of authorization.
+ *
+ * @author Patryk Kucharski
+ */
 @Data
 @NoArgsConstructor
 @Entity
@@ -20,14 +24,14 @@ public class Role {
   @Enumerated(EnumType.STRING)
   @NaturalId
   @Column(length = 60)
-  private UserRole name;
+  private UserRole userRole;
 
   /**
-   * asdada. todo
+   * Creates new role based on {@link UserRole role provided}.
    *
-   * @param name of the role {@link UserRole}
+   * @param userRole {@link UserRole user role}.
    */
-  public Role(UserRole name) {
-    this.name = name;
+  public Role(UserRole userRole) {
+    this.userRole = userRole;
   }
 }

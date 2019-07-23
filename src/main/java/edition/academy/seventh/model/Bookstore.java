@@ -13,7 +13,7 @@ import javax.persistence.OneToMany;
 public class Bookstore {
 
   @Id
-  @Column(name = "name")
+  @Column(name = "userRole")
   private String name;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookstore")

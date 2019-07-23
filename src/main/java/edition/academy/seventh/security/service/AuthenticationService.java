@@ -27,10 +27,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author Wiktor Rup
+ * Provides API for creating new account and logging in.
+ * Also uses {@link UserRepository} while checking if given
+ * user exists by passed param.
+ *
  * @author Patryk Kucharski
- * @author Krzysztof Niedzielski
- * @author Bartosz Kupajski
  */
 @Service
 public class AuthenticationService {
@@ -45,11 +46,11 @@ public class AuthenticationService {
   /**
    * Creates bean for {@link org.springframework.context.ApplicationContext}.
    *
-   * @param authenticationManager
-   * @param jwtProvider
+   * @param authenticationManager which processes {@link Authentication} request
+   * @param jwtProvider generates tokens
    * @param encoder password encoder for safety.
-   * @param userRepository
-   * @param roleRepository
+   * @param userRepository speaks with database managing {@link User user} entities.
+   * @param roleRepository speaks with database managing {@link Role role} entities.
    */
   @Autowired
   public AuthenticationService(
@@ -68,7 +69,7 @@ public class AuthenticationService {
   /**
    * Creates new user's account based on {@link RegisterForm} passed as parameter.
    *
-   * @param registerForm requested user data needed to create an account.
+   * @param registerForm {@link RegisterForm} with requested user data needed to create an account.
    */
   public void createNewAccount(@RequestBody @Valid RegisterForm registerForm) {
     User user =

@@ -9,7 +9,11 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
-/** @author Patryk Kucharski */
+/**
+ * Represents register form on the client side.
+ *
+ * @author Patryk Kucharski
+ */
 @ToString
 @Getter
 @NoArgsConstructor

@@ -11,12 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Class which is responsible for handling unauthorized requests.
+ * Responsible for handling unauthorized requests.
  *
- * @author Wiktor Rup
  * @author Patryk Kucharski
- * @author Krzysztof Niedzielski
- * @author Bartosz Kupajski
  * @see org.springframework.security.web.AuthenticationEntryPoint
  */
 @Component

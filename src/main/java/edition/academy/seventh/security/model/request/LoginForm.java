@@ -8,12 +8,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**
- * Represents login form on the client side
+ * Represents login form on the client side.
  *
- * @author Wiktor Rup
  * @author Patryk Kucharski
- * @author Krzysztof Niedzielski
- * @author Bartosz Kupajski
  */
 @ToString
 @NoArgsConstructor

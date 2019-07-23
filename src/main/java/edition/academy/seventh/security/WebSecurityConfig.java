@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -21,13 +20,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 /**
  * Configuration class responsible for user authentication and authorization.
  *
- * @author Wiktor Rup
- * @author Patryk Kucharski
- * @author Krzysztof Niedzielski
- * @author Bartosz Kupajski
  * @see edition.academy.seventh.security.model.User
  * @see JwtAuthTokenFilter
  * @see JwtAuthEntryPoint
+ *
+ * @author Patryk Kucharski
  */
 @Configuration
 @EnableWebSecurity
@@ -37,15 +34,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired private UserDetailsServiceImpl userDetailsService;
   @Autowired private JwtAuthEntryPoint unauthorizedHandler;
 
+  /**
+   * Factory method creating {@link JwtAuthTokenFilter}.
+   *
+   * @return new instance of {@link JwtAuthTokenFilter}.
+   */
   @Bean
   public JwtAuthTokenFilter authenticationJwtTokenFilter() {
     return new JwtAuthTokenFilter();
   }
 
   /**
-   * @param authenticationManagerBuilder - Keeps list of {@link AuthenticationProvider}
-   * @throws Exception Note that an {@link Exception} might be thrown if an error occurs when adding
-   *     the {@link AuthenticationProvider}.
+   * Factory method creating {@link PasswordEncoder}.
+   *
+   * @return new instance of {@link BCryptPasswordEncoder}.
+   */
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
+  /**
+   * {@inheritDoc}
    */
   @Override
   public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
@@ -55,15 +65,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .passwordEncoder(passwordEncoder());
   }
 
+  /**
+   *
+   * {@inheritDoc}
+   */
   @Bean
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
-  }
-
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
   }
 
   @Override

@@ -18,12 +18,9 @@ import javax.validation.constraints.NotNull;
 import java.io.IOException;
 
 /**
- * Class which guarantees that user will be authenticated only once per request.
+ * Guarantees that user will be authenticated only once per request.
  *
- * @author Wiktor Rup
  * @author Patryk Kucharski
- * @author Krzysztof Niedzielski
- * @author Bartosz Kupajski
  * @see JwtProvider
  * @see org.springframework.web.filter.OncePerRequestFilter
  */
@@ -33,18 +30,21 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
   private JwtProvider tokenProvider;
   private UserDetailsServiceImpl userDetailsService;
 
-//  /**
-//   * Creates bean for {@link org.springframework.context.ApplicationContext}.
-//   *
-//   * @param tokenProvider with necessary API to check given token.
-//   * @param userDetailsService necessary to load user from database.
-//   */
-//
-//  @Autowired
-//  public JwtAuthTokenFilter(JwtProvider tokenProvider, UserDetailsServiceImpl userDetailsService) {
-//    this.tokenProvider = tokenProvider;
-//    this.userDetailsService = userDetailsService;
-//  }
+  // TODO: 23.07.19 czy potrzebne?
+
+  //  /**
+  //   * Creates bean for {@link org.springframework.context.ApplicationContext}.
+  //   *
+  //   * @param tokenProvider with necessary API to check given token.
+  //   * @param userDetailsService necessary to load user from database.
+  //   */
+  //
+  //  @Autowired
+  //  public JwtAuthTokenFilter(JwtProvider tokenProvider, UserDetailsServiceImpl
+  // userDetailsService) {
+  //    this.tokenProvider = tokenProvider;
+  //    this.userDetailsService = userDetailsService;
+  //  }
 
   @Override
   protected void doFilterInternal(

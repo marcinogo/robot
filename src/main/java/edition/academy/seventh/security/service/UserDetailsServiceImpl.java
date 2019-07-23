@@ -10,14 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Class is responsible for exchanging information and returning the result of identification of
+ * Responsible for exchanging information and returning the result of identification of
  * user in database {@link User}. Please see the {@link
  * org.springframework.security.core.userdetails.UserDetailsService} for true identity.
  *
- * @author Wiktor Rup
  * @author Patryk Kucharski
- * @author Krzysztof Niedzielski
- * @author Bartosz Kupajski
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

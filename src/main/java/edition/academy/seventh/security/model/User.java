@@ -12,7 +12,8 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
- * @author Krzysztof Kramarz
+ * Represents user in terms of persistence.
+ *
  * @author Patryk Kucharski
  */
 @Data
