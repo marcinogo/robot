@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  *
  * @author Agnieszka Trzewik
  */
-class BookParser {
+public class BookParser {
 
   static BookstoreBook parseDTBookIntoModel(BookDto dtBook) {
     Book book = new Book(dtBook.getSubtitle(), new BookId(dtBook.getTitle(), dtBook.getAuthors()));
@@ -32,7 +32,7 @@ class BookParser {
         bookstore);
   }
 
-  static List<BookDto> parseBookstoreBookListIntoDTBookList(List<BookstoreBook> bookstoreBooks) {
+  public static List<BookDto> parseBookstoreBookListIntoDTBookList(List<BookstoreBook> bookstoreBooks) {
     return bookstoreBooks.stream()
         .map(
             bookstoreBook ->

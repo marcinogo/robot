@@ -1,8 +1,15 @@
 package edition.academy.seventh.controller;
 
+import edition.academy.seventh.database.connector.ConnectorFactory;
+import edition.academy.seventh.database.connector.DatabaseTypes;
 import edition.academy.seventh.database.model.BookDto;
+import edition.academy.seventh.recordsview.DynamicPagination;
+import edition.academy.seventh.recordsview.Pagination;
+import edition.academy.seventh.recordsview.PaginationSize;
 import edition.academy.seventh.service.BookService;
 import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", maxAge = 3600)
 class BookController {
   private BookService bookService;
+  private DynamicPagination pagination;
 
   @Autowired
   public BookController(BookService bookService) {
@@ -29,5 +37,26 @@ class BookController {
   @GetMapping("/books")
   public ResponseEntity<List<BookDto>> getBooks() {
     return new ResponseEntity<>(bookService.getBooksFromDatabase(), HttpStatus.OK);
+  }
+
+
+  //debug PAGINACJA
+  @GetMapping("/books/pagination")
+  public ResponseEntity<List<BookDto>> get20Books() {
+    pagination = new DynamicPagination(ConnectorFactory.of(DatabaseTypes.POSTGRESQL));
+    List<BookDto> paginationUsingSql = pagination.startPagination();
+    return new ResponseEntity<>(paginationUsingSql, HttpStatus.OK);
+  }
+
+  @GetMapping("/books/pagination/next")
+  public ResponseEntity<List<BookDto>> next() {
+    List<BookDto> paginationUsingSql = pagination.nextPage();
+    return new ResponseEntity<>(paginationUsingSql, HttpStatus.OK);
+  }
+
+  @GetMapping("/books/pagination/previous")
+  public ResponseEntity<List<BookDto>> previous() {
+    List<BookDto> paginationUsingSql = pagination.previousPage();
+    return new ResponseEntity<>(paginationUsingSql, HttpStatus.OK);
   }
 }
