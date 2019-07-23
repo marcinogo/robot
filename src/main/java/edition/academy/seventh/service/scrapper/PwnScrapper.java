@@ -34,6 +34,7 @@ class PwnScrapper extends AbstractScrapper {
     }
 
     phaser.arriveAndAwaitAdvance();
+
     return listOfBooks;
   }
 
@@ -55,7 +56,7 @@ class PwnScrapper extends AbstractScrapper {
                   title, "", author, retailPrice, promotionalPrice, imageLink, href, bookstoreName);
             })
         .forEach(listOfBooks::add);
-    phaser.arrive();
+    phaser.arriveAndDeregister();
   }
 
   private String deleteAuthorTag(String author) {
