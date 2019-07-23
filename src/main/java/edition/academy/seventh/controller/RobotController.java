@@ -8,7 +8,6 @@ import edition.academy.seventh.service.ProvidersNotFoundException;
 import edition.academy.seventh.service.mapper.ItBookMapper;
 import java.io.IOException;
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +66,7 @@ class RobotController {
   /**
    * Checks if data gathering runs uninterrupted.
    *
-   *  @return true if gathering data completed without issues.
+   * @return true if gathering data completed without issues.
    */
   private boolean startGatheringData() {
     updateEnvironmentCredentials();

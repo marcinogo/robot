@@ -42,6 +42,7 @@
         <version.plugin.checkstyle>3.0.0</version.plugin.checkstyle>
         <version.plugin.jdepend>2.0</version.plugin.jdepend>
         <version.plugin.jsoup>1.12.1</version.plugin.jsoup>
+        <version.spring.security>5.0.8.RELEASE</version.spring.security>
 
         <!-- Plugins settings -->
         <skipIntegrationTests>true</skipIntegrationTests>
@@ -67,7 +68,29 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${version.spring.security}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${version.spring.security}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${version.spring.security}</version>
+        </dependency>
         <!-- /SPRING -->
+
+        <!-- For Working with Json Web Tokens (JWT) -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.0</version>
+        </dependency>
 
         <!-- DB -->
         <dependency>
