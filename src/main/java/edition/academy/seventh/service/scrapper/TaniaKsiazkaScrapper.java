@@ -45,16 +45,16 @@ class TaniaKsiazkaScrapper extends AbstractScrapper {
             element -> {
               String title = element.getElementsByClass("product-title").text();
               String author = element.getElementsByClass("product-authors").text();
-              String promotionPrice = element.getElementsByClass("product-price").text();
+              String promotionalPrice = element.getElementsByClass("product-price").text();
               String href = element.getElementsByClass("ecommerce-datalayer ").attr("href");
               href = startOfHrefUrl + href;
-              String img = element.getElementsByClass("lazyload lazyload-medium").attr("data-src");
-              img = img.substring(2);
-              promotionPrice = deleteCurrencyFromPrice(promotionPrice);
-              String basePrice = element.getElementsByTag("del").text();
-              basePrice = deleteCurrencyFromPrice(basePrice);
+              String imageLink = element.getElementsByClass("lazyload lazyload-medium").attr("data-src");
+              imageLink = imageLink.substring(2);
+              promotionalPrice = deleteCurrencyFromPrice(promotionalPrice);
+              String retailPrice = element.getElementsByTag("del").text();
+              retailPrice = deleteCurrencyFromPrice(retailPrice);
               return new BookDto(
-                  title, "", author, basePrice, promotionPrice, img, href, bookstoreName);
+                  title, "", author, retailPrice, promotionalPrice, imageLink, href, bookstoreName);
             })
         .forEach(listOfBooks::add);
     phaser.arriveAndDeregister();

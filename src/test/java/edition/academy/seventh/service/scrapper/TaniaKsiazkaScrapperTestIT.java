@@ -12,6 +12,7 @@ import org.testng.annotations.Test;
  */
 @Test
 public class TaniaKsiazkaScrapperTestIT {
+
   @Test
   public void should_scrapAtLeastOneBook_forGivenUrl() {
     // Given

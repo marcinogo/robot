@@ -11,6 +11,7 @@ import static org.testng.Assert.assertTrue;
 /** @author Kacper Staszek */
 @Test
 public class SwiatKsiazkiScrapperTestIT {
+
   @Test
   public void should_scrapAtLeastOneBook_forGivenUrl() {
     // Given
