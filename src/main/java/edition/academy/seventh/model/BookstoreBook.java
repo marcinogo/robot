@@ -41,7 +41,8 @@ public class BookstoreBook {
   @JoinColumn(name = "url_resources_id")
   private UrlResources urlResources;
 
-  public BookstoreBook() {}
+  public BookstoreBook() {
+  }
 
   public BookstoreBook(
       Book book,

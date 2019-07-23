@@ -28,7 +28,7 @@ abstract class AbstractScrapper implements PromotionProvider {
   private final String documentClassName;
 
   List<BookDto> listOfBooks = new CopyOnWriteArrayList<>();
-  protected ExecutorService service = Executors.newFixedThreadPool(40);
+  protected ExecutorService service = Executors.newFixedThreadPool(10);
   Phaser phaser = new Phaser(1);
 
   AbstractScrapper(String startOfUrl, String endOfUrl, String documentClassName) {

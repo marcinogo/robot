@@ -34,7 +34,7 @@ public class EmpikScrapper extends AbstractScrapper {
   @Override
   public List<BookDto> getPromotions() {
 
-    for (int i = 1; i <= 30 * 20; i = i + 30) {
+    for (int i = 1; i <= 30 * 3; i = i + 30) {
       service.submit(createScrappingTask(i));
       logger.info("Submitting scrapping task for page: " + startOfUrl + i + endOfUrl);
     }

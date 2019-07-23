@@ -28,7 +28,7 @@ class SwiatKsiazkiScrapper extends AbstractScrapper {
    */
   @Override
   public List<BookDto> getPromotions() {
-    for (int i = 1; i <= 3; i++) {
+    for (int i = 1; i <= 2; i++) {
       service.submit(createScrappingTask(i));
       logger.info("Submitting scrapping task for page: " + startOfUrl + i + endOfUrl);
     }
