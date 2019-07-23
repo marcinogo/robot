@@ -39,4 +39,13 @@ class ScrapperConfiguration {
         "item product product-item",
         "ŚWIAT KSIĄŻKI");
   }
+
+  @Bean(name = "taniaKsiazkaScrapper")
+  PromotionProvider taniaKsiazkaPromotionProvider() {
+    return new TaniaKsiazkaScrapper(
+        "https://www.taniaksiazka.pl/tanie-ksiazki/page-",
+        "",
+        "product-container",
+        "TANIA KSIĄŻKA");
+  }
 }
