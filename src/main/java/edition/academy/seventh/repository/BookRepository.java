@@ -125,16 +125,16 @@ public class BookRepository {
     if (previousBook != null) {
       book.setBookId(previousBook.getBookId());
       entityManager.refresh(entityManager.merge(book));
-      bookstoreBook.getBookstoreBookId().setBook(book);
+
     } else entityManager.persist(book);
     if (previousUrlResources != null) {
       urlResources.setHyperLink(previousUrlResources.getHyperLink());
       entityManager.refresh(entityManager.merge(urlResources));
-      bookstoreBook.setUrlResources(urlResources);
+
     } else entityManager.persist(urlResources);
     if (previousBookstore != null) {
+      bookstore.setName(previousBookstore.getName());
       entityManager.refresh(entityManager.merge(previousBookstore));
-      bookstoreBook.getBookstoreBookId().setBookstore(previousBookstore);
     } else entityManager.persist(bookstore);
 
     if (previousBookstoreBook != null) {

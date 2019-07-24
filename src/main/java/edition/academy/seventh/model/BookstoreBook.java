@@ -12,7 +12,7 @@ public class BookstoreBook {
   @Column(name = "bookstore_book_id")
   private BookstoreBookId bookstoreBookId;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "bookstoreBook")
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "bookstoreBook")
   private List<PriceHistory> priceHistories = new ArrayList<>();
 
   @ManyToOne(cascade = CascadeType.ALL)
