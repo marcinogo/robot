@@ -12,5 +12,9 @@ public interface ConnectorProvider {
    */
   EntityManager getEntityManager();
 
-  EntityManagerFactory getEntityManagerFactory();
+  /**
+   * Closes {@link javax.persistence.EntityManagerFactory} and all provided {@link
+   * javax.persistence.EntityManager entity managers}.
+   */
+  void close();
 }

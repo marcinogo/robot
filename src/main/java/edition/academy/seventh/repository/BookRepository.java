@@ -17,7 +17,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -51,8 +50,8 @@ public class BookRepository {
     bookDtos.forEach(this::addBookToDatabase);
     logger.info("Saving " + bookDtos.size() + " books in database");
     transaction.commit();
-    entityManager.close();
-    connectorProvider.getEntityManagerFactory().close();
+
+    connectorProvider.close();
   }
 
   /**
@@ -71,7 +70,7 @@ public class BookRepository {
     query.select(from);
     List<BookstoreBook> bookstoreBookList = entityManager.createQuery(query).getResultList();
 
-    entityManager.close();
+    connectorProvider.close();
     logger.info("Called getBooksFromDatebase(), returning " + bookstoreBookList.size() + " books");
     return parseBookstoreBookListIntoDTBookList(bookstoreBookList);
   }
