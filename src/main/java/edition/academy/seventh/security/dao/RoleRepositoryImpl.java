@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
@@ -30,7 +31,7 @@ class RoleRepositoryImpl implements RoleRepository {
   }
 
   @Override
-  public Optional<Role> findByName(UserRole roleName) {
+  public Optional<Role> findByName(UserRole roleName) throws NoResultException {
     entityManager = connectorProvider.getEntityManager();
 
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -38,9 +39,15 @@ class RoleRepositoryImpl implements RoleRepository {
     Root<Role> from = query.from(Role.class);
     Path<Object> name = from.get("name");
     query.select(from).where(criteriaBuilder.equal(name, roleName.getUserRole()));
-    Role role = entityManager.createQuery(query).getSingleResult();
-
-    entityManager.close();
-    return Optional.ofNullable(role);
+    try {
+      return Optional.ofNullable(entityManager.createQuery(query).getSingleResult());
+    } catch (Exception e) {
+      String message = e.getMessage();
+      LOGGER.error("Retrieving data from db unsuccessful. {}", message);
+      throw new NoResultException(
+          String.format("Retrieving data from db unsuccessful. Message: %s", message));
+    } finally {
+      entityManager.close();
+    }
   }
 }

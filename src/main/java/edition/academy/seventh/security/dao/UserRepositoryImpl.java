@@ -30,8 +30,8 @@ class UserRepositoryImpl implements UserRepository {
   private ConnectorProvider connectorProvider;
   private EntityManager entityManager;
 
-  public UserRepositoryImpl() {
-    this.connectorProvider = ConnectorFactory.of(POSTGRESQL);
+   UserRepositoryImpl() {
+    connectorProvider = ConnectorFactory.of(POSTGRESQL);
   }
 
   @Override
