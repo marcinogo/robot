@@ -1,4 +1,4 @@
-package edition.academy.seventh.recordsview;
+package edition.academy.seventh.display;
 
 import edition.academy.seventh.database.model.BookDto;
 

@@ -1,4 +1,4 @@
-package edition.academy.seventh.recordsview;
+package edition.academy.seventh.display;
 
 public enum PaginationSize {
     TWO(2), TWENTY(20), FIFTY(50), HUNDRED(100);
