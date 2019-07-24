@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 /** @author Kamil Rojek */
-public class Pagination {
+public class EagerPagination {
   private List<BookDto> books;
   private Map<Integer, List<BookDto>> paginationMap;
 
-  public Pagination(List<BookDto> books) {
+  public EagerPagination(List<BookDto> books) {
     this.books = books;
   }
 

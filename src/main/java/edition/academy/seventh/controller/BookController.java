@@ -3,7 +3,7 @@ package edition.academy.seventh.controller;
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.DatabaseTypes;
 import edition.academy.seventh.database.model.BookDto;
-import edition.academy.seventh.display.DynamicPagination;
+import edition.academy.seventh.display.LazyPagination;
 import edition.academy.seventh.display.Filter;
 import edition.academy.seventh.service.BookService;
 import java.util.List;
@@ -20,8 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*", maxAge = 3600)
 class BookController {
   private BookService bookService;
-  private DynamicPagination pagination;
-  private Filter filter = new Filter();
+  private LazyPagination pagination;
 
   @Autowired
   public BookController(BookService bookService) {
@@ -38,11 +37,10 @@ class BookController {
     return new ResponseEntity<>(bookService.getBooksFromDatabase(), HttpStatus.OK);
   }
 
-
-  //debug PAGINACJA
+  // debug PAGINACJA
   @GetMapping("/books/pagination")
   public ResponseEntity<List<BookDto>> get20Books() {
-    pagination = new DynamicPagination(ConnectorFactory.of(DatabaseTypes.POSTGRESQL), filter);
+    pagination = new LazyPagination(ConnectorFactory.of(DatabaseTypes.POSTGRESQL));
     List<BookDto> paginationUsingSql = pagination.startPagination();
     return new ResponseEntity<>(paginationUsingSql, HttpStatus.OK);
   }
@@ -61,15 +59,13 @@ class BookController {
 
   @GetMapping("/books/pagination/filter")
   public ResponseEntity<List<BookDto>> setPriceFilter() {
-    filter.setPriceAcending();
-    List<BookDto> paginationUsingSql = pagination.startPagination();
-    return new ResponseEntity<>(paginationUsingSql, HttpStatus.OK);
+    List<BookDto> bookDtos = pagination.changeFilter(Filter.PROMOTIONAL_PRICE_ASCENDING);
+    return new ResponseEntity<>(bookDtos, HttpStatus.OK);
   }
 
   @GetMapping("/books/pagination/filterd")
   public ResponseEntity<List<BookDto>> setPriceFilterd() {
-    filter.setDefault();
-    List<BookDto> paginationUsingSql = pagination.startPagination();
-    return new ResponseEntity<>(paginationUsingSql, HttpStatus.OK);
+    List<BookDto> bookDtos = pagination.changeFilter(Filter.DEFAULT);
+    return new ResponseEntity<>(bookDtos, HttpStatus.OK);
   }
 }
