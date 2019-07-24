@@ -1,9 +1,9 @@
 package edition.academy.seventh.model;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import javax.persistence.*;
 
 @Entity(name = "book")
 public class Book {
@@ -15,7 +15,7 @@ public class Book {
   @Column(name = "subtitle")
   private String subtitle;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "bookstoreBookId.book")
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
   private List<BookstoreBook> bookstoreBooks = new ArrayList<>();
 
   public Book() {}

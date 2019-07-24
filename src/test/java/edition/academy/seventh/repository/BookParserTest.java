@@ -4,53 +4,15 @@ import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.model.*;
 import org.testng.annotations.Test;
 
-import java.time.LocalDate;
+import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
-import static edition.academy.seventh.repository.BookParser.parseDTBookIntoModel;
+import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
 @Test
 public class BookParserTest {
-
-  @Test(
-      dataProviderClass = DataProviderForBookParser.class,
-      dataProvider = "dataProviderForBookParsing")
-  public void should_createBookstoreBook_when_givenDTBook(
-      String title,
-      String subtitle,
-      String author,
-      String retailPrice,
-      String promotionalPrice,
-      String hyperLink,
-      String imageLink,
-      String bookstore) {
-
-    // Given
-    BookDto dtBook =
-        new BookDto(
-            title,
-            subtitle,
-            author,
-            retailPrice,
-            promotionalPrice,
-            imageLink,
-            hyperLink,
-            bookstore);
-    BookstoreBook expectedBookstoreBook =
-        new BookstoreBook(
-            new BookstoreBookId(
-                new Bookstore(bookstore), new Book(subtitle, new BookId(title, author))),
-            new UrlResources(hyperLink, imageLink));
-
-    // When
-    BookstoreBook bookstoreBook = parseDTBookIntoModel(dtBook);
-
-    // Then
-    assertEquals(bookstoreBook, expectedBookstoreBook);
-  }
 
   @Test(
       dataProviderClass = DataProviderForBookParser.class,
@@ -67,10 +29,11 @@ public class BookParserTest {
 
     // Given
     BookstoreBook bookstoreBook =
-        new BookstoreBook(
-            new BookstoreBookId(
-                new Bookstore(bookstore), new Book(subtitle, new BookId(title, author))),
-            new UrlResources(hyperLink, imageLink));
+            new BookstoreBook(
+                    hyperLink,
+                    imageLink,
+                    new Bookstore(bookstore),
+                    new Book(subtitle, new BookId(title, author)));
     PriceHistory priceHistory =
         new PriceHistory(bookstoreBook, retailPrice, promotionalPrice, LocalDateTime.now());
     bookstoreBook.getPriceHistories().add(priceHistory);
@@ -91,7 +54,7 @@ public class BookParserTest {
     List<BookDto> expectedDTBooks = List.of(dtBook);
 
     // When
-    List<BookDto> dtBooks = parseBookstoreBookListIntoDTBookList(bookstoreBooks);
+    List<BookDto> dtBooks = new BookParser().parseBookstoreBookListIntoDTBookList(bookstoreBooks);
 
     // Then
     assertEquals(dtBooks, expectedDTBooks);

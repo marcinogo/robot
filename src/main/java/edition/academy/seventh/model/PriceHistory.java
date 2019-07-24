@@ -1,8 +1,8 @@
 package edition.academy.seventh.model;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import javax.persistence.*;
 
 /** @author Agnieszka Trzewik */
 @Entity(name = "price_history")
@@ -14,11 +14,7 @@ public class PriceHistory {
   private Long id;
 
   @ManyToOne(cascade = CascadeType.PERSIST)
-  @JoinColumns({
-    @JoinColumn(name = "author"),
-    @JoinColumn(name = "title"),
-    @JoinColumn(name = "bookstore")
-  })
+  @JoinColumn(name = "bookstoreBook_id")
   private BookstoreBook bookstoreBook;
 
   @Column(name = "retail_price")

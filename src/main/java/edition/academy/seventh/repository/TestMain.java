@@ -2,13 +2,18 @@ package edition.academy.seventh.repository;
 
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
+import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.model.*;
+import org.hibernate.Session;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
+
+import java.time.LocalDateTime;
 
 import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
 
@@ -19,79 +24,91 @@ public class TestMain {
   static EntityManager entityManager = connectorProvider.getEntityManager();
 
   public static void main(String[] args) {
-    //      BookDto bookDto = new BookDto("Tytul", "", "autor", "realCeba", "promoCena",
-    //              "Link do obrazka", "href", "Empik");
-    //      BookId bookId = new BookId(bookDto.getTitle(), bookDto.getAuthors());
-    //      Book book = new Book(bookDto.getSubtitle(), bookId);
-    //
-    //      Bookstore bookstore = new Bookstore(bookDto.getBookstore());
-    //      UrlResources urlResources = new UrlResources(bookDto.getHref(), bookDto.getImageLink());
-    //      BookstoreBookId bookstoreBookId = new BookstoreBookId(bookstore, book);
-    //
-    //      BookstoreBook bookstoreBook = new BookstoreBook(bookstoreBookId, urlResources);
-    //
-    //      PriceHistory priceHistory = new PriceHistory(bookstoreBook, bookDto.getRetailPrice(),
-    // bookDto.getPromotionalPrice(), LocalDateTime.now());
-    //
-    //      bookstoreBook.getPriceHistories().add(priceHistory);
-    //
+    BookDto bookDto =
+        new BookDto(
+            "Tytul", "", "autor", "realCeba", "promoCena", "Link do obrazka", "href", "Empik");
+    BookId bookId = new BookId(bookDto.getTitle(), bookDto.getAuthors());
+    Book book = new Book(bookDto.getSubtitle(), bookId);
 
-    //      entityManager = connectorProvider.getEntityManager();
-    //      EntityTransaction transaction = entityManager.getTransaction();
+    Bookstore bookstore = new Bookstore(bookDto.getBookstore());
 
-    //      transaction.begin();
-    //
-    //      entityManager.persist(book);
-    //      entityManager.persist(bookstore);
-    //      entityManager.persist(urlResources);
-    //      entityManager.persist(bookstoreBook);
-    //
-    //      transaction.commit();
-    //      entityManager.close();
-    //
-    //      connectorProvider.getEntityManagerFactory().close();
+    BookstoreBook bookstoreBook =
+        new BookstoreBook(bookDto.getHref(), bookDto.getImageLink(), bookstore, book);
+
+    PriceHistory priceHistory =
+        new PriceHistory(
+            bookstoreBook,
+            bookDto.getRetailPrice(),
+            bookDto.getPromotionalPrice(),
+            LocalDateTime.now());
+
+    bookstoreBook.getPriceHistories().add(priceHistory);
+
+    BookDto bookDto2 =
+        new BookDto(
+            "Tytul", "", "autor", "realCeba", "promoCena", "Link do obrazka", "href", "Empik");
+    BookId bookId2 = new BookId(bookDto.getTitle(), bookDto.getAuthors());
+    Book book2 = new Book(bookDto.getSubtitle(), bookId);
+
+    Bookstore bookstore2 = new Bookstore(bookDto.getBookstore());
+
+    BookstoreBook bookstoreBook2 =
+        new BookstoreBook(bookDto.getHref(), "fff", bookstore, book);
+
+    PriceHistory priceHistory2 =
+        new PriceHistory(
+            bookstoreBook,
+            bookDto.getRetailPrice(),
+            bookDto.getPromotionalPrice(),
+            LocalDateTime.now());
+
+    bookstoreBook.getPriceHistories().add(priceHistory);
 
     entityManager = connectorProvider.getEntityManager();
+    EntityTransaction transaction = entityManager.getTransaction();
 
-    UrlResources urlResourcesByHref =
-        getUrlResourcesByHref(
-            "https://ksiegarnia.pwn.pl/Ilustrowany-slownik-ortograficzny,781898502,p.html");
-    BookstoreBook bookstoreBook = findBookstoreBookByUrlResources(urlResourcesByHref);
+    transaction.begin();
 
-    BookstoreBook bookstoreBook1 =
-        findBookstoreBookById(
-            "ITBookstore",
-            "Learning C++ by Building Games with Unreal Engine 4, 2nd Edition",
-            "Sharan Volin");
+    entityManager.persist(book);
+    entityManager.persist(bookstore);
+    entityManager.persist(bookstoreBook);
 
-    bookstoreBook.getPriceHistories().forEach(p -> System.out.println(p.getDate()));
-    System.out.println("================================");
-    bookstoreBook1.getPriceHistories().forEach(p -> System.out.println(p.getDate()));
+    Book book1 = entityManager.find(Book.class, book2.getBookId());
+    book.setBookId(book2.getBookId());
+    entityManager.refresh(book);
+    Bookstore bookstore1 = entityManager.find(Bookstore.class, bookstore2.getName());
+    bookstore.setName(bookstore2.getName());
+    entityManager.refresh(bookstore);
+    BookstoreBook bookstoreBook1 = entityManager.find(BookstoreBook.class, bookstoreBook2.getHyperLink());
+    if (bookstoreBook1 != null) {
+      bookstoreBook2.setHyperLink(bookstoreBook1.getHyperLink());
+      entityManager.merge(bookstoreBook2);
 
-    entityManager.close();
-    connectorProvider.getEntityManagerFactory().close();
-  }
-
-  private static BookstoreBook findBookstoreBookById(
-      String bookstoreName, String title, String author) {
-    return entityManager.find(
-        BookstoreBook.class,
-        new BookstoreBookId(new Bookstore(bookstoreName), new Book("", new BookId(title, author))));
-  }
-
-  private static BookstoreBook findBookstoreBookByUrlResources(UrlResources singleResult) {
-    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-
-    CriteriaQuery<BookstoreBook> query = criteriaBuilder.createQuery(BookstoreBook.class);
-    Root<BookstoreBook> from = query.from(BookstoreBook.class);
-    Path<Object> urlResources1 = from.get("urlResources");
-    query.select(from).where(criteriaBuilder.equal(urlResources1, singleResult));
-    return entityManager.createQuery(query).getSingleResult();
-  }
-
-    private static UrlResources getUrlResourcesByHref(String href) {
-        return entityManager.find(UrlResources.class, href);
     }
+    else entityManager.persist(bookstoreBook2);
 
-    //stworzyc tytul autor, wszytskie pricehistory
+
+    transaction.commit();
+    entityManager.close();
+
+    connectorProvider.getEntityManagerFactory().close();
+
+    //    entityManager = connectorProvider.getEntityManager();
+    //
+    //
+    //    BookstoreBook bookstoreBook =
+    //
+    // findBookstoreBookById("https://ksiegarnia.pwn.pl/Ilustrowany-slownik-ortograficzny,781898502,p.html");
+    //
+    //    bookstoreBook.getPriceHistories().forEach(p -> System.out.println(p.getDate()));
+    //
+    //    entityManager.close();
+    //    connectorProvider.getEntityManagerFactory().close();
+  }
+
+  private static BookstoreBook findBookstoreBookById(String href) {
+    return entityManager.find(BookstoreBook.class, href);
+  }
+
+  // stworzyc tytul autor, wszytskie pricehistory
 }

@@ -1,9 +1,9 @@
 package edition.academy.seventh.model;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 @Embeddable
 public class BookId implements Serializable {
