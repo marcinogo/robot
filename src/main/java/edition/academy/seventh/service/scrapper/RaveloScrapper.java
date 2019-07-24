@@ -5,7 +5,13 @@ import org.jsoup.select.Elements;
 
 import java.util.List;
 
-/** @author Bartosz Kupajski */
+/**
+ * Scraps data from revelo bookstore website in sales section using Jsoup library.
+ *
+ * <p>{@link AbstractScrapper} {@link edition.academy.seventh.service.PromotionProvider}
+ *
+ * @author Bartosz Kupajski
+ */
 public class RaveloScrapper extends AbstractScrapper {
 
   private final String bookstoreName;
