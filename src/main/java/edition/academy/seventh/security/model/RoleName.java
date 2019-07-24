@@ -7,9 +7,8 @@ import lombok.Getter;
  * Currently every registered user receives {@code ROLE_USER},
  * while {@code ROLE_ADMIN} will be given to specified users
  * once given version of the app runs for it's first time.
- *
- * Roles define privileges and accessibility to client & serer
- * resources
+ * Roles define privileges and accessibility to server
+ * resources and APIs.
  *
  * @author Patryk Kucharski
  */

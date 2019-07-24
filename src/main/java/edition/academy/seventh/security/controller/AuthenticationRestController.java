@@ -16,6 +16,8 @@ import javax.validation.Valid;
 
 /**
  * Main entry point for authentication and authorization purposes.
+ * Contains login and register endpoints and proceeds with requested
+ * operations returning {@link ResponseEntity proper response}.
  *
  * @author Patryk Kucharski
  */
@@ -41,19 +43,22 @@ public class AuthenticationRestController {
 
   @PostMapping("/sign_up")
   ResponseEntity<?> registerUser(@Valid @RequestBody RegisterForm registerForm) {
+    String returnMessage = "Couldn't register new account, smething went wrong!";
     if (authenticationService.userExistsByUsername(registerForm.getUsername())) {
-      String returnMessage = "This username is already taken! ";
+      returnMessage = "This username is already taken! ";
       logger.error(returnMessage + registerForm.getUsername());
       return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.BAD_REQUEST);
     }
     if (authenticationService.userExistsByEmail(registerForm.getEmail())) {
-      String returnMassage = "Account with given email already exists! ";
-      logger.error(returnMassage + registerForm.getEmail());
-      return new ResponseEntity<>(new ResponseMessage(returnMassage), HttpStatus.BAD_REQUEST);
+      returnMessage = "Account with given email already exists! ";
+      logger.error(returnMessage + registerForm.getEmail());
+      return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.BAD_REQUEST);
     }
-    authenticationService.createNewAccount(registerForm);
-    String returnMessage = "User registered successfully! ";
-    logger.info(returnMessage + registerForm.toString());
+    if (authenticationService.createNewAccount(registerForm)) {
+      returnMessage = "User registered successfully! ";
+      logger.info(returnMessage + registerForm.toString());
+      return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.OK);
+    }
     return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.OK);
   }
 }

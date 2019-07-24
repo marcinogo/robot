@@ -1,13 +1,11 @@
 package edition.academy.seventh.security.service;
 
 import edition.academy.seventh.security.dao.RoleRepository;
-import edition.academy.seventh.security.dao.RoleRepositoryImpl;
 import edition.academy.seventh.security.dao.UserRepository;
-import edition.academy.seventh.security.dao.UserRepositoryImpl;
 import edition.academy.seventh.security.jwt.JwtProvider;
 import edition.academy.seventh.security.model.Role;
-import edition.academy.seventh.security.model.User;
 import edition.academy.seventh.security.model.RoleName;
+import edition.academy.seventh.security.model.User;
 import edition.academy.seventh.security.model.request.LoginForm;
 import edition.academy.seventh.security.model.request.RegisterForm;
 import edition.academy.seventh.security.model.response.JwtResponse;
@@ -28,9 +26,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Provides API for creating new account and logging in.
- * Also uses {@link UserRepository} while checking if given
- * user exists by passed param.
+ * Provides API for creating new account and logging in. Also uses userrepo//todo while
+ * checking if given user exists by passed param.
  *
  * @author Patryk Kucharski
  */
@@ -40,9 +37,9 @@ public class AuthenticationService {
   private AuthenticationManager authenticationManager;
   private JwtProvider jwtProvider;
   private PasswordEncoder encoder;
-  private UserRepositoryImpl userRepository;
-  private RoleRepositoryImpl roleRepository;
-  private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
+  private UserRepository userRepository;
+  private RoleRepository roleRepository;
+  private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationService.class);
 
   /**
    * Creates bean for {@link org.springframework.context.ApplicationContext}.
@@ -58,8 +55,8 @@ public class AuthenticationService {
       AuthenticationManager authenticationManager,
       JwtProvider jwtProvider,
       PasswordEncoder encoder,
-      UserRepositoryImpl userRepository,
-      RoleRepositoryImpl roleRepository) {
+      UserRepository userRepository,
+      RoleRepository roleRepository) {
     this.authenticationManager = authenticationManager;
     this.jwtProvider = jwtProvider;
     this.encoder = encoder;
@@ -72,36 +69,21 @@ public class AuthenticationService {
    *
    * @param registerForm {@link RegisterForm} with requested user data needed to create an account.
    */
-  public void createNewAccount(@RequestBody @Valid RegisterForm registerForm) {
+  public boolean createNewAccount(@RequestBody @Valid RegisterForm registerForm) {
+    boolean createdAccountSuccessfully;
     User user =
         new User(
-            registerForm.getUsername(),
             registerForm.getEmail(),
+            registerForm.getUsername(),
             encoder.encode(registerForm.getPassword()));
 
     Set<String> rolesAsString = registerForm.getRole();
-    Set<Role> roles = new HashSet<>();
-
-    rolesAsString.forEach(
-        role -> {
-          if ("admin".equals(role)) {
-            Role adminRole =
-                roleRepository
-                    .findByName(RoleName.ROLE_ADMIN)
-                    .orElseThrow(() -> new RuntimeException("Admin Role not found."));
-            roles.add(adminRole);
-          } else if ("user".equals(role)) {
-            Role userRole =
-                roleRepository
-                    .findByName(RoleName.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("User Role not found."));
-            roles.add(userRole);
-          }
-        });
+    Set<Role> roles = addProperRoles(rolesAsString);
 
     user.setRoles(roles);
-    userRepository.saveUser(user);
-    logger.info("created new account: " + user.toString());
+    createdAccountSuccessfully = userRepository.saveUser(user);
+    LOGGER.info("created new account: " + user.toString());
+    return createdAccountSuccessfully;
   }
 
   /**
@@ -122,11 +104,45 @@ public class AuthenticationService {
     return new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities());
   }
 
+  /**
+   * @see UserRepository#existsByUsername(String)
+   */
   public boolean userExistsByUsername(String username) {
     return userRepository.existsByUsername(username);
   }
 
+  /**
+   * @see UserRepository#existsByEmail(String)
+   */
   public boolean userExistsByEmail(String email) {
     return userRepository.existsByEmail(email);
+  }
+
+  /**
+   * Maps roles of user to corresponding database roles.
+   *
+   * @param rolesAsString roles given to user by client side.
+   * @return roles mapped to {@link Role}.
+   */
+  private Set<Role> addProperRoles(Set<String> rolesAsString) {
+    Set<Role> roles = new HashSet<>();
+
+    rolesAsString.forEach(
+        role -> {
+          if ("admin".equals(role)) {
+            Role adminRole =
+                roleRepository
+                    .findByName(RoleName.ROLE_ADMIN)
+                    .orElseThrow(() -> new RuntimeException("Admin Role not found."));
+            roles.add(adminRole);
+          } else if ("user".equals(role)) {
+            Role userRole =
+                roleRepository
+                    .findByName(RoleName.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("User Role not found."));
+            roles.add(userRole);
+          }
+        });
+    return roles;
   }
 }

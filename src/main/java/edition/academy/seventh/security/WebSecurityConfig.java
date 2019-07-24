@@ -23,7 +23,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @see edition.academy.seventh.security.model.User
  * @see JwtAuthTokenFilter
  * @see JwtAuthEntryPoint
- *
  * @author Patryk Kucharski
  */
 @Configuration
@@ -66,15 +65,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   /**
-   *
    * {@inheritDoc}
    */
-  @Bean
-  @Override
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-  }
-
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.cors()
@@ -82,9 +74,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf()
         .disable()
         .authorizeRequests()
-        .antMatchers("/auth/sign_up").permitAll()
-        .antMatchers("/auth/sign_in").permitAll()
-            .antMatchers("/start").permitAll()
+        .antMatchers("/auth/sign_up")
+        .permitAll()
+        .antMatchers("/auth/sign_in")
+        .permitAll()
+        .antMatchers("/start")
+        .permitAll()
         .anyRequest()
         .authenticated()
         .and()
@@ -96,5 +91,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     http.addFilterBefore(
         authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
   }
 }

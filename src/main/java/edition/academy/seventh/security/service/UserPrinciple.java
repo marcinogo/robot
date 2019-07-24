@@ -28,16 +28,15 @@ public class UserPrinciple implements UserDetails {
   private String username;
   private String email;
   @JsonIgnore private String password;
-
   private Collection<? extends GrantedAuthority> authorities;
 
   /**
-   * Creates new {@code UserPrinciple} instance based on given data.
+   * Creates new {@code UserPrinciple} instance based on given user data.
    *
    * @param user {@link User} with required data.
    * @return UserPrinciple based on User passed as parameter.
    */
-  public static UserPrinciple build(User user) {
+  static UserPrinciple build(User user) {
     List<GrantedAuthority> authorities =
         user.getRoles().stream()
             .map(role -> new SimpleGrantedAuthority(role.getName().name()))
@@ -45,6 +44,21 @@ public class UserPrinciple implements UserDetails {
 
     return new UserPrinciple(
         user.getId(), user.getUsername(), user.getEmail(), user.getPassword(), authorities);
+  }
+
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return authorities;
+  }
+
+  @Override
+  public String getPassword() {
+    return password;
+  }
+
+  @Override
+  public String getUsername() {
+    return username;
   }
 
   @Override

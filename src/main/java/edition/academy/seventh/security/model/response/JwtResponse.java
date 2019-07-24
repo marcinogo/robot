@@ -1,16 +1,34 @@
 package edition.academy.seventh.security.model.response;
 
+import edition.academy.seventh.security.model.request.LoginForm;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
-// TODO: 23.07.19 sprawdzic czy lomok tu zadziała @Getter, @Setter
-/** @author Patryk Kucharski */
+
+/**
+ * Wrapper containing token and authorities defining privileges
+ * of user. Generated once user attempts to login
+ * {@link edition.academy.seventh.security.service.AuthenticationService#login(LoginForm)}.
+ *
+ * @author Patryk Kucharski
+ */
 public class JwtResponse {
   private String token;
   private String type = "Bearer";
   private String username;
   private Collection<? extends GrantedAuthority> authorities;
 
+  /**
+   * Creates JwtResponse with required properties and toked which will
+   * be held by locally by client user. Contains {@link GrantedAuthority authorities}
+   * defining user privileges.
+   *
+   * @param accessToken Generated JSON web token
+   *        {@link edition.academy.seventh.security.jwt.JwtProvider#generateJwtToken(Authentication)}.
+   * @param username of user attempting to log in.
+   * @param authorities user privileges.
+   */
   public JwtResponse(
       String accessToken, String username, Collection<? extends GrantedAuthority> authorities) {
     this.token = accessToken;

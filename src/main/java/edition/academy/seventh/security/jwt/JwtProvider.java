@@ -17,7 +17,7 @@ import java.util.Date;
  */
 @Component
 public class JwtProvider {
-  private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(JwtProvider.class);
 
   @Value("${robot.jwtSecret}")
   private String jwtSecret;
@@ -49,15 +49,14 @@ public class JwtProvider {
       Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
       return true;
     } catch (MalformedJwtException e) {
-      logger.error("Invalid JWT token -> Message: " + e.getMessage());
+      LOGGER.error("Invalid JWT token -> Message: " + e.getMessage());
     } catch (ExpiredJwtException e) {
-      logger.error("Expired JWT token -> Message: " + e.getMessage());
+      LOGGER.error("Expired JWT token -> Message: " + e.getMessage());
     } catch (UnsupportedJwtException e) {
-      logger.error("Unsupported JWT token -> Message: " + e.getMessage());
+      LOGGER.error("Unsupported JWT token -> Message: " + e.getMessage());
     } catch (IllegalArgumentException e) {
-      logger.error("JWT claims string is empty -> Message: " + e.getMessage());
+      LOGGER.error("JWT claims string is empty -> Message: " + e.getMessage());
     }
-
     return false;
   }
 

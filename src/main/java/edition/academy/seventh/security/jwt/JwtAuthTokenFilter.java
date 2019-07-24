@@ -26,25 +26,19 @@ import java.io.IOException;
  */
 public class JwtAuthTokenFilter extends OncePerRequestFilter {
 
-  private static final Logger logger = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
   private JwtProvider tokenProvider;
   private UserDetailsServiceImpl userDetailsService;
 
-  // TODO: 23.07.19 czy potrzebne?
+  @Autowired
+  public void setTokenProvider(JwtProvider tokenProvider) {
+    this.tokenProvider = tokenProvider;
+  }
 
-  //  /**
-  //   * Creates bean for {@link org.springframework.context.ApplicationContext}.
-  //   *
-  //   * @param tokenProvider with necessary API to check given token.
-  //   * @param userDetailsService necessary to load user from database.
-  //   */
-  //
-  //  @Autowired
-  //  public JwtAuthTokenFilter(JwtProvider tokenProvider, UserDetailsServiceImpl
-  // userDetailsService) {
-  //    this.tokenProvider = tokenProvider;
-  //    this.userDetailsService = userDetailsService;
-  //  }
+  @Autowired
+  public void setUserDetailsService(UserDetailsServiceImpl userDetailsService) {
+    this.userDetailsService = userDetailsService;
+  }
 
   @Override
   protected void doFilterInternal(
@@ -66,7 +60,7 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(authentication);
       }
     } catch (Exception e) {
-      logger.error("Can NOT set user authentication -> Message: " + e.getMessage());
+      LOGGER.error("Can NOT set user authentication -> Message: " + e.getMessage());
     }
     filterChain.doFilter(request, response);
   }
@@ -78,14 +72,5 @@ public class JwtAuthTokenFilter extends OncePerRequestFilter {
       return authHeader.replace("Bearer ", "");
     }
     return null;
-  }
-
-  @Autowired
-  public void setTokenProvider(JwtProvider tokenProvider) {
-    this.tokenProvider = tokenProvider;
-  }
-  @Autowired
-  public void setUserDetailsService(UserDetailsServiceImpl userDetailsService) {
-    this.userDetailsService = userDetailsService;
   }
 }

@@ -5,7 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/** @author Patryk Kucharski */
+/**
+ * Simple wrapper to message sent back to client in response
+ * for requests.
+ *
+ * @author Patryk Kucharski
+ */
 @Getter
 @Setter
 @AllArgsConstructor

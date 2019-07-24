@@ -1,7 +1,6 @@
 package edition.academy.seventh.security.service;
 
 import edition.academy.seventh.security.dao.UserRepository;
-import edition.academy.seventh.security.dao.UserRepositoryImpl;
 import edition.academy.seventh.security.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,15 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-  private UserRepositoryImpl userRepository;
+  private UserRepository userRepository;
 
   @Autowired
-  public UserDetailsServiceImpl(UserRepositoryImpl userRepository) {
+  public UserDetailsServiceImpl(UserRepository userRepository) {
     this.userRepository = userRepository;
   }
 
   /**
-   * Retrieves user from database based on passed username.
+   * Creates {@link UserDetails} of user based on username provided.
    *
    * @param username of searched user.
    * @return {@link UserPrinciple} with all necessary information.
@@ -38,12 +37,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Transactional
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    User user =
-        userRepository
+    User user = userRepository
             .findByUsername(username)
-            .orElseThrow(
-                () ->
-                    new UsernameNotFoundException(
+            .orElseThrow(() -> new UsernameNotFoundException(
                         "User Not Found with -> username or email : " + username));
 
     return UserPrinciple.build(user);

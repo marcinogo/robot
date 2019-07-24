@@ -7,7 +7,7 @@ import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;
 
 /**
- * Represents user roles in terms of authorization.
+ * Represents user roles in database.
  *
  * @author Patryk Kucharski
  */
