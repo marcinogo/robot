@@ -11,9 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /** @author Kamil Rojek */
 @RestController
@@ -25,6 +23,7 @@ class BookController {
   @Autowired
   public BookController(BookService bookService) {
     this.bookService = bookService;
+    this.pagination = new LazyPagination(ConnectorFactory.of(DatabaseTypes.POSTGRESQL));
   }
 
   /**
@@ -37,10 +36,8 @@ class BookController {
     return new ResponseEntity<>(bookService.getBooksFromDatabase(), HttpStatus.OK);
   }
 
-  // debug PAGINACJA
   @GetMapping("/books/pagination")
-  public ResponseEntity<List<BookDto>> get20Books() {
-    pagination = new LazyPagination(ConnectorFactory.of(DatabaseTypes.POSTGRESQL));
+  public ResponseEntity<List<BookDto>> getBooksWithPagination() {
     List<BookDto> paginationUsingSql = pagination.startPagination();
     return new ResponseEntity<>(paginationUsingSql, HttpStatus.OK);
   }
@@ -57,15 +54,9 @@ class BookController {
     return new ResponseEntity<>(paginationUsingSql, HttpStatus.OK);
   }
 
-  @GetMapping("/books/pagination/filter")
-  public ResponseEntity<List<BookDto>> setPriceFilter() {
-    List<BookDto> bookDtos = pagination.changeFilter(Filter.PROMOTIONAL_PRICE_ASCENDING);
-    return new ResponseEntity<>(bookDtos, HttpStatus.OK);
-  }
-
-  @GetMapping("/books/pagination/filterd")
-  public ResponseEntity<List<BookDto>> setPriceFilterd() {
-    List<BookDto> bookDtos = pagination.changeFilter(Filter.DEFAULT);
+  @RequestMapping("/books/pagination/filter")
+  public ResponseEntity<List<BookDto>> setPriceFilter(@RequestParam("type") Filter filter) {
+    List<BookDto> bookDtos = pagination.changeFilter(filter);
     return new ResponseEntity<>(bookDtos, HttpStatus.OK);
   }
 }
