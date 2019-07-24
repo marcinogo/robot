@@ -88,6 +88,7 @@ public class BookRepository {
     refreshVariablesFromBookstoreBook(bookstoreBook, bookstore, book, hrefAndImage);
 
     entityManager.persist(bookstoreBook);
+
   }
 
   private void refreshVariablesFromBookstoreBook(
