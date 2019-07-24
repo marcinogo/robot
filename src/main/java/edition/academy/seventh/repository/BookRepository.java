@@ -79,14 +79,19 @@ public class BookRepository {
   private void addBookToDatabase(BookDto bookDto) {
 
     BookId bookId = new BookId(bookDto.getTitle(), bookDto.getAuthors());
-    Book book =
-        new Book(bookDto.getSubtitle(), bookId);
+    Book book = new Book(bookDto.getSubtitle(), bookId);
     UrlResources urlResources = new UrlResources(bookDto.getHref(), bookDto.getImageLink());
     Bookstore bookstore = new Bookstore(bookDto.getBookstore());
 
     BookstoreBookId bookstoreBookId = new BookstoreBookId(bookstore, book);
-    BookstoreBook bookstoreBook =
-        new BookstoreBook(bookstoreBookId, urlResources);
+    BookstoreBook bookstoreBook = new BookstoreBook(bookstoreBookId, urlResources);
+
+    PriceHistory priceHistory =
+            new PriceHistory(
+                    bookstoreBook,
+                    bookDto.getRetailPrice(),
+                    bookDto.getPromotionalPrice(),
+                    LocalDateTime.now());
 
     Bookstore previousBookstore =
         entityManager.find(
@@ -107,7 +112,7 @@ public class BookRepository {
         previousUrlResources,
         bookstoreBook,
         previousBookstoreBook,
-        bookDto);
+        priceHistory);
   }
 
   private void refreshVariablesFromBookstoreBook(
@@ -119,8 +124,7 @@ public class BookRepository {
       UrlResources previousUrlResources,
       BookstoreBook bookstoreBook,
       BookstoreBook previousBookstoreBook,
-      BookDto bookDto) {
-
+      PriceHistory priceHistory) {
 
     if (previousBook != null) {
       book.setBookId(previousBook.getBookId());
@@ -139,21 +143,10 @@ public class BookRepository {
 
     if (previousBookstoreBook != null) {
       bookstoreBook.setBookstoreBookId(previousBookstoreBook.getBookstoreBookId());
-      PriceHistory priceHistory =
-          new PriceHistory(
-              bookstoreBook,
-              bookDto.getRetailPrice(),
-              bookDto.getPromotionalPrice(),
-              LocalDateTime.now());
+
       bookstoreBook.getPriceHistories().add(priceHistory);
       entityManager.refresh(entityManager.merge(bookstoreBook));
     } else {
-      PriceHistory priceHistory =
-              new PriceHistory(
-                      bookstoreBook,
-                      bookDto.getRetailPrice(),
-                      bookDto.getPromotionalPrice(),
-                      LocalDateTime.now());
       bookstoreBook.getPriceHistories().add(priceHistory);
       entityManager.persist(bookstoreBook);
     }
