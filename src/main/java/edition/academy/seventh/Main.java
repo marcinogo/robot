@@ -1,7 +1,5 @@
 package edition.academy.seventh;
 
-import edition.academy.seventh.service.PromotionProvider;
-import edition.academy.seventh.service.scrapper.BookoffScrapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;

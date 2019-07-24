@@ -15,7 +15,6 @@ import java.util.List;
 public class BookoffScrapper extends AbstractScrapper {
 
     private final String bookstoreName;
-    private int numberOfPhase = 0;
 
     BookoffScrapper(String startOfUrl, String endOfUrl, String documentClassName, String bookstoreName) {
         super(startOfUrl, endOfUrl, documentClassName);
@@ -54,8 +53,6 @@ public class BookoffScrapper extends AbstractScrapper {
                   imageLink = startOfHrefUrl + imageLink;
                   String href = element.getElementsByClass("product-content").attr("href");
                   href = startOfHrefUrl + href;
-                  System.out.println(
-                      title + author + retailPrice + promotionalPrice + href + imageLink);
                   return new BookDto(
                       title, "", author, retailPrice, promotionalPrice, imageLink, href, bookstoreName);
                 })
