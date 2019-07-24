@@ -13,9 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
@@ -31,7 +29,7 @@ public class UserRepositoryImpl implements UserRepository {
   private ConnectorProvider connectorProvider;
   private EntityManager entityManager;
 
-   UserRepositoryImpl() {
+  UserRepositoryImpl() {
     connectorProvider = ConnectorFactory.of(POSTGRESQL);
   }
 
@@ -102,9 +100,19 @@ public class UserRepositoryImpl implements UserRepository {
     entityManager = connectorProvider.getEntityManager();
     EntityTransaction transaction = entityManager.getTransaction();
     transaction.begin();
-    entityManager.persist(user);
-    transaction.commit();
-    entityManager.close();
-    return false;
+    try {
+      entityManager.persist(user);
+      transaction.commit();
+    } catch (EntityExistsException
+        | TransactionRequiredException
+        | IllegalArgumentException
+        | RollbackException
+        | IllegalStateException e) {
+      LOGGER.error("Persisting data failed. {}", e.getMessage());
+      return false;
+    } finally {
+      entityManager.close();
+    }
+    return true;
   }
 }
