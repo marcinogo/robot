@@ -1,7 +1,9 @@
 package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.BookDto;
-import edition.academy.seventh.repository.BookRepository;
+import edition.academy.seventh.database.model.BookstoreBookDto;
+import edition.academy.seventh.model.BookstoreBook;
+import edition.academy.seventh.repository.BookRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,10 @@ import java.util.List;
  */
 @Service
 public class BookService {
-  private BookRepository bookRepository;
+  private BookRepositoryImpl bookRepository;
 
   @Autowired
-  public BookService(BookRepository bookRepository) {
+  public BookService(BookRepositoryImpl bookRepository) {
     this.bookRepository = bookRepository;
   }
 
@@ -37,5 +39,15 @@ public class BookService {
    */
   public List<BookDto> getBooksFromDatabase() {
     return bookRepository.getLatestBooksFromDatabase();
+  }
+
+  /**
+   * Retrieves specific {@link BookstoreBook} with {@link BookService#bookRepository} based on the book's hyperlink.
+   *
+   * @param href link to the book we are looking for.
+   * @return {@link BookstoreBook} found by id.
+   */
+  public BookstoreBookDto getBookstoreBookDtoByHref(String href) {
+    return bookRepository.getBookstoreBookDtoByHref(href);
   }
 }

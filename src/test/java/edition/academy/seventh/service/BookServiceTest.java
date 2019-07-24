@@ -1,7 +1,7 @@
 package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.BookDto;
-import edition.academy.seventh.repository.BookRepository;
+import edition.academy.seventh.repository.BookRepositoryImpl;
 import org.mockito.invocation.Invocation;
 import org.testng.annotations.Test;
 
@@ -19,7 +19,7 @@ public class BookServiceTest {
   public void
       method_addBooksToDatabase_shouldBeInvokedOnce_when_listOfBooksPassedAsParameterIsGreaterThanOne() {
     // Given
-    BookRepository bookRepository = mock(BookRepository.class);
+    BookRepositoryImpl bookRepository = mock(BookRepositoryImpl.class);
     BookDto book = mock(BookDto.class);
 
     BookService bookService = new BookService(bookRepository);
@@ -44,7 +44,7 @@ public class BookServiceTest {
   public void
       method_getAllBooksFromDatabase_shouldBeInvokedOnce_when_getBooksFromDatabaseIsCalled() {
     // Given
-    BookRepository bookRepository = mock(BookRepository.class);
+    BookRepositoryImpl bookRepository = mock(BookRepositoryImpl.class);
     BookDto book = mock(BookDto.class);
 
     BookService bookService = new BookService(bookRepository);

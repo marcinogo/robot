@@ -4,15 +4,13 @@ import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.model.*;
 import org.testng.annotations.Test;
 
-import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 
 @Test
-public class BookParserTest {
+public class ModelParserIntoBookDtosTest {
 
   @Test(
       dataProviderClass = DataProviderForBookParser.class,
@@ -54,7 +52,7 @@ public class BookParserTest {
     List<BookDto> expectedDTBooks = List.of(dtBook);
 
     // When
-    List<BookDto> dtBooks = new BookParser().parseBookstoreBookListIntoDTBookList(bookstoreBooks);
+    List<BookDto> dtBooks = new ModelParserIntoBookDtos().parseBookstoreBooksIntoBookDtos(bookstoreBooks);
 
     // Then
     assertEquals(dtBooks, expectedDTBooks);

@@ -2,22 +2,28 @@ package edition.academy.seventh.repository;
 
 import edition.academy.seventh.database.model.BookDto;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
 import edition.academy.seventh.model.*;
 import org.springframework.stereotype.Service;
 
-
 /**
- * Parses {@link BookDto} into {@link BookstoreBook} and {@code List<BookstoreBook>} into {@code
- * List<BookDto>}.
+ * Parses {@link BookDto} into database model and save or update changes.
  *
  * @author Agnieszka Trzewik
  */
 @Service
-class BookParser {
+class BookDtoParserIntoModel {
 
+  /**
+   * Creates all required records.
+   * Tries to find specific records in the database.
+   * Checks if records already exists in database.
+   * If they already exists, then updates them.
+   * Otherwise, creates new records.
+   *
+   * @param bookDto which we want parse into model.
+   * @param entityManager to perform required actions.
+   */
   void parseBookDtoIntoModel(BookDto bookDto, EntityManager entityManager) {
     Book book = createBook(bookDto);
     Bookstore bookstore = createBookstore(bookDto);
@@ -25,7 +31,7 @@ class BookParser {
     PriceHistory priceHistory = createPriceHistory(bookDto, bookstoreBook);
 
     Book bookAlreadyInDatabase =
-            entityManager.find(Book.class, bookstoreBook.getBook().getBookId());
+        entityManager.find(Book.class, bookstoreBook.getBook().getBookId());
     Bookstore bookstoreAlreadyInDatabase =
         entityManager.find(Bookstore.class, bookstoreBook.getBookstore().getName());
     BookstoreBook bookstoreBookAlreadyInDatabase =
@@ -100,27 +106,12 @@ class BookParser {
     } else entityManager.persist(bookstore);
   }
 
-  private void saveOrUpdateBook(EntityManager entityManager, Book book, Book bookAlreadyInDatabase) {
+  private void saveOrUpdateBook(
+      EntityManager entityManager, Book book, Book bookAlreadyInDatabase) {
     if (bookAlreadyInDatabase != null) {
       book.setBookId(bookAlreadyInDatabase.getBookId());
       entityManager.merge(book);
 
     } else entityManager.persist(book);
-  }
-
-  List<BookDto> parseBookstoreBookListIntoDTBookList(List<BookstoreBook> bookstoreBooks) {
-    return bookstoreBooks.stream()
-        .map(
-            bookstoreBook ->
-                new BookDto(
-                    bookstoreBook.getBook().getBookId().getTitle(),
-                    bookstoreBook.getBook().getSubtitle(),
-                    bookstoreBook.getBook().getBookId().getAuthor(),
-                    bookstoreBook.getLastElementOfPriceHistories().getRetailPrice(),
-                    bookstoreBook.getLastElementOfPriceHistories().getPromotionalPrice(),
-                    bookstoreBook.getImageLink(),
-                    bookstoreBook.getHyperLink(),
-                    bookstoreBook.getBookstore().getName()))
-        .collect(Collectors.toList());
   }
 }
