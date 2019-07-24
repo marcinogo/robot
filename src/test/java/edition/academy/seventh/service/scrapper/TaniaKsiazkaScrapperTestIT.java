@@ -1,22 +1,20 @@
 package edition.academy.seventh.service.scrapper;
 
+import static org.testng.Assert.*;
+
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.service.PromotionProvider;
+import java.util.List;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
-import static org.testng.Assert.assertTrue;
-
-/** @author Kacper Staszek */
 @Test
-public class SwiatKsiazkiScrapperTestIT {
+public class TaniaKsiazkaScrapperTestIT {
 
   @Test
   public void should_scrapAtLeastOneBook_forGivenUrl() {
     // Given
     PromotionProvider promotionScrapping =
-        new ScrapperConfiguration().swiatKsiazkiPromotionProvider();
+        new ScrapperConfiguration().taniaKsiazkaPromotionProvider();
 
     // When
     List<BookDto> books = promotionScrapping.getPromotions();
@@ -24,4 +22,5 @@ public class SwiatKsiazkiScrapperTestIT {
     // Then
     assertTrue(books.size() > 0);
   }
+
 }

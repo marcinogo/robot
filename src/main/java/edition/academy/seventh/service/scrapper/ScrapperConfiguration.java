@@ -40,12 +40,23 @@ class ScrapperConfiguration {
         "ŚWIAT KSIĄŻKI");
   }
 
+
+  @Bean(name = "taniaKsiazkaScrapper")
+  PromotionProvider taniaKsiazkaPromotionProvider() {
+    return new TaniaKsiazkaScrapper(
+        "https://www.taniaksiazka.pl/tanie-ksiazki/page-",
+        "",
+        "product-container",
+        "TANIA KSIĄŻKA");
+  }
+
   @Bean(name = "bookoffScrapper")
   PromotionProvider bookoffPromotionProvider() {
     return new BookoffScrapper(
-            "https://www.bookoff.pl/Wyprzedaz-spromo-pol.html?counter=",
-            "",
-            "product_wrapper_sub",
-            "BookOff");
+        "https://www.bookoff.pl/Wyprzedaz-spromo-pol.html?counter=",
+        "",
+        "product_wrapper_sub",
+        "BookOff");
+
   }
 }
