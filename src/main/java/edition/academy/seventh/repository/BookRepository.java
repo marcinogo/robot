@@ -1,6 +1,5 @@
 package edition.academy.seventh.repository;
 
-import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
 import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
 import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
 import static edition.academy.seventh.repository.BookParser.parseDTBookIntoModel;
@@ -18,7 +17,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;

@@ -7,9 +7,6 @@ import edition.academy.seventh.service.PromotionProvider;
 import java.util.List;
 import org.testng.annotations.Test;
 
-/**
- * @author Kacper Staszek
- */
 @Test
 public class TaniaKsiazkaScrapperTestIT {
 
