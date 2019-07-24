@@ -11,6 +11,7 @@ import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.security.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -22,8 +23,8 @@ import javax.persistence.criteria.Root;
 import java.util.Optional;
 
 import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
-
-class UserRepositoryImpl implements UserRepository {
+@Repository
+public class UserRepositoryImpl implements UserRepository {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(UserRepositoryImpl.class);
 
@@ -97,7 +98,7 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @Override
-  public boolean save(User user) {
+  public boolean saveUser(User user) {
     entityManager = connectorProvider.getEntityManager();
     EntityTransaction transaction = entityManager.getTransaction();
     transaction.begin();

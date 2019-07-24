@@ -7,8 +7,8 @@ import javax.persistence.NoResultException;
 import java.util.Optional;
 
 /**
- * Responsible for retrieving user from database and checking if given user exists while registering
- * a new account
+ * Responsible for retrieving user from database and checking if
+ * given user exists while registering a new account.
  *
  * @author Patryk Kucharski
  */
@@ -21,5 +21,5 @@ public interface UserRepository {
 
   Boolean existsByEmail(String email);
 
-    boolean save(User user);
+  boolean saveUser(User user);
 }

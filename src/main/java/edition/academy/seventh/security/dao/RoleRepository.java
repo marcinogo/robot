@@ -1,7 +1,7 @@
 package edition.academy.seventh.security.dao;
 
 import edition.academy.seventh.security.model.Role;
-import edition.academy.seventh.security.model.UserRole;
+import edition.academy.seventh.security.model.RoleName;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -14,5 +14,5 @@ import java.util.Optional;
 @Repository
 public interface RoleRepository {
 
-  Optional<Role> findByName(UserRole roleName);
+  Optional<Role> findByName(RoleName roleName);
 }

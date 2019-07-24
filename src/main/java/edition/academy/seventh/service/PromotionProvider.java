@@ -14,7 +14,7 @@ public interface PromotionProvider {
   /**
    * Retrieves books on sales from bookstore website.
    *
-   * @return list of books ready to save in DataBase
+   * @return list of books ready to saveUser in DataBase
    */
   List<BookDto> getPromotions();
 }

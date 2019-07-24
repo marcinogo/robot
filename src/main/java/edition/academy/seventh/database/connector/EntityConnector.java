@@ -19,7 +19,7 @@ abstract class EntityConnector implements ConnectorProvider {
   }
 
   /**
-   * Return entity manager based on persistence unit userRole.
+   * Return entity manager based on persistence unit name.
    *
    * @return Entity manager factory.
    */

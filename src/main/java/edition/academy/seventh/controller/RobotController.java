@@ -70,13 +70,13 @@ class RobotController {
    */
   private boolean startGatheringData() {
     updateEnvironmentCredentials();
+    logger.info("credentials updated");
     return getDataFromAPI() && getDataFromScrapping();
   }
 
   private boolean getDataFromAPI() {
     List<String> listOfBooksAsString = bookstoreConnectionService.getListOfBooksAsString();
     List<BookDto> books;
-
     try {
       books = itBookMapper.mapListOfJson(listOfBooksAsString);
     } catch (IOException e) {
@@ -95,6 +95,7 @@ class RobotController {
     } catch (ProvidersNotFoundException e) {
       logger.error("Couldn't find any promotion provider " + e.getMessage());
     }
+
     // TODO wrpowadzić try catch i zwracać true/false po zrobieni zadania #118
     return true;
   }

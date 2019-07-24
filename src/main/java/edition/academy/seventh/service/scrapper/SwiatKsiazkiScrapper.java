@@ -42,7 +42,7 @@ class SwiatKsiazkiScrapper extends AbstractScrapper {
     elementsByClass.stream()
         .map(
             element -> {
-              String title = element.getElementsByClass("product userRole product-item-userRole").text();
+              String title = element.getElementsByClass("product name product-item-name").text();
               title = deleteOutletSign(title);
               String href = element.getElementsByClass("product-item-link").attr("href");
               String imageLink =

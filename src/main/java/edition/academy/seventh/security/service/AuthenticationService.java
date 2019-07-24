@@ -1,12 +1,13 @@
 package edition.academy.seventh.security.service;
 
 import edition.academy.seventh.security.dao.RoleRepository;
+import edition.academy.seventh.security.dao.RoleRepositoryImpl;
 import edition.academy.seventh.security.dao.UserRepository;
-import edition.academy.seventh.security.jwt.JwtAuthEntryPoint;
+import edition.academy.seventh.security.dao.UserRepositoryImpl;
 import edition.academy.seventh.security.jwt.JwtProvider;
 import edition.academy.seventh.security.model.Role;
 import edition.academy.seventh.security.model.User;
-import edition.academy.seventh.security.model.UserRole;
+import edition.academy.seventh.security.model.RoleName;
 import edition.academy.seventh.security.model.request.LoginForm;
 import edition.academy.seventh.security.model.request.RegisterForm;
 import edition.academy.seventh.security.model.response.JwtResponse;
@@ -39,8 +40,8 @@ public class AuthenticationService {
   private AuthenticationManager authenticationManager;
   private JwtProvider jwtProvider;
   private PasswordEncoder encoder;
-  private UserRepository userRepository;
-  private RoleRepository roleRepository;
+  private UserRepositoryImpl userRepository;
+  private RoleRepositoryImpl roleRepository;
   private static final Logger logger = LoggerFactory.getLogger(AuthenticationService.class);
 
   /**
@@ -57,8 +58,8 @@ public class AuthenticationService {
       AuthenticationManager authenticationManager,
       JwtProvider jwtProvider,
       PasswordEncoder encoder,
-      UserRepository userRepository,
-      RoleRepository roleRepository) {
+      UserRepositoryImpl userRepository,
+      RoleRepositoryImpl roleRepository) {
     this.authenticationManager = authenticationManager;
     this.jwtProvider = jwtProvider;
     this.encoder = encoder;
@@ -86,20 +87,20 @@ public class AuthenticationService {
           if ("admin".equals(role)) {
             Role adminRole =
                 roleRepository
-                    .findByName(UserRole.ROLE_ADMIN)
+                    .findByName(RoleName.ROLE_ADMIN)
                     .orElseThrow(() -> new RuntimeException("Admin Role not found."));
             roles.add(adminRole);
           } else if ("user".equals(role)) {
             Role userRole =
                 roleRepository
-                    .findByName(UserRole.ROLE_USER)
+                    .findByName(RoleName.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("User Role not found."));
             roles.add(userRole);
           }
         });
 
     user.setRoles(roles);
-    userRepository.save(user);
+    userRepository.saveUser(user);
     logger.info("created new account: " + user.toString());
   }
 

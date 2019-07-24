@@ -14,7 +14,6 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "roles")
 public class Role {
 
   @Id
@@ -24,14 +23,14 @@ public class Role {
   @Enumerated(EnumType.STRING)
   @NaturalId
   @Column(length = 60)
-  private UserRole userRole;
+  private RoleName name;
 
   /**
-   * Creates new role based on {@link UserRole role provided}.
+   * Creates new role based on {@link RoleName role provided}.
    *
-   * @param userRole {@link UserRole user role}.
+   * @param name {@link RoleName user role}.
    */
-  public Role(UserRole userRole) {
-    this.userRole = userRole;
+  public Role(RoleName name) {
+    this.name = name;
   }
 }

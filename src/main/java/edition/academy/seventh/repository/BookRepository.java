@@ -1,5 +1,6 @@
 package edition.academy.seventh.repository;
 
+import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
 import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
 import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
 import static edition.academy.seventh.repository.BookParser.parseDTBookIntoModel;
@@ -35,7 +36,7 @@ public class BookRepository {
   private ConnectorProvider connectorProvider;
 
   public BookRepository() {
-    connectorProvider = ConnectorFactory.of(POSTGRESQL);
+    connectorProvider = ConnectorFactory.of(H2);
   }
 
   /**
