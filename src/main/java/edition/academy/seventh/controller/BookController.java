@@ -39,7 +39,7 @@ class BookController {
 
   @GetMapping("/books/pagination")
   public ResponseEntity<List<BookDto>> getBooksWithPagination() {
-    List<BookDto> paginationUsingSql = pagination.startPagination();
+    List<BookDto> paginationUsingSql = pagination.currentPage();
     return new ResponseEntity<>(paginationUsingSql, HttpStatus.OK);
   }
 

@@ -15,7 +15,7 @@ public class LazyPagination implements Pagination<BookDto> {
   }
 
   @Override
-  public List<BookDto> startPagination() {
+  public List<BookDto> currentPage() {
     return currentBooks = paginatonRepositoryHandler.getBookInPagination();
   }
 
@@ -43,6 +43,6 @@ public class LazyPagination implements Pagination<BookDto> {
   @Override
   public List<BookDto> changeFilter(Filter filter) {
     paginatonRepositoryHandler.filter = filter;
-    return startPagination();
+    return currentPage();
   }
 }

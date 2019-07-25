@@ -2,14 +2,50 @@ package edition.academy.seventh.display;
 
 import java.util.List;
 
-public interface Pagination <T> {
-  List<T> startPagination();
+/**
+ * Divides {@code all <E> elements} into pages. Pagination size of the simple page should be
+ * implemented according to the {@link PaginationSize} enum.
+ *
+ * @param <E> Bunch of elements according to pagination size.
+ */
+public interface Pagination<E> {
 
-  List<T> changePaginationSize(PaginationSize size);
+  /**
+   * Retrieves {@code List<E> elements} from current page. If no elements retrieved returns {@code
+   * empty List<E>}.
+   *
+   * @return {@code List<E> elements}
+   */
+  List<E> currentPage();
 
-  List<T> nextPage();
+  /**
+   * Retrieves {@code List<E> elements} from next page. If no elements retrieved returns {@link
+   * Pagination#currentPage()}.
+   *
+   * @return {@code List<E> elements}
+   */
+  List<E> nextPage();
 
-  List<T> previousPage();
+  /**
+   * Retrieves {@code List<E> elements} from previous page. If no elements retrieved returns {@link
+   * Pagination#currentPage()}.
+   *
+   * @return {@code List<E> elements}
+   */
+  List<E> previousPage();
 
-  List<T> changeFilter(Filter filter);
+  /**
+   * Changes {@link PaginationSize pagination size} and retrieves {@code List<E> new size of
+   * elements}.
+   *
+   * @return {@code List<E> elements}
+   */
+  List<E> changePaginationSize(PaginationSize size);
+
+  /**
+   * Changes {@link Filter sorting elements filter} and retrieves {@code List<E> filtered elements}.
+   *
+   * @return {@code List<E> elements}
+   */
+  List<E> changeFilter(Filter filter);
 }

@@ -20,7 +20,7 @@ public class EagerPagination implements Pagination<BookDto> {
   }
 
   @Override
-  public List<BookDto> startPagination() {
+  public List<BookDto> currentPage() {
     return paginationMap.get(currentPage);
   }
 
@@ -50,7 +50,7 @@ public class EagerPagination implements Pagination<BookDto> {
   public List<BookDto> changeFilter(Filter filter) {
     books = filterHandler.changeFilter(filter);
     initializePaginationMap(paginationSize);
-    return startPagination();
+    return currentPage();
   }
 
   private void initializePaginationMap(PaginationSize paginationSize) {
