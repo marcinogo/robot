@@ -102,7 +102,7 @@ public class BookRepositoryImpl implements BookRepository {
     CriteriaQuery<BookstoreBook> query = criteriaBuilder.createQuery(BookstoreBook.class);
 
     Root<BookstoreBook> from = query.from(BookstoreBook.class);
-    Path<Object> hyperLink = from.get("hyperLink");
+    Path<Object> hyperLink = from.get("hyperlink");
     query.select(from).where(criteriaBuilder.equal(hyperLink, href));
     BookstoreBook bookstoreBook = entityManager.createQuery(query).getSingleResult();
 

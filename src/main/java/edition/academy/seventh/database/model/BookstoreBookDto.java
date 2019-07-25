@@ -1,10 +1,12 @@
 package edition.academy.seventh.database.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 
 /** @author Agnieszka Trzewik */
+@AllArgsConstructor
 public class BookstoreBookDto {
   @JsonProperty(value = "title")
   private String title;
@@ -26,21 +28,4 @@ public class BookstoreBookDto {
 
   @JsonProperty(value = "priceHistory")
   private List<PriceHistoryDto> priceHistoryDtos;
-
-  public BookstoreBookDto(
-      String title,
-      String subtitle,
-      String authors,
-      String imageLink,
-      String href,
-      String bookstore,
-      List<PriceHistoryDto> priceHistoryDtos) {
-    this.title = title;
-    this.subtitle = subtitle;
-    this.authors = authors;
-    this.imageLink = imageLink;
-    this.href = href;
-    this.bookstore = bookstore;
-    this.priceHistoryDtos = priceHistoryDtos;
-  }
 }

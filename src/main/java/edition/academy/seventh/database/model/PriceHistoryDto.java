@@ -1,24 +1,24 @@
 package edition.academy.seventh.database.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /** @author Agnieszka Trzewik */
+@AllArgsConstructor
 public class PriceHistoryDto {
 
   @JsonProperty(value = "retailPrice")
-  private String retailPrice;
+  private BigDecimal retailPrice;
 
   @JsonProperty(value = "promotionalPrice")
-  private String promotionalPrice;
+  private BigDecimal promotionalPrice;
+
+  @JsonProperty(value = "currency")
+  private String currency;
 
   @JsonProperty(value = "date")
   private LocalDateTime date;
-
-  public PriceHistoryDto(String retailPrice, String promotionalPrice, LocalDateTime date) {
-    this.retailPrice = retailPrice;
-    this.promotionalPrice = promotionalPrice;
-    this.date = date;
-  }
 }

@@ -1,10 +1,12 @@
 package edition.academy.seventh.repository;
 
 import edition.academy.seventh.database.model.BookDto;
-import java.time.LocalDateTime;
-import javax.persistence.EntityManager;
 import edition.academy.seventh.model.*;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityManager;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * Parses {@link BookDto} into database model and save or update changes.
@@ -15,11 +17,9 @@ import org.springframework.stereotype.Service;
 class BookDtoParserIntoModel {
 
   /**
-   * Creates all required records.
-   * Tries to find specific records in the database.
-   * Checks if records already exists in database.
-   * If they already exists, then updates them.
-   * Otherwise, creates new records.
+   * Creates all required records. Tries to find specific records in the database. Checks if records
+   * already exists in database. If they already exists, then updates them. Otherwise, creates new
+   * records.
    *
    * @param bookDto which we want parse into model.
    * @param entityManager to perform required actions.
@@ -35,7 +35,7 @@ class BookDtoParserIntoModel {
     Bookstore bookstoreAlreadyInDatabase =
         entityManager.find(Bookstore.class, bookstoreBook.getBookstore().getName());
     BookstoreBook bookstoreBookAlreadyInDatabase =
-        entityManager.find(BookstoreBook.class, bookstoreBook.getHyperLink());
+        entityManager.find(BookstoreBook.class, bookstoreBook.getHyperlink());
 
     saveOrUpdateModel(
         entityManager,
@@ -49,11 +49,29 @@ class BookDtoParserIntoModel {
   }
 
   private PriceHistory createPriceHistory(BookDto bookDto, BookstoreBook bookstoreBook) {
+
+    String currency = findCurrency(String.valueOf(bookDto.getRetailPrice()));
+    BigDecimal retailPrice = parseStringPriceIntoBigDecimal(bookDto.getRetailPrice());
+    BigDecimal promotionalPrice =
+        parseStringPriceIntoBigDecimal(bookDto.getPromotionalPrice());
+
     return new PriceHistory(
-        bookstoreBook,
-        bookDto.getRetailPrice(),
-        bookDto.getPromotionalPrice(),
-        LocalDateTime.now());
+        bookstoreBook, retailPrice, promotionalPrice, currency, LocalDateTime.now());
+  }
+
+  private String findCurrency(String price) {
+    if (price.contains("zł")) {
+      return "zł";
+    } else {
+      return "$";
+    }
+  }
+
+  private BigDecimal parseStringPriceIntoBigDecimal(String price) {
+    if (price.isEmpty()) return null;
+    price = price.replace(",", ".");
+    price = price.replaceAll("[^0-9.]", "");
+    return new BigDecimal(price);
   }
 
   private BookstoreBook createBookstoreBook(BookDto bookDto, Book book, Bookstore bookstore) {
@@ -66,7 +84,7 @@ class BookDtoParserIntoModel {
 
   private Book createBook(BookDto bookDto) {
     BookId bookId = new BookId(bookDto.getTitle(), bookDto.getAuthors());
-    return new Book(bookDto.getSubtitle(), bookId);
+    return new Book(bookId, bookDto.getSubtitle());
   }
 
   private void saveOrUpdateModel(
@@ -91,7 +109,7 @@ class BookDtoParserIntoModel {
       PriceHistory priceHistory) {
     bookstoreBook.getPriceHistories().add(priceHistory);
     if (bookstoreBookAlreadyInDatabase != null) {
-      bookstoreBook.setHyperLink(bookstoreBookAlreadyInDatabase.getHyperLink());
+      bookstoreBook.setHyperlink(bookstoreBookAlreadyInDatabase.getHyperlink());
       entityManager.merge(bookstoreBook);
     } else {
       entityManager.persist(entityManager.merge(bookstoreBook));

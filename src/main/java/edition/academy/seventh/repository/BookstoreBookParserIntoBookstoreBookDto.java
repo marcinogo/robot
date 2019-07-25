@@ -23,6 +23,7 @@ class BookstoreBookParserIntoBookstoreBookDto {
                     new PriceHistoryDto(
                         priceHistory.getRetailPrice(),
                         priceHistory.getPromotionalPrice(),
+                        priceHistory.getCurrency(),
                         priceHistory.getDate()))
             .collect(Collectors.toList());
     return new BookstoreBookDto(
@@ -30,7 +31,7 @@ class BookstoreBookParserIntoBookstoreBookDto {
         bookstoreBook.getBook().getSubtitle(),
         bookstoreBook.getBook().getBookId().getAuthor(),
         bookstoreBook.getImageLink(),
-        bookstoreBook.getHyperLink(),
+        bookstoreBook.getHyperlink(),
         bookstoreBook.getBookstore().getName(),
         priceHistoryDtos);
   }

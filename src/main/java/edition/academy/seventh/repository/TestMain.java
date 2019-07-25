@@ -4,15 +4,10 @@ import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.model.*;
-import org.hibernate.Session;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Root;
-
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
@@ -28,19 +23,20 @@ public class TestMain {
         new BookDto(
             "Tytul", "", "autor", "realCeba", "promoCena", "Link do obrazka", "href", "Empik");
     BookId bookId = new BookId(bookDto.getTitle(), bookDto.getAuthors());
-    Book book = new Book(bookDto.getSubtitle(), bookId);
+    Book book = new Book(bookId, bookDto.getSubtitle());
 
     Bookstore bookstore = new Bookstore(bookDto.getBookstore());
 
     BookstoreBook bookstoreBook =
         new BookstoreBook(bookDto.getHref(), bookDto.getImageLink(), bookstore, book);
 
+    BigDecimal retailPrice = new BigDecimal(bookDto.getRetailPrice().split(" ")[0]);
+    BigDecimal promotionalPrice = new BigDecimal(bookDto.getPromotionalPrice().split(" ")[0]);
+    String currency = bookDto.getPromotionalPrice().split(" ")[1];
+
     PriceHistory priceHistory =
         new PriceHistory(
-            bookstoreBook,
-            bookDto.getRetailPrice(),
-            bookDto.getPromotionalPrice(),
-            LocalDateTime.now());
+            bookstoreBook, retailPrice, promotionalPrice, currency, LocalDateTime.now());
 
     bookstoreBook.getPriceHistories().add(priceHistory);
 
@@ -48,18 +44,22 @@ public class TestMain {
         new BookDto(
             "Tytul", "", "autor", "realCeba", "promoCena", "Link do obrazka", "href", "Empik");
     BookId bookId2 = new BookId(bookDto.getTitle(), bookDto.getAuthors());
-    Book book2 = new Book(bookDto.getSubtitle(), bookId);
+    Book book2 = new Book(bookId, bookDto.getSubtitle());
 
     Bookstore bookstore2 = new Bookstore(bookDto.getBookstore());
 
-    BookstoreBook bookstoreBook2 =
-        new BookstoreBook(bookDto.getHref(), "fff", bookstore, book);
+    BookstoreBook bookstoreBook2 = new BookstoreBook(bookDto.getHref(), "fff", bookstore, book);
+
+    BigDecimal retailPrice2 = new BigDecimal(bookDto2.getRetailPrice().split(" ")[0]);
+    BigDecimal promotionalPrice2 = new BigDecimal(bookDto2.getPromotionalPrice().split(" ")[0]);
+    String currency2 = bookDto2.getPromotionalPrice().split(" ")[1];
 
     PriceHistory priceHistory2 =
         new PriceHistory(
             bookstoreBook,
-            bookDto.getRetailPrice(),
-            bookDto.getPromotionalPrice(),
+            retailPrice2,
+            promotionalPrice2,
+            currency2,
             LocalDateTime.now());
 
     bookstoreBook.getPriceHistories().add(priceHistory);
@@ -79,14 +79,13 @@ public class TestMain {
     Bookstore bookstore1 = entityManager.find(Bookstore.class, bookstore2.getName());
     bookstore.setName(bookstore2.getName());
     entityManager.refresh(bookstore);
-    BookstoreBook bookstoreBook1 = entityManager.find(BookstoreBook.class, bookstoreBook2.getHyperLink());
+    BookstoreBook bookstoreBook1 =
+        entityManager.find(BookstoreBook.class, bookstoreBook2.getHyperlink());
     if (bookstoreBook1 != null) {
-      bookstoreBook2.setHyperLink(bookstoreBook1.getHyperLink());
+      bookstoreBook2.setHyperlink(bookstoreBook1.getHyperlink());
       entityManager.merge(bookstoreBook2);
 
-    }
-    else entityManager.persist(bookstoreBook2);
-
+    } else entityManager.persist(bookstoreBook2);
 
     transaction.commit();
     entityManager.close();
