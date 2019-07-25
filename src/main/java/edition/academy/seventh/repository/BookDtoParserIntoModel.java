@@ -51,7 +51,8 @@ class BookDtoParserIntoModel {
   private PriceHistory createPriceHistory(BookDto bookDto, BookstoreBook bookstoreBook) {
 
     String currency = findCurrency(String.valueOf(bookDto.getRetailPrice()));
-    BigDecimal retailPrice = parseStringPriceIntoBigDecimal(bookDto.getRetailPrice());
+    BigDecimal retailPrice =
+        establishRetailPrice(bookDto.getRetailPrice(), bookDto.getPromotionalPrice());
     BigDecimal promotionalPrice =
         establishPromotionalPrice(retailPrice, bookDto.getPromotionalPrice());
 
@@ -67,16 +68,22 @@ class BookDtoParserIntoModel {
     }
   }
 
+  private BigDecimal establishPromotionalPrice(BigDecimal retailPrice, String promotionalPriceDto) {
+    return promotionalPriceDto.isEmpty()
+        ? retailPrice
+        : parseStringPriceIntoBigDecimal(promotionalPriceDto);
+  }
+
+  private BigDecimal establishRetailPrice(String retailPriceDto, String promotionalPriceDto) {
+    return retailPriceDto.isEmpty()
+        ? establishPromotionalPrice(null, promotionalPriceDto)
+        : parseStringPriceIntoBigDecimal(retailPriceDto);
+  }
+
   private BigDecimal parseStringPriceIntoBigDecimal(String price) {
     price = price.replace(",", ".");
     price = price.replaceAll("[^0-9.]", "");
     return new BigDecimal(price);
-  }
-
-  private BigDecimal establishPromotionalPrice(BigDecimal retailPrice, String promotionalPriceDto) {
-    return promotionalPriceDto.isEmpty()
-            ? retailPrice
-            : parseStringPriceIntoBigDecimal(promotionalPriceDto);
   }
 
   private BookstoreBook createBookstoreBook(BookDto bookDto, Book book, Bookstore bookstore) {
