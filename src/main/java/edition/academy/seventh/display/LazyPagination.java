@@ -6,7 +6,7 @@ import edition.academy.seventh.database.model.BookDto;
 import java.util.List;
 
 /** @author Kamil Rojek */
-public class LazyPagination implements Pagination {
+public class LazyPagination implements Pagination<BookDto> {
   private List<BookDto> currentBooks;
   private LazyPaginationBookRepositoryHandler paginatonRepositoryHandler;
 

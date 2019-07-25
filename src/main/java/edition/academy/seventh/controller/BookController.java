@@ -1,5 +1,6 @@
 package edition.academy.seventh.controller;
 
+import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.display.*;
 import edition.academy.seventh.service.BookService;
@@ -10,18 +11,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
+
 /** @author Kamil Rojek */
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 class BookController {
   private BookService bookService;
-  private Pagination pagination;
+  private Pagination<BookDto> pagination;
 
   @Autowired
   public BookController(BookService bookService) {
     this.bookService = bookService;
-//    this.pagination = new LazyPagination(ConnectorFactory.of(POSTGRESQL));
-    this.pagination = new EagerPagination(bookService);
+    this.pagination = new LazyPagination(ConnectorFactory.of(POSTGRESQL));
+//    this.pagination = new EagerPagination(bookService);
   }
 
   /**

@@ -6,7 +6,7 @@ import edition.academy.seventh.service.BookService;
 import java.util.*;
 
 /** @author Kamil Rojek */
-public class EagerPagination implements Pagination {
+public class EagerPagination implements Pagination<BookDto> {
   private List<BookDto> books;
   private EagerPaginationFilterHandler filterHandler;
   private Map<Integer, List<BookDto>> paginationMap;
