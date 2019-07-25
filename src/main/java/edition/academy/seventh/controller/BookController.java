@@ -1,7 +1,5 @@
 package edition.academy.seventh.controller;
 
-import static edition.academy.seventh.database.connector.DatabaseTypes.*;
-import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.display.*;
 import edition.academy.seventh.service.BookService;
@@ -45,7 +43,7 @@ class BookController {
   @RequestMapping("/books/pagination/size")
   public ResponseEntity<List<BookDto>> changePaginationSize(
       @RequestParam("value") PaginationSize size) {
-    List<BookDto> bookDtos = pagination.changePagination(size);
+    List<BookDto> bookDtos = pagination.changePaginationSize(size);
     return new ResponseEntity<>(bookDtos, HttpStatus.OK);
   }
 

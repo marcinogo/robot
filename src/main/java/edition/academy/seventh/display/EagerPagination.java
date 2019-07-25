@@ -25,7 +25,7 @@ public class EagerPagination implements Pagination {
   }
 
   @Override
-  public List<BookDto> changePagination(PaginationSize size) {
+  public List<BookDto> changePaginationSize(PaginationSize size) {
     initializePaginationMap(size);
     return paginationMap.get(currentPage);
   }

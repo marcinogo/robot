@@ -20,7 +20,7 @@ public class LazyPagination implements Pagination {
   }
 
   @Override
-  public List<BookDto> changePagination(PaginationSize size) {
+  public List<BookDto> changePaginationSize(PaginationSize size) {
     return currentBooks = paginatonRepositoryHandler.changePaginationSize(size);
   }
 

@@ -7,7 +7,7 @@ import java.util.List;
 public interface Pagination {
   List<BookDto> startPagination();
 
-  List<BookDto> changePagination(PaginationSize size);
+  List<BookDto> changePaginationSize(PaginationSize size);
 
   List<BookDto> nextPage();
 
