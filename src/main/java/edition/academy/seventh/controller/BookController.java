@@ -5,6 +5,8 @@ import edition.academy.seventh.database.connector.DatabaseTypes;
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.display.LazyPagination;
 import edition.academy.seventh.display.Filter;
+import edition.academy.seventh.display.Pagination;
+import edition.academy.seventh.display.PaginationSize;
 import edition.academy.seventh.service.BookService;
 import java.util.List;
 
@@ -18,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*", maxAge = 3600)
 class BookController {
   private BookService bookService;
-  private LazyPagination pagination;
+  private Pagination pagination;
 
   @Autowired
   public BookController(BookService bookService) {
@@ -42,6 +44,13 @@ class BookController {
     return new ResponseEntity<>(paginationUsingSql, HttpStatus.OK);
   }
 
+  @RequestMapping("/books/pagination/size")
+  public ResponseEntity<List<BookDto>> changePaginationSize(
+      @RequestParam("value") PaginationSize size) {
+    List<BookDto> bookDtos = pagination.changePagination(size);
+    return new ResponseEntity<>(bookDtos, HttpStatus.OK);
+  }
+
   @GetMapping("/books/pagination/next")
   public ResponseEntity<List<BookDto>> next() {
     List<BookDto> paginationUsingSql = pagination.nextPage();
@@ -55,7 +64,7 @@ class BookController {
   }
 
   @RequestMapping("/books/pagination/filter")
-  public ResponseEntity<List<BookDto>> setPriceFilter(@RequestParam("type") Filter filter) {
+  public ResponseEntity<List<BookDto>> setFilter(@RequestParam("type") Filter filter) {
     List<BookDto> bookDtos = pagination.changeFilter(filter);
     return new ResponseEntity<>(bookDtos, HttpStatus.OK);
   }

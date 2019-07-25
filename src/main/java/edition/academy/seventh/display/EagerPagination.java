@@ -8,12 +8,37 @@ import java.util.List;
 import java.util.Map;
 
 /** @author Kamil Rojek */
-public class EagerPagination {
+public class EagerPagination implements Pagination{
   private List<BookDto> books;
   private Map<Integer, List<BookDto>> paginationMap;
 
   public EagerPagination(List<BookDto> books) {
     this.books = books;
+  }
+
+  @Override
+  public List<BookDto> startPagination() {
+    return null;
+  }
+
+  @Override
+  public List<BookDto> changePagination(PaginationSize size) {
+    return null;
+  }
+
+  @Override
+  public List<BookDto> nextPage() {
+    return null;
+  }
+
+  @Override
+  public List<BookDto> previousPage() {
+    return null;
+  }
+
+  @Override
+  public List<BookDto> changeFilter(Filter filter) {
+    return null;
   }
 
   public Map<Integer, List<BookDto>> createPagination(PaginationSize paginationSize) {
