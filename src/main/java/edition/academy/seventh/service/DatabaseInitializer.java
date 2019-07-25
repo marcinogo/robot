@@ -45,7 +45,7 @@ public class DatabaseInitializer {
     authenticationService.createNewAccount(
         new RegisterForm(
             "pan@pawel.com", "pan_pawel",
-                  Set.of("ROLE_ADMIN", "ROLE_USER"), "tajnehaslo"));
+                  Set.of("admin"), "tajnehaslo"));
   }
 
   private void addUserRolesToDatabase() {
