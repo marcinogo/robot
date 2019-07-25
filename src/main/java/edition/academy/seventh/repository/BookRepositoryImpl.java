@@ -1,25 +1,23 @@
 package edition.academy.seventh.repository;
 
+import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
+
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.database.model.BookstoreBookDto;
 import edition.academy.seventh.model.BookstoreBook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
-import java.util.List;
-
-import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
-import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  * Allows to persists and retrieve data about books from the database. This information is
@@ -62,7 +60,7 @@ public class BookRepositoryImpl implements BookRepository {
     logger.info("Saving " + bookDtos.size() + " books in database");
     transaction.commit();
     entityManager.close();
-    connectorProvider.getEntityManagerFactory().close();
+    connectorProvider.getEntityManager().close();
   }
 
   /**
