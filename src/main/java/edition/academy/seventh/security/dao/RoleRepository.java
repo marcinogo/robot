@@ -60,6 +60,7 @@ public class RoleRepository {
           String.format("Retrieving data from db unsuccessful. Message: %s", message));
     } finally {
       entityManager.close();
+
     }
   }
 }

@@ -21,12 +21,12 @@ public class JwtResponse {
 
   /**
    * Creates JwtResponse with required properties and toked which will
-   * be held by locally by client user. Contains {@link GrantedAuthority authorities}
+   * be held locally by the client user. Contains {@link GrantedAuthority authorities}
    * defining user privileges.
    *
    * @param accessToken Generated JSON web token
    *        {@link edition.academy.seventh.security.jwt.JwtProvider#generateJwtToken(Authentication)}.
-   * @param username of user attempting to log in.
+   * @param username of a user attempting to log in.
    * @param authorities user privileges.
    */
   public JwtResponse(
@@ -46,10 +46,6 @@ public class JwtResponse {
 
   public String getType() {
     return type;
-  }
-
-  public void setType(String type) {
-    this.type = type;
   }
 
   public String getUsername() {

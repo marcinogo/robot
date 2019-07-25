@@ -87,7 +87,7 @@ public class AuthenticationService {
   }
 
   /**
-   * Tries to login user and if successful generates new JSON web token.
+   * Tries to log in the user and if successful, generates new JSON web token.
    *
    * @param loginForm {@link LoginForm} with email & password needed to be authorized
    * @return {@link JwtResponse} response with suitable JSON web token.

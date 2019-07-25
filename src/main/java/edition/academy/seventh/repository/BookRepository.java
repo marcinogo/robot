@@ -31,7 +31,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class BookRepository {
-  private final static Logger logger = LoggerFactory.getLogger(BookRepository.class);
+  private static final Logger logger = LoggerFactory.getLogger(BookRepository.class);
   private EntityManager entityManager;
   private ConnectorProvider connectorProvider;
 
