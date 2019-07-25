@@ -53,7 +53,7 @@ class BookDtoParserIntoModel {
     String currency = findCurrency(String.valueOf(bookDto.getRetailPrice()));
     BigDecimal retailPrice = parseStringPriceIntoBigDecimal(bookDto.getRetailPrice());
     BigDecimal promotionalPrice =
-        parseStringPriceIntoBigDecimal(bookDto.getPromotionalPrice());
+        establishPromotionalPrice(retailPrice, bookDto.getPromotionalPrice());
 
     return new PriceHistory(
         bookstoreBook, retailPrice, promotionalPrice, currency, LocalDateTime.now());
@@ -68,10 +68,15 @@ class BookDtoParserIntoModel {
   }
 
   private BigDecimal parseStringPriceIntoBigDecimal(String price) {
-    if (price.isEmpty()) return null;
     price = price.replace(",", ".");
     price = price.replaceAll("[^0-9.]", "");
     return new BigDecimal(price);
+  }
+
+  private BigDecimal establishPromotionalPrice(BigDecimal retailPrice, String promotionalPriceDto) {
+    return promotionalPriceDto.isEmpty()
+            ? retailPrice
+            : parseStringPriceIntoBigDecimal(promotionalPriceDto);
   }
 
   private BookstoreBook createBookstoreBook(BookDto bookDto, Book book, Bookstore bookstore) {
