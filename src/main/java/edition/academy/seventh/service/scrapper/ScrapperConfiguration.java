@@ -39,4 +39,34 @@ class ScrapperConfiguration {
         "item product product-item",
         "ŚWIAT KSIĄŻKI");
   }
+
+
+  @Bean(name = "taniaKsiazkaScrapper")
+  PromotionProvider taniaKsiazkaPromotionProvider() {
+    return new TaniaKsiazkaScrapper(
+        "https://www.taniaksiazka.pl/tanie-ksiazki/page-",
+        "",
+        "product-container",
+        "TANIA KSIĄŻKA");
+  }
+
+  @Bean(name = "bookoffScrapper")
+  PromotionProvider bookoffPromotionProvider() {
+    return new BookoffScrapper(
+        "https://www.bookoff.pl/Wyprzedaz-spromo-pol.html?counter=",
+        "",
+        "product_wrapper_sub",
+        "BookOff");
+
+  }
+
+  @Bean(name = "raveloScrapper")
+  PromotionProvider raveloPromotionProvider() {
+    return new RaveloScrapper(
+            "https://www.ravelo.pl/szukaj.html?query=&filterActive=1&cat_id=0&search=1&filterCategory1=&filterIsSale=1&productsPerPage=60&p=",
+            "",
+            "row productBox ",
+            "Ravelo");
+
+  }
 }
