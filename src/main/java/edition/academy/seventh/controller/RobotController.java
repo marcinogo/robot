@@ -28,20 +28,17 @@ class RobotController {
   private PromotionProviderManager providerManager;
   private ItBookMapper itBookMapper;
   private BookService bookService;
-  private DatabaseInitializer databaseInitializer;
 
   @Autowired
   RobotController(
       BookstoreConnectionService bookstoreConnectionService,
       PromotionProviderManager providerManager,
       ItBookMapper itBookMapper,
-      BookService bookService,
-      DatabaseInitializer databaseInitializer) {
+      BookService bookService) {
     this.bookstoreConnectionService = bookstoreConnectionService;
     this.providerManager = providerManager;
     this.itBookMapper = itBookMapper;
     this.bookService = bookService;
-    this.databaseInitializer = databaseInitializer;
   }
 
   /**
@@ -51,7 +48,6 @@ class RobotController {
    */
   @GetMapping("/start")
   public boolean startRobot() {
-    databaseInitializer.populateDatabase();
     return startGatheringData();
   }
 
