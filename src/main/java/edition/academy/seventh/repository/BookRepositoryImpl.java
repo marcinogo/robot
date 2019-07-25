@@ -1,6 +1,6 @@
 package edition.academy.seventh.repository;
 
-import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
+import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
 
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
@@ -39,7 +39,7 @@ public class BookRepositoryImpl implements BookRepository {
       BookDtoParserIntoModel bookDtoParserIntoModel,
       ModelParserIntoBookDtos modelParserIntoBookDtos,
       BookstoreBookParserIntoBookstoreBookDto bookstoreBookParserIntoBookstoreBookDto) {
-    connectorProvider = ConnectorFactory.of(H2);
+    connectorProvider = ConnectorFactory.of(POSTGRESQL);
     this.bookDtoParserIntoModel = bookDtoParserIntoModel;
     this.modelParserIntoBookDtos = modelParserIntoBookDtos;
     this.bookstoreBookParserIntoBookstoreBookDto = bookstoreBookParserIntoBookstoreBookDto;
