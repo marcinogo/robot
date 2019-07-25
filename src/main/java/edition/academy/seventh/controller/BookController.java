@@ -1,12 +1,9 @@
 package edition.academy.seventh.controller;
 
+import static edition.academy.seventh.database.connector.DatabaseTypes.*;
 import edition.academy.seventh.database.connector.ConnectorFactory;
-import edition.academy.seventh.database.connector.DatabaseTypes;
 import edition.academy.seventh.database.model.BookDto;
-import edition.academy.seventh.display.LazyPagination;
-import edition.academy.seventh.display.Filter;
-import edition.academy.seventh.display.Pagination;
-import edition.academy.seventh.display.PaginationSize;
+import edition.academy.seventh.display.*;
 import edition.academy.seventh.service.BookService;
 import java.util.List;
 
@@ -25,7 +22,8 @@ class BookController {
   @Autowired
   public BookController(BookService bookService) {
     this.bookService = bookService;
-    this.pagination = new LazyPagination(ConnectorFactory.of(DatabaseTypes.POSTGRESQL));
+//    this.pagination = new LazyPagination(ConnectorFactory.of(POSTGRESQL));
+    this.pagination = new EagerPagination(bookService);
   }
 
   /**
