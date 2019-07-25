@@ -1,9 +1,9 @@
 package edition.academy.seventh.repository;
 
+import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.database.model.BookstoreBookDto;
 import edition.academy.seventh.model.BookstoreBook;
-
 import java.util.List;
 
 /**
@@ -27,4 +27,6 @@ public interface BookRepository {
    * @return specific {@link BookstoreBook} found by id.
    */
   BookstoreBookDto getBookstoreBookDtoByHref(String href);
+
+  void setConnectorProvider(ConnectorProvider connectorProvider);
 }

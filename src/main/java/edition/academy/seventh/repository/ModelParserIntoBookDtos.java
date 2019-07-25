@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Parses data about books with last update price information from database into {@link BookDto}s.
+ * Parses books with last update price information from database to {@link BookDto}.
  *
  * @author Agnieszka Trzewik
  */

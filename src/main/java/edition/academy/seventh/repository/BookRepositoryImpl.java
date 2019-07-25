@@ -19,6 +19,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
+import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
 
 /**
  * Allows to persists and retrieve data about books from the database. This information is
@@ -116,5 +117,10 @@ public class BookRepositoryImpl implements BookRepository {
 
   private void addBookToDatabase(BookDto bookDto) {
     bookDtoParserIntoModel.parseBookDtoIntoModel(bookDto, entityManager);
+  }
+
+  public void setConnectorProvider(
+      ConnectorProvider connectorProvider) {
+    this.connectorProvider = connectorProvider;
   }
 }

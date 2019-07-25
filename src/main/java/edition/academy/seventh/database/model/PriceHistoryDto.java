@@ -21,4 +21,28 @@ public class PriceHistoryDto {
     this.promotionalPrice = promotionalPrice;
     this.date = date;
   }
+
+  public String getRetailPrice() {
+    return retailPrice;
+  }
+
+  public void setRetailPrice(String retailPrice) {
+    this.retailPrice = retailPrice;
+  }
+
+  public String getPromotionalPrice() {
+    return promotionalPrice;
+  }
+
+  public void setPromotionalPrice(String promotionalPrice) {
+    this.promotionalPrice = promotionalPrice;
+  }
+
+  public LocalDateTime getDate() {
+    return date;
+  }
+
+  public void setDate(LocalDateTime date) {
+    this.date = date;
+  }
 }

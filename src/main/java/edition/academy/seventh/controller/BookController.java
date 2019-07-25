@@ -39,7 +39,7 @@ class BookController {
     return new ResponseEntity<>(bookService.getBooksFromDatabase(), HttpStatus.OK);
   }
 
-  @RequestMapping("/bookUrl/**")
+  @GetMapping("/bookUrl/**")
   public ResponseEntity<BookstoreBookDto> getBookstoreBook(HttpServletRequest request) {
 
     String hyperlink = request.getRequestURI();
