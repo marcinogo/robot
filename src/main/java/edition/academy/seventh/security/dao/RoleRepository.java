@@ -4,7 +4,6 @@ import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.security.model.Role;
 import edition.academy.seventh.security.model.RoleName;
-import edition.academy.seventh.security.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -60,7 +59,6 @@ public class RoleRepository {
           String.format("Retrieving data from db unsuccessful. Message: %s", message));
     } finally {
       entityManager.close();
-
     }
   }
 }

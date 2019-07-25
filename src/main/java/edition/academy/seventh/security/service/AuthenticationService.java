@@ -66,6 +66,7 @@ public class AuthenticationService {
 
   /**
    * Creates new user's account based on {@link RegisterForm} passed as parameter.
+   * During process user's password is encoded.
    *
    * @param registerForm {@link RegisterForm} with requested user data needed to create an account.
    */
@@ -75,7 +76,7 @@ public class AuthenticationService {
         new User(
             registerForm.getEmail(),
             registerForm.getUsername(),
-            encoder.encode(registerForm.getPassword()));
+                encodePassword(registerForm));
 
     Set<String> rolesAsString = registerForm.getRole();
     Set<Role> roles = addProperRoles(rolesAsString);
@@ -86,13 +87,17 @@ public class AuthenticationService {
     return createdAccountSuccessfully;
   }
 
+  private String encodePassword(@RequestBody @Valid RegisterForm registerForm) {
+    return encoder.encode(registerForm.getPassword());
+  }
+
   /**
    * Tries to log in the user and if successful, generates new JSON web token.
    *
    * @param loginForm {@link LoginForm} with email & password needed to be authorized
    * @return {@link JwtResponse} response with suitable JSON web token.
    */
-  public JwtResponse login(@Valid @RequestBody LoginForm loginForm) {
+  public JwtResponse login(@RequestBody @Valid LoginForm loginForm) {
     Authentication authentication =
         authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(

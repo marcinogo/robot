@@ -30,7 +30,6 @@ abstract class EntityConnector implements ConnectorProvider {
 
   @Override
   public EntityManagerFactory getEntityManagerFactory() {
-    entityManagerFactory.close();
     if (entityManagerFactory != null) {
       if (!entityManagerFactory.isOpen()) {
         entityManagerFactory =

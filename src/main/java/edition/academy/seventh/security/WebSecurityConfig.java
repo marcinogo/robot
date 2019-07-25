@@ -53,9 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     return new BCryptPasswordEncoder();
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
       throws Exception {
@@ -64,9 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .passwordEncoder(passwordEncoder());
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.cors()
@@ -79,6 +75,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/auth/sign_in")
         .permitAll()
         .antMatchers("/start")
+        .permitAll()
+        .antMatchers("/books")
         .permitAll()
         .anyRequest()
         .authenticated()
@@ -93,9 +91,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Bean
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {

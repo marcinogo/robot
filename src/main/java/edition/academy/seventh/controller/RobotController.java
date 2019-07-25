@@ -1,10 +1,7 @@
 package edition.academy.seventh.controller;
 
 import edition.academy.seventh.database.model.BookDto;
-import edition.academy.seventh.service.BookService;
-import edition.academy.seventh.service.BookstoreConnectionService;
-import edition.academy.seventh.service.PromotionProviderManager;
-import edition.academy.seventh.service.ProvidersNotFoundException;
+import edition.academy.seventh.service.*;
 import edition.academy.seventh.service.mapper.ItBookMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,17 +28,20 @@ class RobotController {
   private PromotionProviderManager providerManager;
   private ItBookMapper itBookMapper;
   private BookService bookService;
+  private DatabaseInitializer databaseInitializer;
 
   @Autowired
   RobotController(
       BookstoreConnectionService bookstoreConnectionService,
       PromotionProviderManager providerManager,
       ItBookMapper itBookMapper,
-      BookService bookService) {
+      BookService bookService,
+      DatabaseInitializer databaseInitializer) {
     this.bookstoreConnectionService = bookstoreConnectionService;
     this.providerManager = providerManager;
     this.itBookMapper = itBookMapper;
     this.bookService = bookService;
+    this.databaseInitializer = databaseInitializer;
   }
 
   /**
@@ -51,6 +51,7 @@ class RobotController {
    */
   @GetMapping("/start")
   public boolean startRobot() {
+    databaseInitializer.populateDatabase();
     return startGatheringData();
   }
 

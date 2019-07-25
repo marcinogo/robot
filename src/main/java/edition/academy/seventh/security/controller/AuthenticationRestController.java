@@ -50,7 +50,7 @@ public class AuthenticationRestController {
       return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.BAD_REQUEST);
     }
     if (authenticationService.userExistsByEmail(registerForm.getEmail())) {
-      returnMessage = "Account with given email already exists! ";
+       returnMessage = "Account with given email already exists! ";
       logger.error(returnMessage + registerForm.getEmail());
       return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.BAD_REQUEST);
     }

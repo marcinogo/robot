@@ -30,7 +30,7 @@ public class UserRepository {
   private ConnectorProvider connectorProvider;
   private EntityManager entityManager;
 
-  UserRepository() {
+  public UserRepository() {
     connectorProvider = ConnectorFactory.of(H2);
   }
 

@@ -49,7 +49,7 @@ public class User {
   private Set<Role> roles = new HashSet<>();
 
   public User(
-      @NotBlank @Size(max = 50)  String email,
+      @NotBlank @Size(max = 50) String email,
       @NotBlank @Size(min = 3, max = 50) String username,
       @NotBlank @Size(min = 6, max = 100) String password) {
     this.email = email;
@@ -58,14 +58,12 @@ public class User {
   }
 
   public User(
-      @NotBlank @Size(max = 50) String email,
-      @NotBlank @Size(min = 6, max = 100) String password) {
+      @NotBlank @Size(max = 50) String email, @NotBlank @Size(min = 6, max = 100) String password) {
     this.email = email;
     this.password = password;
   }
 
-  public User() {
-  }
+  public User() {}
 
   @Override
   public boolean equals(Object o) {
