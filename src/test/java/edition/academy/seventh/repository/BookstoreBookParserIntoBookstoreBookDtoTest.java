@@ -42,7 +42,7 @@ public class BookstoreBookParserIntoBookstoreBookDtoTest {
   private BookstoreBook createBookstoreBook(String title, String author, String subtitle,
       String bookstoreName, String hyperlink, String img) {
     BookId bookId = new BookId(title, author);
-    Book book = new Book(subtitle, bookId);
+    Book book = new Book(bookId,subtitle);
     Bookstore bookstore = new Bookstore(bookstoreName);
     return new BookstoreBook(hyperlink, img, bookstore, book);
   }
@@ -52,7 +52,7 @@ public class BookstoreBookParserIntoBookstoreBookDtoTest {
         .equals(bookstoreBook.getBook().getBookId().getTitle());
     boolean historySize =
         bookstoreBookDto.getPriceHistoryDtos().size() == bookstoreBook.getPriceHistories().size();
-    boolean href = bookstoreBookDto.getHref().equals(bookstoreBook.getHyperLink());
+    boolean href = bookstoreBookDto.getHref().equals(bookstoreBook.getHyperlink());
     boolean image = bookstoreBookDto.getImageLink().equals(bookstoreBook.getImageLink());
     boolean bookstore = bookstoreBookDto.getBookstore()
         .equals(bookstoreBook.getBookstore().getName());

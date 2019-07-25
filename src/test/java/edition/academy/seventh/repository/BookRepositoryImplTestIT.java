@@ -8,11 +8,12 @@ import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.DatabaseTypes;
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.database.model.BookstoreBookDto;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import org.junit.Before;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 @Test
@@ -21,21 +22,19 @@ public class BookRepositoryImplTestIT {
   private Random random = new Random();
   private BookRepository repository;
 
-  @Before
+  @BeforeTest
   public void init(){
     repository = new BookRepositoryImpl(new BookDtoParserIntoModel(),
         new ModelParserIntoBookDtos(), new BookstoreBookParserIntoBookstoreBookDto());
     repository.setConnectorProvider(ConnectorFactory.of(DatabaseTypes.H2));
-  }
-
-  public void should_generateListWithRecords_whenCallGetLatestBooksFromDatabase() {
-    List<BookDto> latestBooksFromDatabase = repository.getLatestBooksFromDatabase();
-    assertFalse(latestBooksFromDatabase.isEmpty());
+    repository.addBooksToDatabase(Arrays.asList(new BookDto("TEST", "TEST", "TEST",
+        "13.05 zł", "15.88 zł"
+        , "TEST", "TEST", "TEST")));
   }
 
   public void should_returnBookFromDatabase(){
     BookstoreBookDto bookstoreBookDtoByHref = repository
-        .getBookstoreBookDtoByHref("Href 41");
+        .getBookstoreBookDtoByHref("TEST");
 
     assertNotNull(bookstoreBookDtoByHref);
   }
@@ -51,6 +50,11 @@ public class BookRepositoryImplTestIT {
 
     assertTrue(booksBeforeAdd.size()<booksAfterAdd.size());
 
+  }
+
+  public void should_generateListWithRecords_whenCallGetLatestBooksFromDatabase() {
+    List<BookDto> latestBooksFromDatabase = repository.getLatestBooksFromDatabase();
+    assertFalse(latestBooksFromDatabase.isEmpty());
   }
 
   private List<BookDto> generateRandomList(){

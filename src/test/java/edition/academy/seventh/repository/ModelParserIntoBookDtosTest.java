@@ -4,6 +4,7 @@ import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.model.*;
 import org.testng.annotations.Test;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -19,30 +20,35 @@ public class ModelParserIntoBookDtosTest {
       String title,
       String subtitle,
       String author,
-      String retailPrice,
-      String promotionalPrice,
+      BigDecimal retailPrice,
+      BigDecimal promotionalPrice,
+      String currency,
       String imageLink,
       String hyperLink,
       String bookstore) {
 
     // Given
     BookstoreBook bookstoreBook =
-            new BookstoreBook(
-                    hyperLink,
-                    imageLink,
-                    new Bookstore(bookstore),
-                    new Book(subtitle, new BookId(title, author)));
+        new BookstoreBook(
+            hyperLink,
+            imageLink,
+            new Bookstore(bookstore),
+            new Book(new BookId(title, author), subtitle));
     PriceHistory priceHistory =
-        new PriceHistory(bookstoreBook, retailPrice, promotionalPrice, LocalDateTime.now());
+        new PriceHistory(
+            bookstoreBook, retailPrice, promotionalPrice, currency, LocalDateTime.now());
     bookstoreBook.getPriceHistories().add(priceHistory);
+
+    String convertedRetailPrice = String.join(" ", String.valueOf(retailPrice), currency);
+    String convertedPromotionalPrice = String.join(" ", String.valueOf(promotionalPrice), currency);
 
     BookDto dtBook =
         new BookDto(
             title,
             subtitle,
             author,
-            retailPrice,
-            promotionalPrice,
+            convertedRetailPrice,
+            convertedPromotionalPrice,
             imageLink,
             hyperLink,
             bookstore);
@@ -52,7 +58,8 @@ public class ModelParserIntoBookDtosTest {
     List<BookDto> expectedDTBooks = List.of(dtBook);
 
     // When
-    List<BookDto> dtBooks = new ModelParserIntoBookDtos().parseBookstoreBooksIntoBookDtos(bookstoreBooks);
+    List<BookDto> dtBooks =
+        new ModelParserIntoBookDtos().parseBookstoreBooksIntoBookDtos(bookstoreBooks);
 
     // Then
     assertEquals(dtBooks, expectedDTBooks);

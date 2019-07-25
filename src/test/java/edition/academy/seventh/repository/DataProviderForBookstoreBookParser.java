@@ -1,6 +1,7 @@
 package edition.academy.seventh.repository;
 
 import edition.academy.seventh.model.PriceHistory;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Random;
@@ -32,7 +33,8 @@ public class DataProviderForBookstoreBookParser {
         .collect(Collectors.toList());
 
     return dateTimes.stream().map(dateTime ->
-        new PriceHistory(null, "cena1", "cena2", dateTime))
+        new PriceHistory(null, new BigDecimal("10")
+            ,new BigDecimal("15.6"),"zł", dateTime))
         .collect(Collectors.toList());
   }
 }

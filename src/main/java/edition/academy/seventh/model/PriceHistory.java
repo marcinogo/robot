@@ -1,16 +1,23 @@
 package edition.academy.seventh.model;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.FieldNameConstants;
+
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /** @author Agnieszka Trzewik */
 @Entity(name = "price_history")
+@Data
+@NoArgsConstructor
 public class PriceHistory {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false)
+  @FieldNameConstants.Exclude
   private Long id;
 
   @ManyToOne(cascade = CascadeType.PERSIST)
@@ -18,81 +25,27 @@ public class PriceHistory {
   private BookstoreBook bookstoreBook;
 
   @Column(name = "retail_price")
-  private String retailPrice;
+  private BigDecimal retailPrice;
 
   @Column(name = "promotional_price")
-  private String promotionalPrice;
+  private BigDecimal promotionalPrice;
+
+  @Column(name = "currency")
+  private String currency;
 
   @Column(name = "date")
   private LocalDateTime date;
 
-  public PriceHistory() {}
-
   public PriceHistory(
       BookstoreBook bookstoreBook,
-      String retailPrice,
-      String promotionalPrice,
+      BigDecimal retailPrice,
+      BigDecimal promotionalPrice,
+      String currency,
       LocalDateTime date) {
     this.bookstoreBook = bookstoreBook;
     this.retailPrice = retailPrice;
     this.promotionalPrice = promotionalPrice;
+    this.currency = currency;
     this.date = date;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public BookstoreBook getBookstoreBook() {
-    return bookstoreBook;
-  }
-
-  public void setBookstoreBook(BookstoreBook bookstoreBook) {
-    this.bookstoreBook = bookstoreBook;
-  }
-
-  public String getRetailPrice() {
-    return retailPrice;
-  }
-
-  public void setRetailPrice(String retailPrice) {
-    this.retailPrice = retailPrice;
-  }
-
-  public String getPromotionalPrice() {
-    return promotionalPrice;
-  }
-
-  public void setPromotionalPrice(String promotionalPrice) {
-    this.promotionalPrice = promotionalPrice;
-  }
-
-  public LocalDateTime getDate() {
-    return date;
-  }
-
-  public void setDate(LocalDateTime date) {
-    this.date = date;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    PriceHistory that = (PriceHistory) o;
-    return Objects.equals(id, that.id)
-        && Objects.equals(bookstoreBook, that.bookstoreBook)
-        && Objects.equals(retailPrice, that.retailPrice)
-        && Objects.equals(promotionalPrice, that.promotionalPrice)
-        && Objects.equals(date, that.date);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id, bookstoreBook, retailPrice, promotionalPrice, date);
   }
 }
