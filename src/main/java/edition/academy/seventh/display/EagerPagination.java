@@ -4,21 +4,19 @@ import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.service.BookService;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /** @author Kamil Rojek */
 public class EagerPagination implements Pagination {
   private List<BookDto> books;
-  private List<BookDto>
-      booksBackup; // todo nie mogę posortować ponownie po ID książek więc żeby wrócić do domyślnego
-  // filtru muszę zrobić backup
+  private EagerPaginationFilterHandler filterHandler;
   private Map<Integer, List<BookDto>> paginationMap;
-  private int currentPage;
   private PaginationSize paginationSize = PaginationSize.TWENTY;
+  private int currentPage;
 
   public EagerPagination(BookService bookService) {
-    this.books = this.booksBackup = bookService.getBooksFromDatabase();
-    initializePagination(paginationSize);
+    this.books = bookService.getBooksFromDatabase();
+    this.filterHandler = new EagerPaginationFilterHandler(books);
+    initializePaginationMap(paginationSize);
   }
 
   @Override
@@ -28,7 +26,7 @@ public class EagerPagination implements Pagination {
 
   @Override
   public List<BookDto> changePagination(PaginationSize size) {
-    initializePagination(size);
+    initializePaginationMap(size);
     return paginationMap.get(currentPage);
   }
 
@@ -50,39 +48,12 @@ public class EagerPagination implements Pagination {
 
   @Override
   public List<BookDto> changeFilter(Filter filter) {
-    switch (filter) {
-      case TITLE_DESCENDING:
-        return filter(Comparator.comparing(BookDto::getTitle, Comparator.reverseOrder()));
-      case PROMOTIONAL_PRICE_ASCENDING:
-        return filter(Comparator.comparing(BookDto::getPromotionalPrice));
-      case PROMOTIONAL_PRICE_DESCENDING:
-        return filter(
-            Comparator.comparing(BookDto::getPromotionalPrice, Comparator.reverseOrder()));
-      case PRICE_ASCENDING:
-        return filter(Comparator.comparing(BookDto::getRetailPrice));
-      case PRICE_DESCENDING:
-        return filter(Comparator.comparing(BookDto::getRetailPrice, Comparator.reverseOrder()));
-      case TITLE_ASCENDING:
-        return filter(Comparator.comparing(BookDto::getTitle));
-      case DEFAULT:
-      default:
-        return restoreDefaultFilter();
-    }
-  }
-
-  private List<BookDto> filter(Comparator<BookDto> comparator) {
-    books = books.stream().sorted(comparator).collect(Collectors.toList());
-    initializePagination(paginationSize);
+    books = filterHandler.changeFilter(filter);
+    initializePaginationMap(paginationSize);
     return startPagination();
   }
 
-  private List<BookDto> restoreDefaultFilter() {
-    books = booksBackup;
-    initializePagination(paginationSize);
-    return startPagination();
-  }
-
-  private void initializePagination(PaginationSize paginationSize) {
+  private void initializePaginationMap(PaginationSize paginationSize) {
     this.paginationMap = new LinkedHashMap<>();
     this.currentPage = 1;
     this.paginationSize = paginationSize;
