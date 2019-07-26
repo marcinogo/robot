@@ -18,15 +18,19 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 @Test
-public class BookRepositoryImplTestIT {
+public class BookRepositoryTestIT {
 
   private Random random = new Random();
   private BookRepository repository;
 
   @BeforeTest
   public void init(){
-    repository = new BookRepositoryImpl(new BookDtoParser(),
+    BookDtoParser bookDtoParser = new BookDtoParser(repository);
+    repository = new BookRepository(bookDtoParser,
         new ModelParserIntoBookDtos(), new BookstoreBookParserIntoBookstoreBookDto());
+
+    bookDtoParser.setRepository(repository);
+
     repository.setConnectorProvider(ConnectorFactory.of(DatabaseTypes.H2));
     repository.addBooksToDatabase(Arrays.asList(new BookDto("TEST", "TEST", "TEST",
         "13.05 zł", "15.88 zł"

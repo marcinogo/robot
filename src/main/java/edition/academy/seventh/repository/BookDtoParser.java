@@ -1,12 +1,16 @@
 package edition.academy.seventh.repository;
 
 import edition.academy.seventh.database.model.BookDto;
-import edition.academy.seventh.model.*;
-import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityManager;
+import edition.academy.seventh.model.Book;
+import edition.academy.seventh.model.BookId;
+import edition.academy.seventh.model.Bookstore;
+import edition.academy.seventh.model.BookstoreBook;
+import edition.academy.seventh.model.PriceAtTheMoment;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 
 /**
  * Parses {@link BookDto} into database model and save or update changes.
@@ -16,38 +20,52 @@ import java.time.LocalDateTime;
 @Service
 class BookDtoParser {
 
+  private BookRepository bookRepository;
+
+  @Autowired
+  @Lazy
+  BookDtoParser(BookRepository repository) {
+    this.bookRepository = repository;
+  }
+
   /**
    * Creates all required records. Tries to find specific ones in a database,
    * if they do exist updates them, otherwise creates new ones.
    *
    * @param bookDto to be parsed into model.
-   * @param entityManager to perform required actions.
    */
-  void parseBookDtoIntoModel(BookDto bookDto, EntityManager entityManager) {
+  void parseBookDtoIntoModel(BookDto bookDto) {
     Book book = createBook(bookDto);
     Bookstore bookstore = createBookstore(bookDto);
     BookstoreBook bookstoreBook = createBookstoreBook(bookDto, book, bookstore);
-    PriceAtTheMoment priceAtTheMoment = createPriceHistory(bookDto, bookstoreBook);
+    PriceAtTheMoment priceAtTheMoment = createPriceAtTheMoment(bookDto, bookstoreBook);
+    bookstoreBook.getPriceHistories().add(priceAtTheMoment);
 
-    Book bookAlreadyInDatabase =
-        entityManager.find(Book.class, bookstoreBook.getBook().getBookId());
-    Bookstore bookstoreAlreadyInDatabase =
-        entityManager.find(Bookstore.class, bookstoreBook.getBookstore().getName());
-    BookstoreBook bookstoreBookAlreadyInDatabase =
-        entityManager.find(BookstoreBook.class, bookstoreBook.getHyperlink());
+    EntitiesInDatabase entitiesInDatabase = findEntitiesInDatabase(bookstoreBook);
 
-    saveOrUpdateModel(
-        entityManager,
-        bookstore,
-        bookstoreAlreadyInDatabase,
-        book,
-        bookAlreadyInDatabase,
-        bookstoreBook,
-        bookstoreBookAlreadyInDatabase,
-        priceAtTheMoment);
+    saveOrUpdateModel(bookstore, bookstoreBook, book, entitiesInDatabase);
   }
 
-  private PriceAtTheMoment createPriceHistory(BookDto bookDto, BookstoreBook bookstoreBook) {
+  void setRepository(BookRepository repository) {
+    this.bookRepository = repository;
+  }
+
+  private EntitiesInDatabase findEntitiesInDatabase(
+      BookstoreBook bookstoreBook) {
+
+    Book bookAlreadyInDatabase = bookRepository.getBookById(bookstoreBook.getBook().getBookId());
+
+    Bookstore bookstoreAlreadyInDatabase = bookRepository
+        .getBookstoreById(bookstoreBook.getBookstore().getName());
+
+    BookstoreBook bookstoreBookAlreadyInDatabase = bookRepository
+        .getBookstoreBookById(bookstoreBook.getHyperlink());
+
+    return new EntitiesInDatabase(bookAlreadyInDatabase, bookstoreAlreadyInDatabase,
+        bookstoreBookAlreadyInDatabase);
+  }
+
+  private PriceAtTheMoment createPriceAtTheMoment(BookDto bookDto, BookstoreBook bookstoreBook) {
 
     String currency = findCurrency(String.valueOf(bookDto.getRetailPrice()));
     BigDecimal retailPrice =
@@ -57,26 +75,6 @@ class BookDtoParser {
 
     return new PriceAtTheMoment(
         bookstoreBook, retailPrice, promotionalPrice, currency, LocalDateTime.now());
-  }
-
-  private String findCurrency(String price) {
-    if (price.contains("zł")) {
-      return "zł";
-    } else {
-      return "$";
-    }
-  }
-
-  private BigDecimal establishPromotionalPrice(BigDecimal retailPrice, String promotionalPriceDto) {
-    return promotionalPriceDto.isEmpty()
-        ? retailPrice
-        : parseStringPriceIntoBigDecimal(promotionalPriceDto);
-  }
-
-  private BigDecimal establishRetailPrice(String retailPriceDto, String promotionalPriceDto) {
-    return retailPriceDto.isEmpty()
-        ? establishPromotionalPrice(null, promotionalPriceDto)
-        : parseStringPriceIntoBigDecimal(retailPriceDto);
   }
 
   private BigDecimal parseStringPriceIntoBigDecimal(String price) {
@@ -99,49 +97,48 @@ class BookDtoParser {
   }
 
   private void saveOrUpdateModel(
-      EntityManager entityManager,
       Bookstore bookstore,
-      Bookstore previousBookstore,
-      Book book,
-      Book previousBook,
       BookstoreBook bookstoreBook,
-      BookstoreBook previousBookstoreBook,
-      PriceAtTheMoment priceAtTheMoment) {
+      Book book,
+      EntitiesInDatabase entities) {
 
-    saveOrUpdateBook(entityManager, book, previousBook);
-    saveOrUpdateBookstore(entityManager, bookstore, previousBookstore);
-    saveOrUpdateBookstoreBook(entityManager, bookstoreBook, previousBookstoreBook,
-        priceAtTheMoment);
+    bookRepository.saveOrUpdateBook(book, entities.book);
+    bookRepository.saveOrUpdateBookstore(bookstore, entities.bookstore);
+    bookRepository.saveOrUpdateBookstoreBook(bookstoreBook, entities.bookstoreBook);
   }
 
-  private void saveOrUpdateBookstoreBook(
-      EntityManager entityManager,
-      BookstoreBook bookstoreBook,
-      BookstoreBook bookstoreBookAlreadyInDatabase,
-      PriceAtTheMoment priceAtTheMoment) {
-    bookstoreBook.getPriceHistories().add(priceAtTheMoment);
-    if (bookstoreBookAlreadyInDatabase != null) {
-      bookstoreBook.setHyperlink(bookstoreBookAlreadyInDatabase.getHyperlink());
-      entityManager.merge(bookstoreBook);
+  private String findCurrency(String price) {
+    if (price.contains("zł")) {
+      return "zł";
     } else {
-      entityManager.persist(entityManager.merge(bookstoreBook));
+      return "$";
     }
   }
 
-  private void saveOrUpdateBookstore(
-      EntityManager entityManager, Bookstore bookstore, Bookstore bookstoreAlreadyInDatabase) {
-    if (bookstoreAlreadyInDatabase != null) {
-      bookstore.setName(bookstoreAlreadyInDatabase.getName());
-      entityManager.merge(bookstore);
-    } else entityManager.persist(bookstore);
+  private BigDecimal establishPromotionalPrice(BigDecimal retailPrice, String promotionalPriceDto) {
+    return promotionalPriceDto.isEmpty()
+        ? retailPrice
+        : parseStringPriceIntoBigDecimal(promotionalPriceDto);
   }
 
-  private void saveOrUpdateBook(
-      EntityManager entityManager, Book book, Book bookAlreadyInDatabase) {
-    if (bookAlreadyInDatabase != null) {
-      book.setBookId(bookAlreadyInDatabase.getBookId());
-      entityManager.merge(book);
+  private BigDecimal establishRetailPrice(String retailPriceDto, String promotionalPriceDto) {
+    return retailPriceDto.isEmpty()
+        ? establishPromotionalPrice(null, promotionalPriceDto)
+        : parseStringPriceIntoBigDecimal(retailPriceDto);
+  }
 
-    } else entityManager.persist(book);
+  private class EntitiesInDatabase {
+
+    private final Book book;
+    private final Bookstore bookstore;
+    private final BookstoreBook bookstoreBook;
+
+    EntitiesInDatabase(Book book, Bookstore bookstore,
+        BookstoreBook bookstoreBook) {
+
+      this.book = book;
+      this.bookstore = bookstore;
+      this.bookstoreBook = bookstoreBook;
+    }
   }
 }

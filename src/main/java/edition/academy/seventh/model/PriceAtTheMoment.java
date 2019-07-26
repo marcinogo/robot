@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /** @author Agnieszka Trzewik */
-@Entity(name = "price_history")
+@Entity(name = "price_at_the_moment")
 @Data
 @NoArgsConstructor
 public class PriceAtTheMoment {

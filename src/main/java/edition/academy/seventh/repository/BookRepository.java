@@ -1,32 +1,170 @@
 package edition.academy.seventh.repository;
 
+import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
+
+import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.database.model.BookstoreBookDto;
+import edition.academy.seventh.model.Book;
+import edition.academy.seventh.model.BookId;
+import edition.academy.seventh.model.Bookstore;
 import edition.academy.seventh.model.BookstoreBook;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
- * Provides basic operations on repository.
+ * Allows to persists and retrieve data about books from the database. This information is
+ * transferred through the application as {@link BookDto}.
  *
  * @author Agnieszka Trzewik
  */
-public interface BookRepository {
+@Repository
+public class BookRepository {
+  private static final Logger logger = LoggerFactory.getLogger(BookRepository.class);
+  private EntityManager entityManager;
+  private ConnectorProvider connectorProvider;
+  private BookDtoParser bookDtoParser;
+  private ModelParserIntoBookDtos modelParserIntoBookDtos;
+  private BookstoreBookParserIntoBookstoreBookDto bookstoreBookParserIntoBookstoreBookDto;
+
+  @Autowired
+  BookRepository(
+      BookDtoParser bookDtoParser,
+      ModelParserIntoBookDtos modelParserIntoBookDtos,
+      BookstoreBookParserIntoBookstoreBookDto bookstoreBookParserIntoBookstoreBookDto) {
+    connectorProvider = ConnectorFactory.of(H2);
+    this.bookDtoParser = bookDtoParser;
+    this.modelParserIntoBookDtos = modelParserIntoBookDtos;
+    this.bookstoreBookParserIntoBookstoreBookDto = bookstoreBookParserIntoBookstoreBookDto;
+  }
+
   /**
-   * Persists given books to database.
+   * Adds books records to the database.
    *
-   * @param bookDtos list of books to persist into database
+   * @param bookDtos {@code List<BookDto>} to be added
    */
-  void addBooksToDatabase(List<BookDto> bookDtos);
 
-  /** @return latest information about books. */
-  List<BookDto> getLatestBooksFromDatabase();
+  public void addBooksToDatabase(List<BookDto> bookDtos) {
+    entityManager = connectorProvider.getEntityManager();
+    EntityTransaction transaction = entityManager.getTransaction();
+
+    transaction.begin();
+    bookDtos.forEach(this::addBookToDatabase);
+    logger.info("Saving " + bookDtos.size() + " books in database");
+    transaction.commit();
+    connectorProvider.close();
+  }
 
   /**
-   * @param href link to the book we are looking for.
-   * @return specific {@link BookstoreBook} found by id.
+   * Retrieves all books with latest price information from database.
+   *
+   * @return {@code List<BookDto>}
    */
-  BookstoreBookDto getBookstoreBookDtoByHref(String href);
 
-  void setConnectorProvider(ConnectorProvider connectorProvider);
+  public List<BookDto> getLatestBooksFromDatabase() {
+
+    entityManager = connectorProvider.getEntityManager();
+
+    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+    CriteriaQuery<BookstoreBook> query = criteriaBuilder.createQuery(BookstoreBook.class);
+
+    Root<BookstoreBook> from = query.from(BookstoreBook.class);
+    query.select(from);
+    List<BookstoreBook> bookstoreBookList = entityManager.createQuery(query).getResultList();
+
+    logger.info("Called getBooksFromDatabase(), returning " + bookstoreBookList.size() + " books");
+
+    entityManager.close();
+    return modelParserIntoBookDtos.parseBookstoreBooksIntoBookDtos(bookstoreBookList);
+  }
+
+  /**
+   * Retrieves specific {@link BookstoreBook} from the database based on the book's hyperlink.
+   * If there href does not exist, then it return null.
+   *
+   * @param href link of the searched book.
+   * @return {@link BookstoreBook} found by id, or null if href does not exist.
+   */
+
+  public BookstoreBookDto getBookstoreBookDtoByHref(String href) {
+
+    entityManager = connectorProvider.getEntityManager();
+
+    BookstoreBook bookstoreBook = entityManager.find(BookstoreBook.class, href);
+
+    if (bookstoreBook == null) {
+      logger.info("Cannot find book with href " + href);
+      return null;
+    }
+
+    logger.info("Called getBookstoreBookDtoByHref()");
+
+    entityManager.close();
+
+    return bookstoreBookParserIntoBookstoreBookDto.parseBookstoreBookIntoBookstoreBookDto(
+        bookstoreBook);
+  }
+
+   Book getBookById(BookId bookId) {
+    return entityManager.find(Book.class, bookId);
+  }
+
+
+   Bookstore getBookstoreById(String bookstoreId) {
+    return entityManager.find(Bookstore.class, bookstoreId);
+  }
+
+  BookstoreBook getBookstoreBookById(String bookstoreBookId) {
+    return entityManager.find(BookstoreBook.class, bookstoreBookId);
+  }
+
+
+  void setConnectorProvider(
+      ConnectorProvider connectorProvider) {
+    this.connectorProvider = connectorProvider;
+  }
+
+
+  void saveOrUpdateBookstoreBook(BookstoreBook bookstoreBook,
+      BookstoreBook bookstoreBookAlreadyInDatabase) {
+    if (bookstoreBookAlreadyInDatabase != null) {
+      bookstoreBook.setHyperlink(bookstoreBookAlreadyInDatabase.getHyperlink());
+      entityManager.merge(bookstoreBook);
+    } else {
+      entityManager.persist(entityManager.merge(bookstoreBook));
+    }
+  }
+
+
+  void saveOrUpdateBookstore(Bookstore bookstore, Bookstore bookstoreAlreadyInDatabase) {
+    if (bookstoreAlreadyInDatabase != null) {
+      bookstore.setName(bookstoreAlreadyInDatabase.getName());
+      entityManager.merge(bookstore);
+    } else {
+      entityManager.persist(bookstore);
+    }
+  }
+
+
+  void saveOrUpdateBook(Book book, Book bookAlreadyInDatabase) {
+    if (bookAlreadyInDatabase != null) {
+      book.setBookId(bookAlreadyInDatabase.getBookId());
+      entityManager.merge(book);
+    } else {
+      entityManager.persist(book);
+    }
+  }
+
+  private void addBookToDatabase(BookDto bookDto) {
+    bookDtoParser.parseBookDtoIntoModel(bookDto);
+  }
 }
