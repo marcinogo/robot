@@ -7,6 +7,7 @@ import java.util.List;
  * implemented according to the {@link PaginationSize} enum.
  *
  * @param <E> Bunch of elements according to pagination size.
+ * @author Kamil Rojek
  */
 public interface Pagination<E> {
 

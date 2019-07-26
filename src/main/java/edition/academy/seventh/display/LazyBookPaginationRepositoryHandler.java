@@ -11,7 +11,7 @@ import static edition.academy.seventh.display.PaginationSize.*;
 import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
 
 /** @author Kamil Rojek */
-class LazyPaginationBookRepositoryHandler {
+class LazyBookPaginationRepositoryHandler {
   Filter filter = Filter.DEFAULT;
   private ConnectorProvider connectorProvider;
   private PaginationSize paginationSize;
@@ -22,7 +22,7 @@ class LazyPaginationBookRepositoryHandler {
     initializePaginationValues(TWENTY);
   }
 
-  LazyPaginationBookRepositoryHandler(ConnectorProvider connectorProvider) {
+  LazyBookPaginationRepositoryHandler(ConnectorProvider connectorProvider) {
     this.connectorProvider = connectorProvider;
   }
 

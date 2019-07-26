@@ -5,31 +5,36 @@ import edition.academy.seventh.service.BookService;
 
 import java.util.*;
 
-/** @author Kamil Rojek */
-public class EagerPagination implements Pagination<BookDto> {
+/**
+ * Eager implementation of {@link Pagination} interface based on {@link BookDto} object.
+ *
+ * <p>The {@code currentPage}, {@code nextPage}, {@code previousPage}, {@code changePaginationSize}
+ * and {@code changeFilter} methods operate on objects located in cache memory.
+ *
+ * <p>Default {@link PaginationSize} is set to <b>twenty</b> records per page.
+ *
+ * @author Kamil Rojek
+ */
+class EagerBookPagination implements Pagination<BookDto> {
   private List<BookDto> books;
-  private EagerPaginationFilterHandler filterHandler;
+  private EagerBookPaginationFilterHandler filterHandler;
   private Map<Integer, List<BookDto>> paginationMap;
   private PaginationSize paginationSize = PaginationSize.TWENTY;
   private int currentPage;
 
-  public EagerPagination(BookService bookService) {
+  EagerBookPagination(BookService bookService) {
     this.books = bookService.getBooksFromDatabase();
-    this.filterHandler = new EagerPaginationFilterHandler(books);
+    this.filterHandler = new EagerBookPaginationFilterHandler(books);
     initializePaginationMap(paginationSize);
   }
 
+  /** {@inheritDoc} */
   @Override
   public List<BookDto> currentPage() {
     return paginationMap.get(currentPage);
   }
 
-  @Override
-  public List<BookDto> changePaginationSize(PaginationSize size) {
-    initializePaginationMap(size);
-    return paginationMap.get(currentPage);
-  }
-
+  /** {@inheritDoc} */
   @Override
   public List<BookDto> nextPage() {
     if (paginationMap.keySet().size() > currentPage) {
@@ -38,6 +43,7 @@ public class EagerPagination implements Pagination<BookDto> {
     return paginationMap.get(currentPage);
   }
 
+  /** {@inheritDoc} */
   @Override
   public List<BookDto> previousPage() {
     if (currentPage > 1) {
@@ -46,6 +52,14 @@ public class EagerPagination implements Pagination<BookDto> {
     return paginationMap.get(currentPage);
   }
 
+  /** {@inheritDoc} */
+  @Override
+  public List<BookDto> changePaginationSize(PaginationSize size) {
+    initializePaginationMap(size);
+    return paginationMap.get(currentPage);
+  }
+
+  /** {@inheritDoc} */
   @Override
   public List<BookDto> changeFilter(Filter filter) {
     books = filterHandler.changeFilter(filter);

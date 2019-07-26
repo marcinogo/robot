@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /** @author Kamil Rojek */
-class EagerPaginationFilterHandler {
+class EagerBookPaginationFilterHandler {
   private List<BookDto> books;
   private List<BookDto> booksBackup;
 
-  EagerPaginationFilterHandler(List<BookDto> books) {
+  EagerBookPaginationFilterHandler(List<BookDto> books) {
     this.books = this.booksBackup = books;
   }
 
