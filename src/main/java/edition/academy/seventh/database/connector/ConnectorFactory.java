@@ -10,10 +10,10 @@ public class ConnectorFactory {
   /**
    * Return concrete implementation of connector provider.
    *
-   * @param type {@link DatabaseTypes}
+   * @param type {@link DatabaseType}
    * @return {@link ConnectorProvider}
    */
-  public static ConnectorProvider of(DatabaseTypes type) {
+  public static ConnectorProvider of(DatabaseType type) {
     switch (type) {
       case H2:
         return new H2Connector();

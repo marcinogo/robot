@@ -1,8 +1,6 @@
 package edition.academy.seventh.display;
 
 import edition.academy.seventh.database.model.BookDto;
-import edition.academy.seventh.service.BookService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +17,9 @@ import java.util.List;
 class PaginationController {
   private Pagination<BookDto> pagination;
 
-  @Autowired
-  public PaginationController(BookService bookService) {
-    //    this.pagination = new LazyBookPagination(ConnectorFactory.of(POSTGRESQL));
-    this.pagination = new EagerBookPagination(bookService);
+  /** Instantiate pagination object. */
+  public PaginationController() {
+    this.pagination = PaginationFactory.createEagerBookPagination();
   }
 
   /**
