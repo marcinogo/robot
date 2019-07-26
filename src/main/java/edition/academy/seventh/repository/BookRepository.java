@@ -133,9 +133,14 @@ public class BookRepository {
     this.connectorProvider = connectorProvider;
   }
 
-
-  void saveOrUpdateBookstoreBook(BookstoreBook bookstoreBook,
-      BookstoreBook bookstoreBookAlreadyInDatabase) {
+  /**
+   * Updates new {@link BookstoreBook} with existing values from database,
+   * or persist whole entity.
+   * @param bookstoreBook new to save
+   * @param bookstoreBookAlreadyInDatabase existing in database
+   */
+  void saveOrUpdateBookstoreBook(
+      BookstoreBook bookstoreBook, BookstoreBook bookstoreBookAlreadyInDatabase) {
     if (bookstoreBookAlreadyInDatabase != null) {
       bookstoreBook.setHyperlink(bookstoreBookAlreadyInDatabase.getHyperlink());
       entityManager.merge(bookstoreBook);
@@ -144,7 +149,12 @@ public class BookRepository {
     }
   }
 
-
+  /**
+   * Updates new {@link Bookstore} with existing values from database,
+   * or persist whole entity.
+   * @param bookstore new to save
+   * @param bookstoreAlreadyInDatabase existing in database
+   */
   void saveOrUpdateBookstore(Bookstore bookstore, Bookstore bookstoreAlreadyInDatabase) {
     if (bookstoreAlreadyInDatabase != null) {
       bookstore.setName(bookstoreAlreadyInDatabase.getName());
@@ -154,7 +164,12 @@ public class BookRepository {
     }
   }
 
-
+  /**
+   * Updates new {@link Book} with existing values from database,
+   * or persist whole entity.
+   * @param book new to save
+   * @param bookAlreadyInDatabase existing in database
+   */
   void saveOrUpdateBook(Book book, Book bookAlreadyInDatabase) {
     if (bookAlreadyInDatabase != null) {
       book.setBookId(bookAlreadyInDatabase.getBookId());

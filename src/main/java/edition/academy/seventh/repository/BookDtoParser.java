@@ -50,8 +50,14 @@ class BookDtoParser {
     this.bookRepository = repository;
   }
 
-  private EntitiesInDatabase findEntitiesInDatabase(
-      BookstoreBook bookstoreBook) {
+  /**
+   * Creates new instance of metadata {@link EntitiesInDatabase} that holds information
+   * about {@link BookstoreBook}, {@link Book}, {@link Bookstore}.
+   *
+   * @param bookstoreBook based on it, BookstoreBook entity values are searched in database.
+   * @return {@link EntitiesInDatabase} representing all values found in database.
+   */
+  private EntitiesInDatabase findEntitiesInDatabase(BookstoreBook bookstoreBook) {
 
     Book bookAlreadyInDatabase = bookRepository.getBookById(bookstoreBook.getBook().getBookId());
 
