@@ -2,6 +2,7 @@ package edition.academy.seventh.repository;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import edition.academy.seventh.database.connector.ConnectorFactory;
@@ -24,7 +25,7 @@ public class BookRepositoryImplTestIT {
 
   @BeforeTest
   public void init(){
-    repository = new BookRepositoryImpl(new BookDtoParserIntoModel(),
+    repository = new BookRepositoryImpl(new BookDtoParser(),
         new ModelParserIntoBookDtos(), new BookstoreBookParserIntoBookstoreBookDto());
     repository.setConnectorProvider(ConnectorFactory.of(DatabaseTypes.H2));
     repository.addBooksToDatabase(Arrays.asList(new BookDto("TEST", "TEST", "TEST",
@@ -37,6 +38,13 @@ public class BookRepositoryImplTestIT {
         .getBookstoreBookDtoByHref("TEST");
 
     assertNotNull(bookstoreBookDtoByHref);
+  }
+
+  public void should_returnNull_whenGivenHrefDoNotExists(){
+    BookstoreBookDto bookstoreBookDtoByHref = repository
+        .getBookstoreBookDtoByHref("");
+
+    assertNull(bookstoreBookDtoByHref);
   }
 
   public void should_returnMoreBooks_whenAddRandomBooksToDatabase(){

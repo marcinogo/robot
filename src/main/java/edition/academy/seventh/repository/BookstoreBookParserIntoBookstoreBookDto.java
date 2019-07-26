@@ -1,9 +1,9 @@
 package edition.academy.seventh.repository;
 
 import edition.academy.seventh.database.model.BookstoreBookDto;
-import edition.academy.seventh.database.model.PriceHistoryDto;
+import edition.academy.seventh.database.model.PriceAtTheMomentDto;
 import edition.academy.seventh.model.BookstoreBook;
-import edition.academy.seventh.model.PriceHistory;
+import edition.academy.seventh.model.PriceAtTheMoment;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,12 +15,12 @@ class BookstoreBookParserIntoBookstoreBookDto {
 
   BookstoreBookDto parseBookstoreBookIntoBookstoreBookDto(BookstoreBook bookstoreBook) {
 
-    List<PriceHistory> priceHistories = bookstoreBook.getPriceHistories();
-    List<PriceHistoryDto> priceHistoryDtos =
+    List<PriceAtTheMoment> priceHistories = bookstoreBook.getPriceHistories();
+    List<PriceAtTheMomentDto> priceAtTheMomentDtos =
         priceHistories.stream()
             .map(
                 priceHistory ->
-                    new PriceHistoryDto(
+                    new PriceAtTheMomentDto(
                         priceHistory.getRetailPrice(),
                         priceHistory.getPromotionalPrice(),
                         priceHistory.getCurrency(),
@@ -33,6 +33,6 @@ class BookstoreBookParserIntoBookstoreBookDto {
         bookstoreBook.getImageLink(),
         bookstoreBook.getHyperlink(),
         bookstoreBook.getBookstore().getName(),
-        priceHistoryDtos);
+        priceAtTheMomentDtos);
   }
 }

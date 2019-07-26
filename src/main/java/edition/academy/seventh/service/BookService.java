@@ -44,7 +44,7 @@ public class BookService {
   /**
    * Retrieves specific {@link BookstoreBook} with {@link BookService#bookRepository} based on the book's hyperlink.
    *
-   * @param href link to the book we are looking for.
+   * @param href link to the book to be found.
    * @return {@link BookstoreBook} found by id.
    */
   public BookstoreBookDto getBookstoreBookDtoByHref(String href) {

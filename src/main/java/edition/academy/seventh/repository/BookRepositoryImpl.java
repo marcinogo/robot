@@ -10,6 +10,7 @@ import edition.academy.seventh.model.BookstoreBook;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
@@ -30,17 +31,17 @@ public class BookRepositoryImpl implements BookRepository {
   private static final Logger logger = LoggerFactory.getLogger(BookRepositoryImpl.class);
   private EntityManager entityManager;
   private ConnectorProvider connectorProvider;
-  private BookDtoParserIntoModel bookDtoParserIntoModel;
+  private BookDtoParser bookDtoParser;
   private ModelParserIntoBookDtos modelParserIntoBookDtos;
   private BookstoreBookParserIntoBookstoreBookDto bookstoreBookParserIntoBookstoreBookDto;
 
   @Autowired
   public BookRepositoryImpl(
-      BookDtoParserIntoModel bookDtoParserIntoModel,
+      BookDtoParser bookDtoParser,
       ModelParserIntoBookDtos modelParserIntoBookDtos,
       BookstoreBookParserIntoBookstoreBookDto bookstoreBookParserIntoBookstoreBookDto) {
     connectorProvider = ConnectorFactory.of(POSTGRESQL);
-    this.bookDtoParserIntoModel = bookDtoParserIntoModel;
+    this.bookDtoParser = bookDtoParser;
     this.modelParserIntoBookDtos = modelParserIntoBookDtos;
     this.bookstoreBookParserIntoBookstoreBookDto = bookstoreBookParserIntoBookstoreBookDto;
   }
@@ -64,7 +65,7 @@ public class BookRepositoryImpl implements BookRepository {
   }
 
   /**
-   * Retrieves all books with last update price information from database.
+   * Retrieves all books with latest price information from database.
    *
    * @return {@code List<BookDto>}
    */
@@ -88,9 +89,10 @@ public class BookRepositoryImpl implements BookRepository {
 
   /**
    * Retrieves specific {@link BookstoreBook} from the database based on the book's hyperlink.
+   * If there href does not exist, then it return null.
    *
-   * @param href link to the book we are looking for.
-   * @return {@link BookstoreBook} found by id.
+   * @param href link of the searched book.
+   * @return {@link BookstoreBook} found by id, or null if href does not exist.
    */
   @Override
   public BookstoreBookDto getBookstoreBookDtoByHref(String href) {
@@ -103,7 +105,13 @@ public class BookRepositoryImpl implements BookRepository {
     Root<BookstoreBook> from = query.from(BookstoreBook.class);
     Path<Object> hyperLink = from.get("hyperlink");
     query.select(from).where(criteriaBuilder.equal(hyperLink, href));
-    BookstoreBook bookstoreBook = entityManager.createQuery(query).getSingleResult();
+    BookstoreBook bookstoreBook;
+    try {
+      bookstoreBook = entityManager.createQuery(query).getSingleResult();
+    } catch (NoResultException exception) {
+      logger.info("Cannot find book with href " + href);
+      return null;
+    }
 
     logger.info("Called getBookstoreBookDtoByHref()");
 
@@ -114,7 +122,7 @@ public class BookRepositoryImpl implements BookRepository {
   }
 
   private void addBookToDatabase(BookDto bookDto) {
-    bookDtoParserIntoModel.parseBookDtoIntoModel(bookDto, entityManager);
+    bookDtoParser.parseBookDtoIntoModel(bookDto, entityManager);
   }
 
   public void setConnectorProvider(

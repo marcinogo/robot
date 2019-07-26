@@ -29,5 +29,5 @@ public class BookstoreBookDto {
   private String bookstore;
 
   @JsonProperty(value = "priceHistory")
-  private List<PriceHistoryDto> priceHistoryDtos;
+  private List<PriceAtTheMomentDto> priceAtTheMomentDtos;
 }

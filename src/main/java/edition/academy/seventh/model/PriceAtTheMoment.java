@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Entity(name = "price_history")
 @Data
 @NoArgsConstructor
-public class PriceHistory {
+public class PriceAtTheMoment {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class PriceHistory {
   @Column(name = "date")
   private LocalDateTime date;
 
-  public PriceHistory(
+  public PriceAtTheMoment(
       BookstoreBook bookstoreBook,
       BigDecimal retailPrice,
       BigDecimal promotionalPrice,

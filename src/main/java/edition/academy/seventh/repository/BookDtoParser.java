@@ -14,21 +14,20 @@ import java.time.LocalDateTime;
  * @author Agnieszka Trzewik
  */
 @Service
-class BookDtoParserIntoModel {
+class BookDtoParser {
 
   /**
-   * Creates all required records. Tries to find specific records in the database. Checks if records
-   * already exists in database. If they already exists, then updates them. Otherwise, creates new
-   * records.
+   * Creates all required records. Tries to find specific ones in a database,
+   * if they do exist updates them, otherwise creates new ones.
    *
-   * @param bookDto which we want parse into model.
+   * @param bookDto to be parsed into model.
    * @param entityManager to perform required actions.
    */
   void parseBookDtoIntoModel(BookDto bookDto, EntityManager entityManager) {
     Book book = createBook(bookDto);
     Bookstore bookstore = createBookstore(bookDto);
     BookstoreBook bookstoreBook = createBookstoreBook(bookDto, book, bookstore);
-    PriceHistory priceHistory = createPriceHistory(bookDto, bookstoreBook);
+    PriceAtTheMoment priceAtTheMoment = createPriceHistory(bookDto, bookstoreBook);
 
     Book bookAlreadyInDatabase =
         entityManager.find(Book.class, bookstoreBook.getBook().getBookId());
@@ -45,10 +44,10 @@ class BookDtoParserIntoModel {
         bookAlreadyInDatabase,
         bookstoreBook,
         bookstoreBookAlreadyInDatabase,
-        priceHistory);
+        priceAtTheMoment);
   }
 
-  private PriceHistory createPriceHistory(BookDto bookDto, BookstoreBook bookstoreBook) {
+  private PriceAtTheMoment createPriceHistory(BookDto bookDto, BookstoreBook bookstoreBook) {
 
     String currency = findCurrency(String.valueOf(bookDto.getRetailPrice()));
     BigDecimal retailPrice =
@@ -56,7 +55,7 @@ class BookDtoParserIntoModel {
     BigDecimal promotionalPrice =
         establishPromotionalPrice(retailPrice, bookDto.getPromotionalPrice());
 
-    return new PriceHistory(
+    return new PriceAtTheMoment(
         bookstoreBook, retailPrice, promotionalPrice, currency, LocalDateTime.now());
   }
 
@@ -107,19 +106,20 @@ class BookDtoParserIntoModel {
       Book previousBook,
       BookstoreBook bookstoreBook,
       BookstoreBook previousBookstoreBook,
-      PriceHistory priceHistory) {
+      PriceAtTheMoment priceAtTheMoment) {
 
     saveOrUpdateBook(entityManager, book, previousBook);
     saveOrUpdateBookstore(entityManager, bookstore, previousBookstore);
-    saveOrUpdateBookstoreBook(entityManager, bookstoreBook, previousBookstoreBook, priceHistory);
+    saveOrUpdateBookstoreBook(entityManager, bookstoreBook, previousBookstoreBook,
+        priceAtTheMoment);
   }
 
   private void saveOrUpdateBookstoreBook(
       EntityManager entityManager,
       BookstoreBook bookstoreBook,
       BookstoreBook bookstoreBookAlreadyInDatabase,
-      PriceHistory priceHistory) {
-    bookstoreBook.getPriceHistories().add(priceHistory);
+      PriceAtTheMoment priceAtTheMoment) {
+    bookstoreBook.getPriceHistories().add(priceAtTheMoment);
     if (bookstoreBookAlreadyInDatabase != null) {
       bookstoreBook.setHyperlink(bookstoreBookAlreadyInDatabase.getHyperlink());
       entityManager.merge(bookstoreBook);
