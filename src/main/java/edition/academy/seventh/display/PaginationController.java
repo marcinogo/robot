@@ -74,14 +74,14 @@ class PaginationController {
   }
 
   /**
-   * Changes {@link Filter books filter}.
+   * Changes {@link BookFilter books bookFilter}.
    *
-   * @param filter {@link Filter books filter}.
+   * @param bookFilter {@link BookFilter books bookFilter}.
    * @return {@code List<BookDto>} books.
    */
   @RequestMapping("/books/pagination/filter")
-  public ResponseEntity<List<BookDto>> setFilter(@RequestParam("type") Filter filter) {
-    List<BookDto> books = pagination.changeFilter(filter);
+  public ResponseEntity<List<BookDto>> setFilter(@RequestParam("type") BookFilter bookFilter) {
+    List<BookDto> books = pagination.changeFilter(bookFilter);
     return new ResponseEntity<>(books, HttpStatus.OK);
   }
 }

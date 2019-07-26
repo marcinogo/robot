@@ -15,8 +15,8 @@ class EagerBookPaginationFilterHandler {
     this.books = this.booksBackup = books;
   }
 
-  List<BookDto> changeFilter(Filter filter) {
-    switch (filter) {
+  List<BookDto> changeFilter(BookFilter bookFilter) {
+    switch (bookFilter) {
       case TITLE_DESCENDING:
         return filter(Comparator.comparing(BookDto::getTitle, Comparator.reverseOrder()));
       case PROMOTIONAL_PRICE_ASCENDING:

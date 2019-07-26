@@ -12,7 +12,7 @@ import static edition.academy.seventh.repository.BookParser.parseBookstoreBookLi
 
 /** @author Kamil Rojek */
 class LazyBookPaginationRepositoryHandler {
-  Filter filter = Filter.DEFAULT;
+  BookFilter bookFilter = BookFilter.DEFAULT;
   private ConnectorProvider connectorProvider;
   private PaginationSize paginationSize;
   private long startingRecord;
@@ -64,7 +64,7 @@ class LazyBookPaginationRepositoryHandler {
   // todo przerobienie zapytań na HQL
   private List<BookstoreBook> filter(EntityManager entityManager) {
     return entityManager
-        .createNativeQuery(filter.query, BookstoreBook.class)
+        .createNativeQuery(bookFilter.query, BookstoreBook.class)
         .setParameter("start", startingRecord)
         .setParameter("end", endingRecord)
         .getResultList();

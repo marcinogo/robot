@@ -13,6 +13,7 @@ import java.util.*;
  *
  * <p>Default {@link PaginationSize} is set to <b>twenty</b> records per page.
  *
+ * @see LazyBookPagination lazy book pagination implemenation.
  * @author Kamil Rojek
  */
 class EagerBookPagination implements Pagination<BookDto> {
@@ -62,7 +63,7 @@ class EagerBookPagination implements Pagination<BookDto> {
   /** {@inheritDoc} */
   @Override
   public List<BookDto> changeFilter(Filter filter) {
-    books = filterHandler.changeFilter(filter);
+    books = filterHandler.changeFilter((BookFilter) filter);
     initializePaginationMap(paginationSize);
     return currentPage();
   }

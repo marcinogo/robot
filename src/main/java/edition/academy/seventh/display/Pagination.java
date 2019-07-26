@@ -15,7 +15,7 @@ public interface Pagination<E> {
    * Retrieves {@code List<E> elements} from current page. If no elements retrieved returns {@code
    * empty List<E>}.
    *
-   * @return {@code List<E> elements}
+   * @return {@code List<E> elements}.
    */
   List<E> currentPage();
 
@@ -23,7 +23,7 @@ public interface Pagination<E> {
    * Retrieves {@code List<E> elements} from next page. If no elements retrieved returns {@link
    * Pagination#currentPage()}.
    *
-   * @return {@code List<E> elements}
+   * @return {@code List<E> elements}.
    */
   List<E> nextPage();
 
@@ -31,7 +31,7 @@ public interface Pagination<E> {
    * Retrieves {@code List<E> elements} from previous page. If no elements retrieved returns {@link
    * Pagination#currentPage()}.
    *
-   * @return {@code List<E> elements}
+   * @return {@code List<E> elements}.
    */
   List<E> previousPage();
 
@@ -39,14 +39,15 @@ public interface Pagination<E> {
    * Changes {@link PaginationSize pagination size} and retrieves {@code List<E> new size of
    * elements}.
    *
-   * @return {@code List<E> elements}
+   * @return {@code List<E> elements}.
    */
   List<E> changePaginationSize(PaginationSize size);
 
   /**
-   * Changes {@link Filter sorting elements filter} and retrieves {@code List<E> filtered elements}.
+   * Changes display {@link Filter} and retrieves {@code List<E> filtered elements}.
    *
-   * @return {@code List<E> elements}
+   * @param filter implementation of filter.
+   * @return {@code List<E> elements}.
    */
   List<E> changeFilter(Filter filter);
 }

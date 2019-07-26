@@ -9,10 +9,11 @@ import java.util.List;
  * Lazy implementation of {@link Pagination} interface based on {@link BookDto} object.
  *
  * <p>The {@code currentPage}, {@code nextPage}, {@code previousPage}, {@code changePaginationSize}
- * and {@code changeFilter} methods operate on SQL queries located in {@link Filter} enum.
+ * and {@code changeFilter} methods operate on SQL queries located in {@link BookFilter} enum.
  *
  * <p>Default {@link PaginationSize} is set to <b>twenty</b> records per page.
  *
+ * @see EagerBookPagination eager book pagination implemenation.
  * @author Kamil Rojek
  */
 public class LazyBookPagination implements Pagination<BookDto> {
@@ -56,7 +57,7 @@ public class LazyBookPagination implements Pagination<BookDto> {
   /** {@inheritDoc} */
   @Override
   public List<BookDto> changeFilter(Filter filter) {
-    paginatonRepositoryHandler.filter = filter;
+    paginatonRepositoryHandler.bookFilter = (BookFilter) filter;
     return currentPage();
   }
 }
