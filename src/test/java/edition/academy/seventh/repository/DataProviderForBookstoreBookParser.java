@@ -29,7 +29,7 @@ public class DataProviderForBookstoreBookParser {
         random.nextInt(25 )+1,
         random.nextInt(20)+1,
         random.nextInt((50))+1))
-        .limit(random.nextInt(8) + 1)
+        .limit(5L)
         .collect(Collectors.toList());
 
     return dateTimes.stream().map(dateTime ->
