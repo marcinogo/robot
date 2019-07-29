@@ -8,7 +8,7 @@ import java.util.*;
 /**
  * Eager implementation of {@link Pagination} interface based on {@link BookDto} object.
  *
- * <p>The {@code currentPage}, {@code nextPage}, {@code previousPage}, {@code changePaginationSize}
+ * <p>The {@code currentPageNumber}, {@code nextPage}, {@code previousPage}, {@code changePaginationSize}
  * and {@code changeFilter} methods operate on objects located in cache memory.
  *
  * <p>Default {@link PaginationSize} is set to <b>twenty</b> records per page.
@@ -21,7 +21,7 @@ class EagerBookPagination implements Pagination<BookDto> {
   private EagerBookPaginationFilterHandler filterHandler;
   private Map<Integer, List<BookDto>> paginationMap;
   private PaginationSize paginationSize = PaginationSize.TWENTY;
-  private int currentPage;
+  private int currentPageNumber;
 
   EagerBookPagination(BookService bookService) {
     this.books = bookService.getBooksFromDatabase();
@@ -32,32 +32,32 @@ class EagerBookPagination implements Pagination<BookDto> {
   /** {@inheritDoc} */
   @Override
   public List<BookDto> currentPage() {
-    return paginationMap.get(currentPage);
+    return getPage(currentPageNumber);
   }
 
   /** {@inheritDoc} */
   @Override
   public List<BookDto> nextPage() {
-    if (paginationMap.keySet().size() > currentPage) {
-      return paginationMap.get(++currentPage);
+    if (paginationMap.keySet().size() > currentPageNumber) {
+      return getPage(++currentPageNumber);
     }
-    return paginationMap.get(currentPage);
+    return getPage(currentPageNumber);
   }
 
   /** {@inheritDoc} */
   @Override
   public List<BookDto> previousPage() {
-    if (currentPage > 1) {
-      return paginationMap.get(--currentPage);
+    if (currentPageNumber > 1) {
+      return getPage(--currentPageNumber);
     }
-    return paginationMap.get(currentPage);
+    return getPage(currentPageNumber);
   }
 
   /** {@inheritDoc} */
   @Override
   public List<BookDto> changePaginationSize(PaginationSize size) {
     initializePaginationMap(size);
-    return paginationMap.get(currentPage);
+    return getPage(currentPageNumber);
   }
 
   /** {@inheritDoc} */
@@ -70,7 +70,7 @@ class EagerBookPagination implements Pagination<BookDto> {
 
   private void initializePaginationMap(PaginationSize paginationSize) {
     this.paginationMap = new LinkedHashMap<>();
-    this.currentPage = 1;
+    this.currentPageNumber = 1;
     this.paginationSize = paginationSize;
     int recordsCounter = 0;
     int pageNumber = 1;
@@ -93,5 +93,10 @@ class EagerBookPagination implements Pagination<BookDto> {
     List<BookDto> books = paginationMap.get(pageNumber);
     books.add(book);
     paginationMap.put(pageNumber, books);
+  }
+
+  private List<BookDto> getPage(int pageNumber) {
+    if (paginationMap.isEmpty()) return new ArrayList<>();
+    return paginationMap.get(pageNumber);
   }
 }
