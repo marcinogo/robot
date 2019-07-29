@@ -1,5 +1,6 @@
 package edition.academy.seventh.repository;
 
+import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertTrue;
 
 import edition.academy.seventh.database.model.BookstoreBookDto;
@@ -7,7 +8,7 @@ import edition.academy.seventh.model.Book;
 import edition.academy.seventh.model.BookId;
 import edition.academy.seventh.model.Bookstore;
 import edition.academy.seventh.model.BookstoreBook;
-import edition.academy.seventh.model.PriceHistory;
+import edition.academy.seventh.model.PriceAtTheMoment;
 import java.util.List;
 import org.testng.annotations.Test;
 
@@ -20,15 +21,16 @@ public class BookstoreBookParserIntoBookstoreBookDtoTest {
       dataProvider = "dataProviderBookstoreBookParser")
   public void should_createProperBookstoreBookDto_from_givenBookstoreBook(
       String title, String author, String subtitle, String bookstoreName,
-      String hyperlink, String img, List<PriceHistory> priceHistoryList) {
+      String hyperlink, String img, List<PriceAtTheMoment> priceAtTheMomentList) {
 
     // Given
-    BookstoreBookParserIntoBookstoreBookDto parser = new BookstoreBookParserIntoBookstoreBookDto();
+    BookRepository bookRepository = mock(BookRepository.class);
+    BookDtoParser parser = new BookDtoParser(bookRepository);
 
     BookstoreBook bookstoreBook = createBookstoreBook(title, author, subtitle, bookstoreName,
         hyperlink, img);
 
-    bookstoreBook.setPriceHistories(priceHistoryList);
+    bookstoreBook.setPriceHistories(priceAtTheMomentList);
 
     //  When
     BookstoreBookDto bookstoreBookDto = parser
@@ -51,12 +53,12 @@ public class BookstoreBookParserIntoBookstoreBookDtoTest {
     boolean titles = bookstoreBookDto.getTitle()
         .equals(bookstoreBook.getBook().getBookId().getTitle());
     boolean historySize =
-        bookstoreBookDto.getPriceHistoryDtos().size() == bookstoreBook.getPriceHistories().size();
+        bookstoreBookDto.getPriceAtTheMomentDtos().size() == bookstoreBook.getPriceHistories().size();
     boolean href = bookstoreBookDto.getHref().equals(bookstoreBook.getHyperlink());
     boolean image = bookstoreBookDto.getImageLink().equals(bookstoreBook.getImageLink());
     boolean bookstore = bookstoreBookDto.getBookstore()
         .equals(bookstoreBook.getBookstore().getName());
-    boolean date = bookstoreBookDto.getPriceHistoryDtos().get(0).getDate()
+    boolean date = bookstoreBookDto.getPriceAtTheMomentDtos().get(0).getDate()
         .equals(bookstoreBook.getPriceHistories().get(0).getDate());
     return titles && historySize && href && image && bookstore && date;
   }

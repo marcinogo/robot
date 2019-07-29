@@ -2,6 +2,7 @@ package edition.academy.seventh.repository;
 
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import edition.academy.seventh.database.connector.ConnectorFactory;
@@ -17,15 +18,19 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 @Test
-public class BookRepositoryImplTestIT {
+public class BookRepositoryTestIT {
 
   private Random random = new Random();
   private BookRepository repository;
 
   @BeforeTest
   public void init(){
-    repository = new BookRepositoryImpl(new BookDtoParserIntoModel(),
-        new ModelParserIntoBookDtos(), new BookstoreBookParserIntoBookstoreBookDto());
+    BookDtoParser bookDtoParser = new BookDtoParser(repository);
+    repository = new BookRepository(bookDtoParser,
+        new ModelParserIntoBookDtos());
+
+    bookDtoParser.setRepository(repository);
+
     repository.setConnectorProvider(ConnectorFactory.of(DatabaseTypes.H2));
     repository.addBooksToDatabase(Arrays.asList(new BookDto("TEST", "TEST", "TEST",
         "13.05 zł", "15.88 zł"
@@ -37,6 +42,13 @@ public class BookRepositoryImplTestIT {
         .getBookstoreBookDtoByHref("TEST");
 
     assertNotNull(bookstoreBookDtoByHref);
+  }
+
+  public void should_returnNull_whenGivenHrefDoNotExists(){
+    BookstoreBookDto bookstoreBookDtoByHref = repository
+        .getBookstoreBookDtoByHref("");
+
+    assertNull(bookstoreBookDtoByHref);
   }
 
   public void should_returnMoreBooks_whenAddRandomBooksToDatabase(){

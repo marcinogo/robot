@@ -9,10 +9,10 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /** @author Agnieszka Trzewik */
-@Entity(name = "price_history")
+@Entity(name = "price_at_the_moment")
 @Data
 @NoArgsConstructor
-public class PriceHistory {
+public class PriceAtTheMoment {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +36,7 @@ public class PriceHistory {
   @Column(name = "date")
   private LocalDateTime date;
 
-  public PriceHistory(
+  public PriceAtTheMoment(
       BookstoreBook bookstoreBook,
       BigDecimal retailPrice,
       BigDecimal promotionalPrice,
