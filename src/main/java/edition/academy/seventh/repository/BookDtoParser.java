@@ -45,14 +45,7 @@ class BookDtoParser {
     List<PriceAtTheMomentDto> priceAtTheMomentDtos =
         priceHistories.stream().map(this::createPriceAtTheMomentDto).collect(Collectors.toList());
 
-    return new BookstoreBookDto(
-        bookstoreBook.getBook().getBookId().getTitle(),
-        bookstoreBook.getBook().getSubtitle(),
-        bookstoreBook.getBook().getBookId().getAuthor(),
-        bookstoreBook.getImageLink(),
-        bookstoreBook.getHyperlink(),
-        bookstoreBook.getBookstore().getName(),
-        priceAtTheMomentDtos);
+    return createBookstoreBookDto(bookstoreBook, priceAtTheMomentDtos);
   }
 
   /**
@@ -79,6 +72,18 @@ class BookDtoParser {
         priceHistory.getPromotionalPrice(),
         priceHistory.getCurrency(),
         priceHistory.getDate());
+  }
+
+  private BookstoreBookDto createBookstoreBookDto(
+      BookstoreBook bookstoreBook, List<PriceAtTheMomentDto> priceAtTheMomentDtos) {
+    return new BookstoreBookDto(
+        bookstoreBook.getBook().getBookId().getTitle(),
+        bookstoreBook.getBook().getSubtitle(),
+        bookstoreBook.getBook().getBookId().getAuthor(),
+        bookstoreBook.getImageLink(),
+        bookstoreBook.getHyperlink(),
+        bookstoreBook.getBookstore().getName(),
+        priceAtTheMomentDtos);
   }
 
   /**
