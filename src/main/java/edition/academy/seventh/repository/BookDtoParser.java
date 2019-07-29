@@ -43,15 +43,8 @@ class BookDtoParser {
 
     List<PriceAtTheMoment> priceHistories = bookstoreBook.getPriceHistories();
     List<PriceAtTheMomentDto> priceAtTheMomentDtos =
-        priceHistories.stream()
-            .map(
-                priceHistory ->
-                    new PriceAtTheMomentDto(
-                        priceHistory.getRetailPrice(),
-                        priceHistory.getPromotionalPrice(),
-                        priceHistory.getCurrency(),
-                        priceHistory.getDate()))
-            .collect(Collectors.toList());
+        priceHistories.stream().map(this::createPriceAtTheMomentDto).collect(Collectors.toList());
+
     return new BookstoreBookDto(
         bookstoreBook.getBook().getBookId().getTitle(),
         bookstoreBook.getBook().getSubtitle(),
@@ -78,6 +71,14 @@ class BookDtoParser {
     EntitiesInDatabase entitiesInDatabase = findEntitiesInDatabase(bookstoreBook);
 
     saveOrUpdateModel(bookstore, bookstoreBook, book, entitiesInDatabase);
+  }
+
+  private PriceAtTheMomentDto createPriceAtTheMomentDto(PriceAtTheMoment priceHistory) {
+    return new PriceAtTheMomentDto(
+        priceHistory.getRetailPrice(),
+        priceHistory.getPromotionalPrice(),
+        priceHistory.getCurrency(),
+        priceHistory.getDate());
   }
 
   /**

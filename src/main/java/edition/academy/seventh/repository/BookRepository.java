@@ -20,7 +20,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
+import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
 
 /**
  * Allows to persists and retrieve data about books from the database. This information is
@@ -38,7 +38,7 @@ public class BookRepository {
 
   @Autowired
   BookRepository(BookDtoParser bookDtoParser, ModelParserIntoBookDtos modelParserIntoBookDtos) {
-    connectorProvider = ConnectorFactory.of(H2);
+    connectorProvider = ConnectorFactory.of(POSTGRESQL);
     this.bookDtoParser = bookDtoParser;
     this.modelParserIntoBookDtos = modelParserIntoBookDtos;
   }
