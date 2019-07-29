@@ -32,10 +32,13 @@ public class ItBookMapper implements PromotionProvider {
   }
 
   /**
-   * Maps JSON books file into {@code List<Book>}.
+   * Maps JSON books file into {@code List<BookDto>}. Name of method is the {@code getPromotions()},
+   * because of implementing PromotionProvider interface. The reason why we retrieves books without
+   * promotions is that the REST API we connect to doesn't provide this data.
    *
-   * @return {@code List<Book>}
+   * @return {@code List<BookDto>}
    */
+  @Override
   public List<BookDto> getPromotions() {
     List<BookDto> listOfBooks = new LinkedList<>();
     List<String> booksAsJson = bookstoreConnectionService.getListOfBooksAsString();
