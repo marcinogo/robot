@@ -5,6 +5,7 @@ import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.security.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -30,6 +31,7 @@ public class UserRepository {
   private ConnectorProvider connectorProvider;
   private EntityManager entityManager;
 
+  @Autowired
   public UserRepository() {
     connectorProvider = ConnectorFactory.of(H2);
   }
@@ -64,9 +66,10 @@ public class UserRepository {
   }
 
   /**
-   * Retrieves {@link User} with specified {@link User#getEmail()} ()}. Email is unique and can't be
-   * duplicated, so method guarantees returning either single {@link User} or throwing {@link
-   * NoResultException} when one wasn't found.
+   * Retrieves {@link User} with specified {@link User#getEmail()} ()}.
+   * Email is unique and can't be duplicated, so method guarantees returning
+   * either single {@link User} or throwing {@link NoResultException} when
+   * one wasn't found.
    *
    * @param email of searched user.
    * @return {@link User} which username was passed as parameter.
@@ -143,7 +146,6 @@ public class UserRepository {
    *         or false otherwise.
    */
   public Boolean existsByEmail(String email) {
-
     try {
       findByEmail(email);
     } catch (NoResultException e) {

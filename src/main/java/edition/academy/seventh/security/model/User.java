@@ -48,6 +48,13 @@ public class User {
       inverseJoinColumns = @JoinColumn(name = "role_id"))
   private Set<Role> roles = new HashSet<>();
 
+  public User(@NotBlank @Size(max = 50) @Email String email, @NotBlank @Size(min = 3, max = 50) String username, @NotBlank @Size(min = 6, max = 100) String password, Set<Role> roles) {
+    this.email = email;
+    this.username = username;
+    this.password = password;
+    this.roles = roles;
+  }
+
   public User(
       @NotBlank @Size(max = 50) String email,
       @NotBlank @Size(min = 3, max = 50) String username,
