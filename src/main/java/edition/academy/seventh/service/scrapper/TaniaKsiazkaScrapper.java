@@ -51,9 +51,8 @@ class TaniaKsiazkaScrapper extends AbstractScrapper {
               String imageLink = element.getElementsByClass("lazyload lazyload-medium")
                   .attr("data-src");
               imageLink = imageLink.substring(2);
-              promotionalPrice = deleteCurrencyFromPrice(promotionalPrice);
+              imageLink = "https://" + imageLink;
               String retailPrice = element.getElementsByTag("del").text();
-              retailPrice = deleteCurrencyFromPrice(retailPrice);
               return new BookDto(
                   title, "", author, retailPrice, promotionalPrice, imageLink, href, bookstoreName);
             })
@@ -61,7 +60,4 @@ class TaniaKsiazkaScrapper extends AbstractScrapper {
     phaser.arriveAndDeregister();
   }
 
-  private String deleteCurrencyFromPrice(String price) {
-    return price.replace(" zł", "");
-  }
 }
