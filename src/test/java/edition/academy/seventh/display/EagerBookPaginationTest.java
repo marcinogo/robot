@@ -30,10 +30,10 @@ public class EagerBookPaginationTest {
     //When
     when(bookService.getBooksFromDatabase()).thenReturn(books);
     eagerBookPagination = new EagerBookPagination(bookService);
-    List<BookDto> currentPage = eagerBookPagination.currentPage();
+    List<BookDto> pageRecords = eagerBookPagination.currentPage();
 
     //Then
-    assertEquals(currentPage.size(), 20);
+    assertEquals(pageRecords.size(), 20);
   }
 
   @Test
@@ -45,14 +45,26 @@ public class EagerBookPaginationTest {
     //When
     when(bookService.getBooksFromDatabase()).thenReturn(emptyList);
     eagerBookPagination = new EagerBookPagination(bookService);
-    List<BookDto> currentPage = eagerBookPagination.currentPage();
+    List<BookDto> pageRecords = eagerBookPagination.currentPage();
 
     //Then
-    assertEquals(currentPage.size(), 0);
+    assertEquals(pageRecords.size(), 0);
   }
 
-  @Test
-  public void testNextPage() {}
+  @Test(enabled = false) //todo test nie przechodzi, naprawić kod
+  public void should_return10BooksFromNextPage_when_30BooksWereLoadedFromDatabase() {
+    //Given
+    EagerBookPagination eagerBookPagination;
+    List<BookDto> books = generateListOfDtoBooks(30);
+
+    //When
+    when(bookService.getBooksFromDatabase()).thenReturn(books);
+    eagerBookPagination = new EagerBookPagination(bookService);
+    List<BookDto> pageRecords = eagerBookPagination.nextPage();
+
+    //Then
+    assertEquals(pageRecords.size(), 10);
+  }
 
   @Test
   public void testPreviousPage() {}

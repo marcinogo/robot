@@ -32,32 +32,32 @@ class EagerBookPagination implements Pagination<BookDto> {
   /** {@inheritDoc} */
   @Override
   public List<BookDto> currentPage() {
-    return getPage(currentPageNumber);
+    return getPageRecords(currentPageNumber);
   }
 
   /** {@inheritDoc} */
   @Override
   public List<BookDto> nextPage() {
     if (paginationMap.keySet().size() > currentPageNumber) {
-      return getPage(++currentPageNumber);
+      return getPageRecords(++currentPageNumber);
     }
-    return getPage(currentPageNumber);
+    return getPageRecords(currentPageNumber);
   }
 
   /** {@inheritDoc} */
   @Override
   public List<BookDto> previousPage() {
     if (currentPageNumber > 1) {
-      return getPage(--currentPageNumber);
+      return getPageRecords(--currentPageNumber);
     }
-    return getPage(currentPageNumber);
+    return getPageRecords(currentPageNumber);
   }
 
   /** {@inheritDoc} */
   @Override
   public List<BookDto> changePaginationSize(PaginationSize size) {
     initializePaginationMap(size);
-    return getPage(currentPageNumber);
+    return getPageRecords(currentPageNumber);
   }
 
   /** {@inheritDoc} */
@@ -95,7 +95,7 @@ class EagerBookPagination implements Pagination<BookDto> {
     paginationMap.put(pageNumber, books);
   }
 
-  private List<BookDto> getPage(int pageNumber) {
+  private List<BookDto> getPageRecords(int pageNumber) {
     if (paginationMap.isEmpty()) return new ArrayList<>();
     return paginationMap.get(pageNumber);
   }
