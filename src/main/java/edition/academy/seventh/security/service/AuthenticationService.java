@@ -141,15 +141,25 @@ public class AuthenticationService {
         role -> {
           if ("admin".equals(role)) {
             Role adminRole =
-                roleRepository
-                    .findByName(RoleName.ROLE_ADMIN)
-                    .orElseThrow(() -> new RuntimeException("Admin Role not found."));
+                    null;
+            try {
+              adminRole = roleRepository
+                  .findByName(RoleName.ROLE_ADMIN)
+                  .orElseThrow(() -> new RoleNotFoundException("Admin Role not found."));
+            } catch (RoleNotFoundException e) {
+              LOGGER.error(e.getMessage());
+            }
             roles.add(adminRole);
           } else if ("user".equals(role)) {
             Role userRole =
-                roleRepository
-                    .findByName(RoleName.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("User Role not found."));
+                    null;
+            try {
+              userRole = roleRepository
+                  .findByName(RoleName.ROLE_USER)
+                  .orElseThrow(() -> new RoleNotFoundException("User Role not found."));
+            } catch (RoleNotFoundException e) {
+              LOGGER.error(e.getMessage());
+            }
             roles.add(userRole);
           }
         });

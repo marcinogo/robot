@@ -17,6 +17,7 @@ import javax.persistence.criteria.Root;
 import java.util.Optional;
 
 import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
+import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
 
 /**
  * Responsible for retrieving {@link Role roles} from database.
@@ -30,7 +31,7 @@ public class RoleRepository {
   private EntityManager entityManager;
 
   RoleRepository() {
-    connectorProvider = ConnectorFactory.of(H2);
+    connectorProvider = ConnectorFactory.of(POSTGRESQL);
   }
 
   /**

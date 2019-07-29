@@ -43,13 +43,13 @@ public class AuthenticationRestController {
 
   @PostMapping("/sign_up")
   ResponseEntity<?> registerUser(@Valid @RequestBody RegisterForm registerForm) {
-    String returnMessage = "Couldn't register new account, smething went wrong!";
-    if (authenticationService.userExistsByUsername(registerForm.getUsername())) {
+    String returnMessage = "Couldn't register new account, something went wrong!";
+    if (userWithThisUsernameAlreadyExists(registerForm)) {
       returnMessage = "This username is already taken! ";
       logger.error(returnMessage + registerForm.getUsername());
       return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.BAD_REQUEST);
     }
-    if (authenticationService.userExistsByEmail(registerForm.getEmail())) {
+    if (userWithThisEmailAlreadyExists(registerForm)) {
        returnMessage = "Account with given email already exists! ";
       logger.error(returnMessage + registerForm.getEmail());
       return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.BAD_REQUEST);
@@ -60,5 +60,13 @@ public class AuthenticationRestController {
       return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.OK);
     }
     return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.OK);
+  }
+
+  private boolean userWithThisEmailAlreadyExists(@RequestBody @Valid RegisterForm registerForm) {
+    return authenticationService.userExistsByEmail(registerForm.getEmail());
+  }
+
+  private boolean userWithThisUsernameAlreadyExists(@RequestBody @Valid RegisterForm registerForm) {
+    return authenticationService.userExistsByUsername(registerForm.getUsername());
   }
 }
