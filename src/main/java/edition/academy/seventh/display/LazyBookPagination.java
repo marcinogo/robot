@@ -9,7 +9,7 @@ import java.util.List;
  * Lazy implementation of {@link Pagination} interface based on {@link BookDto} object.
  *
  * <p>The {@code currentPage}, {@code nextPage}, {@code previousPage}, {@code changePaginationSize}
- * and {@code changeFilter} methods operate on SQL queries located in {@link BookFilter} enum.
+ * and {@code changeFilter} methods operate on SQL queries located in {@link BookFilterType} enum.
  *
  * <p>Default {@link PaginationSize} is set to <b>twenty</b> records per page.
  *
@@ -18,22 +18,22 @@ import java.util.List;
  */
 public class LazyBookPagination implements Pagination<BookDto> {
   private List<BookDto> currentBooks;
-  private LazyBookPaginationRepositoryHandler paginatonRepositoryHandler;
+  private LazyBookPaginationRepositoryHandler paginationRepositoryHandler;
 
   public LazyBookPagination(ConnectorProvider connectorProvider) {
-    this.paginatonRepositoryHandler = new LazyBookPaginationRepositoryHandler(connectorProvider);
+    this.paginationRepositoryHandler = new LazyBookPaginationRepositoryHandler(connectorProvider);
   }
 
   /** {@inheritDoc} */
   @Override
   public List<BookDto> currentPage() {
-    return currentBooks = paginatonRepositoryHandler.getBookInPagination();
+    return currentBooks = paginationRepositoryHandler.getBooksPaginated();
   }
 
   /** {@inheritDoc} */
   @Override
   public List<BookDto> nextPage() {
-    List<BookDto> nextBooks = paginatonRepositoryHandler.nextPage();
+    List<BookDto> nextBooks = paginationRepositoryHandler.nextPage();
 
     if (nextBooks.isEmpty()) return currentBooks;
     return currentBooks = nextBooks;
@@ -42,7 +42,7 @@ public class LazyBookPagination implements Pagination<BookDto> {
   /** {@inheritDoc} */
   @Override
   public List<BookDto> previousPage() {
-    List<BookDto> previousBooks = paginatonRepositoryHandler.previousPage();
+    List<BookDto> previousBooks = paginationRepositoryHandler.previousPage();
 
     if (previousBooks.isEmpty()) return currentBooks;
     return currentBooks = previousBooks;
@@ -51,13 +51,13 @@ public class LazyBookPagination implements Pagination<BookDto> {
   /** {@inheritDoc} */
   @Override
   public List<BookDto> changePaginationSize(PaginationSize size) {
-    return currentBooks = paginatonRepositoryHandler.changePaginationSize(size);
+    return currentBooks = paginationRepositoryHandler.changePaginationSize(size);
   }
 
   /** {@inheritDoc} */
   @Override
   public List<BookDto> changeFilter(Filter filter) {
-    paginatonRepositoryHandler.bookFilter = (BookFilter) filter;
+    paginationRepositoryHandler.bookFilterType = (BookFilterType) filter;
     return currentPage();
   }
 }

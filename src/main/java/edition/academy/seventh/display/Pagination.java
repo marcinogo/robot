@@ -6,7 +6,7 @@ import java.util.List;
  * Divides {@code all <E> elements} into pages. Pagination size of the simple page should be
  * implemented according to the {@link PaginationSize} enum.
  *
- * @param <E> Bunch of elements according to pagination size.
+ * @param <E> Type of paginated elements.
  * @author Kamil Rojek
  */
 public interface Pagination<E> {

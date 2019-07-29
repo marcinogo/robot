@@ -18,7 +18,7 @@ class PaginationController {
   private Pagination<BookDto> pagination;
 
   /** Instantiate pagination object. */
-  public PaginationController() {
+  PaginationController() {
     this.pagination = PaginationFactory.createEagerBookPagination();
   }
 
@@ -28,7 +28,7 @@ class PaginationController {
    * @return {@code List<BookDto>} books.
    */
   @GetMapping("/books/pagination")
-  public ResponseEntity<List<BookDto>> getCurrentPage() {
+  ResponseEntity<List<BookDto>> getCurrentPage() {
     List<BookDto> books = pagination.currentPage();
     return new ResponseEntity<>(books, HttpStatus.OK);
   }
@@ -40,7 +40,7 @@ class PaginationController {
    * @return {@code List<BookDto>} books.
    */
   @GetMapping("/books/pagination/next")
-  public ResponseEntity<List<BookDto>> next() {
+  ResponseEntity<List<BookDto>> next() {
     List<BookDto> books = pagination.nextPage();
     return new ResponseEntity<>(books, HttpStatus.OK);
   }
@@ -52,7 +52,7 @@ class PaginationController {
    * @return {@code List<BookDto>} books.
    */
   @GetMapping("/books/pagination/previous")
-  public ResponseEntity<List<BookDto>> previous() {
+  ResponseEntity<List<BookDto>> previous() {
     List<BookDto> books = pagination.previousPage();
     return new ResponseEntity<>(books, HttpStatus.OK);
   }
@@ -64,21 +64,21 @@ class PaginationController {
    * @return {@code List<BookDto>} books.
    */
   @RequestMapping("/books/pagination/size")
-  public ResponseEntity<List<BookDto>> changePaginationSize(
+  ResponseEntity<List<BookDto>> changePaginationSize(
       @RequestParam("value") PaginationSize size) {
     List<BookDto> books = pagination.changePaginationSize(size);
     return new ResponseEntity<>(books, HttpStatus.OK);
   }
 
   /**
-   * Changes {@link BookFilter books bookFilter}.
+   * Changes {@link BookFilterType books bookFilterType}.
    *
-   * @param bookFilter {@link BookFilter books bookFilter}.
+   * @param bookFilterType {@link BookFilterType books bookFilterType}.
    * @return {@code List<BookDto>} books.
    */
   @RequestMapping("/books/pagination/filter")
-  public ResponseEntity<List<BookDto>> setFilter(@RequestParam("type") BookFilter bookFilter) {
-    List<BookDto> books = pagination.changeFilter(bookFilter);
+  ResponseEntity<List<BookDto>> setFilter(@RequestParam("type") BookFilterType bookFilterType) {
+    List<BookDto> books = pagination.changeFilter(bookFilterType);
     return new ResponseEntity<>(books, HttpStatus.OK);
   }
 }

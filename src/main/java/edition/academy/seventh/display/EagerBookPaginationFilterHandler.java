@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static edition.academy.seventh.display.BookFilterType.*;
+
 /** @author Kamil Rojek */
 class EagerBookPaginationFilterHandler {
   private List<BookDto> books;
@@ -15,21 +17,20 @@ class EagerBookPaginationFilterHandler {
     this.books = this.booksBackup = books;
   }
 
-  List<BookDto> changeFilter(BookFilter bookFilter) {
-    switch (bookFilter) {
-      case TITLE_DESCENDING:
-        return filter(Comparator.comparing(BookDto::getTitle, Comparator.reverseOrder()));
+  List<BookDto> changeFilter(BookFilterType bookFilterType) {
+    switch (bookFilterType) {
       case PROMOTIONAL_PRICE_ASCENDING:
-        return filter(Comparator.comparing(BookDto::getPromotionalPrice));
+        return filter(PROMOTIONAL_PRICE_ASCENDING.comparator);
       case PROMOTIONAL_PRICE_DESCENDING:
-        return filter(
-            Comparator.comparing(BookDto::getPromotionalPrice, Comparator.reverseOrder()));
+        return filter(PROMOTIONAL_PRICE_DESCENDING.comparator);
       case PRICE_ASCENDING:
-        return filter(Comparator.comparing(BookDto::getRetailPrice));
+        return filter(PRICE_ASCENDING.comparator);
       case PRICE_DESCENDING:
-        return filter(Comparator.comparing(BookDto::getRetailPrice, Comparator.reverseOrder()));
+        return filter(PRICE_DESCENDING.comparator);
       case TITLE_ASCENDING:
-        return filter(Comparator.comparing(BookDto::getTitle));
+        return filter(TITLE_ASCENDING.comparator);
+      case TITLE_DESCENDING:
+        return filter(TITLE_DESCENDING.comparator);
       case DEFAULT:
       default:
         return restoreDefaultFilter();

@@ -22,7 +22,7 @@ public enum PaginationSize {
   /** Retrieves pagination size as {@code long}. */
   long value;
 
-  PaginationSize(int value) {
+  PaginationSize(long value) {
     this.value = value;
   }
 }

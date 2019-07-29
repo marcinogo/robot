@@ -12,7 +12,7 @@ import static edition.academy.seventh.repository.BookParser.parseBookstoreBookLi
 
 /** @author Kamil Rojek */
 class LazyBookPaginationRepositoryHandler {
-  BookFilter bookFilter = BookFilter.DEFAULT;
+  BookFilterType bookFilterType = BookFilterType.DEFAULT;
   private ConnectorProvider connectorProvider;
   private PaginationSize paginationSize;
   private long startingRecord;
@@ -26,7 +26,7 @@ class LazyBookPaginationRepositoryHandler {
     this.connectorProvider = connectorProvider;
   }
 
-  List<BookDto> getBookInPagination() {
+  List<BookDto> getBooksPaginated() {
     EntityManager entityManager = connectorProvider.getEntityManager();
     List<BookstoreBook> resultList = filter(entityManager);
 
@@ -36,7 +36,7 @@ class LazyBookPaginationRepositoryHandler {
   List<BookDto> nextPage() {
     startingRecord += paginationSize.value;
     endingRecord += paginationSize.value;
-    return getBookInPagination();
+    return getBooksPaginated();
   }
 
   List<BookDto> previousPage() {
@@ -47,12 +47,12 @@ class LazyBookPaginationRepositoryHandler {
       startingRecord = 1L;
       endingRecord = paginationSize.value;
     }
-    return getBookInPagination();
+    return getBooksPaginated();
   }
 
   List<BookDto> changePaginationSize(PaginationSize paginationSize) {
     initializePaginationValues(paginationSize);
-    return getBookInPagination();
+    return getBooksPaginated();
   }
 
   private void initializePaginationValues(PaginationSize paginationSize) {
@@ -61,10 +61,9 @@ class LazyBookPaginationRepositoryHandler {
     endingRecord = this.paginationSize.value;
   }
 
-  // todo przerobienie zapytań na HQL
   private List<BookstoreBook> filter(EntityManager entityManager) {
     return entityManager
-        .createNativeQuery(bookFilter.query, BookstoreBook.class)
+        .createNativeQuery(bookFilterType.query, BookstoreBook.class)
         .setParameter("start", startingRecord)
         .setParameter("end", endingRecord)
         .getResultList();

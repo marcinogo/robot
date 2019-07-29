@@ -29,6 +29,33 @@ class EagerBookPagination implements Pagination<BookDto> {
     initializePaginationMap(paginationSize);
   }
 
+  private void initializePaginationMap(PaginationSize paginationSize) {
+    this.paginationMap = new LinkedHashMap<>();
+    this.currentPage = 1;
+    this.paginationSize = paginationSize;
+    int recordsCounter = 0;
+    int pageNumber = 1;
+
+    for (BookDto book : books) {
+      if (++recordsCounter <= this.paginationSize.value) {
+        updatePaginationMap(pageNumber, book);
+        continue;
+      }
+      recordsCounter = 0;
+      pageNumber++;
+    }
+  }
+
+  private void updatePaginationMap(int pageNumber, BookDto book) {
+    if (!paginationMap.containsKey(pageNumber)) {
+      paginationMap.put(pageNumber, new ArrayList<>());
+    }
+
+    List<BookDto> books = paginationMap.get(pageNumber);
+    books.add(book);
+    paginationMap.put(pageNumber, books);
+  }
+
   /** {@inheritDoc} */
   @Override
   public List<BookDto> currentPage() {
@@ -63,35 +90,8 @@ class EagerBookPagination implements Pagination<BookDto> {
   /** {@inheritDoc} */
   @Override
   public List<BookDto> changeFilter(Filter filter) {
-    books = filterHandler.changeFilter((BookFilter) filter);
+    books = filterHandler.changeFilter((BookFilterType) filter);
     initializePaginationMap(paginationSize);
     return currentPage();
-  }
-
-  private void initializePaginationMap(PaginationSize paginationSize) {
-    this.paginationMap = new LinkedHashMap<>();
-    this.currentPage = 1;
-    this.paginationSize = paginationSize;
-    int recordsCounter = 0;
-    int pageNumber = 1;
-
-    for (BookDto book : books) {
-      if (++recordsCounter <= this.paginationSize.value) {
-        updatePaginationMap(pageNumber, book);
-        continue;
-      }
-      recordsCounter = 0;
-      pageNumber++;
-    }
-  }
-
-  private void updatePaginationMap(int pageNumber, BookDto book) {
-    if (!paginationMap.containsKey(pageNumber)) {
-      paginationMap.put(pageNumber, new ArrayList<>());
-    }
-
-    List<BookDto> books = paginationMap.get(pageNumber);
-    books.add(book);
-    paginationMap.put(pageNumber, books);
   }
 }
