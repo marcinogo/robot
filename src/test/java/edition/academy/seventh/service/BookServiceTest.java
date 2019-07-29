@@ -50,14 +50,14 @@ public class BookServiceTest {
     BookService bookService = new BookService(bookRepository);
 
     // When
-    when(bookRepository.getBooksFromDatabase()).thenReturn(List.of(book));
+    when(bookRepository.getLatestBooksFromDatabase()).thenReturn(List.of(book));
 
     bookService.getBooksFromDatabase();
 
     Collection<Invocation> invocations = mockingDetails(bookRepository).getInvocations();
     long validationCalls =
         invocations.stream()
-            .filter(invocation -> invocation.toString().contains("getBooksFromDatabase"))
+            .filter(invocation -> invocation.toString().contains("getLatestBooksFromDatabase"))
             .count();
 
     // Then

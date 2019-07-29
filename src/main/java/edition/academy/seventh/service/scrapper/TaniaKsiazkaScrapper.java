@@ -48,7 +48,8 @@ class TaniaKsiazkaScrapper extends AbstractScrapper {
               String promotionalPrice = element.getElementsByClass("product-price").text();
               String href = element.getElementsByClass("ecommerce-datalayer ").attr("href");
               href = startOfHrefUrl + href;
-              String imageLink = element.getElementsByClass("lazyload lazyload-medium").attr("data-src");
+              String imageLink = element.getElementsByClass("lazyload lazyload-medium")
+                  .attr("data-src");
               imageLink = imageLink.substring(2);
               promotionalPrice = deleteCurrencyFromPrice(promotionalPrice);
               String retailPrice = element.getElementsByTag("del").text();

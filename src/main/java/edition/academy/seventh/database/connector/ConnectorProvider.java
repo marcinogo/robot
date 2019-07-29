@@ -1,7 +1,6 @@
 package edition.academy.seventh.database.connector;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /** @author Kamil Rojek */
 public interface ConnectorProvider {

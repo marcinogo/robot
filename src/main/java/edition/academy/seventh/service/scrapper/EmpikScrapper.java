@@ -1,10 +1,11 @@
 package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.BookDto;
+import org.jsoup.select.Elements;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.jsoup.select.Elements;
 
 /**
  * Scraps data from empik.com bookstore website in sales section using JSoup library. {@link

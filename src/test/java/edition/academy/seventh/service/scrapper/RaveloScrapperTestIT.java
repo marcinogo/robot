@@ -8,12 +8,12 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 @Test
-public class BookoffScrapperTestIT {
+public class RaveloScrapperTestIT {
 
   @Test
   public void should_scrapAtLeastOneBook_forGivenUrl() {
     // Given
-    PromotionProvider promotionScrapping = new ScrapperConfiguration().bookoffPromotionProvider();
+    PromotionProvider promotionScrapping = new ScrapperConfiguration().raveloPromotionProvider();
 
     // When
     List<BookDto> books = promotionScrapping.getPromotions();
