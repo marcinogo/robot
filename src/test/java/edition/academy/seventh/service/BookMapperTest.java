@@ -6,9 +6,10 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.util.List;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
 public class BookMapperTest {
@@ -29,8 +30,10 @@ public class BookMapperTest {
   }
 
   @BeforeTest
-  public void prepareListOfBooks() throws IOException {
-    ItBookMapper itBookMapper = new ItBookMapper();
+  public void prepareListOfBooks() {
+    BookstoreConnectionService bookstoreConnectionService =
+        mock(ItbookBookstoreConnectionService.class);
+    ItBookMapper itBookMapper = new ItBookMapper(bookstoreConnectionService);
     String bookJSON =
         "{\n"
             + " \"title\": \"Learning JavaScript\",\n"
@@ -40,9 +43,9 @@ public class BookMapperTest {
             + " \"image\": \"https://itbook.store/img/books/9780321832740.png\",\n"
             + " \"url\": \"https://itbook.store/books/9780321832740\"\n"
             + "}";
-
     List<String> partialBook = List.of(bookJSON);
-    bookList = itBookMapper.mapListOfJson(partialBook);
+    when(bookstoreConnectionService.getListOfBooksAsString()).thenReturn(partialBook);
+    bookList = itBookMapper.getPromotions();
   }
 
   @Test(dataProvider = "dataProviderForJSONMapping")
