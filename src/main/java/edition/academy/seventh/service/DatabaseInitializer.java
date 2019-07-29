@@ -4,6 +4,7 @@ import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.security.model.request.RegisterForm;
 import edition.academy.seventh.security.service.AuthenticationService;
+import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class DatabaseInitializer {
    * Populates database with {@link edition.academy.seventh.security.model.RoleName roles}
    * and adds hardcoded ROLE_ADMIN users.
    */
+  @PostConstruct
   public void populateDatabase() {
     addUserRolesToDatabase();
     addAdminsToDatabase();
