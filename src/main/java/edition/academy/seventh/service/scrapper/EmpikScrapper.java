@@ -65,8 +65,8 @@ public class EmpikScrapper extends AbstractScrapper {
               String author = element.getElementsByClass("smartAuthor").text();
               String prices = element.getElementsByClass("ta-price-tile").text();
               String[] pricesArray = prices.split(" ");
-              String retailPrice = pricesArray[0] + " " + pricesArray[1];
-              String promotionalPrice = pricesArray[2] + " " + pricesArray[3];
+              String retailPrice = pricesArray[2] + " " + pricesArray[3];
+              String promotionalPrice = pricesArray[0] + " " + pricesArray[1];
               return new BookDto(
                   title, "", author, retailPrice, promotionalPrice, imageLink, href, bookstoreName);
             })
