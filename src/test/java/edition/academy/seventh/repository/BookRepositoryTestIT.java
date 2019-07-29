@@ -27,7 +27,7 @@ public class BookRepositoryTestIT {
   public void init(){
     BookDtoParser bookDtoParser = new BookDtoParser(repository);
     repository = new BookRepository(bookDtoParser,
-        new ModelParserIntoBookDtos(), new BookstoreBookParserIntoBookstoreBookDto());
+        new ModelParserIntoBookDtos());
 
     bookDtoParser.setRepository(repository);
 

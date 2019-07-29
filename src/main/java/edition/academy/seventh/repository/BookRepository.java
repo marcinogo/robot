@@ -1,7 +1,5 @@
 package edition.academy.seventh.repository;
 
-import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
-
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
 import edition.academy.seventh.database.model.BookDto;
@@ -10,16 +8,19 @@ import edition.academy.seventh.model.Book;
 import edition.academy.seventh.model.BookId;
 import edition.academy.seventh.model.Bookstore;
 import edition.academy.seventh.model.BookstoreBook;
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import java.util.List;
+
+import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
 
 /**
  * Allows to persists and retrieve data about books from the database. This information is
@@ -34,17 +35,12 @@ public class BookRepository {
   private ConnectorProvider connectorProvider;
   private BookDtoParser bookDtoParser;
   private ModelParserIntoBookDtos modelParserIntoBookDtos;
-  private BookstoreBookParserIntoBookstoreBookDto bookstoreBookParserIntoBookstoreBookDto;
 
   @Autowired
-  BookRepository(
-      BookDtoParser bookDtoParser,
-      ModelParserIntoBookDtos modelParserIntoBookDtos,
-      BookstoreBookParserIntoBookstoreBookDto bookstoreBookParserIntoBookstoreBookDto) {
+  BookRepository(BookDtoParser bookDtoParser, ModelParserIntoBookDtos modelParserIntoBookDtos) {
     connectorProvider = ConnectorFactory.of(H2);
     this.bookDtoParser = bookDtoParser;
     this.modelParserIntoBookDtos = modelParserIntoBookDtos;
-    this.bookstoreBookParserIntoBookstoreBookDto = bookstoreBookParserIntoBookstoreBookDto;
   }
 
   /**
@@ -52,7 +48,6 @@ public class BookRepository {
    *
    * @param bookDtos {@code List<BookDto>} to be added
    */
-
   public void addBooksToDatabase(List<BookDto> bookDtos) {
     entityManager = connectorProvider.getEntityManager();
     EntityTransaction transaction = entityManager.getTransaction();
@@ -69,7 +64,6 @@ public class BookRepository {
    *
    * @return {@code List<BookDto>}
    */
-
   public List<BookDto> getLatestBooksFromDatabase() {
 
     entityManager = connectorProvider.getEntityManager();
@@ -88,13 +82,12 @@ public class BookRepository {
   }
 
   /**
-   * Retrieves specific {@link BookstoreBook} from the database based on the book's hyperlink.
-   * If there href does not exist, then it return null.
+   * Retrieves specific {@link BookstoreBook} from the database based on the book's hyperlink. If
+   * there href does not exist, then it return null.
    *
    * @param href link of the searched book.
    * @return {@link BookstoreBook} found by id, or null if href does not exist.
    */
-
   public BookstoreBookDto getBookstoreBookDtoByHref(String href) {
 
     entityManager = connectorProvider.getEntityManager();
@@ -110,16 +103,14 @@ public class BookRepository {
 
     entityManager.close();
 
-    return bookstoreBookParserIntoBookstoreBookDto.parseBookstoreBookIntoBookstoreBookDto(
-        bookstoreBook);
+    return bookDtoParser.parseBookstoreBookIntoBookstoreBookDto(bookstoreBook);
   }
 
-   Book getBookById(BookId bookId) {
+  Book getBookById(BookId bookId) {
     return entityManager.find(Book.class, bookId);
   }
 
-
-   Bookstore getBookstoreById(String bookstoreId) {
+  Bookstore getBookstoreById(String bookstoreId) {
     return entityManager.find(Bookstore.class, bookstoreId);
   }
 
@@ -127,15 +118,13 @@ public class BookRepository {
     return entityManager.find(BookstoreBook.class, bookstoreBookId);
   }
 
-
-  void setConnectorProvider(
-      ConnectorProvider connectorProvider) {
+  void setConnectorProvider(ConnectorProvider connectorProvider) {
     this.connectorProvider = connectorProvider;
   }
 
   /**
-   * Updates new {@link BookstoreBook} with existing values from database,
-   * or persist whole entity.
+   * Updates new {@link BookstoreBook} with existing values from database, or persist whole entity.
+   *
    * @param bookstoreBook new to save
    * @param bookstoreBookAlreadyInDatabase existing in database
    */
@@ -150,8 +139,8 @@ public class BookRepository {
   }
 
   /**
-   * Updates new {@link Bookstore} with existing values from database,
-   * or persist whole entity.
+   * Updates new {@link Bookstore} with existing values from database, or persist whole entity.
+   *
    * @param bookstore new to save
    * @param bookstoreAlreadyInDatabase existing in database
    */
@@ -165,8 +154,8 @@ public class BookRepository {
   }
 
   /**
-   * Updates new {@link Book} with existing values from database,
-   * or persist whole entity.
+   * Updates new {@link Book} with existing values from database, or persist whole entity.
+   *
    * @param book new to save
    * @param bookAlreadyInDatabase existing in database
    */

@@ -1,5 +1,6 @@
 package edition.academy.seventh.repository;
 
+import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertTrue;
 
 import edition.academy.seventh.database.model.BookstoreBookDto;
@@ -23,7 +24,8 @@ public class BookstoreBookParserIntoBookstoreBookDtoTest {
       String hyperlink, String img, List<PriceAtTheMoment> priceAtTheMomentList) {
 
     // Given
-    BookstoreBookParserIntoBookstoreBookDto parser = new BookstoreBookParserIntoBookstoreBookDto();
+    BookRepository bookRepository = mock(BookRepository.class);
+    BookDtoParser parser = new BookDtoParser(bookRepository);
 
     BookstoreBook bookstoreBook = createBookstoreBook(title, author, subtitle, bookstoreName,
         hyperlink, img);
