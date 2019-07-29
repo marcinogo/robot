@@ -10,7 +10,7 @@ import lombok.Data;
 /** @author Agnieszka Trzewik */
 @Data
 @AllArgsConstructor
-public class PriceHistoryDto {
+public class PriceAtTheMomentDto {
 
   @JsonProperty(value = "retailPrice")
   private BigDecimal retailPrice;

@@ -34,10 +34,10 @@ public class ModelParserIntoBookDtosTest {
             imageLink,
             new Bookstore(bookstore),
             new Book(new BookId(title, author), subtitle));
-    PriceHistory priceHistory =
-        new PriceHistory(
+    PriceAtTheMoment priceAtTheMoment =
+        new PriceAtTheMoment(
             bookstoreBook, retailPrice, promotionalPrice, currency, LocalDateTime.now());
-    bookstoreBook.getPriceHistories().add(priceHistory);
+    bookstoreBook.getPriceHistories().add(priceAtTheMoment);
 
     String convertedRetailPrice = String.join(" ", String.valueOf(retailPrice), currency);
     String convertedPromotionalPrice = String.join(" ", String.valueOf(promotionalPrice), currency);

@@ -1,6 +1,6 @@
 package edition.academy.seventh.repository;
 
-import edition.academy.seventh.model.PriceHistory;
+import edition.academy.seventh.model.PriceAtTheMoment;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,18 +22,18 @@ public class DataProviderForBookstoreBookParser {
     };
   }
 
-  private static List<PriceHistory> getRandomPriceHistoryList() {
+  private static List<PriceAtTheMoment> getRandomPriceHistoryList() {
     List<LocalDateTime> dateTimes = Stream.generate(() -> LocalDateTime.of(
         random.nextInt(2000)+1,
         random.nextInt(10)+1,
         random.nextInt(25 )+1,
         random.nextInt(20)+1,
         random.nextInt((50))+1))
-        .limit(random.nextInt(8) + 1)
+        .limit(5L)
         .collect(Collectors.toList());
 
     return dateTimes.stream().map(dateTime ->
-        new PriceHistory(null, new BigDecimal("10")
+        new PriceAtTheMoment(null, new BigDecimal("10")
             ,new BigDecimal("15.6"),"zł", dateTime))
         .collect(Collectors.toList());
   }

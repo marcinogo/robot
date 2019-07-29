@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
  */
 @Service
 class ModelParserIntoBookDtos {
-
   List<BookDto> parseBookstoreBooksIntoBookDtos(List<BookstoreBook> bookstoreBooks) {
     return bookstoreBooks.stream()
         .map(
