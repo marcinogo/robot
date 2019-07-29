@@ -1,9 +1,8 @@
 package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.BookDto;
-import org.jsoup.select.Elements;
-
 import java.util.List;
+import org.jsoup.select.Elements;
 
 /**
  * Scraps data from swiatksiazki.pl bookstore website in sales section using JSoup library.
@@ -12,14 +11,16 @@ import java.util.List;
  *
  * @author Kacper Staszek
  */
-class SwiatKsiazkiScrapper extends AbstractScrapper {
+class TaniaKsiazkaScrapper extends AbstractScrapper {
+
   private final String bookstoreName;
 
-  SwiatKsiazkiScrapper(
-      String startOfUrl, String endOfUrl, String documentClassName, String bookstoreName) {
+  TaniaKsiazkaScrapper(String startOfUrl, String endOfUrl, String documentClassName,
+      String bookstoreName) {
     super(startOfUrl, endOfUrl, documentClassName);
     this.bookstoreName = bookstoreName;
   }
+
 
   /**
    * Scraps 30 positions for each iteration.
@@ -28,40 +29,35 @@ class SwiatKsiazkiScrapper extends AbstractScrapper {
    */
   @Override
   public List<BookDto> getPromotions() {
-    for (int i = 1; i <= 3; i++) {
+    for (int i = 1; i <= 2; i++) {
       service.submit(createScrappingTask(i));
       logger.info("Submitting scrapping task for page: " + startOfUrl + i + endOfUrl);
     }
-
     phaser.arriveAndAwaitAdvance();
-
     return listOfBooks;
   }
 
   @Override
   void mappingToBookList(Elements elementsByClass) {
-    logger.info("Starting particular task. Executor is: " + service + " AND Phaser is: " + phaser);
+    final String startOfHrefUrl = "https://www.taniaksiazka.pl/";
     elementsByClass.stream()
         .map(
             element -> {
-              String title = element.getElementsByClass("product name product-item-name").text();
-              title = deleteOutletSign(title);
-              String href = element.getElementsByClass("product-item-link").attr("href");
-              String imageLink =
-                  element.getElementsByClass("product-image-photo lazy").attr("data-src");
-              String author =
-                  element.getElementsByClass("product author product-item-author").text();
-              String promotionalPrice = element.getElementsByClass("special-price").text();
-              String retailPrice = element.getElementsByClass("old-price").text();
+              String title = element.getElementsByClass("product-title").text();
+              String author = element.getElementsByClass("product-authors").text();
+              String promotionalPrice = element.getElementsByClass("product-price").text();
+              String href = element.getElementsByClass("ecommerce-datalayer ").attr("href");
+              href = startOfHrefUrl + href;
+              String imageLink = element.getElementsByClass("lazyload lazyload-medium")
+                  .attr("data-src");
+              imageLink = imageLink.substring(2);
+              imageLink = "https://" + imageLink;
+              String retailPrice = element.getElementsByTag("del").text();
               return new BookDto(
                   title, "", author, retailPrice, promotionalPrice, imageLink, href, bookstoreName);
             })
         .forEach(listOfBooks::add);
     phaser.arriveAndDeregister();
-    logger.info("Ending particular task. Executor is: " + service + " AND Phaser is: " + phaser);
   }
 
-  private String deleteOutletSign(String title) {
-    return title.replace("[OUTLET] ", "");
-  }
 }

@@ -1,6 +1,8 @@
 package edition.academy.seventh.service;
 
 import edition.academy.seventh.database.model.BookDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +10,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * Manages providers that have been registered by <code>registerPromotionProvider</code> method.
@@ -58,7 +58,7 @@ public class PromotionProviderManager {
    *
    * @param promotionProvider {@link PromotionProvider promotion provider} to be registered.
    */
-  public void registerPromotionProvider(PromotionProvider promotionProvider) {
+  private void registerPromotionProvider(PromotionProvider promotionProvider) {
     providers.add(promotionProvider);
   }
 
@@ -89,12 +89,14 @@ public class PromotionProviderManager {
 
   private Runnable runProvider(PromotionProvider provider) {
     return () -> {
-      storeBooks(provider.getPromotions());
+      List<BookDto> promotions = provider.getPromotions();
+      storeBooks(promotions);
+      promotions.clear();
     };
   }
 
   private void storeBooks(List<BookDto> booksOnPromotion) {
     scrappedBooks.addAll(booksOnPromotion);
-    phaser.arrive();
+    phaser.arriveAndDeregister();
   }
 }
