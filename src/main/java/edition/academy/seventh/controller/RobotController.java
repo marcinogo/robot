@@ -6,6 +6,7 @@ import edition.academy.seventh.service.BookstoreConnectionService;
 import edition.academy.seventh.service.PromotionProviderManager;
 import edition.academy.seventh.service.ProvidersNotFoundException;
 import edition.academy.seventh.service.mapper.ItBookMapper;
+
 import java.io.IOException;
 import java.util.List;
 

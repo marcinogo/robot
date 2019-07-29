@@ -1,6 +1,6 @@
 package edition.academy.seventh.service.scrapper;
 
-import static org.testng.Assert.*;
+import static org.testng.Assert.assertTrue;
 
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.service.PromotionProvider;

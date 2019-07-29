@@ -1,8 +1,9 @@
 package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.BookDto;
-import java.util.List;
 import org.jsoup.select.Elements;
+
+import java.util.List;
 
 /**
  * Scraps data from pwn bookstore website in sales section using Jsoup library.
