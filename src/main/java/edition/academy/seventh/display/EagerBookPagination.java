@@ -3,13 +3,17 @@ package edition.academy.seventh.display;
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.service.BookService;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Eager implementation of {@link Pagination} interface based on {@link BookDto} object.
  *
- * <p>The {@code currentPageNumber}, {@code nextPage}, {@code previousPage}, {@code changePaginationSize}
- * and {@code changeFilter} methods operate on objects located in cache memory.
+ * <p>The {@code currentPageNumber}, {@code nextPage}, {@code previousPage}, {@code
+ * changePaginationSize} and {@code changeFilter} methods operate on objects located in cache
+ * memory.
  *
  * <p>Default {@link PaginationSize} is set to <b>twenty</b> records per page.
  *
@@ -76,12 +80,12 @@ class EagerBookPagination implements Pagination<BookDto> {
     int pageNumber = 1;
 
     for (BookDto book : books) {
-      if (++recordsCounter <= this.paginationSize.value) {
-        updatePaginationMap(pageNumber, book);
-        continue;
+      if (recordsCounter == this.paginationSize.value) {
+        recordsCounter = 0;
+        pageNumber++;
       }
-      recordsCounter = 0;
-      pageNumber++;
+      updatePaginationMap(pageNumber, book);
+      recordsCounter++;
     }
   }
 
