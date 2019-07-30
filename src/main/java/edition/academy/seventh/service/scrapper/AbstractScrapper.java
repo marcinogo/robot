@@ -76,7 +76,7 @@ abstract class AbstractScrapper implements PromotionProvider {
 
   /**
    * @param url of website to scrap.
-   * @return {@link Document} which will mapped to {@link BookDto}.
+   * @return {@link Document} mapped to {@link BookDto}.
    */
   private Document getDocument(String url) {
     Document document = null;
