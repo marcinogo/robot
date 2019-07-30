@@ -16,6 +16,7 @@ import java.util.List;
 /** @author Kamil Rojek */
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
+@Deprecated
 class BookController {
   private BookService bookService;
 
@@ -44,6 +45,7 @@ class BookController {
 
     String hyperlink = request.getRequestURI();
     hyperlink = hyperlink.substring(9);
+    hyperlink = "https://www." + hyperlink;
 
     return new ResponseEntity<>(bookService.getBookstoreBookDtoByHref(hyperlink), HttpStatus.OK);
   }

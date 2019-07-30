@@ -21,17 +21,18 @@ import org.springframework.stereotype.Service;
  * @author Agnieszka Trzewik
  */
 @Service
+public
 class BookDtoParser {
 
   private BookRepository bookRepository;
 
   @Autowired
   @Lazy
-  BookDtoParser(BookRepository repository) {
+  public BookDtoParser(BookRepository repository) {
     this.bookRepository = repository;
   }
 
-  void setRepository(BookRepository repository) {
+  public void setRepository(BookRepository repository) {
     this.bookRepository = repository;
   }
 

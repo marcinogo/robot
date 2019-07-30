@@ -14,8 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Set;
 
-import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
-import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
+import static edition.academy.seventh.database.connector.DatabaseType.*;
 
 /** @author Patryk Kucharski */
 @Service

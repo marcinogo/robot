@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
  * @author Agnieszka Trzewik
  */
 @Service
-class ModelParserIntoBookDtos {
-  List<BookDto> parseBookstoreBooksIntoBookDtos(List<BookstoreBook> bookstoreBooks) {
+public class ModelParserIntoBookDtos {
+  public static List<BookDto> parseBookstoreBooksIntoBookDtos(List<BookstoreBook> bookstoreBooks) {
     return bookstoreBooks.stream()
         .map(
             bookstoreBook -> {
