@@ -75,8 +75,8 @@ public class BookRepository {
     List<BookstoreBook> bookstoreBookList = entityManager.createQuery(query).getResultList();
 
     logger.info("Called getBooksFromDatabase(), returning " + bookstoreBookList.size() + " books");
-
     entityManager.close();
+
     return parseBookstoreBooksIntoBookDtos(bookstoreBookList);
   }
 

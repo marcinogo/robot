@@ -20,7 +20,7 @@ class PaginationController {
 
   /** Instantiate pagination object. */
   PaginationController() {
-    this.pagination = PaginationFactory.createLazyBookPagination(DatabaseType.POSTGRESQL);
+    this.pagination = PaginationFactory.createEagerBookPagination();
   }
 
   /**
