@@ -32,16 +32,21 @@ public class DatabaseInitializer {
     connectorProvider = ConnectorFactory.of(POSTGRESQL);
     this.authenticationService = authenticationService;
   }
-
-  /**
-   * Populates database with {@link edition.academy.seventh.security.model.RoleName roles}
-   * and adds hardcoded ROLE_ADMIN users.
+  /* TODO: 30.07.1 Nie usuwać - do poprawy w następnym sprincie. Przy każdym uruchomieniu aplikacji, program próbuje dodać role
+  // TODO: i konto administratora. Po pierwszym uruchomieniu one już tam są, przez co wyrzuca nam wyjątek.
+  // TODO: chwilowo rozwiązane tak, że dodaliśmy ich raz i zakomentowaliśmy kod, który próbuje to robić przy każdym następnym uruchomienu.
    */
-  @PostConstruct
-  public void populateDatabase() {
-    addUserRolesToDatabase();
-    addAdminsToDatabase();
-  }
+  //
+
+  //  /**
+  //   * Populates database with {@link edition.academy.seventh.security.model.RoleName roles}
+  //   * and adds hardcoded ROLE_ADMIN users.
+  //   */
+  //  @PostConstruct
+  //  public void populateDatabase() {
+  //    addUserRolesToDatabase();
+  //    addAdminsToDatabase();
+  //  }
 
   private void addAdminsToDatabase() {
     LOGGER.info("Adding admins");

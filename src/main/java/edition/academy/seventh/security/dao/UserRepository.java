@@ -16,6 +16,7 @@ import javax.persistence.criteria.Root;
 import java.util.Optional;
 
 import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
+import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
 
 /**
  * Responsible for retrieving user from database and checking if given user exists while registering
@@ -33,7 +34,7 @@ public class UserRepository {
 
   @Autowired
   public UserRepository() {
-    connectorProvider = ConnectorFactory.of(H2);
+    connectorProvider = ConnectorFactory.of(POSTGRESQL);
   }
 
   /**
