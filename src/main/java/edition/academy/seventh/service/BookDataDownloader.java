@@ -28,9 +28,17 @@ class BookDataDownloader {
   List<String> listBooksByIsbn(List<String> isbns) {
     List<String> books = new ArrayList<>();
     for (String isbn : isbns) {
-      books.add(bookstoreConnector.getJsonResponse(createBookFullUrl(isbn)));
+      String jsonResponse = generateValidJson(isbn);
+      books.add(jsonResponse);
     }
     return books;
+  }
+
+  private String generateValidJson(String isbn) {
+    String jsonResponse = bookstoreConnector.getJsonResponse(createBookFullUrl(isbn));
+    jsonResponse = jsonResponse.replaceAll("\\$", "");
+    jsonResponse = jsonResponse.replace("}",",\"currency\":\"$\"}");
+    return jsonResponse;
   }
 
   private String createBookFullUrl(String isbn) {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.service.BookstoreConnectionService;
 import edition.academy.seventh.service.PromotionProvider;
+import java.math.BigDecimal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +53,7 @@ public class ItBookMapper implements PromotionProvider {
         continue;
       }
       book.setBookstore(nameOfTheBookstore);
-      book.setPromotionalPrice("");
+      book.setPromotionalPrice(new BigDecimal(book.getRetailPrice().longValue()));
       listOfBooks.add(book);
     }
     return listOfBooks;
