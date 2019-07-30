@@ -2,12 +2,6 @@ package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.service.PromotionProvider;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
@@ -15,6 +9,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Implements shared behaviour of all scrapping classes.
@@ -58,6 +57,21 @@ abstract class AbstractScrapper implements PromotionProvider {
 
       mappingToBookList(elementsByClass);
     };
+  }
+
+  /**
+   * @param input from HTML element
+   * @return String that is ready to be used as valid {@link java.math.BigDecimal} constructor
+   * argument.
+   */
+  String prepareValidPrice(String input) {
+    String value = input.toLowerCase()
+        .replace(',', '.')
+        .replace("zł", "")
+        .replace("$", "")
+        .replace('$', ' ').trim();
+
+    return value.equals("") ? "00.0" : value;
   }
 
   /**

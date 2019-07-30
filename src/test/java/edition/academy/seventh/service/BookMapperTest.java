@@ -22,7 +22,7 @@ public class BookMapperTest {
       {bookList.get(0).getTitle(), "Learning JavaScript"},
       {bookList.get(0).getSubtitle(), "A Hands-On Guide to the Fundamentals of Modern JavaScript"},
       {bookList.get(0).getAuthors(), "Tim Wright"},
-      {bookList.get(0).getRetailPrice(), "$8.99"},
+      {bookList.get(0).getRetailPrice().toString(), "8.99"},
       {bookList.get(0).getImageLink(), "https://itbook.store/img/books/9780321832740.png"},
       {bookList.get(0).getHref(), "https://itbook.store/books/9780321832740"},
       {bookList.get(0).getBookstore(), "ITBookstore"}
@@ -39,7 +39,7 @@ public class BookMapperTest {
             + " \"title\": \"Learning JavaScript\",\n"
             + " \"subtitle\": \"A Hands-On Guide to the Fundamentals of Modern JavaScript\",\n"
             + " \"authors\": \"Tim Wright\",\n"
-            + " \"price\": \"$8.99\",\n"
+            + " \"price\": \"8.99\",\n"
             + " \"image\": \"https://itbook.store/img/books/9780321832740.png\",\n"
             + " \"url\": \"https://itbook.store/books/9780321832740\"\n"
             + "}";

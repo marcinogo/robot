@@ -108,22 +108,22 @@ class BookDtoParser {
   }
 
   private PriceAtTheMoment createPriceAtTheMoment(BookDto bookDto, BookstoreBook bookstoreBook) {
-
-    String currency = findCurrency(String.valueOf(bookDto.getRetailPrice()));
-    BigDecimal retailPrice =
-        establishRetailPrice(bookDto.getRetailPrice(), bookDto.getPromotionalPrice());
-    BigDecimal promotionalPrice =
-        establishPromotionalPrice(retailPrice, bookDto.getPromotionalPrice());
+//
+//    String currency = findCurrency(String.valueOf(bookDto.getRetailPrice()));
+//    BigDecimal retailPrice =
+//        establishRetailPrice(bookDto.getRetailPrice(), bookDto.getPromotionalPrice());
+//    BigDecimal promotionalPrice =
+//        establishPromotionalPrice(retailPrice, bookDto.getPromotionalPrice());
 
     return new PriceAtTheMoment(
-        bookstoreBook, retailPrice, promotionalPrice, currency, LocalDateTime.now());
+        bookstoreBook, bookDto.getRetailPrice(), bookDto.getPromotionalPrice(), bookDto.getCurrency(), LocalDateTime.now());
   }
 
-  private BigDecimal parseStringPriceIntoBigDecimal(String price) {
-    price = price.replace(",", ".");
-    price = price.replaceAll("[^0-9.]", "");
-    return new BigDecimal(price);
-  }
+//  private BigDecimal parseStringPriceIntoBigDecimal(String price) {
+//    price = price.replace(",", ".");
+//    price = price.replaceAll("[^0-9.]", "");
+//    return new BigDecimal(price);
+//  }
 
   private BookstoreBook createBookstoreBook(BookDto bookDto, Book book, Bookstore bookstore) {
     return new BookstoreBook(bookDto.getHref(), bookDto.getImageLink(), bookstore, book);
@@ -154,17 +154,17 @@ class BookDtoParser {
     }
   }
 
-  private BigDecimal establishPromotionalPrice(BigDecimal retailPrice, String promotionalPriceDto) {
-    return promotionalPriceDto.isEmpty()
-        ? retailPrice
-        : parseStringPriceIntoBigDecimal(promotionalPriceDto);
-  }
+//  private BigDecimal establishPromotionalPrice(BigDecimal retailPrice, String promotionalPriceDto) {
+//    return promotionalPriceDto.isEmpty()
+//        ? retailPrice
+//        : parseStringPriceIntoBigDecimal(promotionalPriceDto);
+//  }
 
-  private BigDecimal establishRetailPrice(String retailPriceDto, String promotionalPriceDto) {
-    return retailPriceDto.isEmpty()
-        ? establishPromotionalPrice(null, promotionalPriceDto)
-        : parseStringPriceIntoBigDecimal(retailPriceDto);
-  }
+//  private BigDecimal establishRetailPrice(String retailPriceDto, String promotionalPriceDto) {
+//    return retailPriceDto.isEmpty()
+//        ? establishPromotionalPrice(null, promotionalPriceDto)
+//        : parseStringPriceIntoBigDecimal(retailPriceDto);
+//  }
 
   private class EntitiesInDatabase {
 
