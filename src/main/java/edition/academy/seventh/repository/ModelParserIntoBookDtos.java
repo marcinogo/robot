@@ -2,10 +2,10 @@ package edition.academy.seventh.repository;
 
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.model.BookstoreBook;
-import org.springframework.stereotype.Service;
-
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
 /**
  * Parses books with last update price information from database to {@link BookDto}.
@@ -18,23 +18,17 @@ class ModelParserIntoBookDtos {
     return bookstoreBooks.stream()
         .map(
             bookstoreBook -> {
-              String retailPrice =
-                  String.join(
-                      " ",
-                      String.valueOf(
-                          bookstoreBook.getLastElementOfPriceHistories().getRetailPrice()),
-                      bookstoreBook.getLastElementOfPriceHistories().getCurrency());
-              String promotionalPrice =
-                  String.join(
-                      " ",
-                      String.valueOf(
-                          bookstoreBook.getLastElementOfPriceHistories().getPromotionalPrice()),
-                      bookstoreBook.getLastElementOfPriceHistories().getCurrency());
+              BigDecimal retailPrice =
+                  bookstoreBook.getLastElementOfPriceHistories().getRetailPrice();
+              BigDecimal promotionalPrice = bookstoreBook.getLastElementOfPriceHistories()
+                  .getPromotionalPrice();
+
 
               return new BookDto(
                   bookstoreBook.getBook().getBookId().getTitle(),
                   bookstoreBook.getBook().getSubtitle(),
                   bookstoreBook.getBook().getBookId().getAuthor(),
+                  bookstoreBook.getLastElementOfPriceHistories().getCurrency(),
                   retailPrice,
                   promotionalPrice,
                   bookstoreBook.getImageLink(),

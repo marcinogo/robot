@@ -39,16 +39,15 @@ public class ModelParserIntoBookDtosTest {
             bookstoreBook, retailPrice, promotionalPrice, currency, LocalDateTime.now());
     bookstoreBook.getPriceHistories().add(priceAtTheMoment);
 
-    String convertedRetailPrice = String.join(" ", String.valueOf(retailPrice), currency);
-    String convertedPromotionalPrice = String.join(" ", String.valueOf(promotionalPrice), currency);
 
     BookDto dtBook =
         new BookDto(
             title,
             subtitle,
             author,
-            convertedRetailPrice,
-            convertedPromotionalPrice,
+            currency,
+            retailPrice,
+            promotionalPrice,
             imageLink,
             hyperLink,
             bookstore);

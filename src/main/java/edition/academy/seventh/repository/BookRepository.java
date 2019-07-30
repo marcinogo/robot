@@ -20,6 +20,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
+import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
 import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
 
 /**
