@@ -5,16 +5,16 @@ package edition.academy.seventh.database.connector;
  *
  * <ul>
  *   <li>{@link #H2}<br>
- *       Cached database used mostly for debugging.
+ *       Cached database used mostly for debugging and testing.
  *   <li>{@link #POSTGRESQL}<br>
- *       Our main database, used on production.
+ *       Main database, used on production.
  * </ul>
  *
  * @author Kamil Rojek
  */
 public enum DatabaseType {
-  /** Provides connection with cached H2 database */
+  /** Provides connection to cached H2 database */
   H2,
-  /** Provides connection with PostgreSQL database */
+  /** Provides connection to PostgreSQL database */
   POSTGRESQL
 }

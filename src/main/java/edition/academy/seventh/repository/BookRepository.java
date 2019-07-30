@@ -20,10 +20,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-import static edition.academy.seventh.database.connector.DatabaseType.H2;
-import static edition.academy.seventh.database.connector.DatabaseType.POSTGRESQL;
+import static edition.academy.seventh.database.connector.DatabaseType.*;
 import static edition.academy.seventh.repository.ModelParserIntoBookDtos.parseBookstoreBooksIntoBookDtos;
-
 
 /**
  * Allows to persists and retrieve data about books from the database. This information is
