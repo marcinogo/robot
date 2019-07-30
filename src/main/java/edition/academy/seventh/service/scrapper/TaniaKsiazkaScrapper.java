@@ -1,6 +1,7 @@
 package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.BookDto;
+import java.math.BigDecimal;
 import java.util.List;
 import org.jsoup.select.Elements;
 
@@ -45,23 +46,21 @@ class TaniaKsiazkaScrapper extends AbstractScrapper {
             element -> {
               String title = element.getElementsByClass("product-title").text();
               String author = element.getElementsByClass("product-authors").text();
-              String promotionalPrice = element.getElementsByClass("product-price").text();
               String href = element.getElementsByClass("ecommerce-datalayer ").attr("href");
               href = startOfHrefUrl + href;
               String imageLink = element.getElementsByClass("lazyload lazyload-medium")
                   .attr("data-src");
               imageLink = imageLink.substring(2);
-              promotionalPrice = deleteCurrencyFromPrice(promotionalPrice);
-              String retailPrice = element.getElementsByTag("del").text();
-              retailPrice = deleteCurrencyFromPrice(retailPrice);
+              imageLink = "https://" + imageLink;
+              String retailPriceAsString = prepareValidPrice(element.getElementsByTag("del").text());
+              BigDecimal retailPrice = new BigDecimal(retailPriceAsString);
+              String promotionalPriceAsString = prepareValidPrice(element.getElementsByClass("product-price").text());
+              BigDecimal promotionalPrice = new BigDecimal(promotionalPriceAsString);
               return new BookDto(
-                  title, "", author, retailPrice, promotionalPrice, imageLink, href, bookstoreName);
+                  title, "", author, "zł",retailPrice, promotionalPrice, imageLink, href, bookstoreName);
             })
         .forEach(listOfBooks::add);
     phaser.arriveAndDeregister();
   }
 
-  private String deleteCurrencyFromPrice(String price) {
-    return price.replace(" zł", "");
-  }
 }

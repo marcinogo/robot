@@ -6,10 +6,11 @@ import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
 
 import edition.academy.seventh.database.connector.ConnectorFactory;
-import edition.academy.seventh.database.connector.DatabaseTypes;
+import edition.academy.seventh.database.connector.DatabaseType;
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.database.model.BookstoreBookDto;
-import java.util.Arrays;
+import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -26,15 +27,15 @@ public class BookRepositoryTestIT {
   @BeforeTest
   public void init(){
     BookDtoParser bookDtoParser = new BookDtoParser(repository);
-    repository = new BookRepository(bookDtoParser,
-        new ModelParserIntoBookDtos());
+    repository = new BookRepository(bookDtoParser);
 
     bookDtoParser.setRepository(repository);
 
-    repository.setConnectorProvider(ConnectorFactory.of(DatabaseTypes.H2));
-    repository.addBooksToDatabase(Arrays.asList(new BookDto("TEST", "TEST", "TEST",
-        "13.05 zł", "15.88 zł"
-        , "TEST", "TEST", "TEST")));
+    repository.setConnectorProvider(ConnectorFactory.of(DatabaseType.H2));
+    repository.addBooksToDatabase(
+        Collections.singletonList(new BookDto("TEST", "TEST", "TEST", "$",
+            new BigDecimal("13.05"), new BigDecimal("15.88")
+            , "TEST", "TEST", "TEST")));
   }
 
   public void should_returnBookFromDatabase(){
@@ -75,8 +76,9 @@ public class BookRepositoryTestIT {
         () -> new BookDto(generateRandomString("Title"),
             generateRandomString("Subtitle"),
             generateRandomString("Authors"),
-            generateRandomString(""),
-            generateRandomString(""),
+            "$",
+            new BigDecimal("10.50"),
+            new BigDecimal("11.50"),
             generateRandomString(""),
             generateRandomString("Href") ,
             generateRandomString("Bookstore")))

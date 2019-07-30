@@ -1,6 +1,7 @@
 package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.BookDto;
+import java.math.BigDecimal;
 import org.jsoup.select.Elements;
 
 import java.util.List;
@@ -48,13 +49,15 @@ class PwnScrapper extends AbstractScrapper {
               String title = element.getElementsByClass("emp-info-title").text();
               String author = element.getElementsByClass("emp-info-authors").text();
               author = deleteAuthorTag(author);
-              String retailPrice = element.getElementsByClass("emp-base-price").text();
-              String promotionalPrice = element.getElementsByClass("emp-sale-price-value").text();
+              String retailPriceAsString = prepareValidPrice(element.getElementsByClass("emp-base-price").text());
+              BigDecimal retailPrice = new BigDecimal(retailPriceAsString);
+              String promotionalPriceAsString = prepareValidPrice(element.getElementsByClass("emp-sale-price-value").text());
+              BigDecimal promotionalPrice = new BigDecimal(promotionalPriceAsString);
               String imageLink = element.getElementsByTag("img").attr("src");
               String href = element.getElementsByClass("titleLink").attr("href");
               href = startOfHrefUrl + href;
               return new BookDto(
-                  title, "", author, retailPrice, promotionalPrice, imageLink, href, bookstoreName);
+                  title, "", author, "zł",retailPrice, promotionalPrice, imageLink, href, bookstoreName);
             })
         .forEach(listOfBooks::add);
     phaser.arriveAndDeregister();

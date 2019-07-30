@@ -17,7 +17,7 @@ public class BookDataDownloaderTest {
       List<String> isbns, List<String> expectedBooks) {
     // Given
     BookstoreConnector bookstoreConnector = mock(BookstoreConnector.class);
-    when(bookstoreConnector.getJsonResponse(anyString())).thenReturn(expectedBooks.get(0));
+    when(bookstoreConnector.getJsonResponse(anyString())).thenReturn(isbns.get(0));
 
     BookDataDownloader bookDataDownloader =
         new BookDataDownloader("https://api.itbook.store/1.0/books/", bookstoreConnector);

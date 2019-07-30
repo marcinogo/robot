@@ -7,19 +7,21 @@ package edition.academy.seventh.database.connector;
  */
 public class ConnectorFactory {
 
+  private static final H2Connector H2_CONNECTOR = new H2Connector();
+  private static final PostgresConnector POSTGRES_CONNECTOR = new PostgresConnector();
   /**
    * Return concrete implementation of connector provider.
    *
-   * @param type {@link DatabaseTypes}
+   * @param type {@link DatabaseType}
    * @return {@link ConnectorProvider}
    */
-  public static ConnectorProvider of(DatabaseTypes type) {
+  public static ConnectorProvider of(DatabaseType type) {
     switch (type) {
       case H2:
-        return new H2Connector();
+        return H2_CONNECTOR;
       case POSTGRESQL:
       default:
-        return new PostgresConnector();
+        return POSTGRES_CONNECTOR;
     }
   }
 }
