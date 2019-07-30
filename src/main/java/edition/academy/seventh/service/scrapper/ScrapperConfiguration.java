@@ -63,10 +63,10 @@ class ScrapperConfiguration {
   @Bean(name = "raveloScrapper")
   PromotionProvider raveloPromotionProvider() {
     return new RaveloScrapper(
-            "https://www.ravelo.pl/szukaj.html?query=&filterActive=1&cat_id=0&search=1&filterCategory1=&filterIsSale=1&productsPerPage=60&p=",
-            "",
-            "row productBox ",
-            "Ravelo");
+        "https://www.ravelo.pl/szukaj.html?query=&filterActive=1&cat_id=0&search=1&filterCategory1=&filterIsSale=1&productsPerPage=60&p=",
+        "",
+        "row productBox ",
+        "Ravelo");
 
   }
 }

@@ -1,10 +1,11 @@
 package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.BookDto;
+import org.jsoup.select.Elements;
+
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.jsoup.select.Elements;
 
 /**
  * Scraps data from empik.com bookstore website in sales section using JSoup library. {@link
@@ -64,8 +65,8 @@ public class EmpikScrapper extends AbstractScrapper {
               String author = element.getElementsByClass("smartAuthor").text();
               String prices = element.getElementsByClass("ta-price-tile").text();
               String[] pricesArray = prices.split(" ");
-              String retailPrice = pricesArray[0] + " " + pricesArray[1];
-              String promotionalPrice = pricesArray[2] + " " + pricesArray[3];
+              String retailPrice = pricesArray[2] + " " + pricesArray[3];
+              String promotionalPrice = pricesArray[0] + " " + pricesArray[1];
               return new BookDto(
                   title, "", author, retailPrice, promotionalPrice, imageLink, href, bookstoreName);
             })

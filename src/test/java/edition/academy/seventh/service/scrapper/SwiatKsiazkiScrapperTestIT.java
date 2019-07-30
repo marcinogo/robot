@@ -1,12 +1,11 @@
 package edition.academy.seventh.service.scrapper;
 
+import static org.testng.Assert.assertTrue;
+
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.service.PromotionProvider;
-import org.testng.annotations.Test;
-
 import java.util.List;
-
-import static org.testng.Assert.assertTrue;
+import org.testng.annotations.Test;
 
 /** @author Kacper Staszek */
 @Test

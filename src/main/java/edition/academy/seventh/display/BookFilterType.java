@@ -13,7 +13,10 @@ import java.util.Comparator;
 public enum BookFilterType implements Filter {
 
   /** Sorts in ascending manner books by ID. */
-  DEFAULT("SELECT * FROM bookstore_book WHERE id between :start and :end"),
+  DEFAULT("SELECT * FROM ("
+          + "  SELECT *, ROW_NUMBER () OVER (ORDER BY hyperlink)"
+          + "  FROM bookstore_book"
+          + ") x WHERE ROW_NUMBER BETWEEN :start AND :end"),
 
   /** Sorts in ascending manner books by promotional price. */
   PROMOTIONAL_PRICE_ASCENDING(

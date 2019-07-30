@@ -3,6 +3,7 @@ package edition.academy.seventh.display;
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.DatabaseType;
 import edition.academy.seventh.database.model.BookDto;
+import edition.academy.seventh.repository.BookDtoParser;
 import edition.academy.seventh.repository.BookRepository;
 import edition.academy.seventh.service.BookService;
 
@@ -13,13 +14,22 @@ import edition.academy.seventh.service.BookService;
  */
 class PaginationFactory {
 
+  private static BookRepository bookRepository;
+  private static BookDtoParser parser;
+
+  static {
+    parser = new BookDtoParser(null);
+    bookRepository = new BookRepository(parser);
+    parser.setRepository(bookRepository);
+  }
+
   /**
    * Creates eager book pagination object.
    *
    * @return {@link EagerBookPagination}.
    */
   static Pagination<BookDto> createEagerBookPagination() {
-    return new EagerBookPagination(new BookService(new BookRepository()));
+    return new EagerBookPagination(new BookService(bookRepository));
   }
 
   /**

@@ -7,8 +7,8 @@ import edition.academy.seventh.model.BookstoreBook;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static edition.academy.seventh.display.PaginationSize.*;
-import static edition.academy.seventh.repository.BookParser.parseBookstoreBookListIntoDTBookList;
+import static edition.academy.seventh.display.PaginationSize.TWENTY;
+import static edition.academy.seventh.repository.ModelParserIntoBookDtos.parseBookstoreBooksIntoBookDtos;
 
 /** @author Kamil Rojek */
 class LazyBookPaginationRepositoryHandler {
@@ -30,7 +30,7 @@ class LazyBookPaginationRepositoryHandler {
     EntityManager entityManager = connectorProvider.getEntityManager();
     List<BookstoreBook> resultList = filter(entityManager);
 
-    return parseBookstoreBookListIntoDTBookList(resultList);
+    return parseBookstoreBooksIntoBookDtos(resultList);
   }
 
   List<BookDto> nextPage() {

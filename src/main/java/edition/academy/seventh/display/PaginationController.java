@@ -1,5 +1,6 @@
 package edition.academy.seventh.display;
 
+import edition.academy.seventh.database.connector.DatabaseType;
 import edition.academy.seventh.database.model.BookDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ class PaginationController {
 
   /** Instantiate pagination object. */
   PaginationController() {
-    this.pagination = PaginationFactory.createEagerBookPagination();
+    this.pagination = PaginationFactory.createLazyBookPagination(DatabaseType.POSTGRESQL);
   }
 
   /**
