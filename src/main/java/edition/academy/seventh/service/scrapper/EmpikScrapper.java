@@ -1,11 +1,12 @@
 package edition.academy.seventh.service.scrapper;
 
 import edition.academy.seventh.database.model.BookDto;
-import org.jsoup.select.Elements;
-
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
+import org.jsoup.select.Elements;
 
 /**
  * Scraps data from empik.com bookstore website in sales section using JSoup library. {@link
@@ -55,22 +56,35 @@ public class EmpikScrapper extends AbstractScrapper {
   @Override
   void mappingToBookList(Elements elementsByClass) {
     final String startOfHrefUrl = "https://www.empik.com/";
-    elementsByClass.stream()
-        .map(
-            element -> {
-              String title = element.getElementsByClass("ta-product-title").text();
-              String href = element.getElementsByClass("seoTitle").attr("href");
-              href = startOfHrefUrl + href;
-              String imageLink = element.getElementsByClass("lazy").attr("lazy-img");
-              String author = element.getElementsByClass("smartAuthor").text();
-              String prices = element.getElementsByClass("ta-price-tile").text();
-              String[] pricesArray = prices.split(" ");
-              String retailPrice = pricesArray[2] + " " + pricesArray[3];
-              String promotionalPrice = pricesArray[0] + " " + pricesArray[1];
-              return new BookDto(
-                  title, "", author, retailPrice, promotionalPrice, imageLink, href, bookstoreName);
-            })
-        .forEach(listOfBooks::add);
+    List<BookDto> collected =
+        elementsByClass.stream()
+            .map(
+                element -> {
+                  String title = element.getElementsByClass("ta-product-title").text();
+                  String href = element.getElementsByClass("seoTitle").attr("href");
+                  href = startOfHrefUrl + href;
+                  String imageLink = element.getElementsByClass("lazy").attr("lazy-img");
+                  String author = element.getElementsByClass("smartAuthor").text();
+                  String prices = element.getElementsByClass("ta-price-tile").text();
+                  String[] pricesArray = prices.split(" ");
+                  String retailPriceAsString = prepareValidPrice(pricesArray[2]);
+                  BigDecimal retailPrice = new BigDecimal(retailPriceAsString);
+                  String promotionalPriceAsString = prepareValidPrice(pricesArray[0]);
+                  BigDecimal promotionalPrice = new BigDecimal(promotionalPriceAsString);
+                  String currency = "zł";
+                  return new BookDto(
+                      title,
+                      "",
+                      author,
+                      currency,
+                      retailPrice,
+                      promotionalPrice,
+                      imageLink,
+                      href,
+                      bookstoreName);
+                })
+            .collect(Collectors.toList());
+    listOfBooks.addAll(collected);
     phaser.arriveAndDeregister();
   }
 }

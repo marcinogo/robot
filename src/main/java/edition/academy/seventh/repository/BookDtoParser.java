@@ -3,15 +3,17 @@ package edition.academy.seventh.repository;
 import edition.academy.seventh.database.model.BookDto;
 import edition.academy.seventh.database.model.BookstoreBookDto;
 import edition.academy.seventh.database.model.PriceAtTheMomentDto;
-import edition.academy.seventh.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
+import edition.academy.seventh.model.Book;
+import edition.academy.seventh.model.BookId;
+import edition.academy.seventh.model.Bookstore;
+import edition.academy.seventh.model.BookstoreBook;
+import edition.academy.seventh.model.PriceAtTheMoment;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
 
 /**
  * Parses {@link BookDto} into database model and save or update changes, and vice versa.
@@ -108,21 +110,8 @@ class BookDtoParser {
   }
 
   private PriceAtTheMoment createPriceAtTheMoment(BookDto bookDto, BookstoreBook bookstoreBook) {
-
-    String currency = findCurrency(String.valueOf(bookDto.getRetailPrice()));
-    BigDecimal retailPrice =
-        establishRetailPrice(bookDto.getRetailPrice(), bookDto.getPromotionalPrice());
-    BigDecimal promotionalPrice =
-        establishPromotionalPrice(retailPrice, bookDto.getPromotionalPrice());
-
     return new PriceAtTheMoment(
-        bookstoreBook, retailPrice, promotionalPrice, currency, LocalDateTime.now());
-  }
-
-  private BigDecimal parseStringPriceIntoBigDecimal(String price) {
-    price = price.replace(",", ".");
-    price = price.replaceAll("[^0-9.]", "");
-    return new BigDecimal(price);
+        bookstoreBook, bookDto.getRetailPrice(), bookDto.getPromotionalPrice(), bookDto.getCurrency(), LocalDateTime.now());
   }
 
   private BookstoreBook createBookstoreBook(BookDto bookDto, Book book, Bookstore bookstore) {
@@ -144,26 +133,6 @@ class BookDtoParser {
     bookRepository.saveOrUpdateBook(book, entities.book);
     bookRepository.saveOrUpdateBookstore(bookstore, entities.bookstore);
     bookRepository.saveOrUpdateBookstoreBook(bookstoreBook, entities.bookstoreBook);
-  }
-
-  private String findCurrency(String price) {
-    if (price.contains("zł")) {
-      return "zł";
-    } else {
-      return "$";
-    }
-  }
-
-  private BigDecimal establishPromotionalPrice(BigDecimal retailPrice, String promotionalPriceDto) {
-    return promotionalPriceDto.isEmpty()
-        ? retailPrice
-        : parseStringPriceIntoBigDecimal(promotionalPriceDto);
-  }
-
-  private BigDecimal establishRetailPrice(String retailPriceDto, String promotionalPriceDto) {
-    return retailPriceDto.isEmpty()
-        ? establishPromotionalPrice(null, promotionalPriceDto)
-        : parseStringPriceIntoBigDecimal(retailPriceDto);
   }
 
   private class EntitiesInDatabase {
