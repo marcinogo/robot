@@ -42,7 +42,7 @@
         <version.plugin.checkstyle>3.0.0</version.plugin.checkstyle>
         <version.plugin.jdepend>2.0</version.plugin.jdepend>
         <version.plugin.jsoup>1.12.1</version.plugin.jsoup>
-        <version.spring.security>5.0.8.RELEASE</version.spring.security>
+        <version.spring.security>5.0.12.RELEASE</version.spring.security>
 
         <!-- Plugins settings -->
         <skipIntegrationTests>true</skipIntegrationTests>
