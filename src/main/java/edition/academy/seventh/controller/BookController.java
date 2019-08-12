@@ -45,7 +45,6 @@ class BookController {
 
     String hyperlink = request.getRequestURI();
     hyperlink = hyperlink.substring(9);
-    hyperlink = "https://www." + hyperlink;
 
     return new ResponseEntity<>(bookService.getBookstoreBookDtoByHref(hyperlink), HttpStatus.OK);
   }
