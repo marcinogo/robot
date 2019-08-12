@@ -16,8 +16,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 import java.util.Optional;
 
-import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
-import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
+import static edition.academy.seventh.database.connector.DatabaseType.*;
 
 /**
  * Responsible for retrieving {@link Role roles} from database.

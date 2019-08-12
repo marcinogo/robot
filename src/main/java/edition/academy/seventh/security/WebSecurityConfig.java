@@ -10,12 +10,19 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.FirewalledRequest;
+import org.springframework.security.web.firewall.HttpFirewall;
+import org.springframework.security.web.firewall.RequestRejectedException;
+import org.springframework.security.web.firewall.StrictHttpFirewall;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * Configuration class responsible for user authentication and authorization.
@@ -75,8 +82,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/auth/sign_in")
         .permitAll()
         .antMatchers("/start")
-        .hasRole("ADMIN")
+        .permitAll()
         .antMatchers("/books")
+        .permitAll()
+        .antMatchers("/books/pagination")
+        .permitAll()
+        .antMatchers("/books/pagination/next")
+        .permitAll()
+        .antMatchers("/books/pagination/previous")
+        .permitAll()
+        .antMatchers("/books/pagination/size")
+        .permitAll()
+        .antMatchers("/books/pagination/filter")
+        .permitAll()
+        .antMatchers("/bookUrl/**")
         .permitAll()
         .anyRequest()
         .authenticated()
@@ -96,5 +115,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
+  }
+
+  @Bean
+  public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
+    StrictHttpFirewall firewall = new Foo();
+    return firewall;
+  }
+
+  @Override
+  public void configure(WebSecurity web) throws Exception {
+    web.httpFirewall(allowUrlEncodedSlashHttpFirewall());
+  }
+}
+
+class Foo extends StrictHttpFirewall {
+  @Override
+  public FirewalledRequest getFirewalledRequest(HttpServletRequest request) throws RequestRejectedException {
+    return new FirewalledRequest(request) {
+      @Override
+      public void reset() {
+      }
+    };
   }
 }

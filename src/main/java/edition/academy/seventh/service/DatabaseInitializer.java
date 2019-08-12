@@ -14,8 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.Set;
 
-import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
-import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
+import static edition.academy.seventh.database.connector.DatabaseType.*;
 
 /** @author Patryk Kucharski */
 @Service
@@ -31,35 +30,5 @@ public class DatabaseInitializer {
       AuthenticationService authenticationService) {
     connectorProvider = ConnectorFactory.of(POSTGRESQL);
     this.authenticationService = authenticationService;
-  }
-
-  /**
-   * Populates database with {@link edition.academy.seventh.security.model.RoleName roles}
-   * and adds hardcoded ROLE_ADMIN users.
-   */
-  @PostConstruct
-  public void populateDatabase() {
-    addUserRolesToDatabase();
-    addAdminsToDatabase();
-  }
-
-  private void addAdminsToDatabase() {
-    LOGGER.info("Adding admins");
-    authenticationService.createNewAccount(
-        new RegisterForm(
-            "pan@pawel.com", "pan_pawel",
-                  Set.of("admin"), "tajnehaslo"));
-  }
-
-  private void addUserRolesToDatabase() {
-    entityManager = connectorProvider.getEntityManager();
-    LOGGER.info("Adding user roles");
-    entityManager.getTransaction().begin();
-    Query nativeQuery = entityManager.createNativeQuery(
-            "INSERT INTO role(name) VALUES('ROLE_ADMIN');\n"
-                    + "INSERT INTO role(name) VALUES('ROLE_USER');");
-    nativeQuery.executeUpdate();
-    entityManager.getTransaction().commit();
-    entityManager.close();
   }
 }

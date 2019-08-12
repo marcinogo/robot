@@ -16,6 +16,7 @@ import java.util.List;
 /** @author Kamil Rojek */
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
+@Deprecated
 class BookController {
   private BookService bookService;
 

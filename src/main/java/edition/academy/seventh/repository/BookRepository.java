@@ -20,8 +20,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-import static edition.academy.seventh.database.connector.DatabaseTypes.H2;
-import static edition.academy.seventh.database.connector.DatabaseTypes.POSTGRESQL;
+import static edition.academy.seventh.database.connector.DatabaseType.*;
+import static edition.academy.seventh.repository.ModelParserIntoBookDtos.parseBookstoreBooksIntoBookDtos;
 
 /**
  * Allows to persists and retrieve data about books from the database. This information is
@@ -35,13 +35,11 @@ public class BookRepository {
   private EntityManager entityManager;
   private ConnectorProvider connectorProvider;
   private BookDtoParser bookDtoParser;
-  private ModelParserIntoBookDtos modelParserIntoBookDtos;
 
   @Autowired
-  BookRepository(BookDtoParser bookDtoParser, ModelParserIntoBookDtos modelParserIntoBookDtos) {
+  public BookRepository(BookDtoParser bookDtoParser) {
     connectorProvider = ConnectorFactory.of(POSTGRESQL);
     this.bookDtoParser = bookDtoParser;
-    this.modelParserIntoBookDtos = modelParserIntoBookDtos;
   }
 
   /**
@@ -77,9 +75,9 @@ public class BookRepository {
     List<BookstoreBook> bookstoreBookList = entityManager.createQuery(query).getResultList();
 
     logger.info("Called getBooksFromDatabase(), returning " + bookstoreBookList.size() + " books");
-
     entityManager.close();
-    return modelParserIntoBookDtos.parseBookstoreBooksIntoBookDtos(bookstoreBookList);
+
+    return parseBookstoreBooksIntoBookDtos(bookstoreBookList);
   }
 
   /**

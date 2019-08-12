@@ -12,7 +12,7 @@ package edition.academy.seventh.database.connector;
  *
  * @author Kamil Rojek
  */
-public enum DatabaseTypes {
+public enum DatabaseType {
   /** Provides connection to cached H2 database */
   H2,
   /** Provides connection to PostgreSQL database */
