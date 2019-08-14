@@ -1,5 +1,6 @@
 package edition.academy.seventh.service;
 
+import com.sun.xml.bind.v2.TODO;
 import edition.academy.seventh.database.model.BookDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Phaser;
+import java.util.function.Consumer;
 
 /**
  * Manages providers that have been registered by <code>registerPromotionProvider</code> method.
@@ -22,7 +24,7 @@ public class PromotionProviderManager {
 
   private List<BookDto> scrappedBooks;
   private List<PromotionProvider> providers;
-  private Phaser phaser = new Phaser(1);
+//  private Phaser phaser = new Phaser(1);
 
   /** Constructs <code>PromotionProviderManager</code> with non providers registered. */
   public PromotionProviderManager() {
@@ -78,25 +80,33 @@ public class PromotionProviderManager {
   }
 
   private void runProviders() {
+    //todo runtime??
     ExecutorService executorService = Executors.newFixedThreadPool(providers.size());
-    providers.forEach(
+    //todo nie chcemy tego zmienic?(moze semafor?)
+    Phaser phaser = new Phaser(1);
+    Consumer<PromotionProvider> promotionProviderConsumer =
         provider -> {
+
           phaser.register();
-          executorService.submit(runProvider(provider));
-        });
+          Runnable runnable =
+              () -> {
+                List<BookDto> promotions = provider.getPromotions();
+                scrappedBooks.addAll(promotions);
+                phaser.arriveAndDeregister();
+                promotions.clear();
+              };
+          executorService.submit(runnable);
+        };
+    providers.forEach(promotionProviderConsumer);
     phaser.arriveAndAwaitAdvance();
   }
 
-  private Runnable runProvider(PromotionProvider provider) {
-    return () -> {
-      List<BookDto> promotions = provider.getPromotions();
-      storeBooks(promotions);
-      promotions.clear();
-    };
-  }
-
-  private void storeBooks(List<BookDto> booksOnPromotion) {
-    scrappedBooks.addAll(booksOnPromotion);
-    phaser.arriveAndDeregister();
-  }
+//  private Runnable runProvider(PromotionProvider provider) {
+//    return runnable;
+//  }
+//
+//  private void storeBooks(List<BookDto> booksOnPromotion) {
+//    scrappedBooks.addAll(booksOnPromotion);
+//    phaser.arriveAndDeregister();
+//  }
 }
