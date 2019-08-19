@@ -3,7 +3,7 @@ package edition.academy.seventh.security;
 import edition.academy.seventh.security.model.Role;
 import edition.academy.seventh.security.model.RoleName;
 import edition.academy.seventh.security.model.User;
-import edition.academy.seventh.security.dto.request.RegisterForm;
+import edition.academy.seventh.security.request.RegisterForm;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
