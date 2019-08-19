@@ -1,4 +1,4 @@
-package edition.academy.seventh.security.dao;
+package edition.academy.seventh.security;
 
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
@@ -24,7 +24,7 @@ import static edition.academy.seventh.database.connector.DatabaseType.*;
  * @author krzysztof.kramarz
  */
 @Repository
-public class UserRepository {
+class UserRepository {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(UserRepository.class);
 

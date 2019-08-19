@@ -1,6 +1,5 @@
-package edition.academy.seventh.security.service;
+package edition.academy.seventh.security;
 
-import edition.academy.seventh.security.dao.UserRepository;
 import edition.academy.seventh.security.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,12 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Patryk Kucharski
  */
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+class UserDetailsServiceImpl implements UserDetailsService {
 
   private UserRepository userRepository;
 
   @Autowired
-  public UserDetailsServiceImpl(UserRepository userRepository) {
+  UserDetailsServiceImpl(UserRepository userRepository) {
     this.userRepository = userRepository;
   }
 

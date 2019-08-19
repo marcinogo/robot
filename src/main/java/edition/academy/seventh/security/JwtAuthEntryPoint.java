@@ -1,4 +1,4 @@
-package edition.academy.seventh.security.jwt;
+package edition.academy.seventh.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import java.io.IOException;
  * @see org.springframework.security.web.AuthenticationEntryPoint
  */
 @Component
-public class JwtAuthEntryPoint implements AuthenticationEntryPoint {
+class JwtAuthEntryPoint implements AuthenticationEntryPoint {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthEntryPoint.class);
 

@@ -1,4 +1,4 @@
-package edition.academy.seventh.security.model.request;
+package edition.academy.seventh.security.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

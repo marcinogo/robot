@@ -1,17 +1,14 @@
-package edition.academy.seventh.security.service;
+package edition.academy.seventh.security;
 
-import edition.academy.seventh.security.dao.RoleRepository;
-import edition.academy.seventh.security.dao.UserRepository;
 import edition.academy.seventh.security.model.Role;
 import edition.academy.seventh.security.model.RoleName;
 import edition.academy.seventh.security.model.User;
-import edition.academy.seventh.security.model.request.RegisterForm;
+import edition.academy.seventh.security.dto.request.RegisterForm;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;

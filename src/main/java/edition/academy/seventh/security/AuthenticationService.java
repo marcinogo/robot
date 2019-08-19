@@ -1,14 +1,11 @@
-package edition.academy.seventh.security.service;
+package edition.academy.seventh.security;
 
-import edition.academy.seventh.security.dao.RoleRepository;
-import edition.academy.seventh.security.dao.UserRepository;
-import edition.academy.seventh.security.jwt.JwtProvider;
 import edition.academy.seventh.security.model.Role;
 import edition.academy.seventh.security.model.RoleName;
 import edition.academy.seventh.security.model.User;
-import edition.academy.seventh.security.model.request.LoginForm;
-import edition.academy.seventh.security.model.request.RegisterForm;
-import edition.academy.seventh.security.model.response.JwtResponse;
+import edition.academy.seventh.security.dto.request.LoginForm;
+import edition.academy.seventh.security.dto.request.RegisterForm;
+import edition.academy.seventh.security.dto.response.JwtResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

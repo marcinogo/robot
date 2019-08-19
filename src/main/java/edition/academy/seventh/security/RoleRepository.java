@@ -1,4 +1,4 @@
-package edition.academy.seventh.security.dao;
+package edition.academy.seventh.security;
 
 import edition.academy.seventh.database.connector.ConnectorFactory;
 import edition.academy.seventh.database.connector.ConnectorProvider;
@@ -24,7 +24,7 @@ import static edition.academy.seventh.database.connector.DatabaseType.*;
  * @author krzysztof.kramarz
  */
 @Repository
-public class RoleRepository {
+class RoleRepository {
   private static final Logger LOGGER = LoggerFactory.getLogger(RoleRepository.class);
   private ConnectorProvider connectorProvider;
   private EntityManager entityManager;
@@ -42,7 +42,7 @@ public class RoleRepository {
    * @return {@link Role} which name was passed as parameter.
    * @throws NoResultException when Role with given name wasn't found in database.
    */
-  public Optional<Role> findByName(RoleName roleName) throws NoResultException {
+   Optional<Role> findByName(RoleName roleName) throws NoResultException {
     entityManager = connectorProvider.getEntityManager();
 
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();

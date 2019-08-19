@@ -1,6 +1,5 @@
-package edition.academy.seventh.security.jwt;
+package edition.academy.seventh.security;
 
-import edition.academy.seventh.security.service.UserPrinciple;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import java.util.Date;
  * @author Patryk Kucharski
  */
 @Component
-public class JwtProvider {
+class JwtProvider {
   private static final Logger LOGGER = LoggerFactory.getLogger(JwtProvider.class);
 
   @Value("${robot.jwtSecret}")
@@ -32,7 +31,7 @@ public class JwtProvider {
    * @return JSON with {@link UserPrinciple#getUsername()}, creation date, expiration date, and
    *     {@link JwtProvider#jwtSecret}.
    */
-  public String generateJwtToken(Authentication authentication) {
+  String generateJwtToken(Authentication authentication) {
 
     UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
 

@@ -1,8 +1,5 @@
 package edition.academy.seventh.security;
 
-import edition.academy.seventh.security.jwt.JwtAuthEntryPoint;
-import edition.academy.seventh.security.jwt.JwtAuthTokenFilter;
-import edition.academy.seventh.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

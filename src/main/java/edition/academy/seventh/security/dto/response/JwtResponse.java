@@ -1,8 +1,8 @@
-package edition.academy.seventh.security.model.response;
+package edition.academy.seventh.security.dto.response;
 
-import edition.academy.seventh.security.model.request.LoginForm;
+import edition.academy.seventh.security.AuthenticationService;
+import edition.academy.seventh.security.dto.request.LoginForm;
 import lombok.EqualsAndHashCode;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
@@ -10,7 +10,7 @@ import java.util.Collection;
 /**
  * Wrapper containing token and authorities defining privileges of user. Generated once user
  * attempts to login {@link
- * edition.academy.seventh.security.service.AuthenticationService#login(LoginForm)}.
+ * AuthenticationService#login(LoginForm)}.
  *
  * @author Patryk Kucharski
  */
@@ -26,7 +26,7 @@ public class JwtResponse {
    * user. Contains {@link GrantedAuthority authorities} defining user privileges.
    *
    * @param accessToken Generated JSON web token {@link
-   *     edition.academy.seventh.security.jwt.JwtProvider#generateJwtToken(Authentication)}.
+//   *     JwtProvider#generateJwtToken(Authentication)}.
    * @param username of a user attempting to log in.
    * @param authorities user privileges.
    */

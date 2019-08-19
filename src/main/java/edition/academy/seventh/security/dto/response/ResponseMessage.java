@@ -1,4 +1,4 @@
-package edition.academy.seventh.security.model.response;
+package edition.academy.seventh.security.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

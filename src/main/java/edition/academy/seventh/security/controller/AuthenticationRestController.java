@@ -1,10 +1,10 @@
 package edition.academy.seventh.security.controller;
 
-import edition.academy.seventh.security.model.request.LoginForm;
-import edition.academy.seventh.security.model.request.RegisterForm;
-import edition.academy.seventh.security.model.response.JwtResponse;
-import edition.academy.seventh.security.model.response.ResponseMessage;
-import edition.academy.seventh.security.service.AuthenticationService;
+import edition.academy.seventh.security.dto.request.LoginForm;
+import edition.academy.seventh.security.dto.request.RegisterForm;
+import edition.academy.seventh.security.dto.response.JwtResponse;
+import edition.academy.seventh.security.dto.response.ResponseMessage;
+import edition.academy.seventh.security.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/auth")
-public class AuthenticationRestController {
+class AuthenticationRestController {
 
   private AuthenticationService authenticationService;
   private static final Logger logger = LoggerFactory.getLogger(AuthenticationRestController.class);

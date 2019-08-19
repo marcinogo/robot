@@ -1,6 +1,5 @@
-package edition.academy.seventh.security.jwt;
+package edition.academy.seventh.security;
 
-import edition.academy.seventh.security.service.UserDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +23,19 @@ import java.io.IOException;
  * @see JwtProvider
  * @see org.springframework.web.filter.OncePerRequestFilter
  */
-public class JwtAuthTokenFilter extends OncePerRequestFilter {
+class JwtAuthTokenFilter extends OncePerRequestFilter {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthTokenFilter.class);
   private JwtProvider tokenProvider;
   private UserDetailsServiceImpl userDetailsService;
 
   @Autowired
-  public void setTokenProvider(JwtProvider tokenProvider) {
+  void setTokenProvider(JwtProvider tokenProvider) {
     this.tokenProvider = tokenProvider;
   }
 
   @Autowired
-  public void setUserDetailsService(UserDetailsServiceImpl userDetailsService) {
+  void setUserDetailsService(UserDetailsServiceImpl userDetailsService) {
     this.userDetailsService = userDetailsService;
   }
 
