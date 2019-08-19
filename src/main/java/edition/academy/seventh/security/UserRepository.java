@@ -1,7 +1,7 @@
 package edition.academy.seventh.security;
 
-import edition.academy.seventh.database.connector.ConnectorFactory;
-import edition.academy.seventh.database.connector.ConnectorProvider;
+import edition.academy.seventh.connector.ConnectorFactory;
+import edition.academy.seventh.connector.ConnectorProvider;
 import edition.academy.seventh.security.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,7 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 import java.util.Optional;
 
-import static edition.academy.seventh.database.connector.DatabaseType.*;
+import static edition.academy.seventh.connector.DatabaseType.*;
 
 /**
  * Responsible for retrieving user from database and checking if given user exists while registering

@@ -1,6 +1,6 @@
 package edition.academy.seventh.scrapping;
 
-import edition.academy.seventh.database.model.BookDto;
+import edition.academy.seventh.persistence.response.BookDto;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;

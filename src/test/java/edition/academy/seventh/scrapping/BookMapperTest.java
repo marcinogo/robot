@@ -1,6 +1,6 @@
 package edition.academy.seventh.scrapping;
 
-import edition.academy.seventh.database.model.BookDto;
+import edition.academy.seventh.persistence.response.BookDto;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
