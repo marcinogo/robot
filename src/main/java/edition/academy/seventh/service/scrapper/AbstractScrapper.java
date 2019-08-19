@@ -28,7 +28,9 @@ abstract class AbstractScrapper implements PromotionProvider {
   private final String documentClassName;
 
   List<BookDto> listOfBooks = new CopyOnWriteArrayList<>();
+  //todo stala liczba watkow nie uzalezniona od niczego MAGIC NUMBERS 10 i 1
   protected ExecutorService service = Executors.newFixedThreadPool(10);
+  //todo sprawdzic
   Phaser phaser = new Phaser(1);
 
   AbstractScrapper(String startOfUrl, String endOfUrl, String documentClassName) {
@@ -43,14 +45,15 @@ abstract class AbstractScrapper implements PromotionProvider {
    * all {@link org.jsoup.nodes.Element} of the given name {@link
    * AbstractScrapper#documentClassName}.
    *
-   * @param numberOfSearchedSite number of site which is concatenated to the URL.
+   * @param numberOfSearchedPage number of page which is concatenated to the URL.
    * @return task which is later used in {@link ExecutorService}.
    */
-  Runnable createScrappingTask(int numberOfSearchedSite) {
+//  TODO klasa implementująca Runnable
+  Runnable createScrappingTask(int numberOfSearchedPage) {
 
     return () -> {
       phaser.register();
-      String url = getUrlWithPageNumber(numberOfSearchedSite);
+      String url = getUrlWithPageNumber(numberOfSearchedPage);
       Document document = getDocument(url);
       Elements elementsByClass =
           Objects.requireNonNull(document).getElementsByClass(documentClassName);

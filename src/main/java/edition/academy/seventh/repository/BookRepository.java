@@ -11,6 +11,8 @@ import edition.academy.seventh.model.BookstoreBook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -30,7 +32,7 @@ import static edition.academy.seventh.repository.ModelParserIntoBookDtos.parseBo
  * @author Agnieszka Trzewik
  */
 @Repository
-public class BookRepository {
+public class BookRepository{
   private static final Logger logger = LoggerFactory.getLogger(BookRepository.class);
   private EntityManager entityManager;
   private ConnectorProvider connectorProvider;
@@ -42,15 +44,11 @@ public class BookRepository {
     this.bookDtoParser = bookDtoParser;
   }
 
-  /**
-   * Adds books records to the database.
-   *
-   * @param bookDtos {@code List<BookDto>} to be added
-   */
+  //todo napisac o transakcji?
   public void addBooksToDatabase(List<BookDto> bookDtos) {
     entityManager = connectorProvider.getEntityManager();
     EntityTransaction transaction = entityManager.getTransaction();
-
+//todo wyjatek w transakcji? nie zamkniete polaczenie, logowanie transakcji jak dziala? testy more more more! nieszczesliwa sciezka
     transaction.begin();
     bookDtos.forEach(this::addBookToDatabase);
     logger.info("Saving " + bookDtos.size() + " books in database");
@@ -65,6 +63,7 @@ public class BookRepository {
    */
   public List<BookDto> getLatestBooksFromDatabase() {
 
+    //todo jesli chcemy zamykac to zamykac wszedzie jak nie to do konstruktora
     entityManager = connectorProvider.getEntityManager();
 
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();

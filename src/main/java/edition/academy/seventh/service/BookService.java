@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * Provides API responsible for adding books to database.
  *
+ * @see BookRepository
  * @author Agnieszka Trzewik
  */
 @Service

@@ -19,6 +19,8 @@ import java.util.function.Consumer;
  *
  * @author Kamil Rojek
  */
+
+//todo zmiana nazwy klasy, klasa odpala albo zbiera ksiazki ODPALACZ nie MANAGER
 @Service
 public class PromotionProviderManager {
 
@@ -72,6 +74,7 @@ public class PromotionProviderManager {
    *     promotion providers}.
    */
   public List<BookDto> getScrappedBooks() throws ProvidersNotFoundException {
+    //todo zmienic opis, dlaczego tak sie moglo stac?
     if (providers.isEmpty()) throw new ProvidersNotFoundException("No providers detected");
 
     scrappedBooks.clear();

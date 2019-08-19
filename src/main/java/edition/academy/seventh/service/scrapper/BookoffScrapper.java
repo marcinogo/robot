@@ -22,7 +22,7 @@ public class BookoffScrapper extends AbstractScrapper {
     this.bookstoreName = bookstoreName;
   }
 
-
+//TODO Komentarz dlaczego 30
   /**
    * Scraps 30 positions for each iteration.
    *
