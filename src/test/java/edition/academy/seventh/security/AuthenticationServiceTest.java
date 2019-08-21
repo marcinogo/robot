@@ -34,9 +34,8 @@ public class AuthenticationServiceTest {
     @Test
     public void should_createNewAccount() {
         //Given
-        Role role = new Role();
+        Role role = new Role(RoleName.ROLE_USER);
         role.setId(1L);
-        role.setName(RoleName.ROLE_USER);
 
         //When
         when(this.encoder.encode("test")).thenReturn("encoded");
