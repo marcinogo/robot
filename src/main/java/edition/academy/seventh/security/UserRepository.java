@@ -2,10 +2,12 @@ package edition.academy.seventh.security;
 
 import edition.academy.seventh.connector.ConnectorFactory;
 import edition.academy.seventh.connector.ConnectorProvider;
+import edition.academy.seventh.connector.DatabaseType;
 import edition.academy.seventh.security.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -31,9 +33,11 @@ class UserRepository {
   private ConnectorProvider connectorProvider;
   private EntityManager entityManager;
 
+
+
   @Autowired
-  public UserRepository() {
-    connectorProvider = ConnectorFactory.of(POSTGRESQL);
+  public UserRepository(@Value("${robot.db}") String database) {
+    connectorProvider = ConnectorFactory.of(DatabaseType.valueOf(database));
   }
 
   /**
