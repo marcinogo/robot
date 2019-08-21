@@ -21,58 +21,59 @@ import static org.testng.AssertJUnit.assertFalse;
 @TestPropertySource(locations = "classpath:test.properties")
 public class AuthenticationServiceTestIT {
 
-  @Autowired
-  private AuthenticationService authenticationService;
+    @Autowired
+    private AuthenticationService authenticationService;
 
-  @Test
-  public void should_findUser_when_userIsRegistered(){
-    //Given
-    RegisterForm registerForm = new RegisterForm("admin2@admin.pl","admin2",Set.of("ROLE_ADMIN"),"password");
+    @Test
+    public void should_findUser_when_userIsRegistered() {
+        //Given
+        RegisterForm registerForm = new RegisterForm("admin2@admin.pl", "admin2", Set.of("ROLE_ADMIN"), "password");
 
-    //When
-    authenticationService.createNewAccount(registerForm);
+        //When
+        authenticationService.createNewAccount(registerForm);
+        boolean isUserInDb = authenticationService.userExistsByUsername("admin2");
 
-    //Then
-    assertTrue(authenticationService.userExistsByUsername("admin2"));
-  }
+        //Then
+        assertTrue(isUserInDb);
+    }
 
-  @Test
-  public void should_notFindUser_when_userIsNotRegistered(){
-    //Given
-    RegisterForm registerForm = new RegisterForm("admin3@admin.pl","admin3",Set.of("ROLE_ADMIN"),"password");
+    @Test
+    public void should_notFindUser_when_userIsNotRegistered() {
+        //Given
 
-    //When
+        //When
+        boolean isUserInDb = authenticationService.userExistsByUsername("admin3");
 
-    //Then
-    assertFalse(authenticationService.userExistsByUsername("admin3"));
-  }
+        //Then
+        assertFalse(isUserInDb);
+    }
 
 
-  @Test(expected = InternalAuthenticationServiceException.class)
-  public void should_throwException_when_tryToLoginUserWhichIsNotRegistered(){
-    //Given
-    LoginForm loginForm = new LoginForm("admin4","admin");
+    @Test(expected = InternalAuthenticationServiceException.class)
+    public void should_throwException_when_tryToLoginUserWhichIsNotRegistered() {
+        //Given
+        LoginForm loginForm = new LoginForm("admin4", "admin");
 
-    //When
-    JwtResponse login = authenticationService.login(loginForm);
+        //When
+        JwtResponse login = authenticationService.login(loginForm);
 
-    //Then
-    //expect exception
-  }
+        //Then
+        //expect exception
+    }
 
-  @Test
-  public void should_getJwtResponse_when_tryToLoginUserWhichIsRegistered(){
-    //Given
-    RegisterForm registerForm = new RegisterForm("admin4@admin.pl","admin4",Set.of("ROLE_ADMIN"),"password");
-    LoginForm loginForm = new LoginForm("admin4","password");
+    @Test
+    public void should_getJwtResponse_when_tryToLoginUserWhichIsRegistered() {
+        //Given
+        RegisterForm registerForm = new RegisterForm("admin4@admin.pl", "admin4", Set.of("ROLE_ADMIN"), "password");
+        LoginForm loginForm = new LoginForm("admin4", "password");
 
-    //When
-    authenticationService.createNewAccount(registerForm);
-    JwtResponse login = authenticationService.login(loginForm);
+        //When
+        authenticationService.createNewAccount(registerForm);
+        JwtResponse login = authenticationService.login(loginForm);
 
-    //Then
-    assertFalse(login.getToken().isEmpty());
-  }
+        //Then
+        assertFalse(login.getToken().isEmpty());
+    }
 
 
 }
