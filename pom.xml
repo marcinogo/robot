@@ -43,6 +43,7 @@
         <version.plugin.jdepend>2.0</version.plugin.jdepend>
         <version.plugin.jsoup>1.12.1</version.plugin.jsoup>
         <version.spring.security>5.0.12.RELEASE</version.spring.security>
+        <!-- Not newest versions of gatling dependency and plugin, can't download the newest from maven repository-->
         <version.gatling>3.1.3</version.gatling>
         <version.plugin.gatling>3.0.2</version.plugin.gatling>
         <version.plugin.scala>3.4.4</version.plugin.scala>
@@ -289,8 +290,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>scala-maven-plugin</artifactId>
@@ -305,10 +304,9 @@
                     </execution>
                 </executions>
             </plugin>
-
-
         </plugins>
     </build>
+
     <reporting>
         <plugins>
             <plugin>

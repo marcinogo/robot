@@ -72,6 +72,7 @@ class HerokuFirstUserVisit extends Simulation {
 			.get("/assets/img/logo.png")
 			.headers(headers_1))
 		.pause(18)
+		// new account creation
 		//.exec(http("request_6")
 			//.post(uri3 + "/auth/sign_up")
 			//.headers(headers_6)
@@ -80,12 +81,14 @@ class HerokuFirstUserVisit extends Simulation {
 		.exec(http("request_7")
 			.options(uri3 + "/auth/sign_in")
 			.headers(headers_7))
+		//	wrong password pass by users
 		.exec(http("request_8")
 			.post(uri3 + "/auth/sign_in")
 			.headers(headers_6)
 			.body(RawFileBody("src/test/resources/scala/request-bodies/0008_request.json"))
 			.check(status.is(401)))
 		.pause(5)
+		//	login
 		.exec(http("request_9")
 			.post(uri3 + "/auth/sign_in")
 			.headers(headers_6)
@@ -104,7 +107,7 @@ class HerokuFirstUserVisit extends Simulation {
 			.get(uri3 + "/books/pagination")
 			.headers(headers_3))
 		.pause(13)
-		// checking
+		// checking all books on first page
 		.exec(http("request_14")
 			.get(uri3 + "/bookUrl/https://www.ravelo.pl/francja-smak-i-piekno,p100673493.html")
 			.headers(headers_3))
