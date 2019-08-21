@@ -25,8 +25,8 @@ public class LoginForm {
   private String password;
 
   public LoginForm(
-          @NotBlank @Size(max = 50) String username,
-          @NotBlank @Size(min = 6, max = 40) String password) {
+      @NotBlank @Size(max = 50) String username,
+      @NotBlank @Size(min = 6, max = 40) String password) {
     this.username = username;
     this.password = password;
   }

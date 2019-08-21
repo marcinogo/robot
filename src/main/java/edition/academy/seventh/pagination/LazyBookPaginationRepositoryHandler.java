@@ -1,8 +1,8 @@
 package edition.academy.seventh.pagination;
 
 import edition.academy.seventh.connector.ConnectorProvider;
-import edition.academy.seventh.persistence.response.BookDto;
 import edition.academy.seventh.persistence.model.BookstoreBook;
+import edition.academy.seventh.persistence.response.BookDto;
 
 import javax.persistence.EntityManager;
 import java.util.List;

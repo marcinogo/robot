@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Simple wrapper to message sent back to client in response
- * for requests.
+ * Simple wrapper to message sent back to client in response for requests.
  *
  * @author Patryk Kucharski
  */

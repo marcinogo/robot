@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 
-import static edition.academy.seventh.connector.DatabaseType.*;
+import static edition.academy.seventh.connector.DatabaseType.POSTGRESQL;
 
 /** @author Patryk Kucharski */
 @Service
@@ -21,8 +21,7 @@ class DatabaseInitializer {
   private ConnectorProvider connectorProvider;
 
   @Autowired
-  DatabaseInitializer(
-      AuthenticationService authenticationService) {
+  DatabaseInitializer(AuthenticationService authenticationService) {
     connectorProvider = ConnectorFactory.of(POSTGRESQL);
     this.authenticationService = authenticationService;
   }

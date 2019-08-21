@@ -2,10 +2,8 @@ package edition.academy.seventh.pagination;
 
 import edition.academy.seventh.connector.ConnectorFactory;
 import edition.academy.seventh.connector.DatabaseType;
-import edition.academy.seventh.persistence.response.BookDto;
-import edition.academy.seventh.persistence.BookDtoParser;
-import edition.academy.seventh.persistence.BookRepository;
 import edition.academy.seventh.persistence.BookService;
+import edition.academy.seventh.persistence.response.BookDto;
 
 /**
  * Obtains an instance of specific implementation of {@link Pagination} API.
@@ -14,22 +12,13 @@ import edition.academy.seventh.persistence.BookService;
  */
 class PaginationFactory {
 
-  private static BookRepository bookRepository;
-  private static BookDtoParser parser;
-
-  static {
-    parser = new BookDtoParser(null);
-    bookRepository = new BookRepository(parser);
-    parser.setRepository(bookRepository);
-  }
-
   /**
    * Creates eager book pagination object.
    *
    * @return {@link EagerBookPagination}.
    */
-  static Pagination<BookDto> createEagerBookPagination() {
-    return new EagerBookPagination(new BookService(bookRepository));
+  static Pagination<BookDto> createEagerBookPagination(BookService bookService) {
+    return new EagerBookPagination(bookService);
   }
 
   /**
