@@ -32,10 +32,13 @@ public class AuthenticationServiceTest {
     private AuthenticationService authenticationService;
 
     @Test
-    public void testCreateNewAccount() {
+    public void should_createNewAccount() {
+        //Given
         Role role = new Role();
         role.setId(1L);
         role.setName(RoleName.ROLE_USER);
+
+        //When
         when(this.encoder.encode("test")).thenReturn("encoded");
         when(roleRepository.findByName(any())).thenReturn(Optional.of(role));
         User user = new User("test@test.com", "test", encoder.encode("test"), Set.of(role));
@@ -43,6 +46,8 @@ public class AuthenticationServiceTest {
         when(userRepository.saveUser(eq(user))).thenReturn(true);
         authenticationService.createNewAccount(
                 new RegisterForm("test@test.com", "test", Set.of("user"), "test"));
+
+        //Then
         verify(userRepository, times(1)).saveUser(user);
     }
 }

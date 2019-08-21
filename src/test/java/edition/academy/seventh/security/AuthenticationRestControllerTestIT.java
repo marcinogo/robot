@@ -11,6 +11,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,6 +27,11 @@ public class AuthenticationRestControllerTestIT {
 
     @Test
     public void should_registerNewUser_when_sendRequestToProperPath() throws Exception {
+        //Given
+
+        //When
+
+        //Then
         this.mockMvc.perform(post("/auth/sign_up").content("{\n" +
                 "\t\"email\": \"k@o2.pl\",\n" +
                 "\t\"username\": \"ksundaysky\",\n" +
@@ -37,6 +43,8 @@ public class AuthenticationRestControllerTestIT {
 
     @Test
     public void should_loginUser_when_userAlreadyInDatabase() throws Exception {
+
+        //Given
         this.mockMvc.perform(post("/auth/sign_up").content("{\n" +
                 "\t\"email\": \"k2@o2.pl\",\n" +
                 "\t\"username\": \"ksundaysky2\",\n" +
@@ -45,7 +53,7 @@ public class AuthenticationRestControllerTestIT {
                 "}").contentType("application/json")).andExpect(status().isOk())
                 .andExpect(content().string(containsString("User registered successfully!")));
 
-
+        //When
         String body = this.mockMvc.perform(post("/auth/sign_in").content("{\n" +
                 "\t\"username\": \"ksundaysky2\",\n" +
                 "\t\"password\": \"piesek12\"\n" +
@@ -53,7 +61,8 @@ public class AuthenticationRestControllerTestIT {
 
         JSONObject jsonObject = new JSONObject(body);
         String token = jsonObject.getString("token");
-        System.out.println(token);
 
+        //Then
+        assertFalse(token.isEmpty());
     }
 }
