@@ -1,10 +1,13 @@
 package heroku.robot
 
-import scala.concurrent.duration._
+import java.util.concurrent.ThreadLocalRandom
 
+import scala.concurrent.duration._
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.jdbc.Predef._
+
+import scala.util.Random
 
 class HerokuFirstUserVisit extends Simulation {
 
@@ -48,6 +51,15 @@ class HerokuFirstUserVisit extends Simulation {
     val uri3 = "https://bookrobotja7.herokuapp.com"
     val uri4 = "https://www.swiatksiazki.pl/media/catalog/product/cache/b194688dfba11ab51374da7d8ad52d29"
 
+	val user_data = Iterator.continually(
+		Map(
+			"username" -> ("testowy" + ThreadLocalRandom.current.nextInt(100)),
+			"email" -> ("testowy" + Random.alphanumeric.take(20).mkString + "@testowy.com"),
+			"password" -> ("test" + ThreadLocalRandom.current.nextInt(100)),
+			"role" -> ("[user]")
+		)
+	)
+
 	val chain_0 = // start
 		exec(http("request_0")
 			.get("/home")
@@ -72,12 +84,15 @@ class HerokuFirstUserVisit extends Simulation {
 			.get("/assets/img/logo.png")
 			.headers(headers_1))
 		.pause(18)
+			.feed(user_data)
 		// new account creation
-		//.exec(http("request_6")
-			//.post(uri3 + "/auth/sign_up")
-			//.headers(headers_6)
-			//.body(RawFileBody("heroku/robot/herokufirstuservisit/0006_request.json")))
-		//.pause(15)
+		.exec(http("request_6")
+			.post(uri3 + "/auth/sign_up")
+			.headers(headers_6)
+//			.body(RawFileBody("heroku/robot/herokufirstuservisit/0006_request.json")))
+//			.body(StringBody("""{"username":"${username}","email":"${email}","password":"${password}","role":"${role}"}""")).asJson)
+			.body(StringBody("""{"username":"testowy1000","email":"testowy1000@testowy.pl","password":"test1000","role":["user"]}""")).asJson)
+		.pause(15)
 		.exec(http("request_7")
 			.options(uri3 + "/auth/sign_in")
 			.headers(headers_7))
@@ -92,7 +107,9 @@ class HerokuFirstUserVisit extends Simulation {
 		.exec(http("request_9")
 			.post(uri3 + "/auth/sign_in")
 			.headers(headers_6)
-			.body(RawFileBody("src/test/resources/scala/request-bodies/0009_request.json")))
+//			.body(RawFileBody("src/test/resources/scala/request-bodies/0009_request.json")))
+//			.body(StringBody("""{"username":"${username}","password":"${password}"}""")).asJson)
+			.body(StringBody("""{"username":"testowy1000","password":"test1000"}""")).asJson)
 		.exec(http("request_10")
 			.get("/home")
 			.headers(headers_0))
