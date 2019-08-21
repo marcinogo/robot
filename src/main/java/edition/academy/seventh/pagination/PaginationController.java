@@ -1,6 +1,8 @@
 package edition.academy.seventh.pagination;
 
+import edition.academy.seventh.persistence.BookService;
 import edition.academy.seventh.persistence.response.BookDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +20,9 @@ class PaginationController {
   private Pagination<BookDto> pagination;
 
   /** Instantiate pagination object. */
-  PaginationController() {
-    this.pagination = PaginationFactory.createEagerBookPagination();
+  @Autowired
+  PaginationController(BookService bookService) {
+    this.pagination = PaginationFactory.createEagerBookPagination(bookService);
   }
 
   /**
@@ -64,8 +67,7 @@ class PaginationController {
    * @return {@code List<BookDto>} books.
    */
   @RequestMapping("/books/pagination/size")
-  ResponseEntity<List<BookDto>> changePaginationSize(
-      @RequestParam("value") PaginationSize size) {
+  ResponseEntity<List<BookDto>> changePaginationSize(@RequestParam("value") PaginationSize size) {
     List<BookDto> books = pagination.changePaginationSize(size);
     return new ResponseEntity<>(books, HttpStatus.OK);
   }

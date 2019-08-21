@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Responsible for exchanging information and returning the result of identification of
- * user in database {@link User}. Please see the {@link
+ * Responsible for exchanging information and returning the result of identification of user in
+ * database {@link User}. Please see the {@link
  * org.springframework.security.core.userdetails.UserDetailsService} for true identity.
  *
  * @author Patryk Kucharski
@@ -36,9 +36,12 @@ class UserDetailsServiceImpl implements UserDetailsService {
   @Transactional
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    User user = userRepository
+    User user =
+        userRepository
             .findByUsername(username)
-            .orElseThrow(() -> new UsernameNotFoundException(
+            .orElseThrow(
+                () ->
+                    new UsernameNotFoundException(
                         "User Not Found with -> username or email : " + username));
 
     return UserPrinciple.build(user);

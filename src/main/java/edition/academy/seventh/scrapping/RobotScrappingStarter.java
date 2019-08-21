@@ -1,7 +1,7 @@
 package edition.academy.seventh.scrapping;
 
-import edition.academy.seventh.persistence.response.BookDto;
 import edition.academy.seventh.persistence.BookService;
+import edition.academy.seventh.persistence.response.BookDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

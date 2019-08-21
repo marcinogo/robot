@@ -2,10 +2,12 @@ package edition.academy.seventh.security;
 
 import edition.academy.seventh.connector.ConnectorFactory;
 import edition.academy.seventh.connector.ConnectorProvider;
+import edition.academy.seventh.connector.DatabaseType;
 import edition.academy.seventh.security.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.*;
@@ -14,8 +16,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Root;
 import java.util.Optional;
-
-import static edition.academy.seventh.connector.DatabaseType.*;
 
 /**
  * Responsible for retrieving user from database and checking if given user exists while registering
@@ -32,8 +32,8 @@ class UserRepository {
   private EntityManager entityManager;
 
   @Autowired
-  public UserRepository() {
-    connectorProvider = ConnectorFactory.of(POSTGRESQL);
+  public UserRepository(@Value("${robot.db}") String database) {
+    connectorProvider = ConnectorFactory.of(DatabaseType.valueOf(database));
   }
 
   /**
@@ -66,10 +66,9 @@ class UserRepository {
   }
 
   /**
-   * Retrieves {@link User} with specified {@link User#getEmail()} ()}.
-   * Email is unique and can't be duplicated, so method guarantees returning
-   * either single {@link User} or throwing {@link NoResultException} when
-   * one wasn't found.
+   * Retrieves {@link User} with specified {@link User#getEmail()} ()}. Email is unique and can't be
+   * duplicated, so method guarantees returning either single {@link User} or throwing {@link
+   * NoResultException} when one wasn't found.
    *
    * @param email of searched user.
    * @return {@link User} which username was passed as parameter.
@@ -99,8 +98,7 @@ class UserRepository {
    * Saves given {@link User} to database.
    *
    * @param user to be saved
-   * @return true if operation was successful or false
-   *         if otherwise.
+   * @return true if operation was successful or false if otherwise.
    */
   public boolean saveUser(User user) {
     entityManager = connectorProvider.getEntityManager();
@@ -126,8 +124,7 @@ class UserRepository {
    * Checks if {@link User} with given username exists in database.
    *
    * @param username of user to be checked.
-   * @return true if {@link User} with given username does exist in database
-   *         or false otherwise.
+   * @return true if {@link User} with given username does exist in database or false otherwise.
    */
   public Boolean existsByUsername(String username) {
     try {
@@ -142,8 +139,7 @@ class UserRepository {
    * Checks if {@link User} with given email exists in database.
    *
    * @param email of user to be checked.
-   * @return true if {@link User} with given email does exist in database
-   *         or false otherwise.
+   * @return true if {@link User} with given email does exist in database or false otherwise.
    */
   public Boolean existsByEmail(String email) {
     try {

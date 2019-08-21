@@ -1,9 +1,12 @@
 package edition.academy.seventh.pagination;
 
-import edition.academy.seventh.persistence.response.BookDto;
 import edition.academy.seventh.persistence.BookService;
+import edition.academy.seventh.persistence.response.BookDto;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Eager implementation of {@link Pagination} interface based on {@link BookDto} object.

@@ -2,6 +2,7 @@ package edition.academy.seventh.persistence;
 
 import edition.academy.seventh.connector.ConnectorFactory;
 import edition.academy.seventh.connector.ConnectorProvider;
+import edition.academy.seventh.connector.DatabaseType;
 import edition.academy.seventh.persistence.model.Book;
 import edition.academy.seventh.persistence.model.BookId;
 import edition.academy.seventh.persistence.model.Bookstore;
@@ -11,6 +12,7 @@ import edition.academy.seventh.persistence.response.BookstoreBookDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -20,7 +22,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-import static edition.academy.seventh.connector.DatabaseType.POSTGRESQL;
 import static edition.academy.seventh.persistence.ModelParserIntoBookDtos.parseBookstoreBooksIntoBookDtos;
 
 /**
@@ -31,14 +32,15 @@ import static edition.academy.seventh.persistence.ModelParserIntoBookDtos.parseB
  */
 @Repository
 public class BookRepository {
+
   private static final Logger logger = LoggerFactory.getLogger(BookRepository.class);
   private EntityManager entityManager;
   private ConnectorProvider connectorProvider;
   private BookDtoParser bookDtoParser;
 
   @Autowired
-  public BookRepository(BookDtoParser bookDtoParser) {
-    connectorProvider = ConnectorFactory.of(POSTGRESQL);
+  public BookRepository(BookDtoParser bookDtoParser, @Value("${robot.db}") String database) {
+    connectorProvider = ConnectorFactory.of(DatabaseType.valueOf(database));
     this.bookDtoParser = bookDtoParser;
   }
 
@@ -55,7 +57,7 @@ public class BookRepository {
     bookDtos.forEach(this::addBookToDatabase);
     logger.info("Saving " + bookDtos.size() + " books in database");
     transaction.commit();
-    connectorProvider.close();
+    entityManager.close();
   }
 
   /**
