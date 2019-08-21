@@ -47,34 +47,50 @@ public class BookRepositoryTestIT {
 
     @Test
     public void should_returnBookFromDatabase() {
+        //Given
+
+        //When
         BookstoreBookDto bookstoreBookDtoByHref = repository.getBookstoreBookDtoByHref("TEST");
 
+        //Then
         assertNotNull(bookstoreBookDtoByHref);
     }
 
     @Test
     public void should_returnNull_whenGivenHrefDoNotExists() {
+        //Given
+
+        //When
         BookstoreBookDto bookstoreBookDtoByHref = repository.getBookstoreBookDtoByHref("");
 
+        //Then
         assertNull(bookstoreBookDtoByHref);
     }
 
     @Test
     public void should_returnMoreBooks_whenAddRandomBooksToDatabase() {
+        //Given
         List<BookDto> booksBeforeAdd = repository.getLatestBooksFromDatabase();
 
         List<BookDto> bookDtos = generateRandomList();
 
+        //When
         repository.addBooksToDatabase(bookDtos);
 
         List<BookDto> booksAfterAdd = repository.getLatestBooksFromDatabase();
 
+        //Then
         assertTrue(booksBeforeAdd.size() < booksAfterAdd.size());
     }
 
     @Test
     public void should_generateListWithRecords_whenCallGetLatestBooksFromDatabase() {
+        //Given
+
+        //When
         List<BookDto> latestBooksFromDatabase = repository.getLatestBooksFromDatabase();
+
+        //Then
         assertFalse(latestBooksFromDatabase.isEmpty());
     }
 
