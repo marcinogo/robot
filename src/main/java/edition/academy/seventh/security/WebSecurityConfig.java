@@ -128,11 +128,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 class Foo extends StrictHttpFirewall {
   @Override
-  public FirewalledRequest getFirewalledRequest(HttpServletRequest request) throws RequestRejectedException {
+  public FirewalledRequest getFirewalledRequest(HttpServletRequest request)
+      throws RequestRejectedException {
     return new FirewalledRequest(request) {
       @Override
-      public void reset() {
-      }
+      public void reset() {}
     };
   }
 }

@@ -88,9 +88,10 @@ public class AuthenticationService {
    * @return {@link JwtResponse} response with suitable JSON web token.
    */
   public JwtResponse login(@RequestBody @Valid LoginForm loginForm) {
-    Authentication authentication = authenticationManager.authenticate(
+    Authentication authentication =
+        authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(
-                    loginForm.getUsername(), loginForm.getPassword()));
+                loginForm.getUsername(), loginForm.getPassword()));
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
     String jwt = jwtProvider.generateJwtToken(authentication);
@@ -105,8 +106,8 @@ public class AuthenticationService {
 
   /**
    * Checks if {@link User} with given username exists in database.
-   * @see UserRepository#existsByUsername(String)
    *
+   * @see UserRepository#existsByUsername(String)
    * @param username of {@link User}
    * @return true if user with given username exists or false otherwise.
    */
@@ -116,8 +117,8 @@ public class AuthenticationService {
 
   /**
    * Checks if {@link User} with given email exists in database.
-   * @see UserRepository#existsByEmail(String)
    *
+   * @see UserRepository#existsByEmail(String)
    * @param email of {@link User}
    * @return true if {@link User} was found, false otherwise.
    */
@@ -137,23 +138,23 @@ public class AuthenticationService {
     rolesAsString.forEach(
         role -> {
           if ("admin".equals(role)) {
-            Role adminRole =
-                    null;
+            Role adminRole = null;
             try {
-              adminRole = roleRepository
-                  .findByName(RoleName.ROLE_ADMIN)
-                  .orElseThrow(() -> new RoleNotFoundException("Admin Role not found."));
+              adminRole =
+                  roleRepository
+                      .findByName(RoleName.ROLE_ADMIN)
+                      .orElseThrow(() -> new RoleNotFoundException("Admin Role not found."));
             } catch (RoleNotFoundException e) {
               LOGGER.error(e.getMessage());
             }
             roles.add(adminRole);
           } else if ("user".equals(role)) {
-            Role userRole =
-                    null;
+            Role userRole = null;
             try {
-              userRole = roleRepository
-                  .findByName(RoleName.ROLE_USER)
-                  .orElseThrow(() -> new RoleNotFoundException("User Role not found."));
+              userRole =
+                  roleRepository
+                      .findByName(RoleName.ROLE_USER)
+                      .orElseThrow(() -> new RoleNotFoundException("User Role not found."));
             } catch (RoleNotFoundException e) {
               LOGGER.error(e.getMessage());
             }

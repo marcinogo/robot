@@ -22,47 +22,68 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(locations = "classpath:test.properties")
 public class AuthenticationRestControllerTestIT {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @Test
-    public void should_registerNewUser_when_sendRequestToProperPath() throws Exception {
-        //Given
+  @Test
+  public void should_registerNewUser_when_sendRequestToProperPath() throws Exception {
+    // Given
 
-        //When
+    // When
 
-        //Then
-        this.mockMvc.perform(post("/auth/sign_up").content("{\n" +
-                "\t\"email\": \"k@o2.pl\",\n" +
-                "\t\"username\": \"ksundaysky\",\n" +
-                "\t\"role\": [\"ROLE_ADMIN\"],\n" +
-                "\t\"password\": \"piesek12\"\n" +
-                "}").contentType("application/json")).andExpect(status().isOk())
-                .andExpect(content().string(containsString("User registered successfully!")));
-    }
+    // Then
+    this.mockMvc
+        .perform(
+            post("/auth/sign_up")
+                .content(
+                    "{\n"
+                        + "\t\"email\": \"k@o2.pl\",\n"
+                        + "\t\"username\": \"ksundaysky\",\n"
+                        + "\t\"role\": [\"ROLE_ADMIN\"],\n"
+                        + "\t\"password\": \"piesek12\"\n"
+                        + "}")
+                .contentType("application/json"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("User registered successfully!")));
+  }
 
-    @Test
-    public void should_loginUser_when_userAlreadyInDatabase() throws Exception {
+  @Test
+  public void should_loginUser_when_userAlreadyInDatabase() throws Exception {
 
-        //Given
-        this.mockMvc.perform(post("/auth/sign_up").content("{\n" +
-                "\t\"email\": \"k2@o2.pl\",\n" +
-                "\t\"username\": \"ksundaysky2\",\n" +
-                "\t\"role\": [\"ROLE_ADMIN\"],\n" +
-                "\t\"password\": \"piesek12\"\n" +
-                "}").contentType("application/json")).andExpect(status().isOk())
-                .andExpect(content().string(containsString("User registered successfully!")));
+    // Given
+    this.mockMvc
+        .perform(
+            post("/auth/sign_up")
+                .content(
+                    "{\n"
+                        + "\t\"email\": \"k2@o2.pl\",\n"
+                        + "\t\"username\": \"ksundaysky2\",\n"
+                        + "\t\"role\": [\"ROLE_ADMIN\"],\n"
+                        + "\t\"password\": \"piesek12\"\n"
+                        + "}")
+                .contentType("application/json"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("User registered successfully!")));
 
-        //When
-        String body = this.mockMvc.perform(post("/auth/sign_in").content("{\n" +
-                "\t\"username\": \"ksundaysky2\",\n" +
-                "\t\"password\": \"piesek12\"\n" +
-                "}").contentType("application/json")).andExpect(status().isOk()).andReturn().getResponse().getContentAsString();
+    // When
+    String body =
+        this.mockMvc
+            .perform(
+                post("/auth/sign_in")
+                    .content(
+                        "{\n"
+                            + "\t\"username\": \"ksundaysky2\",\n"
+                            + "\t\"password\": \"piesek12\"\n"
+                            + "}")
+                    .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
-        JSONObject jsonObject = new JSONObject(body);
-        String token = jsonObject.getString("token");
+    JSONObject jsonObject = new JSONObject(body);
+    String token = jsonObject.getString("token");
 
-        //Then
-        assertFalse(token.isEmpty());
-    }
+    // Then
+    assertFalse(token.isEmpty());
+  }
 }

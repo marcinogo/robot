@@ -18,35 +18,30 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class AuthenticationServiceTest {
-    @Mock
-    UserRepository userRepository;
-    @Mock
-    RoleRepository roleRepository;
-    @Mock
-    PasswordEncoder encoder;
+  @Mock UserRepository userRepository;
+  @Mock RoleRepository roleRepository;
+  @Mock PasswordEncoder encoder;
 
-    @InjectMocks
-    private AuthenticationService authenticationService;
+  @InjectMocks private AuthenticationService authenticationService;
 
-    @Test
-    public void should_createNewAccount() {
-        //Given
-        Role role = new Role(RoleName.ROLE_USER);
-        role.setId(1L);
+  @Test
+  public void should_createNewAccount() {
+    // Given
+    Role role = new Role(RoleName.ROLE_USER);
+    role.setId(1L);
 
-        //When
-        when(this.encoder.encode("test")).thenReturn("encoded");
-        when(roleRepository.findByName(any())).thenReturn(Optional.of(role));
-        User user = new User("test@test.com", "test", encoder.encode("test"), Set.of(role));
+    // When
+    when(this.encoder.encode("test")).thenReturn("encoded");
+    when(roleRepository.findByName(any())).thenReturn(Optional.of(role));
+    User user = new User("test@test.com", "test", encoder.encode("test"), Set.of(role));
 
-        when(userRepository.saveUser(eq(user))).thenReturn(true);
-        authenticationService.createNewAccount(
-                new RegisterForm("test@test.com", "test", Set.of("user"), "test"));
+    when(userRepository.saveUser(eq(user))).thenReturn(true);
+    authenticationService.createNewAccount(
+        new RegisterForm("test@test.com", "test", Set.of("user"), "test"));
 
-        //Then
-        verify(userRepository, times(1)).saveUser(user);
-    }
+    // Then
+    verify(userRepository, times(1)).saveUser(user);
+  }
 }

@@ -18,24 +18,26 @@ import static org.testng.AssertJUnit.assertEquals;
 @TestPropertySource(locations = "classpath:test.properties")
 public class RepositoryTestIT {
 
-    @Autowired
-    private RoleRepository roleRepository;
+  @Autowired private RoleRepository roleRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+  @Autowired private UserRepository userRepository;
 
+  @Test
+  public void should_findUser_when_addUserToDB() {
+    // TODO przeniesc do userRepositoryTest
+    // Given
+    roleRepository.addRole(RoleName.ROLE_ADMIN);
+    User user =
+        new User(
+            "admin@admin.pl",
+            "admin",
+            "password",
+            Set.of(roleRepository.findByName(RoleName.ROLE_ADMIN).get()));
 
-    @Test
-    public void should_findUser_when_addUserToDB() {
-        //TODO przeniesc do userRepositoryTest
-        //Given
-        roleRepository.addRole(RoleName.ROLE_ADMIN);
-        User user = new User("admin@admin.pl", "admin", "password", Set.of(roleRepository.findByName(RoleName.ROLE_ADMIN).get()));
+    // When
+    userRepository.saveUser(user);
 
-        //When
-        userRepository.saveUser(user);
-
-        //Then
-        assertEquals(user, userRepository.findByUsername("admin").get());
-    }
+    // Then
+    assertEquals(user, userRepository.findByUsername("admin").get());
+  }
 }

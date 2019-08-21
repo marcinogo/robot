@@ -2,10 +2,8 @@ package edition.academy.seventh.pagination;
 
 import edition.academy.seventh.connector.ConnectorFactory;
 import edition.academy.seventh.connector.DatabaseType;
-import edition.academy.seventh.persistence.response.BookDto;
-import edition.academy.seventh.persistence.BookDtoParser;
-import edition.academy.seventh.persistence.BookRepository;
 import edition.academy.seventh.persistence.BookService;
+import edition.academy.seventh.persistence.response.BookDto;
 
 /**
  * Obtains an instance of specific implementation of {@link Pagination} API.

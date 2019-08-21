@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -39,10 +38,8 @@ public class BookRepository {
   private ConnectorProvider connectorProvider;
   private BookDtoParser bookDtoParser;
 
-
-
   @Autowired
-  public BookRepository(BookDtoParser bookDtoParser,@Value("${robot.db}") String database) {
+  public BookRepository(BookDtoParser bookDtoParser, @Value("${robot.db}") String database) {
     connectorProvider = ConnectorFactory.of(DatabaseType.valueOf(database));
     this.bookDtoParser = bookDtoParser;
   }

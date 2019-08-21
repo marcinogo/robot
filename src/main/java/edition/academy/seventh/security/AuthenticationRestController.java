@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
- * Main entry point for authentication and authorization purposes.
- * Contains login and register endpoints and proceeds with requested
- * operations returning {@link ResponseEntity proper response}.
+ * Main entry point for authentication and authorization purposes. Contains login and register
+ * endpoints and proceeds with requested operations returning {@link ResponseEntity proper
+ * response}.
  *
  * @author Patryk Kucharski
  */
@@ -49,7 +49,7 @@ class AuthenticationRestController {
       return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.BAD_REQUEST);
     }
     if (userWithThisEmailAlreadyExists(registerForm)) {
-       returnMessage = "Account with given email already exists! ";
+      returnMessage = "Account with given email already exists! ";
       logger.error(returnMessage + registerForm.getEmail());
       return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.BAD_REQUEST);
     }
