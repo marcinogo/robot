@@ -20,7 +20,7 @@ import java.util.List;
  * @author krzysztof.kramarz
  */
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin("${robot.crossorigin}")
 class RobotScrappingStarter {
   private static final Logger logger = LoggerFactory.getLogger(RobotScrappingStarter.class);
   private PromotionProviderManager providerManager;
