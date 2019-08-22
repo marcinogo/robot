@@ -29,7 +29,7 @@ public class AuthenticationServiceTest {
   @Test
   public void should_createNewAccount() {
     // Given
-    Role role = new Role(RoleName.USER);
+    Role role = new Role(RoleName.ROLE_USER);
     role.setId(1L);
 
     // When

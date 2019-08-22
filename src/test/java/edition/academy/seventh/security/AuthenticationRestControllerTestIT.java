@@ -38,7 +38,7 @@ public class AuthenticationRestControllerTestIT {
                     "{\n"
                         + "\t\"email\": \"k@o2.pl\",\n"
                         + "\t\"username\": \"ksundaysky\",\n"
-                        + "\t\"role\": [\"ADMIN\"],\n"
+                        + "\t\"role\": [\"admin\"],\n"
                         + "\t\"password\": \"piesek12\"\n"
                         + "}")
                 .contentType("application/json"))
@@ -55,9 +55,9 @@ public class AuthenticationRestControllerTestIT {
             post("/auth/sign_up")
                 .content(
                     "{\n"
-                        + "\t\"email\": \"k2@o2.pl\",\n"
-                        + "\t\"username\": \"ksundaysky2\",\n"
-                        + "\t\"role\": [\"ADMIN\"],\n"
+                        + "\t\"email\": \"kfajjasdbjksh2@o2.pl\",\n"
+                        + "\t\"username\": \"fajnyuserfajny\",\n"
+                        + "\t\"role\": [\"admin\"],\n"
                         + "\t\"password\": \"piesek12\"\n"
                         + "}")
                 .contentType("application/json"))

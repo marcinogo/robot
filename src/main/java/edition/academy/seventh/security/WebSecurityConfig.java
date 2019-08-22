@@ -78,8 +78,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .permitAll()
         .antMatchers("/auth/sign_in")
         .permitAll()
-        .antMatchers("/start")
-        .authenticated()
         .antMatchers("/books")
         .permitAll()
         .antMatchers("/books/pagination")

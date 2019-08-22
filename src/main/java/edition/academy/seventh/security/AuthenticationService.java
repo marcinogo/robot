@@ -9,6 +9,7 @@ import edition.academy.seventh.security.response.JwtResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.annotation.PostConstruct;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,6 +38,17 @@ public class AuthenticationService {
   private PasswordEncoder encoder;
   private UserRepository userRepository;
   private RoleRepository roleRepository;
+
+  @Value ("${robot.admin.email}")
+  private String adminEmail;
+
+
+  @Value("${robot.admin}")
+  private String adminUsername;
+
+  @Value("${robot.admin.password}")
+  private String adminPassword;
+
   private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationService.class);
 
   /**
@@ -59,6 +72,20 @@ public class AuthenticationService {
     this.encoder = encoder;
     this.userRepository = userRepository;
     this.roleRepository = roleRepository;
+  }
+
+  @PostConstruct
+  public void init(){
+    if(roleRepository.findByName(RoleName.ROLE_ADMIN).isEmpty()) {
+      roleRepository.addRole(RoleName.ROLE_ADMIN);
+    }
+    if(roleRepository.findByName(RoleName.ROLE_USER).isEmpty()) {
+      roleRepository.addRole(RoleName.ROLE_USER);
+    }
+    if(!userRepository.existsByUsername(adminUsername)) {
+      User admin = new User(adminEmail,adminUsername,adminPassword,Set.of(roleRepository.findByName(RoleName.ROLE_ADMIN).get()));
+      userRepository.saveUser(admin);
+    }
   }
 
   /**
@@ -137,23 +164,23 @@ public class AuthenticationService {
 
     rolesAsString.forEach(
         role -> {
-          if ("admin".equals(role)) {
+          if ("admin".equals(role.toLowerCase())) {
             Role adminRole = null;
             try {
               adminRole =
                   roleRepository
-                      .findByName(RoleName.ADMIN)
+                      .findByName(RoleName.ROLE_ADMIN)
                       .orElseThrow(() -> new RoleNotFoundException("Admin Role not found."));
             } catch (RoleNotFoundException e) {
               LOGGER.error(e.getMessage());
             }
             roles.add(adminRole);
-          } else if ("user".equals(role)) {
+          } else if ("user".equals(role.toLowerCase())) {
             Role userRole = null;
             try {
               userRole =
                   roleRepository
-                      .findByName(RoleName.USER)
+                      .findByName(RoleName.ROLE_USER)
                       .orElseThrow(() -> new RoleNotFoundException("User Role not found."));
             } catch (RoleNotFoundException e) {
               LOGGER.error(e.getMessage());

@@ -24,20 +24,18 @@ public class RepositoryTestIT {
 
   @Test
   public void should_findUser_when_addUserToDB() {
-    // TODO przeniesc do userRepositoryTest
     // Given
-    roleRepository.addRole(RoleName.ADMIN);
     User user =
         new User(
-            "admin@admin.pl",
-            "admin",
+            "admin1@admin.pl",
+            "admin1",
             "password",
-            Set.of(roleRepository.findByName(RoleName.ADMIN).get()));
+            Set.of(roleRepository.findByName(RoleName.ROLE_ADMIN).get()));
 
     // When
     userRepository.saveUser(user);
 
     // Then
-    assertEquals(user, userRepository.findByUsername("admin").get());
+    assertEquals(user, userRepository.findByUsername("admin1").get());
   }
 }

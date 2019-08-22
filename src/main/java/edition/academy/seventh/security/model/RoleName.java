@@ -4,7 +4,7 @@ import lombok.Getter;
 
 /**
  * Roles assigned to user during registration process. Currently every registered user receives
- * {@code USER}, while {@code ADMIN} will be given to specified users once given version
+ * {@code ROLE_USER}, while {@code ROLE_ADMIN} will be given to specified users once given version
  * of the app runs for it's first time. Roles define privileges and accessibility to server
  * resources and APIs.
  *
@@ -12,8 +12,8 @@ import lombok.Getter;
  */
 @Getter
 public enum RoleName {
-  ADMIN("ADMIN"),
-  USER("USER");
+  ROLE_ADMIN("ROLE_ADMIN"),
+  ROLE_USER("ROLE_USER");
 
   private String roleName;
 
