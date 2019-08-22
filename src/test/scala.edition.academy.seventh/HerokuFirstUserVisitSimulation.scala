@@ -1,12 +1,15 @@
-package heroku.robot
+package edition.academy.seventh
+
+import java.util.concurrent.ThreadLocalRandom
 
 import scala.concurrent.duration._
-
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import io.gatling.jdbc.Predef._
 
-class HerokuFirstUserVisit extends Simulation {
+import scala.util.Random
+
+class HerokuFirstUserVisitSimulation extends Simulation {
 
 	val httpProtocol = http
 		.baseUrl("https://bookrobot-front.herokuapp.com")
@@ -48,7 +51,16 @@ class HerokuFirstUserVisit extends Simulation {
     val uri3 = "https://bookrobotja7.herokuapp.com"
     val uri4 = "https://www.swiatksiazki.pl/media/catalog/product/cache/b194688dfba11ab51374da7d8ad52d29"
 
-	val chain_0 = // start
+	val user_data = Iterator.continually(
+		Map(
+			"username" -> ("testowy" + ThreadLocalRandom.current.nextInt(1000)),
+			"email" -> ("testowy" + Random.alphanumeric.take(20).mkString + "@testowy.com"),
+			"password" -> ("test" + ThreadLocalRandom.current.nextInt(100)),
+//			"role" -> ("[user]")
+		)
+	)
+
+	val simulation_part1 = // start
 		exec(http("request_0")
 			.get("/home")
 			.headers(headers_0))
@@ -72,12 +84,19 @@ class HerokuFirstUserVisit extends Simulation {
 			.get("/assets/img/logo.png")
 			.headers(headers_1))
 		.pause(18)
+		.feed(user_data)
+		.exec{session =>
+			println(session("username").as[String])
+			session}
+		.exec{session =>
+			println(session("password").as[String])
+			session}
 		// new account creation
-		//.exec(http("request_6")
-			//.post(uri3 + "/auth/sign_up")
-			//.headers(headers_6)
-			//.body(RawFileBody("heroku/robot/herokufirstuservisit/0006_request.json")))
-		//.pause(15)
+		.exec(http("request_6")
+			.post(uri3 + "/auth/sign_up")
+			.headers(headers_6)
+			.body(StringBody("""{"username":"${username}","email":"${email}","password":"${password}","role":["user"]}""")).asJson)
+		.pause(15)
 		.exec(http("request_7")
 			.options(uri3 + "/auth/sign_in")
 			.headers(headers_7))
@@ -89,10 +108,16 @@ class HerokuFirstUserVisit extends Simulation {
 			.check(status.is(401)))
 		.pause(5)
 		//	login
+			.exec{session =>
+				println(session("username").as[String])
+				session}
+			.exec{session =>
+				println(session("password").as[String])
+				session}
 		.exec(http("request_9")
 			.post(uri3 + "/auth/sign_in")
 			.headers(headers_6)
-			.body(RawFileBody("src/test/resources/scala/request-bodies/0009_request.json")))
+			.body(StringBody("""{"username":"${username}","password":"${password}"}""")).asJson)
 		.exec(http("request_10")
 			.get("/home")
 			.headers(headers_0))
@@ -287,7 +312,7 @@ class HerokuFirstUserVisit extends Simulation {
 			.get("/assets/img/logo.png")
 			.headers(headers_1))
 
-val chain_1 = exec(http("request_65")
+val simulation_part2 = exec(http("request_65")
 			.get(uri3 + "/books/pagination")
 			.headers(headers_3))
 		.pause(3)
@@ -494,7 +519,7 @@ val chain_1 = exec(http("request_65")
 			.headers(headers_3))
 
 	val scn = scenario("HerokuFirstUserVisit").exec(
-		chain_0, chain_1)
+		simulation_part1, simulation_part2)
 
 	setUp(scn.inject(atOnceUsers(10))).protocols(httpProtocol)
 }

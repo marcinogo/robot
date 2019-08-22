@@ -26,87 +26,86 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @TestPropertySource(locations = "classpath:test.properties")
 public class RobotScrappingStarterTestIT {
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired private MockMvc mockMvc;
 
-    @MockBean
-    private PromotionProviderManager promotionProviderManager;
+  @MockBean private PromotionProviderManager promotionProviderManager;
 
-    @Test
-    public void should_returnForbiddenStatus_when_userWithRoleUserTryToStartScrapping() throws Exception {
+  @Test
+  public void should_returnForbiddenStatus_when_userWithRoleUserTryToStartScrapping()
+      throws Exception {
 
-        // Given
+    // Given
 
-        when(promotionProviderManager.getScrappedBooks()).thenReturn(Collections.emptyList());
+    when(promotionProviderManager.getScrappedBooks()).thenReturn(Collections.emptyList());
 
+    this.mockMvc
+        .perform(
+            post("/auth/sign_up")
+                .content(
+                    "{\n"
+                        + "\t\"email\": \"k2@o2.pl\",\n"
+                        + "\t\"username\": \"ksundaysky2\",\n"
+                        + "\t\"role\": [\"user\"],\n"
+                        + "\t\"password\": \"piesek12\"\n"
+                        + "}")
+                .contentType("application/json"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("User registered successfully!")));
+
+    // When
+    String body =
         this.mockMvc
-                .perform(
-                        post("/auth/sign_up")
-                                .content(
-                                        "{\n"
-                                                + "\t\"email\": \"k2@o2.pl\",\n"
-                                                + "\t\"username\": \"ksundaysky2\",\n"
-                                                + "\t\"role\": [\"user\"],\n"
-                                                + "\t\"password\": \"piesek12\"\n"
-                                                + "}")
-                                .contentType("application/json"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("User registered successfully!")));
+            .perform(
+                post("/auth/sign_in")
+                    .content(
+                        "{\n"
+                            + "\t\"username\": \"ksundaysky2\",\n"
+                            + "\t\"password\": \"piesek12\"\n"
+                            + "}")
+                    .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
-        // When
-        String body =
-                this.mockMvc
-                        .perform(
-                                post("/auth/sign_in")
-                                        .content(
-                                                "{\n"
-                                                        + "\t\"username\": \"ksundaysky2\",\n"
-                                                        + "\t\"password\": \"piesek12\"\n"
-                                                        + "}")
-                                        .contentType("application/json"))
-                        .andExpect(status().isOk())
-                        .andReturn()
-                        .getResponse()
-                        .getContentAsString();
+    JSONObject jsonObject = new JSONObject(body);
+    String token = jsonObject.getString("token");
 
-        JSONObject jsonObject = new JSONObject(body);
-        String token = jsonObject.getString("token");
+    // Then
+    this.mockMvc
+        .perform(get("/start").header("Authorization", "Bearer " + token))
+        .andExpect(status().isForbidden());
+  }
 
-        // Then
+  @Test
+  public void should_returnOkStatus_when_userWithRoleAdminTryToStartScrapping() throws Exception {
+
+    // Given
+
+    when(promotionProviderManager.getScrappedBooks()).thenReturn(Collections.emptyList());
+
+    // When
+    String body =
         this.mockMvc
-                .perform(get("/start").header("Authorization", "Bearer " + token))
-                .andExpect(status().isForbidden());
-    }
+            .perform(
+                post("/auth/sign_in")
+                    .content(
+                        "{\n"
+                            + "\t\"username\": \"admin\",\n"
+                            + "\t\"password\": \"admin12\"\n"
+                            + "}")
+                    .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
-    @Test
-    public void should_returnOkStatus_when_userWithRoleAdminTryToStartScrapping() throws Exception {
+    JSONObject jsonObject = new JSONObject(body);
+    String token = jsonObject.getString("token");
 
-        // Given
-
-        when(promotionProviderManager.getScrappedBooks()).thenReturn(Collections.emptyList());
-
-        // When
-        String body =
-                this.mockMvc
-                        .perform(
-                                post("/auth/sign_in")
-                                        .content(
-                                                "{\n"
-                                                        + "\t\"username\": \"admin\",\n"
-                                                        + "\t\"password\": \"admin12\"\n"
-                                                        + "}")
-                                        .contentType("application/json"))
-                        .andExpect(status().isOk())
-                        .andReturn()
-                        .getResponse()
-                        .getContentAsString();
-
-        JSONObject jsonObject = new JSONObject(body);
-        String token = jsonObject.getString("token");
-
-        // Then
-        this.mockMvc
-                .perform(get("/start").header("Authorization", "Bearer " + token))
-                .andExpect(status().isOk());
-    }
+    // Then
+    this.mockMvc
+        .perform(get("/start").header("Authorization", "Bearer " + token))
+        .andExpect(status().isOk());
+  }
 }

@@ -39,9 +39,8 @@ public class AuthenticationService {
   private UserRepository userRepository;
   private RoleRepository roleRepository;
 
-  @Value ("${robot.admin.email}")
+  @Value("${robot.admin.email}")
   private String adminEmail;
-
 
   @Value("${robot.admin}")
   private String adminUsername;
@@ -75,15 +74,20 @@ public class AuthenticationService {
   }
 
   @PostConstruct
-  public void init(){
-    if(roleRepository.findByName(RoleName.ROLE_ADMIN).isEmpty()) {
+  public void init() {
+    if (roleRepository.findByName(RoleName.ROLE_ADMIN).isEmpty()) {
       roleRepository.addRole(RoleName.ROLE_ADMIN);
     }
-    if(roleRepository.findByName(RoleName.ROLE_USER).isEmpty()) {
+    if (roleRepository.findByName(RoleName.ROLE_USER).isEmpty()) {
       roleRepository.addRole(RoleName.ROLE_USER);
     }
-    if(!userRepository.existsByUsername(adminUsername)) {
-      User admin = new User(adminEmail,adminUsername,adminPassword,Set.of(roleRepository.findByName(RoleName.ROLE_ADMIN).get()));
+    if (!userRepository.existsByUsername(adminUsername)) {
+      User admin =
+          new User(
+              adminEmail,
+              adminUsername,
+              adminPassword,
+              Set.of(roleRepository.findByName(RoleName.ROLE_ADMIN).get()));
       userRepository.saveUser(admin);
     }
   }

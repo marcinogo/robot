@@ -20,7 +20,7 @@ import javax.validation.Valid;
  *
  * @author Patryk Kucharski
  */
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin("${robot.crossorigin}")
 @RestController
 @RequestMapping("/auth")
 class AuthenticationRestController {

@@ -15,7 +15,7 @@ import java.util.List;
  * @author Kamil Rojek
  */
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin("${robot.crossorigin}")
 class PaginationController {
   private Pagination<BookDto> pagination;
 
