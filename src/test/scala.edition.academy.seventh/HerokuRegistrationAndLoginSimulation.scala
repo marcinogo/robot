@@ -120,5 +120,5 @@ class HerokuRegistrationAndLoginSimulation extends Simulation {
 			.get(uri2 + "/books/pagination")
 			.headers(headers_3))
 
-	setUp(scn.inject(atOnceUsers(100))).protocols(httpProtocol)
+	setUp(scn.inject(atOnceUsers(10))).protocols(httpProtocol)
 }
