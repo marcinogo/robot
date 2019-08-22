@@ -27,7 +27,7 @@ public class AuthenticationServiceTestIT {
   public void should_findUser_when_userIsRegistered() {
     // Given
     RegisterForm registerForm =
-        new RegisterForm("admin2@admin.pl", "admin2", Set.of("ROLE_ADMIN"), "password");
+        new RegisterForm("admin2@admin.pl", "admin2", Set.of("admin"), "password");
 
     // When
     authenticationService.createNewAccount(registerForm);
@@ -64,7 +64,7 @@ public class AuthenticationServiceTestIT {
   public void should_getJwtResponse_when_tryToLoginUserWhichIsRegistered() {
     // Given
     RegisterForm registerForm =
-        new RegisterForm("admin4@admin.pl", "admin4", Set.of("ROLE_ADMIN"), "password");
+        new RegisterForm("admin4@admin.pl", "admin4", Set.of("admin"), "password");
     LoginForm loginForm = new LoginForm("admin4", "password");
 
     // When

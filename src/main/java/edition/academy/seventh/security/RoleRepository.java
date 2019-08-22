@@ -55,9 +55,8 @@ class RoleRepository {
       return Optional.ofNullable(entityManager.createQuery(query).getSingleResult());
     } catch (Exception e) {
       String message = e.getMessage();
-      LOGGER.error("Retrieving data from db unsuccessful. {}", message);
-      throw new NoResultException(
-          String.format("Retrieving data from db unsuccessful. Message: %s", message));
+      LOGGER.error("Cannot find proper role {}", message);
+      return Optional.empty();
     } finally {
       entityManager.close();
     }
