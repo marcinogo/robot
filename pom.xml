@@ -51,7 +51,7 @@
         <version.junit.jupiter>5.5.1</version.junit.jupiter>
 
         <!-- Plugins settings -->
-        <skipIntegrationTests>true</skipIntegrationTests>
+        <skipIntegrationTests>false</skipIntegrationTests>
     </properties>
 
     <dependencies>
