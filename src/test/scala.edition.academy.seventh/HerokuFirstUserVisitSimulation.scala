@@ -55,8 +55,7 @@ class HerokuFirstUserVisitSimulation extends Simulation {
 		Map(
 			"username" -> ("testowy" + ThreadLocalRandom.current.nextInt(1000)),
 			"email" -> ("testowy" + Random.alphanumeric.take(20).mkString + "@testowy.com"),
-			"password" -> ("test" + ThreadLocalRandom.current.nextInt(100)),
-//			"role" -> ("[user]")
+			"password" -> ("test" + ThreadLocalRandom.current.nextInt(100))
 		)
 	)
 
