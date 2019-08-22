@@ -283,6 +283,8 @@
                 <version>${version.plugin.gatling}</version>
                 <configuration>
                     <simulationsFolder>src/test/scala.edition.academy.seventh</simulationsFolder>
+                    <simulationClass>edition.academy.seventh.HerokuRegistrationAndLoginSimulation</simulationClass>
+
                 </configuration>
                 <executions>
                     <execution>
