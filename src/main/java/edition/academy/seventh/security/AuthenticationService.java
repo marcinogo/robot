@@ -33,6 +33,7 @@ import java.util.Set;
 @Service
 public class AuthenticationService {
 
+  private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationService.class);
   private AuthenticationManager authenticationManager;
   private JwtProvider jwtProvider;
   private PasswordEncoder encoder;
@@ -48,7 +49,6 @@ public class AuthenticationService {
   @Value("${robot.admin.password}")
   private String adminPassword;
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationService.class);
 
   /**
    * Creates bean for {@link org.springframework.context.ApplicationContext}.
@@ -168,7 +168,7 @@ public class AuthenticationService {
 
     rolesAsString.forEach(
         role -> {
-          if ("admin".equals(role.toLowerCase())) {
+          if ("admin".equalsIgnoreCase(role)) {
             Role adminRole = null;
             try {
               adminRole =
@@ -179,7 +179,7 @@ public class AuthenticationService {
               LOGGER.error(e.getMessage());
             }
             roles.add(adminRole);
-          } else if ("user".equals(role.toLowerCase())) {
+          } else if ("user".equalsIgnoreCase(role)) {
             Role userRole = null;
             try {
               userRole =
