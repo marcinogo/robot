@@ -79,7 +79,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers("/auth/sign_in")
         .permitAll()
         .antMatchers("/start")
-        .permitAll()
+        .authenticated()
         .antMatchers("/books")
         .permitAll()
         .antMatchers("/books/pagination")

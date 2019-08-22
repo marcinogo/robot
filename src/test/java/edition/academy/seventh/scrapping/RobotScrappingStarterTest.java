@@ -1,57 +1,73 @@
 package edition.academy.seventh.scrapping;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import edition.academy.seventh.Main;
-import edition.academy.seventh.security.request.LoginForm;
+import edition.academy.seventh.security.model.RoleName;
+import org.json.JSONObject;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
-import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@EnableWebMvc
-@WebAppConfiguration
-@ContextConfiguration(classes = {Main.class})
-public class RobotScrappingStarterTest extends AbstractTestNGSpringContextTests {
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+@TestPropertySource(locations = "classpath:test.properties")
+public class RobotScrappingStarterTest {
 
-  @Autowired private WebApplicationContext wac;
-
-  private MockMvc mvc;
-
-  @BeforeMethod
-  public void prepareMockMvc() {
-    this.mvc = webAppContextSetup(wac).build();
-  }
+  @Autowired private MockMvc mockMvc;
 
   @Test
-  public void testController() throws Exception {
-
-//    LoginForm loginForm = new LoginForm("pan_pawel", "tajnehaslo");
-//    ObjectMapper mapper = new ObjectMapper();
-//    mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-//    ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-//    String requestJson=ow.writeValueAsString(loginForm);
-//
-//    this.mvc
-//            .perform(post("/auth/sign_in").content(requestJson));
-
-    this.mvc
-        .perform(get("/start"))
-        .andDo(print())
+  public void should_do_when_sth() throws Exception {
+    // Given
+    this.mockMvc
+        .perform(
+            post("/auth/sign_up")
+                .content(
+                    "{\n"
+                        + "\t\"email\": \"k2@o2.pl\",\n"
+                        + "\t\"username\": \"ksundaysky2\",\n"
+                        + "\t\"role\": [\"ADMIN\"],\n"
+                        + "\t\"password\": \"piesek12\"\n"
+                        + "}")
+                .contentType("application/json"))
         .andExpect(status().isOk())
-        .andExpect(content().string("true"));
+        .andExpect(content().string(containsString("User registered successfully!")));
+
+    // When
+    String body =
+        this.mockMvc
+            .perform(
+                post("/auth/sign_in")
+                    .content(
+                        "{\n"
+                            + "\t\"username\": \"ksundaysky2\",\n"
+                            + "\t\"password\": \"piesek12\"\n"
+                            + "}")
+                    .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+    JSONObject jsonObject = new JSONObject(body);
+    String token = jsonObject.getString("token");
+
+    // Then
+//    this.mockMvc
+//        .perform(get("/start").param("role", "ADMIN").header("authorization", "Bearer " + token))
+//        .andExpect(status().isOk());
+    this.mockMvc
+            .perform(get("/start").header("Authorization","Bearer "+token).header("authorities", "authority: " + "ADMIN"))
+            .andExpect(status().isOk());
   }
 }

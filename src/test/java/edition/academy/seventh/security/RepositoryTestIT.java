@@ -26,13 +26,13 @@ public class RepositoryTestIT {
   public void should_findUser_when_addUserToDB() {
     // TODO przeniesc do userRepositoryTest
     // Given
-    roleRepository.addRole(RoleName.ROLE_ADMIN);
+    roleRepository.addRole(RoleName.ADMIN);
     User user =
         new User(
             "admin@admin.pl",
             "admin",
             "password",
-            Set.of(roleRepository.findByName(RoleName.ROLE_ADMIN).get()));
+            Set.of(roleRepository.findByName(RoleName.ADMIN).get()));
 
     // When
     userRepository.saveUser(user);

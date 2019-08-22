@@ -142,7 +142,7 @@ public class AuthenticationService {
             try {
               adminRole =
                   roleRepository
-                      .findByName(RoleName.ROLE_ADMIN)
+                      .findByName(RoleName.ADMIN)
                       .orElseThrow(() -> new RoleNotFoundException("Admin Role not found."));
             } catch (RoleNotFoundException e) {
               LOGGER.error(e.getMessage());
@@ -153,7 +153,7 @@ public class AuthenticationService {
             try {
               userRole =
                   roleRepository
-                      .findByName(RoleName.ROLE_USER)
+                      .findByName(RoleName.USER)
                       .orElseThrow(() -> new RoleNotFoundException("User Role not found."));
             } catch (RoleNotFoundException e) {
               LOGGER.error(e.getMessage());

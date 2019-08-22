@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,7 @@ class RobotScrappingStarter {
    * @return result of persist action
    */
   @GetMapping("/start")
+  @PreAuthorize("hasRole('ADMIN')")
   public boolean startRobot() {
     return startGatheringData();
   }
@@ -48,7 +50,7 @@ class RobotScrappingStarter {
    * @return result of persist action
    */
   @Scheduled(cron = "0 0 */12 * * *")
-  private boolean scheduleRobot() {
+  public boolean scheduleRobot() {
     return startGatheringData();
   }
 
