@@ -60,9 +60,7 @@ class HerokuFirstUserVisitSimulation extends Simulation {
 		)
 	)
 
-//	print(user_data.next().get("username"))
-
-	val simulation = // start
+	val simulation_part1 = // start
 		exec(http("request_0")
 			.get("/home")
 			.headers(headers_0))
@@ -314,7 +312,7 @@ class HerokuFirstUserVisitSimulation extends Simulation {
 			.get("/assets/img/logo.png")
 			.headers(headers_1))
 
-val chain_1 = exec(http("request_65")
+val simulation_part2 = exec(http("request_65")
 			.get(uri3 + "/books/pagination")
 			.headers(headers_3))
 		.pause(3)
@@ -521,7 +519,7 @@ val chain_1 = exec(http("request_65")
 			.headers(headers_3))
 
 	val scn = scenario("HerokuFirstUserVisit").exec(
-		simulation, chain_1)
+		simulation_part1, simulation_part2)
 
 	setUp(scn.inject(atOnceUsers(10))).protocols(httpProtocol)
 }
