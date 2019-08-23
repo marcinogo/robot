@@ -71,7 +71,7 @@ public class AuthenticationRestControllerTestIT {
                 post("/auth/sign_in")
                     .content(
                         "{\n"
-                            + "\t\"username\": \"ksundaysky2\",\n"
+                            + "\t\"username\": \"fajnyuserfajny\",\n"
                             + "\t\"password\": \"piesek12\"\n"
                             + "}")
                     .contentType("application/json"))
@@ -81,7 +81,7 @@ public class AuthenticationRestControllerTestIT {
             .getContentAsString();
 
     JSONObject jsonObject = new JSONObject(body);
-    String token = jsonObject.getString("token");
+    String token = jsonObject.getString("accessToken");
 
     // Then
     assertFalse(token.isEmpty());

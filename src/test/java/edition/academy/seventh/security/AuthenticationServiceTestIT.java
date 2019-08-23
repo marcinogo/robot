@@ -72,6 +72,6 @@ public class AuthenticationServiceTestIT {
     JwtResponse login = authenticationService.login(loginForm);
 
     // Then
-    assertFalse(login.getToken().isEmpty());
+    assertFalse(login.getAccessToken().isEmpty());
   }
 }

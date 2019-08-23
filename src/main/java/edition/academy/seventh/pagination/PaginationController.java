@@ -17,12 +17,13 @@ import java.util.List;
 @RestController
 @CrossOrigin("${robot.crossorigin}")
 class PaginationController {
+  private final BookService bookService;
   private Pagination<BookDto> pagination;
 
   /** Instantiate pagination object. */
   @Autowired
   PaginationController(BookService bookService) {
-    this.pagination = PaginationFactory.createEagerBookPagination(bookService);
+    this.bookService = bookService;
   }
 
   /**
@@ -32,6 +33,7 @@ class PaginationController {
    */
   @GetMapping("/books/pagination")
   ResponseEntity<List<BookDto>> getCurrentPage() {
+    this.pagination = PaginationFactory.createEagerBookPagination(bookService);
     List<BookDto> books = pagination.currentPage();
     return new ResponseEntity<>(books, HttpStatus.OK);
   }
