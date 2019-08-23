@@ -1,8 +1,5 @@
 package edition.academy.seventh.security;
 
-import edition.academy.seventh.security.jwt.JwtAuthEntryPoint;
-import edition.academy.seventh.security.jwt.JwtAuthTokenFilter;
-import edition.academy.seventh.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -81,8 +78,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .permitAll()
         .antMatchers("/auth/sign_in")
         .permitAll()
-        .antMatchers("/start")
-        .permitAll()
         .antMatchers("/books")
         .permitAll()
         .antMatchers("/books/pagination")
@@ -131,11 +126,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 class Foo extends StrictHttpFirewall {
   @Override
-  public FirewalledRequest getFirewalledRequest(HttpServletRequest request) throws RequestRejectedException {
+  public FirewalledRequest getFirewalledRequest(HttpServletRequest request)
+      throws RequestRejectedException {
     return new FirewalledRequest(request) {
       @Override
-      public void reset() {
-      }
+      public void reset() {}
     };
   }
 }

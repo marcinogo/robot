@@ -38,14 +38,19 @@
         <version.plugin.maven.site>3.7.1</version.plugin.maven.site>
         <version.plugin.maven.reports>3.0.0</version.plugin.maven.reports>
         <version.plugin.maven.failsafe>3.0.0-M3</version.plugin.maven.failsafe>
-        <version.plugin.spotbugs>3.1.12</version.plugin.spotbugs>
+        <version.plugin.spotbugs>3.1.11</version.plugin.spotbugs>
         <version.plugin.checkstyle>3.0.0</version.plugin.checkstyle>
         <version.plugin.jdepend>2.0</version.plugin.jdepend>
         <version.plugin.jsoup>1.12.1</version.plugin.jsoup>
         <version.spring.security>5.0.12.RELEASE</version.spring.security>
+        <version.gatling>3.2.0</version.gatling>
+        <version.plugin.gatling>3.0.3</version.plugin.gatling>
+        <version.plugin.scala>3.4.4</version.plugin.scala>
+        <version.jsonwebtoken>0.9.0</version.jsonwebtoken>
+        <version.junit.jupiter>5.5.1</version.junit.jupiter>
 
         <!-- Plugins settings -->
-        <skipIntegrationTests>true</skipIntegrationTests>
+        <skipIntegrationTests>false</skipIntegrationTests>
     </properties>
 
     <dependencies>
@@ -95,7 +100,7 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.9.0</version>
+            <version>${version.jsonwebtoken}</version>
         </dependency>
 
         <!-- DB -->
@@ -157,7 +162,14 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.5.1</version>
+            <version>${version.junit.jupiter}</version>
+            <scope>test</scope>
+        </dependency>
+        <!--Gatling-->
+        <dependency>
+            <groupId>io.gatling.highcharts</groupId>
+            <artifactId>gatling-charts-highcharts</artifactId>
+            <version>${version.gatling}</version>
             <scope>test</scope>
         </dependency>
 
@@ -264,8 +276,39 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <version>${version.plugin.maven.resources}</version>
             </plugin>
+            <plugin>
+                <groupId>io.gatling</groupId>
+                <artifactId>gatling-maven-plugin</artifactId>
+                <version>${version.plugin.gatling}</version>
+                <configuration>
+                    <simulationsFolder>src/test/scala.edition.academy.seventh</simulationsFolder>
+                    <simulationClass>edition.academy.seventh.HerokuRegistrationAndLoginSimulation</simulationClass>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>scala-maven-plugin</artifactId>
+                <version>${version.plugin.scala}</version>
+                <executions>
+                    <execution>
+                        <id>scala-test-compile</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>testCompile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
     <reporting>
         <plugins>
             <plugin>
