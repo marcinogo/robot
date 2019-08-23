@@ -103,7 +103,7 @@ class HerokuFirstUserVisitSimulation extends Simulation {
 		.exec(http("request_8")
 			.post(uri3 + "/auth/sign_in")
 			.headers(headers_6)
-			.body(RawFileBody("src/test/resources/scala/request-bodies/0008_request.json"))
+			.body(RawFileBody("src/test/resources/scala/request-bodies/wrong_login_data.json"))
 			.check(status.is(401)))
 		.pause(5)
 		//	login
