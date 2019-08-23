@@ -57,7 +57,7 @@ public class AuthenticationServiceTestIT {
     JwtResponse login = authenticationService.login(loginForm);
 
     // Then
-    // expect exception
+    // expect InternalAuthenticationServiceException to be thrown
   }
 
   @Test

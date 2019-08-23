@@ -22,13 +22,12 @@ import java.util.concurrent.Phaser;
  */
 abstract class AbstractScrapper implements PromotionProvider {
 
+  static final Logger logger = LoggerFactory.getLogger(AbstractScrapper.class);
   final String startOfUrl;
   final String endOfUrl;
-  static final Logger logger = LoggerFactory.getLogger(AbstractScrapper.class);
   private final String documentClassName;
-
-  List<BookDto> listOfBooks = new CopyOnWriteArrayList<>();
   protected ExecutorService service = Executors.newFixedThreadPool(10);
+  List<BookDto> listOfBooks = new CopyOnWriteArrayList<>();
   Phaser phaser = new Phaser(1);
 
   AbstractScrapper(String startOfUrl, String endOfUrl, String documentClassName) {

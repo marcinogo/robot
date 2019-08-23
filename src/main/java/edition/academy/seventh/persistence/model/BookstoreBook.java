@@ -30,15 +30,15 @@ public class BookstoreBook {
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "bookstoreBook")
   private List<PriceAtTheMoment> priceHistories = new ArrayList<>();
 
-  public PriceAtTheMoment getLastElementOfPriceHistories() {
-    int lastIndexOfPriceHistories = this.priceHistories.size() - 1;
-    return this.priceHistories.get(lastIndexOfPriceHistories);
-  }
-
   public BookstoreBook(String hyperlink, String imageLink, Bookstore bookstore, Book book) {
     this.hyperlink = hyperlink;
     this.imageLink = imageLink;
     this.bookstore = bookstore;
     this.book = book;
+  }
+
+  public PriceAtTheMoment getLastElementOfPriceHistories() {
+    int lastIndexOfPriceHistories = this.priceHistories.size() - 1;
+    return this.priceHistories.get(lastIndexOfPriceHistories);
   }
 }
