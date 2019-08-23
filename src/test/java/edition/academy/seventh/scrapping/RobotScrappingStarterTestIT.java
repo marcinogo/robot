@@ -69,7 +69,7 @@ public class RobotScrappingStarterTestIT {
             .getContentAsString();
 
     JSONObject jsonObject = new JSONObject(body);
-    String token = jsonObject.getString("token");
+    String token = jsonObject.getString("accessToken");
 
     // Then
     this.mockMvc
@@ -101,7 +101,7 @@ public class RobotScrappingStarterTestIT {
             .getContentAsString();
 
     JSONObject jsonObject = new JSONObject(body);
-    String token = jsonObject.getString("token");
+    String token = jsonObject.getString("accessToken");
 
     // Then
     this.mockMvc
