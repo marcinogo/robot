@@ -25,8 +25,8 @@ import javax.validation.Valid;
 @RequestMapping("/auth")
 class AuthenticationRestController {
 
-  private AuthenticationService authenticationService;
   private static final Logger logger = LoggerFactory.getLogger(AuthenticationRestController.class);
+  private AuthenticationService authenticationService;
 
   @Autowired
   public AuthenticationRestController(AuthenticationService authenticationService) {

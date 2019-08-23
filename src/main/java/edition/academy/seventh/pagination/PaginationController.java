@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Controls the flow of books pagination pagination.
+ * Controls the flow of books pagination.
  *
  * @author Kamil Rojek
  */
@@ -63,7 +63,7 @@ class PaginationController {
   }
 
   /**
-   * Changes {@link PaginationSize pagination size} pagination.
+   * Changes {@link PaginationSize pagination size}.
    *
    * @param size {@link PaginationSize pagination size}.
    * @return {@code List<BookDto>} books.

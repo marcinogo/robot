@@ -49,7 +49,6 @@ public class AuthenticationService {
   @Value("${robot.admin.password}")
   private String adminPassword;
 
-
   /**
    * Creates bean for {@link org.springframework.context.ApplicationContext}.
    *

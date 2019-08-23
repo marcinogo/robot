@@ -24,8 +24,8 @@ public class JwtResponse {
    * Creates JwtResponse with required properties and toked which will be held locally by the client
    * user. Contains {@link GrantedAuthority authorities} defining user privileges.
    *
-   * @param accessToken Generated JSON web accessToken {@link // *
-   *     JwtProvider#generateJwtToken(Authentication)}.
+
+   * @param accessToken Generated JSON web token JwtProvider.generateJwtToken(Authentication).
    * @param username of a user attempting to log in.
    * @param authorities user privileges.
    */
