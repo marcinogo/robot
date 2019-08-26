@@ -108,4 +108,76 @@ public class RobotScrappingStarterTestIT {
         .perform(get("/start").header("Authorization", "Bearer " + token))
         .andExpect(status().isOk());
   }
+
+  @Test
+  public void should_returnForbiddenStatus_when_userAdminTryToStartScrappingWithNotAllowedOrigin()
+      throws Exception {
+
+    // Given
+
+    when(promotionProviderManager.getScrappedBooks()).thenReturn(Collections.emptyList());
+
+    // When
+    String body =
+        this.mockMvc
+            .perform(
+                post("/auth/sign_in")
+                    .content(
+                        "{\n"
+                            + "\t\"username\": \"admin\",\n"
+                            + "\t\"password\": \"admin12\"\n"
+                            + "}")
+                    .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+    JSONObject jsonObject = new JSONObject(body);
+    String token = jsonObject.getString("accessToken");
+
+    // Then
+    this.mockMvc
+        .perform(
+            get("/start")
+                .header("Authorization", "Bearer " + token)
+                .header("Origin", "http://localhost:4280"))
+        .andExpect(status().isForbidden());
+  }
+
+  @Test
+  public void should_returnOkStatus_when_userAdminTryToStartScrappingWithAllowedOrigin()
+      throws Exception {
+
+    // Given
+
+    when(promotionProviderManager.getScrappedBooks()).thenReturn(Collections.emptyList());
+
+    // When
+    String body =
+        this.mockMvc
+            .perform(
+                post("/auth/sign_in")
+                    .content(
+                        "{\n"
+                            + "\t\"username\": \"admin\",\n"
+                            + "\t\"password\": \"admin12\"\n"
+                            + "}")
+                    .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+    JSONObject jsonObject = new JSONObject(body);
+    String token = jsonObject.getString("accessToken");
+
+    // Then
+    this.mockMvc
+        .perform(
+            get("/start")
+                .header("Authorization", "Bearer " + token)
+                .header("Origin", "http://localhost:4200"))
+        .andExpect(status().isOk());
+  }
 }
