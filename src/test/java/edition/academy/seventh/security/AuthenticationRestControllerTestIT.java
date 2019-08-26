@@ -47,6 +47,53 @@ public class AuthenticationRestControllerTestIT {
   }
 
   @Test
+  public void should_registerNewUser_when_sendRequestToProperPathWithAllowedOrigin()
+      throws Exception {
+    // Given
+
+    // When
+
+    // Then
+    this.mockMvc
+        .perform(
+            post("/auth/sign_up")
+                .content(
+                    "{\n"
+                        + "\t\"email\": \"k5@o2.pl\",\n"
+                        + "\t\"username\": \"ksundaysky5\",\n"
+                        + "\t\"role\": [\"admin\"],\n"
+                        + "\t\"password\": \"piesek125\"\n"
+                        + "}")
+                .contentType("application/json")
+                .header("Origin", "http://localhost:4200"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("User registered successfully!")));
+  }
+
+  @Test
+  public void should_returnForbiddenStatus_when_sendRequestToProperPathWithNotAllowedOrigin()
+      throws Exception {
+    // Given
+
+    // When
+
+    // Then
+    this.mockMvc
+        .perform(
+            post("/auth/sign_up")
+                .content(
+                    "{\n"
+                        + "\t\"email\": \"k4@o2.pl\",\n"
+                        + "\t\"username\": \"ksundaysky4\",\n"
+                        + "\t\"role\": [\"admin\"],\n"
+                        + "\t\"password\": \"piesek124\"\n"
+                        + "}")
+                .contentType("application/json")
+                .header("Origin", "http://localhost:4280"))
+        .andExpect(status().isForbidden());
+  }
+
+  @Test
   public void should_loginUser_when_userAlreadyInDatabase() throws Exception {
 
     // Given
@@ -55,10 +102,10 @@ public class AuthenticationRestControllerTestIT {
             post("/auth/sign_up")
                 .content(
                     "{\n"
-                        + "\t\"email\": \"kfajjasdbjksh2@o2.pl\",\n"
-                        + "\t\"username\": \"fajnyuserfajny\",\n"
+                        + "\t\"email\": \"kfajjasdbjksh21@o2.pl\",\n"
+                        + "\t\"username\": \"fajnyuserfajny1\",\n"
                         + "\t\"role\": [\"admin\"],\n"
-                        + "\t\"password\": \"piesek12\"\n"
+                        + "\t\"password\": \"piesek121\"\n"
                         + "}")
                 .contentType("application/json"))
         .andExpect(status().isOk())
@@ -71,8 +118,8 @@ public class AuthenticationRestControllerTestIT {
                 post("/auth/sign_in")
                     .content(
                         "{\n"
-                            + "\t\"username\": \"fajnyuserfajny\",\n"
-                            + "\t\"password\": \"piesek12\"\n"
+                            + "\t\"username\": \"fajnyuserfajny1\",\n"
+                            + "\t\"password\": \"piesek121\"\n"
                             + "}")
                     .contentType("application/json"))
             .andExpect(status().isOk())
@@ -85,5 +132,83 @@ public class AuthenticationRestControllerTestIT {
 
     // Then
     assertFalse(token.isEmpty());
+  }
+
+  @Test
+  public void should_loginUser_when_userAlreadyInDatabaseWithAllowedOrigin() throws Exception {
+
+    // Given
+    this.mockMvc
+        .perform(
+            post("/auth/sign_up")
+                .content(
+                    "{\n"
+                        + "\t\"email\": \"kfajjasdbjksh22@o2.pl\",\n"
+                        + "\t\"username\": \"fajnyuserfajny2\",\n"
+                        + "\t\"role\": [\"admin\"],\n"
+                        + "\t\"password\": \"piesek122\"\n"
+                        + "}")
+                .contentType("application/json")
+                .header("Origin", "http://localhost:4200"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("User registered successfully!")));
+
+    // When
+    String body =
+        this.mockMvc
+            .perform(
+                post("/auth/sign_in")
+                    .content(
+                        "{\n"
+                            + "\t\"username\": \"fajnyuserfajny2\",\n"
+                            + "\t\"password\": \"piesek122\"\n"
+                            + "}")
+                    .contentType("application/json")
+                    .header("Origin", "http://localhost:4200"))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
+
+    JSONObject jsonObject = new JSONObject(body);
+    String token = jsonObject.getString("accessToken");
+
+    // Then
+    assertFalse(token.isEmpty());
+  }
+
+  @Test
+  public void should_returnForbiddenStatus_when_userAlreadyInDatabaseWithNotAllowedOrigin()
+      throws Exception {
+
+    // Given
+    this.mockMvc
+        .perform(
+            post("/auth/sign_up")
+                .content(
+                    "{\n"
+                        + "\t\"email\": \"kfajjasdbjksh23@o2.pl\",\n"
+                        + "\t\"username\": \"fajnyuserfajny3\",\n"
+                        + "\t\"role\": [\"admin\"],\n"
+                        + "\t\"password\": \"piesek123\"\n"
+                        + "}")
+                .contentType("application/json")
+                .header("Origin", "http://localhost:4200"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("User registered successfully!")));
+
+    // When
+    // Then
+    this.mockMvc
+        .perform(
+            post("/auth/sign_in")
+                .content(
+                    "{\n"
+                        + "\t\"username\": \"fajnyuserfajny3\",\n"
+                        + "\t\"password\": \"piesek123\"\n"
+                        + "}")
+                .contentType("application/json")
+                .header("Origin", "http://localhost:4280"))
+        .andExpect(status().isForbidden());
   }
 }
