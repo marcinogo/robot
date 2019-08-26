@@ -11,7 +11,7 @@ import static org.testng.Assert.assertTrue;
 @Test
 public class EmpikScrapperTestIT {
 
-  @Test(invocationCount = 1000)
+  @Test
   public void should_scrapAtLeastOneBook_forGivenUrl() {
     // Given
     PromotionProvider promotionScrapping = new ScrapperConfiguration().empikPromotionProvider();
