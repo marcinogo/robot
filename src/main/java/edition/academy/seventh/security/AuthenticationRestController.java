@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 /**
  * Main entry point for authentication and authorization purposes. Contains login and register
@@ -42,6 +43,7 @@ class AuthenticationRestController {
 
   @PostMapping("/sign_up")
   ResponseEntity<?> registerUser(@Valid @RequestBody RegisterForm registerForm) {
+    registerForm.setRole(Set.of("user"));
     String returnMessage = "Couldn't register new account, something went wrong!";
     if (userWithThisUsernameAlreadyExists(registerForm)) {
       returnMessage = "This username is already taken! ";

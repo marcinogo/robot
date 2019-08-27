@@ -44,4 +44,8 @@ public class RegisterForm {
     this.role = role;
     this.password = password;
   }
+
+  public void setRole(Set<String> role) {
+    this.role = role;
+  }
 }
