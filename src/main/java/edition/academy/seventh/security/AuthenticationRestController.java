@@ -9,9 +9,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 /**
  * Main entry point for authentication and authorization purposes. Contains login and register
@@ -22,7 +27,6 @@ import javax.validation.Valid;
  */
 @CrossOrigin("${robot.crossorigin}")
 @RestController
-@RequestMapping("/auth")
 class AuthenticationRestController {
 
   private static final Logger logger = LoggerFactory.getLogger(AuthenticationRestController.class);
@@ -33,15 +37,26 @@ class AuthenticationRestController {
     this.authenticationService = authenticationService;
   }
 
-  @PostMapping("/sign_in")
+  @PostMapping("/auth/sign_in")
   ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginForm) {
     JwtResponse jwtResponse = authenticationService.login(loginForm);
     logger.info("attempt to login " + loginForm.toString());
     return ResponseEntity.ok(jwtResponse);
   }
 
-  @PostMapping("/sign_up")
+  @PostMapping("/auth/sign_up")
   ResponseEntity<?> registerUser(@Valid @RequestBody RegisterForm registerForm) {
+    registerForm.setRole(Set.of("user"));
+    return register(registerForm);
+  }
+
+  @PreAuthorize("hasRole('ADMIN')")
+  @PostMapping("/newUser")
+  ResponseEntity<?> createNewUser(@Valid @RequestBody RegisterForm registerForm) {
+    return register(registerForm);
+  }
+
+  private ResponseEntity<?> register(@RequestBody @Valid RegisterForm registerForm) {
     String returnMessage = "Couldn't register new account, something went wrong!";
     if (userWithThisUsernameAlreadyExists(registerForm)) {
       returnMessage = "This username is already taken! ";
