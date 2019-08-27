@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @TestPropertySource(locations = "classpath:test.properties")
 @SpringBootTest
-public class AuthenticationRestControllerSmokeTest {
+public class AuthenticationRestControllerSmokeTestIT {
 
   @Autowired private AuthenticationRestController authenticationRestController;
 

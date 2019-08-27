@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(SpringRunner.class)
 @TestPropertySource(locations = "classpath:test.properties")
 @SpringBootTest
-public class BookRetrieverSmokeTest {
+public class BookRetrieverSmokeTestIT {
 
   @Autowired private BookRetriever bookRetriever;
 
