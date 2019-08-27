@@ -223,21 +223,23 @@ public class AuthenticationRestControllerTestIT {
     // Given
     // When
     this.mockMvc
-            .perform(
-                    post("/auth/sign_up")
-                            .content(
-                                    "{\n"
-                                            + "\t\"email\": \"adminwannabe@admin.pl\",\n"
-                                            + "\t\"username\": \"adminwannabe\",\n"
-                                            + "\t\"role\": [\"admin\"],\n"
-                                            + "\t\"password\": \"piesek123\"\n"
-                                            + "}")
-                            .contentType("application/json")
-                            .header("Origin", "http://localhost:4200"))
-            .andExpect(status().isOk())
-            .andExpect(content().string(containsString("User registered successfully!")));
+        .perform(
+            post("/auth/sign_up")
+                .content(
+                    "{\n"
+                        + "\t\"email\": \"adminwannabe@admin.pl\",\n"
+                        + "\t\"username\": \"adminwannabe\",\n"
+                        + "\t\"role\": [\"admin\"],\n"
+                        + "\t\"password\": \"piesek123\"\n"
+                        + "}")
+                .contentType("application/json")
+                .header("Origin", "http://localhost:4200"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("User registered successfully!")));
     // Then
-    assertEquals(Set.of(roleRepository.findByName(RoleName.ROLE_USER).get()), userRepository.findByUsername("adminwannabe").get().getRoles());
+    assertEquals(
+        Set.of(roleRepository.findByName(RoleName.ROLE_USER).get()),
+        userRepository.findByUsername("adminwannabe").get().getRoles());
   }
 
   @Test
@@ -245,112 +247,117 @@ public class AuthenticationRestControllerTestIT {
     // Given
     // When
     this.mockMvc
-            .perform(
-                    post("/auth/sign_up")
-                            .content(
-                                    "{\n"
-                                            + "\t\"email\": \"userwannabe@user.pl\",\n"
-                                            + "\t\"username\": \"userwannabe\",\n"
-                                            + "\t\"role\": [\"user\"],\n"
-                                            + "\t\"password\": \"piesek123\"\n"
-                                            + "}")
-                            .contentType("application/json")
-                            .header("Origin", "http://localhost:4200"))
-            .andExpect(status().isOk())
-            .andExpect(content().string(containsString("User registered successfully!")));
+        .perform(
+            post("/auth/sign_up")
+                .content(
+                    "{\n"
+                        + "\t\"email\": \"userwannabe@user.pl\",\n"
+                        + "\t\"username\": \"userwannabe\",\n"
+                        + "\t\"role\": [\"user\"],\n"
+                        + "\t\"password\": \"piesek123\"\n"
+                        + "}")
+                .contentType("application/json")
+                .header("Origin", "http://localhost:4200"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("User registered successfully!")));
     // Then
-    assertEquals(Set.of(roleRepository.findByName(RoleName.ROLE_USER).get()), userRepository.findByUsername("userwannabe").get().getRoles());
+    assertEquals(
+        Set.of(roleRepository.findByName(RoleName.ROLE_USER).get()),
+        userRepository.findByUsername("userwannabe").get().getRoles());
   }
 
   @Test
-  public void should_createUserWithAdminRole_when_tryToRegisterWithAdminRoleByExistingAdmin() throws Exception {
+  public void should_createUserWithAdminRole_when_tryToRegisterWithAdminRoleByExistingAdmin()
+      throws Exception {
     // Given
     String body =
-            this.mockMvc
-                    .perform(
-                            post("/auth/sign_in")
-                                    .content(
-                                            "{\n"
-                                                    + "\t\"username\": \"admin\",\n"
-                                                    + "\t\"password\": \"admin12\"\n"
-                                                    + "}")
-                                    .contentType("application/json"))
-                    .andExpect(status().isOk())
-                    .andReturn()
-                    .getResponse()
-                    .getContentAsString();
+        this.mockMvc
+            .perform(
+                post("/auth/sign_in")
+                    .content(
+                        "{\n"
+                            + "\t\"username\": \"admin\",\n"
+                            + "\t\"password\": \"admin12\"\n"
+                            + "}")
+                    .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
     JSONObject jsonObject = new JSONObject(body);
     String token = jsonObject.getString("accessToken");
     // When
     this.mockMvc
-            .perform(
-                    post("/newUser").header("Authorization", "Bearer " + token)
-                            .content(
-                                    "{\n"
-                                            + "\t\"email\": \"newAdminByAdmin@admin.pl\",\n"
-                                            + "\t\"username\": \"newAdminByAdmin\",\n"
-                                            + "\t\"role\": [\"admin\"],\n"
-                                            + "\t\"password\": \"admin12\"\n"
-                                            + "}")
-                            .contentType("application/json")
-                            .header("Origin", "http://localhost:4200"))
-            .andExpect(status().isOk())
-            .andExpect(content().string(containsString("User registered successfully!")));
+        .perform(
+            post("/newUser")
+                .header("Authorization", "Bearer " + token)
+                .content(
+                    "{\n"
+                        + "\t\"email\": \"newAdminByAdmin@admin.pl\",\n"
+                        + "\t\"username\": \"newAdminByAdmin\",\n"
+                        + "\t\"role\": [\"admin\"],\n"
+                        + "\t\"password\": \"admin12\"\n"
+                        + "}")
+                .contentType("application/json")
+                .header("Origin", "http://localhost:4200"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("User registered successfully!")));
     // Then
-    assertEquals(Set.of(roleRepository.findByName(RoleName.ROLE_ADMIN).get()), userRepository.findByUsername("newAdminByAdmin").get().getRoles());
+    assertEquals(
+        Set.of(roleRepository.findByName(RoleName.ROLE_ADMIN).get()),
+        userRepository.findByUsername("newAdminByAdmin").get().getRoles());
   }
 
   @Test
-  public void should_returnForbiddenStatus_when_tryToRegisterWithAdminRoleByNotExistingAdmin() throws Exception {
+  public void should_returnForbiddenStatus_when_tryToRegisterWithAdminRoleByNotExistingAdmin()
+      throws Exception {
     // Given
     this.mockMvc
-            .perform(
-                    post("/auth/sign_up")
-                            .content(
-                                    "{\n"
-                                            + "\t\"email\": \"userwannabe2@user.pl\",\n"
-                                            + "\t\"username\": \"userwannabe2\",\n"
-                                            + "\t\"role\": [\"user\"],\n"
-                                            + "\t\"password\": \"piesek123\"\n"
-                                            + "}")
-                            .contentType("application/json")
-                            .header("Origin", "http://localhost:4200"))
-            .andExpect(status().isOk())
-            .andExpect(content().string(containsString("User registered successfully!")));
+        .perform(
+            post("/auth/sign_up")
+                .content(
+                    "{\n"
+                        + "\t\"email\": \"userwannabe2@user.pl\",\n"
+                        + "\t\"username\": \"userwannabe2\",\n"
+                        + "\t\"role\": [\"user\"],\n"
+                        + "\t\"password\": \"piesek123\"\n"
+                        + "}")
+                .contentType("application/json")
+                .header("Origin", "http://localhost:4200"))
+        .andExpect(status().isOk())
+        .andExpect(content().string(containsString("User registered successfully!")));
     String body =
-            this.mockMvc
-                    .perform(
-                            post("/auth/sign_in")
-                                    .content(
-                                            "{\n"
-                                                    + "\t\"username\": \"userwannabe2\",\n"
-                                                    + "\t\"password\": \"piesek123\"\n"
-                                                    + "}")
-                                    .contentType("application/json"))
-                    .andExpect(status().isOk())
-                    .andReturn()
-                    .getResponse()
-                    .getContentAsString();
+        this.mockMvc
+            .perform(
+                post("/auth/sign_in")
+                    .content(
+                        "{\n"
+                            + "\t\"username\": \"userwannabe2\",\n"
+                            + "\t\"password\": \"piesek123\"\n"
+                            + "}")
+                    .contentType("application/json"))
+            .andExpect(status().isOk())
+            .andReturn()
+            .getResponse()
+            .getContentAsString();
 
     JSONObject jsonObject = new JSONObject(body);
     String token = jsonObject.getString("accessToken");
     // When
     this.mockMvc
-            .perform(
-                    post("/newUser").header("Authorization", "Bearer " + token)
-                            .content(
-                                    "{\n"
-                                            + "\t\"email\": \"newAdminByAdmin@admin.pl\",\n"
-                                            + "\t\"username\": \"newAdminByAdmin\",\n"
-                                            + "\t\"role\": [\"admin\"],\n"
-                                            + "\t\"password\": \"admin12\"\n"
-                                            + "}")
-                            .contentType("application/json")
-                            .header("Origin", "http://localhost:4200"))
-    /*// Then*/        .andExpect(status().isForbidden());
-
-
+        .perform(
+            post("/newUser")
+                .header("Authorization", "Bearer " + token)
+                .content(
+                    "{\n"
+                        + "\t\"email\": \"newAdminByAdmin@admin.pl\",\n"
+                        + "\t\"username\": \"newAdminByAdmin\",\n"
+                        + "\t\"role\": [\"admin\"],\n"
+                        + "\t\"password\": \"admin12\"\n"
+                        + "}")
+                .contentType("application/json")
+                .header("Origin", "http://localhost:4200"))
+        /*// Then*/ .andExpect(status().isForbidden());
   }
-
 }

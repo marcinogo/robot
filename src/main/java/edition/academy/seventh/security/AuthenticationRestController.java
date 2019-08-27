@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.Set;
@@ -44,28 +47,16 @@ class AuthenticationRestController {
   @PostMapping("/auth/sign_up")
   ResponseEntity<?> registerUser(@Valid @RequestBody RegisterForm registerForm) {
     registerForm.setRole(Set.of("user"));
-    String returnMessage = "Couldn't register new account, something went wrong!";
-    if (userWithThisUsernameAlreadyExists(registerForm)) {
-      returnMessage = "This username is already taken! ";
-      logger.error(returnMessage + registerForm.getUsername());
-      return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.BAD_REQUEST);
-    }
-    if (userWithThisEmailAlreadyExists(registerForm)) {
-      returnMessage = "Account with given email already exists! ";
-      logger.error(returnMessage + registerForm.getEmail());
-      return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.BAD_REQUEST);
-    }
-    if (authenticationService.createNewAccount(registerForm)) {
-      returnMessage = "User registered successfully! ";
-      logger.info(returnMessage + registerForm.toString());
-      return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.OK);
-    }
-    return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.OK);
+    return register(registerForm);
   }
 
   @PreAuthorize("hasRole('ADMIN')")
   @PostMapping("/newUser")
-  ResponseEntity<?> createNewUser(@Valid @RequestBody RegisterForm registerForm){
+  ResponseEntity<?> createNewUser(@Valid @RequestBody RegisterForm registerForm) {
+    return register(registerForm);
+  }
+
+  private ResponseEntity<?> register(@RequestBody @Valid RegisterForm registerForm) {
     String returnMessage = "Couldn't register new account, something went wrong!";
     if (userWithThisUsernameAlreadyExists(registerForm)) {
       returnMessage = "This username is already taken! ";
@@ -84,7 +75,6 @@ class AuthenticationRestController {
     }
     return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.OK);
   }
-
 
   private boolean userWithThisEmailAlreadyExists(@RequestBody @Valid RegisterForm registerForm) {
     return authenticationService.userExistsByEmail(registerForm.getEmail());
