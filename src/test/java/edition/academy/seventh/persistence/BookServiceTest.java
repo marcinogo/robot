@@ -16,7 +16,7 @@ public class BookServiceTest {
 
   @Test
   public void
-      method_addBooksToDatabase_shouldBeInvokedOnce_when_listOfBooksPassedAsParameterIsGreaterThanOne() {
+      methodAddBooksToDatabase_shouldBeInvokedOnce_when_listOfBooksPassedAsParameterIsGreaterThanOne() {
     // Given
     BookRepository bookRepository = mock(BookRepository.class);
     BookDto book = mock(BookDto.class);
@@ -41,7 +41,7 @@ public class BookServiceTest {
 
   @Test
   public void
-      method_getAllBooksFromDatabase_shouldBeInvokedOnce_when_getBooksFromDatabaseIsCalled() {
+      methodGetAllBooksFromDatabase_shouldBeInvokedOnce_when_getBooksFromDatabaseIsCalled() {
     // Given
     BookRepository bookRepository = mock(BookRepository.class);
     BookDto book = mock(BookDto.class);
