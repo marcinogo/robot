@@ -1,8 +1,8 @@
 package edition.academy.seventh.persistence;
 
 import edition.academy.seventh.persistence.response.BookDto;
+import org.junit.jupiter.api.Test;
 import org.mockito.invocation.Invocation;
-import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,11 +11,10 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.assertEquals;
 
-@Test
-public class BookServiceTest {
+class BookServiceTest {
 
   @Test
-  public void
+  void
       methodAddBooksToDatabase_shouldBeInvokedOnce_when_listOfBooksPassedAsParameterIsGreaterThanOne() {
     // Given
     BookRepository bookRepository = mock(BookRepository.class);
@@ -40,8 +39,7 @@ public class BookServiceTest {
   }
 
   @Test
-  public void
-      methodGetAllBooksFromDatabase_shouldBeInvokedOnce_when_getBooksFromDatabaseIsCalled() {
+  void methodGetAllBooksFromDatabase_shouldBeInvokedOnce_when_getBooksFromDatabaseIsCalled() {
     // Given
     BookRepository bookRepository = mock(BookRepository.class);
     BookDto book = mock(BookDto.class);

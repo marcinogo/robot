@@ -13,8 +13,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Set;
 
-import static org.testng.Assert.assertTrue;
-import static org.testng.AssertJUnit.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
