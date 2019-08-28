@@ -1,4 +1,13 @@
+= README
+
 == ABOUT ROBOT PROJECT
+
+image:https://jenkins-nasz-pan.pl/sonar/api/project_badges/measure?project=edition.academy.seventh%3Arobot&metric=alert_status[Quality Gate Status]
+
+Robot collects information about books on promotion and those available for
+free in various libraries. Some through their REST APIs, some through screen-
+scraping. Information is persisted in the database and there is a simple
+reporting module.
 
 == PREREQUISITES
 
@@ -23,7 +32,7 @@ Prerequisites for running tests are described in <<anchor-1, *RUNNING*>> section
 
 === Tests
 
-[[anchor-1]]To run integration tests you need to:
+[[anchor-1]]To run integration or full scope of tests you need to:
 
 * have active H2 database on port `9092` with name `test` and credentials
 defined as one in edition.academy.seventh.connector.H2Connector[`H2Connector.java`], or
@@ -35,21 +44,40 @@ defined as one in edition.academy.seventh.connector.H2Connector[`H2Connector.jav
 Go into a main project's directory using terminal and use `mvn clean verify` command
 to run unit, integration and performance tests.
 
-=== Integration tests
+==== Integration tests
 
 Go into a main project's directory using terminal
 and use `mvn clean test-compile failsafe:integration-test` command
 to only integration tests.
 
-=== Performance test
+==== Performance test
 
 Go into a main project's directory using terminal and use `mvn clean gatling:test` command
 to run only performance test. Test is performed by open source tool `Gatling`.
 This test is part of integration tests scope by default.
 
-=== Unit tests:
+==== Unit tests:
 
 Go into a main project's directory using terminal and use `mvn clean test` command
 to run only unit tests.
 
 === Application
+
+==== Backend
+
+==== Frontend
+
+== USAGE
+
+=== Live version
+
+Application is deployed with frontend part on https://bookrobot-front.herokuapp.com/home[*Heroku* server].
+Unauthorized user can check information about books with promotion from various bookshops and check details
+about promotions history, sort books, choose bookshop he / she is interested in and go to next / previous pages.
+
+User can also sign in or sign up to perform additional actions:
+
+* Admin can start information collection manually to update data,
+* User can perform same action as
+
+=== Local version
