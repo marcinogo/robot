@@ -5,29 +5,29 @@
 image:https://jenkins-nasz-pan.pl/sonar/api/project_badges/measure?project=edition.academy.seventh%3Arobot&metric=alert_status[Quality Gate Status]
 
 Robot collects information about books on promotion and those available for
-free in various libraries. Some through their REST APIs, some through screen-
-scraping. Information is persisted in the database and there is a simple
+free in various libraries. Some through their REST APIs, some through screen-scraping.
+Information is persisted in the database and there is a simple
 reporting module.
 
 == PREREQUISITES
 
-IMPORTANT: Before coding, first of all, you have to (by using terminal) go into a `git-hooks` directory,
-use a command `chmod +x add-hooks` and next `./add-hooks` to activate the `git hooks`. They will prevent git commits
-that prevent the project from building.
+IMPORTANT: Before coding you have to (by using command line) go into a `git-hooks` directory,
+use a command `chmod +x add-hooks` and next run `./add-hooks` to activate the `git hooks`.
+They will prevent git commits that not building project.
 
 === System requirements
 
-* Ubuntu 18.04
-* Java 11.0.4 OpenJDK
-* Maven 3.3.9
-* Internet connection
+* Ubuntu 18.04,
+* Java 11.0.4 OpenJDK,
+* Maven 3.3.9,
+* Internet connection.
 
 === Others
 
 Clone this repository to your desired directory.
 
-Prerequisites for running tests are described in <<anchor-1, *RUNNING*>> section.
-Prerequisites for running backend application are described in <<anchor-2, *RUNNING*>> section.
+Prerequisites for running tests are described in <<anchor-1, *RUNNING#Tests*>> section.
+Prerequisites for running backend application are described in <<anchor-2, *RUNNING#Application*>> section.
 
 == RUNNING
 
@@ -35,31 +35,31 @@ Prerequisites for running backend application are described in <<anchor-2, *RUNN
 
 [[anchor-1]]To run integration or full scope of tests you need to:
 
-* have active H2 database on port `9092` with name `test` and credentials
-defined as one in `H2Connector.java`, or
-* change protocol defined in `H2Connector.java`
-(`javax.persistence.jdbc.url`) used by H2 database from `tcp` to `mem`.
+* have active connection *H2 database* on port `9092` with name `test` and credentials
+defined as one in `H2Connector.java` in package `edition.academy.seventh.connector`, or
+* change protocol defined in `H2Connector.java` (`javax.persistence.jdbc.url`, line: 18)
+used by H2 database from `tcp` to `mem`.
 
 ==== Full scope of tests
 
-Go into a main project's directory using terminal and use `mvn clean verify` command
+Go into a main project's directory using command line and use `mvn clean verify` command
 to run unit, integration and performance tests.
 
 ==== Integration tests
 
-Go into a main project's directory using terminal
+Go into a main project's directory using command line
 and use `mvn clean test-compile failsafe:integration-test` command
 to only integration tests.
 
 ==== Performance test
 
-Go into a main project's directory using terminal and use `mvn clean gatling:test` command
+Go into a main project's directory using command line and use `mvn clean gatling:test` command
 to run only performance test. Test is performed by open source tool `Gatling`.
 This test is part of integration tests scope by default.
 
 ==== Unit tests:
 
-Go into a main project's directory using terminal and use `mvn clean test` command
+Go into a main project's directory using command line and use `mvn clean test` command
 to run only unit tests.
 
 === Application
@@ -67,10 +67,10 @@ to run only unit tests.
 ==== Backend
 
 [[anchor-2]]To run backend part of application you need to have unused port 8080.
-If it is not a case you have to uncomment line 1 in `application.properties`.
+If it is not a case you have to uncomment line: 1 in `application.properties`.
 Then application will start at pot `8085`.
 
-To start application use in terminal (main project directory):
+To start application use in command line (main project directory):
 
 * `mvn clean install -Dmaven.test.skip=true -Dgatling.skip=true` and
 then `java -jar target/robot-0.1.jar` commands, or
@@ -86,12 +86,12 @@ https://github.com/marcinogo/robot-front/blob/master/README.md[robot-front READM
 === Live version
 
 Application is deployed with frontend part on https://bookrobot-front.herokuapp.com/home[*Heroku* server].
-Unauthorized user can check information about books with promotion from various bookshops and check details
-about promotions history, sort books, choose bookshop he / she is interested in and go to next / previous pages.
+An unauthorized user can check information about books with a promotion from various bookstore and check details
+about promotions history, sort books, filter by a bookstore and go to next/previous pages.
 
-User can also sign in or sign up to perform additional actions:
+The user can also sign in or sign up to perform additional actions:
 
-* Admin can start information collection manually to update data,
-* User can perform same action as
+* An *admin* can start collecting information about promotions manually to update data,
+* A *user* can perform the same action the unauthorized user.
 
 === Local version
