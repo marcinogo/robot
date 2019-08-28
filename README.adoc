@@ -27,6 +27,7 @@ that prevent the project from building.
 Clone this repository to your desired directory.
 
 Prerequisites for running tests are described in <<anchor-1, *RUNNING*>> section.
+Prerequisites for running backend application are described in <<anchor-2, *RUNNING*>> section.
 
 == RUNNING
 
@@ -35,8 +36,8 @@ Prerequisites for running tests are described in <<anchor-1, *RUNNING*>> section
 [[anchor-1]]To run integration or full scope of tests you need to:
 
 * have active H2 database on port `9092` with name `test` and credentials
-defined as one in edition.academy.seventh.connector.H2Connector[`H2Connector.java`], or
-* change protocol defined in edition.academy.seventh.connector.H2Connector[`H2Connector.java`]
+defined as one in `H2Connector.java`, or
+* change protocol defined in `H2Connector.java`
 (`javax.persistence.jdbc.url`) used by H2 database from `tcp` to `mem`.
 
 ==== Full scope of tests
@@ -65,7 +66,20 @@ to run only unit tests.
 
 ==== Backend
 
+[[anchor-2]]To run backend part of application you need to have unused port 8080.
+If it is not a case you have to uncomment line 1 in `application.properties`.
+Then application will start at pot `8085`.
+
+To start application use in terminal (main project directory):
+
+* `mvn clean install -Dmaven.test.skip=true -Dgatling.skip=true` and
+then `java -jar target/robot-0.1.jar` commands, or
+* `mvn spring-boot:run` command.
+
 ==== Frontend
+
+To run frontend part of application read this
+https://github.com/marcinogo/robot-front/blob/master/README.md[robot-front README].
 
 == USAGE
 
