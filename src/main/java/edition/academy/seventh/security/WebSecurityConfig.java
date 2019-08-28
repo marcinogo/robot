@@ -111,26 +111,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   public AuthenticationManager authenticationManagerBean() throws Exception {
     return super.authenticationManagerBean();
   }
-
-  @Bean
-  public HttpFirewall allowUrlEncodedSlashHttpFirewall() {
-    StrictHttpFirewall firewall = new Foo();
-    return firewall;
-  }
-
-  @Override
-  public void configure(WebSecurity web) throws Exception {
-    web.httpFirewall(allowUrlEncodedSlashHttpFirewall());
-  }
-}
-
-class Foo extends StrictHttpFirewall {
-  @Override
-  public FirewalledRequest getFirewalledRequest(HttpServletRequest request)
-      throws RequestRejectedException {
-    return new FirewalledRequest(request) {
-      @Override
-      public void reset() {}
-    };
-  }
 }
