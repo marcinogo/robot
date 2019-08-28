@@ -31,9 +31,10 @@ class BookServiceTestIT {
     // When
     bookService.addBooksToDatabase(bookDtos);
     List<BookDto> booksAfterAdding = bookService.getBooksFromDatabase();
+    int expectedNumberOfBooksAfterAdding = booksBeforeAdding.size() + 1;
 
     // Then
-    assertEquals(booksBeforeAdding.size() + 1, booksAfterAdding.size());
+    assertEquals(expectedNumberOfBooksAfterAdding, booksAfterAdding.size());
   }
 
   @Test

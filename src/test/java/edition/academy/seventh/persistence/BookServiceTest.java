@@ -14,8 +14,7 @@ import static org.testng.Assert.assertEquals;
 class BookServiceTest {
 
   @Test
-  void
-      methodAddBooksToDatabase_shouldBeInvokedOnce_when_listOfBooksPassedAsParameterIsGreaterThanOne() {
+  void methodAddBooksToDatabase_shouldBeInvokedOnce_when_listOfBooksPassedIsGreaterThanOne() {
     // Given
     BookRepository bookRepository = mock(BookRepository.class);
     BookDto book = mock(BookDto.class);
