@@ -2,7 +2,54 @@
 
 == PREREQUISITES
 
-IMPORTANT: First go to `git-hooks` directory,
-use `chmod +x add-hooks` and then `./add-hooks` to activate git hooks.
+IMPORTANT: Before coding, first of all, you have to (by using terminal) go into a `git-hooks` directory,
+use a command `chmod +x add-hooks` and next `./add-hooks` to activate the `git hooks`. They will prevent git commits
+that prevent the project from building.
+
+=== System requirements
+
+* Ubuntu 18.04
+* Java 11.0.4 OpenJDK
+* Maven 3.3.9
+* Internet connection
+
+=== Others
+
+Clone this repository to your desired directory.
+
+Prerequisites for running tests are described in <<anchor-1, *RUNNING*>> section.
 
 == RUNNING
+
+=== Tests
+
+[[anchor-1]]To run integration tests you need to:
+
+* have active H2 database on port `9092` with name `test` and credentials
+defined as one in edition.academy.seventh.connector.H2Connector[`H2Connector.java`], or
+* change protocol defined in edition.academy.seventh.connector.H2Connector[`H2Connector.java`]
+(`javax.persistence.jdbc.url`) used by H2 database from `tcp` to `mem`.
+
+==== Full scope of tests
+
+Go into a main project's directory using terminal and use `mvn clean verify` command
+to run unit, integration and performance tests.
+
+=== Integration tests
+
+Go into a main project's directory using terminal
+and use `mvn clean test-compile failsafe:integration-test` command
+to only integration tests.
+
+=== Performance test
+
+Go into a main project's directory using terminal and use `mvn clean gatling:test` command
+to run only performance test. Test is performed by open source tool `Gatling`.
+This test is part of integration tests scope by default.
+
+=== Unit tests:
+
+Go into a main project's directory using terminal and use `mvn clean test` command
+to run only unit tests.
+
+=== Application
