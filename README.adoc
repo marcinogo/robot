@@ -94,4 +94,7 @@ The user can also sign in or sign up to perform additional actions:
 * An *admin* can start collecting information about promotions manually to update data,
 * A *user* can perform the same action the unauthorized user.
 
+////
 === Local version
+TODO: dodać informaje jak lokalnie tstować apkę, pod jakie endpointy uderzać
+////
