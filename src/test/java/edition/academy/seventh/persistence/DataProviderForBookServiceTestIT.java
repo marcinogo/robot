@@ -13,6 +13,7 @@ class DataProviderForBookServiceTestIT {
     return Stream.of(
             Collections.singletonList(
                 new BookDto(
+                    0l,
                     "Title",
                     "Subtitle",
                     "Authors",
@@ -24,6 +25,7 @@ class DataProviderForBookServiceTestIT {
                     "Bookstore")),
             Collections.singletonList(
                 new BookDto(
+                    1l,
                     "Title1",
                     "Subtitle1",
                     "Authors1",
@@ -35,6 +37,7 @@ class DataProviderForBookServiceTestIT {
                     "Bookstore1")),
             Collections.singletonList(
                 new BookDto(
+                    2l,
                     "Title2",
                     "Subtitle2",
                     "Authors2",
@@ -46,6 +49,7 @@ class DataProviderForBookServiceTestIT {
                     "Bookstore2")),
             Collections.singletonList(
                 new BookDto(
+                    3l,
                     "Title3",
                     "Subtitle3",
                     "Authors3",
@@ -57,6 +61,7 @@ class DataProviderForBookServiceTestIT {
                     "Bookstore3")),
             Collections.singletonList(
                 new BookDto(
+                    4l,
                     "Title4",
                     "Subtitle4",
                     "Authors4",
@@ -68,6 +73,7 @@ class DataProviderForBookServiceTestIT {
                     "Bookstore4")),
             Collections.singletonList(
                 new BookDto(
+                    5l,
                     "Title5",
                     "Subtitle5",
                     "Authors5",
@@ -84,6 +90,7 @@ class DataProviderForBookServiceTestIT {
     return Stream.of(
             Collections.singletonList(
                 new BookDto(
+                    6l,
                     "Title12",
                     "Subtitle",
                     "Authors",
@@ -95,6 +102,7 @@ class DataProviderForBookServiceTestIT {
                     "Bookstore")),
             Collections.singletonList(
                 new BookDto(
+                    7l,
                     "Title12",
                     "Subtitle1",
                     "Authors1",
@@ -106,6 +114,7 @@ class DataProviderForBookServiceTestIT {
                     "Bookstore1")),
             Collections.singletonList(
                 new BookDto(
+                    8l,
                     "Title22",
                     "Subtitle2",
                     "Authors2",
@@ -117,6 +126,7 @@ class DataProviderForBookServiceTestIT {
                     "Bookstore2")),
             Collections.singletonList(
                 new BookDto(
+                    9l,
                     "Title32",
                     "Subtitle3",
                     "Authors3",
@@ -128,6 +138,7 @@ class DataProviderForBookServiceTestIT {
                     "Bookstore3")),
             Collections.singletonList(
                 new BookDto(
+                    10l,
                     "Title42",
                     "Subtitle4",
                     "Authors4",
@@ -139,6 +150,7 @@ class DataProviderForBookServiceTestIT {
                     "Bookstore4")),
             Collections.singletonList(
                 new BookDto(
+                    11l,
                     "Title52",
                     "Subtitle5",
                     "Authors5",

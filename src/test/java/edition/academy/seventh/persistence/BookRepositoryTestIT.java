@@ -33,7 +33,7 @@ public class BookRepositoryTestIT {
     repository.addBooksToDatabase(
         Collections.singletonList(
             new BookDto(
-                    1l,
+                1l,
                 "TEST",
                 "TEST",
                 "TEST",
@@ -99,7 +99,7 @@ public class BookRepositoryTestIT {
     return Stream.generate(
             () ->
                 new BookDto(
-                        null,
+                    null,
                     generateRandomString("Title"),
                     generateRandomString("Subtitle"),
                     generateRandomString("Authors"),

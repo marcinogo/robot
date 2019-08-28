@@ -41,7 +41,7 @@ public class ModelParserIntoBookDtosTest {
 
     BookDto dtBook =
         new BookDto(
-                null,
+            null,
             title,
             subtitle,
             author,

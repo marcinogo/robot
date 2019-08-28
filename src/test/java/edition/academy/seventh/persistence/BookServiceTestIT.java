@@ -42,7 +42,7 @@ class BookServiceTestIT {
     // Given
 
     // When
-    BookstoreBookDto bookstoreBookDtoByHref = bookService.getBookstoreBookDtoByHref("");
+    BookstoreBookDto bookstoreBookDtoByHref = bookService.getBookstoreBookDtoById(-1l);
 
     // Then
     assertNull(bookstoreBookDtoByHref);
@@ -57,7 +57,7 @@ class BookServiceTestIT {
 
     // When
     BookstoreBookDto bookstoreBookDtoByHref =
-        bookService.getBookstoreBookDtoByHref(bookDtos.get(0).getHref());
+        bookService.getBookstoreBookDtoById(bookDtos.get(0).getId());
 
     // Then
     assertNotNull(bookstoreBookDtoByHref);
