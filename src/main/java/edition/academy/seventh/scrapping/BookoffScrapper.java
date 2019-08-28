@@ -59,6 +59,7 @@ class BookoffScrapper extends AbstractScrapper {
               String href = element.getElementsByClass("product-content").attr("href");
               href = startOfHrefUrl + href;
               return new BookDto(
+                  null,
                   title,
                   "",
                   author,

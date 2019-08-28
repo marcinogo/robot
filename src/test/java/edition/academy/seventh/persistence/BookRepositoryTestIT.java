@@ -33,6 +33,7 @@ public class BookRepositoryTestIT {
     repository.addBooksToDatabase(
         Collections.singletonList(
             new BookDto(
+                    1l,
                 "TEST",
                 "TEST",
                 "TEST",
@@ -49,21 +50,21 @@ public class BookRepositoryTestIT {
     // Given
 
     // When
-    BookstoreBookDto bookstoreBookDtoByHref = repository.getBookstoreBookDtoByHref("TEST");
+    BookstoreBookDto bookstoreBookDtoById = repository.getBookstoreBookDtoById(1l);
 
     // Then
-    assertNotNull(bookstoreBookDtoByHref);
+    assertNotNull(bookstoreBookDtoById);
   }
 
   @Test
-  public void should_returnNull_whenGivenHrefDoNotExists() {
+  public void should_returnNull_whenGivenIdDoNotExists() {
     // Given
 
     // When
-    BookstoreBookDto bookstoreBookDtoByHref = repository.getBookstoreBookDtoByHref("");
+    BookstoreBookDto bookstoreBookDtoById = repository.getBookstoreBookDtoById(-1l);
 
     // Then
-    assertNull(bookstoreBookDtoByHref);
+    assertNull(bookstoreBookDtoById);
   }
 
   @Test
@@ -98,6 +99,7 @@ public class BookRepositoryTestIT {
     return Stream.generate(
             () ->
                 new BookDto(
+                        null,
                     generateRandomString("Title"),
                     generateRandomString("Subtitle"),
                     generateRandomString("Authors"),

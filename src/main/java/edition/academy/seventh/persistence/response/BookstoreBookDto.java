@@ -10,6 +10,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class BookstoreBookDto {
+
+  @JsonProperty(value = "id")
+  private Long id;
+
   @JsonProperty(value = "title")
   private String title;
 
