@@ -86,13 +86,14 @@ https://github.com/marcinogo/robot-front/blob/master/README.md[robot-front READM
 === Live version
 
 Application is deployed with frontend part on https://bookrobot-front.herokuapp.com/home[*Heroku* server].
-An unauthorized user can check information about books with a promotion from various bookstore and check details
-about promotions history, sort books, filter by a bookstore and go to next/previous pages.
+An unauthorized user can view information about books with the latest promotion
+from various bookstore, sort books, filter them by a bookstore and go to next/previous pages.
 
 The user can also sign in or sign up to perform additional actions:
 
 * An *admin* can start collecting information about promotions manually to update data,
-* A *user* can perform the same action the unauthorized user.
+* A *user* can perform the same action the unauthorized user and check details
+about promotions history.
 
 ////
 === Local version
