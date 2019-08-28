@@ -76,6 +76,7 @@ public class BookDtoParser {
   private BookstoreBookDto createBookstoreBookDto(
       BookstoreBook bookstoreBook, List<PriceAtTheMomentDto> priceAtTheMomentDtos) {
     return new BookstoreBookDto(
+        bookstoreBook.getId(),
         bookstoreBook.getBook().getBookId().getTitle(),
         bookstoreBook.getBook().getSubtitle(),
         bookstoreBook.getBook().getBookId().getAuthor(),
@@ -100,7 +101,10 @@ public class BookDtoParser {
         bookRepository.getBookstoreById(bookstoreBook.getBookstore().getName());
 
     BookstoreBook bookstoreBookAlreadyInDatabase =
-        bookRepository.getBookstoreBookById(bookstoreBook.getHyperlink());
+        bookRepository.getBookstoreBookByTitleAuthorBookstore(
+            bookstoreBook.getBook().getBookId().getTitle(),
+            bookstoreBook.getBook().getBookId().getAuthor(),
+            bookstoreBook.getBookstore().getName());
 
     return new EntitiesInDatabase(
         bookAlreadyInDatabase, bookstoreAlreadyInDatabase, bookstoreBookAlreadyInDatabase);

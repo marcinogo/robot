@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookDto {
-
+  private Long id;
   private String title;
   private String subtitle;
   private String authors;

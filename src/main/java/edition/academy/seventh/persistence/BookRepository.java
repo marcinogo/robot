@@ -100,7 +100,25 @@ public class BookRepository {
       return null;
     }
 
-    logger.info("Called getBookstoreBookDtoByHref()");
+    logger.info("Called getBookstoreBookDtoById()");
+
+    entityManager.close();
+
+    return bookDtoParser.parseBookstoreBookIntoBookstoreBookDto(bookstoreBook);
+  }
+
+  BookstoreBookDto getBookstoreBookDtoById(Long id) {
+
+    entityManager = connectorProvider.getEntityManager();
+
+    BookstoreBook bookstoreBook = entityManager.find(BookstoreBook.class, id);
+
+    if (bookstoreBook == null) {
+      logger.info("Cannot find book with id " + id);
+      return null;
+    }
+
+    logger.info("Called getBookstoreBookDtoById()");
 
     entityManager.close();
 
@@ -115,8 +133,23 @@ public class BookRepository {
     return entityManager.find(Bookstore.class, bookstoreId);
   }
 
-  BookstoreBook getBookstoreBookById(String bookstoreBookId) {
-    return entityManager.find(BookstoreBook.class, bookstoreBookId);
+  BookstoreBook getBookstoreBookByTitleAuthorBookstore(
+      String title, String author, String bookstoreName) {
+    title = title.replace('\'', ' ');
+    author = author.replace('\'', ' ');
+
+    String hql =
+        "FROM edition.academy.seventh.persistence.model.BookstoreBook WHERE book.bookId.title = \'"
+            + title
+            + "\' and book.bookId.author = \'"
+            + author
+            + "\' and bookstore.name = \'"
+            + bookstoreName
+            + "'";
+    List<BookstoreBook> resultList =
+        (List<BookstoreBook>) entityManager.createQuery(hql).getResultList();
+
+    return resultList.isEmpty() ? null : resultList.get(0);
   }
 
   void setConnectorProvider(ConnectorProvider connectorProvider) {
@@ -132,7 +165,7 @@ public class BookRepository {
   void saveOrUpdateBookstoreBook(
       BookstoreBook bookstoreBook, BookstoreBook bookstoreBookAlreadyInDatabase) {
     if (bookstoreBookAlreadyInDatabase != null) {
-      bookstoreBook.setHyperlink(bookstoreBookAlreadyInDatabase.getHyperlink());
+      bookstoreBook.setId(bookstoreBookAlreadyInDatabase.getId());
       entityManager.merge(bookstoreBook);
     } else {
       entityManager.persist(entityManager.merge(bookstoreBook));
@@ -171,5 +204,9 @@ public class BookRepository {
 
   private void addBookToDatabase(BookDto bookDto) {
     bookDtoParser.parseBookDtoIntoModel(bookDto);
+  }
+
+  public BookstoreBook getBookstoreBookById(Long id) {
+    return entityManager.find(BookstoreBook.class, id);
   }
 }

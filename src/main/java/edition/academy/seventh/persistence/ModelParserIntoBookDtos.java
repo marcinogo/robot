@@ -25,6 +25,7 @@ public class ModelParserIntoBookDtos {
                   bookstoreBook.getLastElementOfPriceHistories().getPromotionalPrice();
 
               return new BookDto(
+                  bookstoreBook.getId(),
                   bookstoreBook.getBook().getBookId().getTitle(),
                   bookstoreBook.getBook().getSubtitle(),
                   bookstoreBook.getBook().getBookId().getAuthor(),

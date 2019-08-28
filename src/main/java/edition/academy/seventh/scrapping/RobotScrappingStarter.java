@@ -38,7 +38,7 @@ class RobotScrappingStarter {
   @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity startRobot() {
     new Thread(() -> scrapperService.getDataFromBookstores(), "ScrappingThreadManual").start();
-    return new ResponseEntity<>("Started scrapping books",HttpStatus.OK);
+    return new ResponseEntity<>("Started scrapping books", HttpStatus.OK);
   }
 
   /**
