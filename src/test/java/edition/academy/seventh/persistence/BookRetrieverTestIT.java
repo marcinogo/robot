@@ -40,4 +40,26 @@ class BookRetrieverTestIT {
         .perform(get("/books").header("Origin", "http://localhost:4280"))
         /*//Then*/ .andExpect(status().isForbidden());
   }
+
+  @Test
+  public void should_returnOkStatus_when_tryToRetrieveBookByHrefWithAllowedOrigin()
+      throws Exception {
+    // Given
+
+    // When
+    this.mockMvc
+        .perform(get("/bookUrl/").header("Origin", "http://localhost:4200"))
+        /*//Then*/ .andExpect(status().isOk());
+  }
+
+  @Test
+  public void should_returnForbiddenStatus_when_tryToRetrieveBookByHrefWithNotAllowedOrigin()
+      throws Exception {
+    // Given
+
+    // When
+    this.mockMvc
+        .perform(get("/bookUrl/").header("Origin", "http://localhost:4280"))
+        /*//Then*/ .andExpect(status().isForbidden());
+  }
 }

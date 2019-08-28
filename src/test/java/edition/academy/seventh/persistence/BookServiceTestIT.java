@@ -4,7 +4,7 @@ import edition.academy.seventh.persistence.response.BookDto;
 import edition.academy.seventh.persistence.response.BookstoreBookDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -19,11 +19,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestPropertySource(locations = "classpath:test.properties")
 class BookServiceTestIT {
 
-
   @Autowired private BookService bookService;
 
   @ParameterizedTest(name = "{index} => bookDtos: {0}")
-  @ArgumentsSource(DataProviderForBookServiceTestIT.class)
+  @MethodSource(
+      "edition.academy.seventh.persistence.DataProviderForBookServiceTestIT#dataForAddingBookDtos")
   void should_returnOneMoreBook_when_addOneBook(List<BookDto> bookDtos) {
     // Given
     List<BookDto> booksBeforeAdding = bookService.getBooksFromDatabase();
@@ -48,13 +48,15 @@ class BookServiceTestIT {
   }
 
   @ParameterizedTest(name = "{index} => bookDtos: {0}")
-  @ArgumentsSource(DataProviderForBookServiceTestIT.class)
+  @MethodSource(
+      "edition.academy.seventh.persistence.DataProviderForBookServiceTestIT#dataForGettingBookDtoByHref")
   void should_returnBookFromDatabase_when_givenProperHref(List<BookDto> bookDtos) {
     // Given
     bookService.addBooksToDatabase(bookDtos);
 
     // When
-    BookstoreBookDto bookstoreBookDtoByHref = bookService.getBookstoreBookDtoByHref(bookDtos.get(0).getHref());
+    BookstoreBookDto bookstoreBookDtoByHref =
+        bookService.getBookstoreBookDtoByHref(bookDtos.get(0).getHref());
 
     // Then
     assertNotNull(bookstoreBookDtoByHref);
