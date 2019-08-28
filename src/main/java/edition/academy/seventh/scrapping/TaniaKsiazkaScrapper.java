@@ -59,6 +59,7 @@ class TaniaKsiazkaScrapper extends AbstractScrapper {
                   prepareValidPrice(element.getElementsByClass("product-price").text());
               BigDecimal promotionalPrice = new BigDecimal(promotionalPriceAsString);
               return new BookDto(
+                      null,
                   title,
                   "",
                   author,

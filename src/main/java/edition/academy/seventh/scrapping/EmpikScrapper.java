@@ -74,6 +74,7 @@ class EmpikScrapper extends AbstractScrapper {
                   BigDecimal promotionalPrice = new BigDecimal(promotionalPriceAsString);
                   String currency = "zł";
                   return new BookDto(
+                          null,
                       title,
                       "",
                       author,
