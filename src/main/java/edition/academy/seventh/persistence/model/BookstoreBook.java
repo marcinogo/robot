@@ -13,17 +13,20 @@ import java.util.List;
 public class BookstoreBook {
 
   @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
   @Column(name = "hyperlink", length = 300, nullable = false)
   private String hyperlink;
 
   @Column(name = "image_link")
   private String imageLink;
 
-  @ManyToOne(cascade = CascadeType.PERSIST)
+  @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinColumn(name = "bookstore_id")
   private Bookstore bookstore;
 
-  @ManyToOne(cascade = CascadeType.PERSIST)
+  @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
   @JoinColumns({@JoinColumn(name = "author"), @JoinColumn(name = "title")})
   private Book book;
 

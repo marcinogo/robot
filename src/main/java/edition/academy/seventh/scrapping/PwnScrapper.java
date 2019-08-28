@@ -59,6 +59,7 @@ class PwnScrapper extends AbstractScrapper {
               String href = element.getElementsByClass("titleLink").attr("href");
               href = startOfHrefUrl + href;
               return new BookDto(
+                  null,
                   title,
                   "",
                   author,

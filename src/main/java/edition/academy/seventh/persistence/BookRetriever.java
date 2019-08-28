@@ -7,9 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /** @author Kamil Rojek */
@@ -38,12 +38,8 @@ class BookRetriever {
    *
    * @return {@link BookstoreBookDto}.
    */
-  @GetMapping("/bookUrl/**")
-  public ResponseEntity<BookstoreBookDto> getBookstoreBook(HttpServletRequest request) {
-
-    String hyperlink = request.getRequestURI();
-    hyperlink = hyperlink.substring(9);
-
-    return new ResponseEntity<>(bookService.getBookstoreBookDtoByHref(hyperlink), HttpStatus.OK);
+  @GetMapping("/book/{id}")
+  public ResponseEntity<BookstoreBookDto> getBookstoreBook(@PathVariable(value = "id") Long id) {
+    return new ResponseEntity<>(bookService.getBookstoreBookDtoById(id), HttpStatus.OK);
   }
 }
