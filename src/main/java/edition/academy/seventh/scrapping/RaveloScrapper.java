@@ -57,7 +57,7 @@ class RaveloScrapper extends AbstractScrapper {
               String imageLink = element.getElementsByClass("showProductTip").attr("data-src");
               String href = element.getElementsByClass("cover").attr("href");
               return new BookDto(
-                      null,
+                  null,
                   title,
                   "",
                   author,

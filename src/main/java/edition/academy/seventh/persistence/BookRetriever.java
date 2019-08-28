@@ -38,7 +38,7 @@ class BookRetriever {
    *
    * @return {@link BookstoreBookDto}.
    */
-  @GetMapping("/bookUrl/{id}")
+  @GetMapping("/book/{id}")
   public ResponseEntity<BookstoreBookDto> getBookstoreBook(@PathVariable(value = "id") Long id) {
     return new ResponseEntity<>(bookService.getBookstoreBookDtoById(id), HttpStatus.OK);
   }

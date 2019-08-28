@@ -59,7 +59,7 @@ class SwiatKsiazkiScrapper extends AbstractScrapper {
                   prepareValidPrice(element.getElementsByClass("old-price").text());
               BigDecimal retailPrice = new BigDecimal(retailPriceAsString);
               return new BookDto(
-                      null,
+                  null,
                   title,
                   "",
                   author,

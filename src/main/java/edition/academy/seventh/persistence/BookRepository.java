@@ -207,6 +207,6 @@ public class BookRepository {
   }
 
   public BookstoreBook getBookstoreBookById(Long id) {
-    return entityManager.find(BookstoreBook.class,id);
+    return entityManager.find(BookstoreBook.class, id);
   }
 }

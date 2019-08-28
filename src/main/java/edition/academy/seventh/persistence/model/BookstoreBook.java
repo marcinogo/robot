@@ -13,7 +13,7 @@ import java.util.List;
 public class BookstoreBook {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column(name = "hyperlink", length = 300, nullable = false)
