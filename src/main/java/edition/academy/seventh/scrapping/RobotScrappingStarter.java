@@ -2,6 +2,9 @@ package edition.academy.seventh.scrapping;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,6 +24,7 @@ class RobotScrappingStarter {
 
   private ScrapperService scrapperService;
 
+  @Autowired
   public RobotScrappingStarter(ScrapperService scrapperService) {
     this.scrapperService = scrapperService;
   }
@@ -32,9 +36,9 @@ class RobotScrappingStarter {
    */
   @GetMapping("/start")
   @PreAuthorize("hasRole('ADMIN')")
-  public String startRobot() {
-    new Thread(() -> scrapperService.getDataFromBookstores(), "ScrappingThread").start();
-    return "Started scrapping books";
+  public ResponseEntity startRobot() {
+    new Thread(() -> scrapperService.getDataFromBookstores(), "ScrappingThreadManual").start();
+    return new ResponseEntity<>("Started scrapping books",HttpStatus.OK);
   }
 
   /**
@@ -44,6 +48,6 @@ class RobotScrappingStarter {
    */
   @Scheduled(cron = "0 0 */12 * * *")
   void scheduleRobot() {
-    new Thread(() -> scrapperService.getDataFromBookstores(), "ScrappingThread").start();
+    new Thread(() -> scrapperService.getDataFromBookstores(), "ScrappingThreadCron").start();
   }
 }
