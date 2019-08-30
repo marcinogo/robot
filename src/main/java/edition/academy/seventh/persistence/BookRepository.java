@@ -37,11 +37,17 @@ public class BookRepository {
   private EntityManager entityManager;
   private ConnectorProvider connectorProvider;
   private BookDtoParser bookDtoParser;
+  private boolean shouldCloseConnectorProvider;
 
   @Autowired
   public BookRepository(BookDtoParser bookDtoParser, @Value("${robot.db}") String database) {
     connectorProvider = ConnectorFactory.of(DatabaseType.valueOf(database));
     this.bookDtoParser = bookDtoParser;
+    shouldCloseConnectorProvider = checkIfConnectorProviderShouldBeClosed(database);
+  }
+
+  public BookstoreBook getBookstoreBookById(Long id) {
+    return entityManager.find(BookstoreBook.class, id);
   }
 
   /**
@@ -58,6 +64,7 @@ public class BookRepository {
     logger.info("Saving " + bookDtos.size() + " books in database");
     transaction.commit();
     entityManager.close();
+    if (shouldCloseConnectorProvider) connectorProvider.close();
   }
 
   /**
@@ -78,6 +85,7 @@ public class BookRepository {
 
     logger.info("Called getBooksFromDatabase(), returning " + bookstoreBookList.size() + " books");
     entityManager.close();
+    if (shouldCloseConnectorProvider) connectorProvider.close();
 
     return parseBookstoreBooksIntoBookDtos(bookstoreBookList);
   }
@@ -206,7 +214,7 @@ public class BookRepository {
     bookDtoParser.parseBookDtoIntoModel(bookDto);
   }
 
-  public BookstoreBook getBookstoreBookById(Long id) {
-    return entityManager.find(BookstoreBook.class, id);
+  private boolean checkIfConnectorProviderShouldBeClosed(String database) {
+    return database.equalsIgnoreCase(DatabaseType.POSTGRESQL.name());
   }
 }
