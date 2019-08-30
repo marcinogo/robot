@@ -37,6 +37,21 @@ class UserRepository {
   }
 
   /**
+   * Checks if {@link User} with given username exists in database.
+   *
+   * @param username of user to be checked.
+   * @return true if {@link User} with given username does exist in database or false otherwise.
+   */
+  boolean existsByUsername(String username) {
+    try {
+      findByUsername(username);
+    } catch (NoResultException e) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
    * Retrieves {@link User} with specified {@link User#getUsername()}. Username is unique and can't
    * be duplicated, so method guarantees returning either single {@link User} or throwing {@link
    * NoResultException} when one wasn't found.
@@ -45,7 +60,7 @@ class UserRepository {
    * @return {@link User} which username was passed as parameter.
    * @throws NoResultException when user with given name wasn't found in database.
    */
-  public Optional<User> findByUsername(String username) throws NoResultException {
+  Optional<User> findByUsername(String username) throws NoResultException {
     entityManager = connectorProvider.getEntityManager();
 
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -63,6 +78,21 @@ class UserRepository {
     } finally {
       entityManager.close();
     }
+  }
+
+  /**
+   * Checks if {@link User} with given email exists in database.
+   *
+   * @param email of user to be checked.
+   * @return true if {@link User} with given email does exist in database or false otherwise.
+   */
+  boolean existsByEmail(String email) {
+    try {
+      findByEmail(email);
+    } catch (NoResultException e) {
+      return false;
+    }
+    return true;
   }
 
   /**
@@ -100,7 +130,7 @@ class UserRepository {
    * @param user to be saved
    * @return true if operation was successful or false if otherwise.
    */
-  public boolean saveUser(User user) {
+  boolean saveUser(User user) {
     entityManager = connectorProvider.getEntityManager();
     EntityTransaction transaction = entityManager.getTransaction();
     transaction.begin();
@@ -120,33 +150,22 @@ class UserRepository {
     return true;
   }
 
-  /**
-   * Checks if {@link User} with given username exists in database.
-   *
-   * @param username of user to be checked.
-   * @return true if {@link User} with given username does exist in database or false otherwise.
-   */
-  public Boolean existsByUsername(String username) {
+  void removeUserWithUsername(String username) {
+    entityManager = connectorProvider.getEntityManager();
+    EntityTransaction transaction = entityManager.getTransaction();
+    transaction.begin();
     try {
-      findByUsername(username);
-    } catch (NoResultException e) {
-      return false;
+      entityManager.remove(findByUsername(username));
+      transaction.commit();
+    } catch (EntityExistsException
+            | TransactionRequiredException
+            | IllegalArgumentException
+            | RollbackException
+            | IllegalStateException e) {
+      LOGGER.error(String.format("Delete user with username: %s failed%n", username), e.getMessage());
+    } finally {
+      entityManager.close();
     }
-    return true;
-  }
 
-  /**
-   * Checks if {@link User} with given email exists in database.
-   *
-   * @param email of user to be checked.
-   * @return true if {@link User} with given email does exist in database or false otherwise.
-   */
-  public Boolean existsByEmail(String email) {
-    try {
-      findByEmail(email);
-    } catch (NoResultException e) {
-      return false;
-    }
-    return true;
   }
 }

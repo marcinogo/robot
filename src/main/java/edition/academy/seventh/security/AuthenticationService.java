@@ -193,4 +193,15 @@ public class AuthenticationService {
         });
     return roles;
   }
+
+  /**
+   * Remove {@link User} with given username exists in database.
+   *
+   * @see UserRepository#existsByUsername(String)
+   * @param username of {@link User}
+   */
+  public void removeUserWithUsername(String username) {
+    LOGGER.info("attempt to remove user with username: " + username);
+    userRepository.removeUserWithUsername(username);
+  }
 }

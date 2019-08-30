@@ -29,7 +29,7 @@ import java.util.Set;
 @RestController
 class AuthenticationRestController {
 
-  private static final Logger logger = LoggerFactory.getLogger(AuthenticationRestController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AuthenticationRestController.class);
   private AuthenticationService authenticationService;
 
   @Autowired
@@ -40,7 +40,7 @@ class AuthenticationRestController {
   @PostMapping("/auth/sign_in")
   ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginForm) {
     JwtResponse jwtResponse = authenticationService.login(loginForm);
-    logger.info("attempt to login " + loginForm.toString());
+    LOGGER.info("attempt to login " + loginForm.toString());
     return ResponseEntity.ok(jwtResponse);
   }
 
@@ -60,17 +60,17 @@ class AuthenticationRestController {
     String returnMessage = "Couldn't register new account, something went wrong!";
     if (userWithThisUsernameAlreadyExists(registerForm)) {
       returnMessage = "This username is already taken! ";
-      logger.error(returnMessage + registerForm.getUsername());
+      LOGGER.error(returnMessage + registerForm.getUsername());
       return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.BAD_REQUEST);
     }
     if (userWithThisEmailAlreadyExists(registerForm)) {
       returnMessage = "Account with given email already exists! ";
-      logger.error(returnMessage + registerForm.getEmail());
+      LOGGER.error(returnMessage + registerForm.getEmail());
       return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.BAD_REQUEST);
     }
     if (authenticationService.createNewAccount(registerForm)) {
       returnMessage = "User registered successfully! ";
-      logger.info(returnMessage + registerForm.toString());
+      LOGGER.info(returnMessage + registerForm.toString());
       return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.OK);
     }
     return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.OK);

@@ -1,9 +1,17 @@
 package edition.academy.seventh
 
+import java.beans.BeanProperty
 import java.util.concurrent.ThreadLocalRandom
 
+import edition.academy.seventh.security.AuthenticationService
 import io.gatling.core.Predef._
+import io.gatling.core.action.Action
+import io.gatling.core.action.builder.ActionBuilder
+import io.gatling.core.session.Expression
+import io.gatling.core.stats.StatsEngine
+import io.gatling.core.structure.ScenarioContext
 import io.gatling.http.Predef._
+import org.springframework.beans.factory.annotation.Autowired
 
 import scala.concurrent.duration._
 import scala.util.Random
@@ -62,6 +70,8 @@ class HerokuRegistrationAndLoginSimulation extends Simulation {
     )
   )
 
+  @Autowired val authenticationService: AuthenticationService = null
+
   val scn = scenario("HerokuRegistrationAndLoginSimulation")
     // start
     .exec(http("request_0")
@@ -119,5 +129,15 @@ class HerokuRegistrationAndLoginSimulation extends Simulation {
       .get(uri2 + "/books/pagination")
       .headers(headers_3))
 
+  before {
+    println("Simulation is about to start!")
+  }
+
   setUp(scn.inject(atOnceUsers(10))).protocols(httpProtocol)
+
+  after {
+    authenticationService.
+    authenticationService.removeUserWithUsername("${username}")
+    println("Simulation is finished!")
+  }
 }
