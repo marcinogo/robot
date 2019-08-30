@@ -107,7 +107,7 @@ public class AuthenticationService {
 
     user.setRoles(roles);
     createdAccountSuccessfully = userRepository.saveUser(user);
-    LOGGER.info("created new account: " + user.toString());
+    LOGGER.info("created new account: " + user.getUsername());
     return createdAccountSuccessfully;
   }
 
