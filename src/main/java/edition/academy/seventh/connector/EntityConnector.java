@@ -18,9 +18,11 @@ abstract class EntityConnector implements ConnectorProvider {
   private static final Logger logger = LoggerFactory.getLogger(EntityConnector.class);
   private final String persistenceUnitName;
   private EntityManagerFactory entityManagerFactory;
+  private boolean connectorProviderShouldBeClosed;
 
-  EntityConnector(final String persistenceUnitName) {
+  EntityConnector(final String persistenceUnitName, final boolean connectorProviderShouldBeClosed) {
     this.persistenceUnitName = persistenceUnitName;
+    this.connectorProviderShouldBeClosed = connectorProviderShouldBeClosed;
   }
 
   /**
@@ -39,7 +41,7 @@ abstract class EntityConnector implements ConnectorProvider {
    */
   @Override
   public final void close() {
-    if (entityManagerFactory.isOpen()) {
+    if (entityManagerFactory.isOpen() && connectorProviderShouldBeClosed) {
       entityManagerFactory.close();
       logger.info("EntityManagerFactory has been closed");
     }
