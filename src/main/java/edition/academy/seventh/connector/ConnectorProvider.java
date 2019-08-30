@@ -13,7 +13,8 @@ public interface ConnectorProvider {
 
   /**
    * Closes {@link javax.persistence.EntityManagerFactory} and all provided {@link
-   * javax.persistence.EntityManager entity managers}.
+   * javax.persistence.EntityManager entity managers} if {@link EntityConnector entity connector}
+   * has parameter connectorProviderShouldBeClosed set as true.
    */
   void close();
 }

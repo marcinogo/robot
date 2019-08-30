@@ -6,7 +6,7 @@ import java.util.Map;
 /** @author Kamil Rojek */
 class H2Connector extends EntityConnector {
   H2Connector() {
-    super("H2Unit");
+    super("H2Unit", false);
   }
 
   @Override

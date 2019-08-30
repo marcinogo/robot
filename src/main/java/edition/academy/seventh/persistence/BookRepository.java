@@ -44,6 +44,10 @@ public class BookRepository {
     this.bookDtoParser = bookDtoParser;
   }
 
+  public BookstoreBook getBookstoreBookById(Long id) {
+    return entityManager.find(BookstoreBook.class, id);
+  }
+
   /**
    * Adds books records to the database.
    *
@@ -58,6 +62,7 @@ public class BookRepository {
     logger.info("Saving " + bookDtos.size() + " books in database");
     transaction.commit();
     entityManager.close();
+    connectorProvider.close();
   }
 
   /**
@@ -78,6 +83,7 @@ public class BookRepository {
 
     logger.info("Called getBooksFromDatabase(), returning " + bookstoreBookList.size() + " books");
     entityManager.close();
+    connectorProvider.close();
 
     return parseBookstoreBooksIntoBookDtos(bookstoreBookList);
   }
@@ -204,9 +210,5 @@ public class BookRepository {
 
   private void addBookToDatabase(BookDto bookDto) {
     bookDtoParser.parseBookDtoIntoModel(bookDto);
-  }
-
-  public BookstoreBook getBookstoreBookById(Long id) {
-    return entityManager.find(BookstoreBook.class, id);
   }
 }
