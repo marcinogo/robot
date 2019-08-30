@@ -62,6 +62,7 @@ class UserRepository {
           String.format("Retrieving data from db unsuccessful. Message: %s", message));
     } finally {
       entityManager.close();
+      connectorProvider.close();
     }
   }
 
@@ -91,6 +92,7 @@ class UserRepository {
           String.format("Retrieving data from db unsuccessful. Message: %s", message));
     } finally {
       entityManager.close();
+      connectorProvider.close();
     }
   }
 
@@ -116,6 +118,7 @@ class UserRepository {
       return false;
     } finally {
       entityManager.close();
+      connectorProvider.close();
     }
     return true;
   }
