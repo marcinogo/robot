@@ -16,7 +16,7 @@ public class PaginationService {
   }
 
   List<BookDto> currentPage() {
-      return paginationRepository.getCurrentPage();
+    return paginationRepository.getCurrentPage();
   }
 
   List<BookDto> nextPage() {

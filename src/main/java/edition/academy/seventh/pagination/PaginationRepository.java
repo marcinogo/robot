@@ -28,10 +28,16 @@ public class PaginationRepository {
   private static final Logger logger = LoggerFactory.getLogger(PaginationRepository.class);
   private int currentPageNumber = 1;
   private ConnectorProvider connectorProvider;
+  private PaginationResult paginationResult;
 
   @Autowired
   public PaginationRepository(@Value("${robot.db}") String database) {
     connectorProvider = ConnectorFactory.of(DatabaseType.valueOf(database));
+    paginationResult = initializePaginationResult(connectorProvider.getEntityManager());
+  }
+
+  public void updatePaginationResult() {
+    paginationResult = initializePaginationResult(connectorProvider.getEntityManager());
   }
 
   List<BookDto> getCurrentPage() {
@@ -57,19 +63,23 @@ public class PaginationRepository {
   }
 
   private List<BookDto> getPaginationResult(int pageNumber) {
-    EntityManager entityManager = connectorProvider.getEntityManager();
+    PaginationResult result =
+        paginationResult.changePaginationResult(
+            pageNumber, MAX_RESULT_ON_PAGE, MAX_NAVIGATION_RESULT);
+
+    List<BookstoreBook> bookstoreBooks = result.getList();
+
+    return parseBookstoreBooksIntoBookDtos(bookstoreBooks);
+  }
+
+  private PaginationResult initializePaginationResult(EntityManager entityManager) {
     try {
 
       Session session = entityManager.unwrap(Session.class);
       String sql = "FROM " + BookstoreBook.class.getName();
       Query<BookstoreBook> query = session.createQuery(sql, BookstoreBook.class);
 
-      PaginationResult<BookstoreBook> result =
-          new PaginationResult<>(query, pageNumber, MAX_RESULT_ON_PAGE, MAX_NAVIGATION_RESULT);
-
-      List<BookstoreBook> bookstoreBooks = result.getList();
-
-      return parseBookstoreBooksIntoBookDtos(bookstoreBooks);
+      return new PaginationResult(query);
     } finally {
       entityManager.close();
       connectorProvider.close();

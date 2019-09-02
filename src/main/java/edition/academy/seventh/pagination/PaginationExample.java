@@ -1,17 +1,17 @@
-//package edition.academy.seventh.pagination;
+// package edition.academy.seventh.pagination;
 //
-//import edition.academy.seventh.connector.ConnectorFactory;
-//import edition.academy.seventh.connector.ConnectorProvider;
-//import edition.academy.seventh.connector.DatabaseType;
-//import edition.academy.seventh.persistence.model.BookstoreBook;
-//import org.hibernate.Session;
-//import org.hibernate.query.Query;
+// import edition.academy.seventh.connector.ConnectorFactory;
+// import edition.academy.seventh.connector.ConnectorProvider;
+// import edition.academy.seventh.connector.DatabaseType;
+// import edition.academy.seventh.persistence.model.BookstoreBook;
+// import org.hibernate.Session;
+// import org.hibernate.query.Query;
 //
-//import javax.persistence.EntityManager;
-//import java.util.List;
+// import javax.persistence.EntityManager;
+// import java.util.List;
 //
-///** @author Agnieszka Trzewik */
-//public class PaginationExample {
+/// ** @author Agnieszka Trzewik */
+// public class PaginationExample {
 //
 //  public static void main(String[] args) {
 //    ConnectorProvider connectorProvider = ConnectorFactory.of(DatabaseType.valueOf("H2"));
@@ -26,8 +26,10 @@
 //    int maxResult = 20;
 //    int maxNavigationResult = 10;
 //
-//    PaginationResult<BookstoreBook> result =
-//        new PaginationResult<BookstoreBook>(query, page, maxResult, maxNavigationResult);
+//    PaginationResult paginationResult = new PaginationResult(query);
+//
+//    PaginationResult result =
+//        paginationResult.changePaginationResult(page, maxResult, maxNavigationResult);
 //
 //    // Result:
 //    List<BookstoreBook> bookstoreBooks = result.getList();
@@ -39,6 +41,7 @@
 //
 //    System.out.println(result.getCurrentPage());
 //    System.out.println(result.getTotalRecords());
-//    bookstoreBooks.forEach(bookstoreBook -> System.out.println(bookstoreBook.getBook().getBookId().getTitle()));
+//    bookstoreBooks.forEach(bookstoreBook ->
+// System.out.println(bookstoreBook.getBook().getBookId().getTitle()));
 //  }
-//}
+// }

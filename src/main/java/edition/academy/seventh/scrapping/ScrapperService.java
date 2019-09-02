@@ -1,5 +1,6 @@
 package edition.academy.seventh.scrapping;
 
+import edition.academy.seventh.pagination.PaginationRepository;
 import edition.academy.seventh.persistence.BookService;
 import edition.academy.seventh.persistence.response.BookDto;
 import org.slf4j.Logger;
@@ -18,11 +19,16 @@ class ScrapperService {
 
   private PromotionProviderManager providerManager;
   private BookService bookService;
+  private PaginationRepository paginationRepository;
 
   @Autowired
-  ScrapperService(PromotionProviderManager providerManager, BookService bookService) {
+  ScrapperService(
+      PromotionProviderManager providerManager,
+      BookService bookService,
+      PaginationRepository paginationRepository) {
     this.providerManager = providerManager;
     this.bookService = bookService;
+    this.paginationRepository = paginationRepository;
   }
 
   boolean getDataFromBookstores() {
@@ -33,6 +39,7 @@ class ScrapperService {
     } catch (ProvidersNotFoundException e) {
       logger.error("Couldn't find any promotion provider " + e.getMessage());
     }
+    paginationRepository.updatePaginationResult();
     return true;
   }
 
