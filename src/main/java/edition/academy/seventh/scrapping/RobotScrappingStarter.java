@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 /**
  * Responsible for starting persistence actions. Running is possible either by HTTP request or
  * scheduled action.
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin("${robot.crossorigin}")
 class RobotScrappingStarter {
-  private static final Logger logger = LoggerFactory.getLogger(RobotScrappingStarter.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(RobotScrappingStarter.class);
 
   private ScrapperService scrapperService;
 
@@ -49,5 +51,18 @@ class RobotScrappingStarter {
   @Scheduled(cron = "0 0 */12 * * *")
   void scheduleRobot() {
     new Thread(() -> scrapperService.getDataFromBookstores(), "ScrappingThreadCron").start();
+  }
+
+  /**
+   * Ensure that app deployed on Heroku do not go sleep. Starts every 15 minutes.
+   */
+  @Scheduled(cron = "0 */15 * * * *")
+  private void wakeUpHerokuApp() {
+    try{
+      new ProcessBuilder("curl -X GET https://bookrobot-front.herokuapp.com/home".split(" ")).start();
+      LOGGER.info("Wake up Heroku performed");
+    } catch (IOException e) {
+      LOGGER.error(e.getMessage());
+    }
   }
 }
