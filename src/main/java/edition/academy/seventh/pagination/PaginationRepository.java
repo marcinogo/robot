@@ -22,9 +22,6 @@ import static edition.academy.seventh.persistence.ModelParserIntoBookDtos.parseB
 @Repository
 public class PaginationRepository {
 
-  private final int MAX_RESULT_ON_PAGE = 20;
-  private final int MAX_NAVIGATION_RESULT = 10;
-
   private static final Logger logger = LoggerFactory.getLogger(PaginationRepository.class);
   private int currentPageNumber = 1;
   private ConnectorProvider connectorProvider;
@@ -63,9 +60,7 @@ public class PaginationRepository {
   }
 
   private List<BookDto> getPaginationResult(int pageNumber) {
-    PaginationResult result =
-        paginationResult.changePaginationResult(
-            pageNumber, MAX_RESULT_ON_PAGE, MAX_NAVIGATION_RESULT);
+    PaginationResult result = paginationResult.changePaginationResult(pageNumber);
 
     List<BookstoreBook> bookstoreBooks = result.getList();
 
