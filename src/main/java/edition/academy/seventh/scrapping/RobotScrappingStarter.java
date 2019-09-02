@@ -64,7 +64,7 @@ class RobotScrappingStarter {
       LOGGER.info("Wake up Heroku");
       Process process =
           Runtime.getRuntime().exec("curl -X GET https://bookrobot-front.herokuapp.com/home");
-      process.waitFor(5, TimeUnit.MILLISECONDS);
+      process.waitFor(5, TimeUnit.SECONDS);
       process.destroy();
       LOGGER.info("Wake up Heroku performed");
     } catch (InterruptedException | IOException e) {
