@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Responsible for starting persistence actions. Running is possible either by HTTP request or
@@ -53,7 +54,9 @@ class RobotScrappingStarter {
     new Thread(() -> scrapperService.getDataFromBookstores(), "ScrappingThreadCron").start();
   }
 
-  /** Ensure that app deployed on Heroku do not go sleep. Starts every 15 minutes. */
+  /**
+   * Ensure that app deployed on Heroku do not go sleep. Starts every 15 minutes.
+   */
   @Scheduled(cron = "0 */15 * * * *")
   void wakeUpHerokuApp() {
 
@@ -61,7 +64,8 @@ class RobotScrappingStarter {
       LOGGER.info("Wake up Heroku");
       Process process =
           Runtime.getRuntime().exec("curl -X GET https://bookrobot-front.herokuapp.com/home");
-      process.waitFor();
+      process.waitFor(5, TimeUnit.MILLISECONDS);
+      process.destroy();
       LOGGER.info("Wake up Heroku performed");
     } catch (InterruptedException | IOException e) {
       LOGGER.error(e.getMessage());
