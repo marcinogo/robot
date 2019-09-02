@@ -55,7 +55,7 @@ class RobotScrappingStarter {
 
   /** Ensure that app deployed on Heroku do not go sleep. Starts every 15 minutes. */
   @Scheduled(cron = "0 */15 * * * *")
-  private void wakeUpHerokuApp() {
+  void wakeUpHerokuApp() {
 
     try {
       LOGGER.info("Wake up Heroku");
