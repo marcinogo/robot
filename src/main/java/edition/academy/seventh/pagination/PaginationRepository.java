@@ -43,7 +43,7 @@ public class PaginationRepository {
 
   List<BookDto> getNextPage() {
     List<BookDto> paginationResult = getPaginationResult(currentPageNumber + 1);
-    if (paginationResult != null) {
+    if (!paginationResult.isEmpty()) {
       currentPageNumber++;
       return paginationResult;
     }
@@ -52,7 +52,7 @@ public class PaginationRepository {
 
   List<BookDto> getPreviousPage() {
     List<BookDto> paginationResult = getPaginationResult(currentPageNumber - 1);
-    if (paginationResult != null) {
+    if (!paginationResult.isEmpty()) {
       currentPageNumber--;
       return paginationResult;
     }
