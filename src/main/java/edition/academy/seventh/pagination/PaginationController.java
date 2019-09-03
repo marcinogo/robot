@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/** @author Agnieszka Trzewik */
+/**
+ * Controls the flow of books pagination.
+ *
+ * @author Agnieszka Trzewik
+ */
 @RestController
 @CrossOrigin("${robot.crossorigin}")
 class PaginationController {
@@ -23,7 +27,7 @@ class PaginationController {
   }
 
   /**
-   * Starts books pagination and retrieves records from the first page.
+   * Retrieves records from the current page.
    *
    * @return {@code List<BookDto>} books.
    */

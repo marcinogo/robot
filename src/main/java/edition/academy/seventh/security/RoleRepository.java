@@ -59,14 +59,21 @@ class RoleRepository {
       return Optional.empty();
     } finally {
       entityManager.close();
+      connectorProvider.close();
     }
   }
 
   void addRole(RoleName roleName) {
-    entityManager = connectorProvider.getEntityManager();
-    EntityTransaction transaction = entityManager.getTransaction();
-    transaction.begin();
-    entityManager.persist(new Role(roleName));
-    transaction.commit();
+    try {
+
+      entityManager = connectorProvider.getEntityManager();
+      EntityTransaction transaction = entityManager.getTransaction();
+      transaction.begin();
+      entityManager.persist(new Role(roleName));
+      transaction.commit();
+    } finally {
+      entityManager.close();
+      connectorProvider.close();
+    }
   }
 }

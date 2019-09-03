@@ -20,56 +20,29 @@ import static edition.academy.seventh.persistence.ModelParserIntoBookDtos.parseB
 
 /** @author Agnieszka Trzewik */
 @Repository
-public class PaginationRepository {
+public class PaginationRepository implements Observer {
 
-  private static final Logger logger = LoggerFactory.getLogger(PaginationRepository.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(PaginationRepository.class);
   private int currentPageNumber = 1;
   private ConnectorProvider connectorProvider;
+  private EntityManager entityManager;
   private PaginationResult paginationResult;
 
   @Autowired
   public PaginationRepository(@Value("${robot.db}") String database) {
     connectorProvider = ConnectorFactory.of(DatabaseType.valueOf(database));
-    paginationResult = initializePaginationResult(connectorProvider.getEntityManager());
+    paginationResult = createPaginationResult();
   }
 
-  public void updatePaginationResult() {
-    paginationResult = initializePaginationResult(connectorProvider.getEntityManager());
+  @Override
+  public void update(PaginationResult paginationResult) {
+    this.paginationResult = paginationResult;
   }
 
-  List<BookDto> getCurrentPage() {
-    return getPaginationResult(currentPageNumber);
-  }
-
-  List<BookDto> getNextPage() {
-    List<BookDto> paginationResult = getPaginationResult(currentPageNumber + 1);
-    if (!paginationResult.isEmpty()) {
-      currentPageNumber++;
-      return paginationResult;
-    }
-    return getCurrentPage();
-  }
-
-  List<BookDto> getPreviousPage() {
-    List<BookDto> paginationResult = getPaginationResult(currentPageNumber - 1);
-    if (!paginationResult.isEmpty()) {
-      currentPageNumber--;
-      return paginationResult;
-    }
-    return getCurrentPage();
-  }
-
-  private List<BookDto> getPaginationResult(int pageNumber) {
-    PaginationResult result = paginationResult.changePaginationResult(pageNumber);
-
-    List<BookstoreBook> bookstoreBooks = result.getList();
-
-    return parseBookstoreBooksIntoBookDtos(bookstoreBooks);
-  }
-
-  private PaginationResult initializePaginationResult(EntityManager entityManager) {
+  public PaginationResult createPaginationResult() {
     try {
 
+      entityManager = connectorProvider.getEntityManager();
       Session session = entityManager.unwrap(Session.class);
       String sql = "FROM " + BookstoreBook.class.getName();
       Query<BookstoreBook> query = session.createQuery(sql, BookstoreBook.class);
@@ -79,5 +52,40 @@ public class PaginationRepository {
       entityManager.close();
       connectorProvider.close();
     }
+  }
+
+  List<BookDto> getCurrentPage() {
+    LOGGER.info("Current page: " + currentPageNumber);
+    return getPaginationResult(currentPageNumber);
+  }
+
+  List<BookDto> getNextPage() {
+    List<BookDto> paginationResult = getPaginationResult(currentPageNumber + 1);
+    if (!paginationResult.isEmpty()) {
+      currentPageNumber++;
+      LOGGER.info("Current page: " + currentPageNumber);
+      return paginationResult;
+    }
+    LOGGER.info("It is a last page:  " + currentPageNumber);
+    return getCurrentPage();
+  }
+
+  List<BookDto> getPreviousPage() {
+    List<BookDto> paginationResult = getPaginationResult(currentPageNumber - 1);
+    if (!paginationResult.isEmpty()) {
+      currentPageNumber--;
+      LOGGER.info("Current page: " + currentPageNumber);
+      return paginationResult;
+    }
+    LOGGER.info("It is the first page");
+    return getCurrentPage();
+  }
+
+  private List<BookDto> getPaginationResult(int pageNumber) {
+    PaginationResult result = paginationResult.changePaginationResult(pageNumber);
+
+    List<BookstoreBook> bookstoreBooks = result.getBookstoreBooksOnPage();
+
+    return parseBookstoreBooksIntoBookDtos(bookstoreBooks);
   }
 }
