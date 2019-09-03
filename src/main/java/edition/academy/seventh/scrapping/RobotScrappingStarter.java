@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin("${robot.crossorigin}")
 class RobotScrappingStarter {
-  private static final Logger logger = LoggerFactory.getLogger(RobotScrappingStarter.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(RobotScrappingStarter.class);
 
   private ScrapperService scrapperService;
 
@@ -41,11 +41,7 @@ class RobotScrappingStarter {
     return new ResponseEntity<>("Started scrapping books", HttpStatus.OK);
   }
 
-  /**
-   * Schedules robot run. Starts every 12 hours.
-   *
-   * @return result of persist action
-   */
+  /** Schedules robot run. Starts every 12 hours. */
   @Scheduled(cron = "0 0 */12 * * *")
   void scheduleRobot() {
     new Thread(() -> scrapperService.getDataFromBookstores(), "ScrappingThreadCron").start();
