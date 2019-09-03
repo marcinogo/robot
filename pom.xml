@@ -283,7 +283,7 @@
                 <artifactId>gatling-maven-plugin</artifactId>
                 <version>${version.plugin.gatling}</version>
                 <configuration>
-                    <simulationsFolder>src/test/scala.edition.academy.seventh</simulationsFolder>
+                    <simulationsFolder>src/test/scala</simulationsFolder>
                     <simulationClass>edition.academy.seventh.HerokuRegistrationAndLoginSimulation</simulationClass>
                 </configuration>
                 <executions>
