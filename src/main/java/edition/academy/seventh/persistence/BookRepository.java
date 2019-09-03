@@ -33,7 +33,7 @@ import static edition.academy.seventh.persistence.ModelParserIntoBookDtos.parseB
 @Repository
 public class BookRepository {
 
-  private static final Logger logger = LoggerFactory.getLogger(BookRepository.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(BookRepository.class);
   private EntityManager entityManager;
   private ConnectorProvider connectorProvider;
   private BookDtoParser bookDtoParser;
@@ -42,6 +42,10 @@ public class BookRepository {
   public BookRepository(BookDtoParser bookDtoParser, @Value("${robot.db}") String database) {
     connectorProvider = ConnectorFactory.of(DatabaseType.valueOf(database));
     this.bookDtoParser = bookDtoParser;
+  }
+
+  public BookstoreBook getBookstoreBookById(Long id) {
+    return entityManager.find(BookstoreBook.class, id);
   }
 
   /**
@@ -55,9 +59,10 @@ public class BookRepository {
 
     transaction.begin();
     bookDtos.forEach(this::addBookToDatabase);
-    logger.info("Saving " + bookDtos.size() + " books in database");
+    LOGGER.info("Saving " + bookDtos.size() + " books in database");
     transaction.commit();
     entityManager.close();
+    connectorProvider.close();
   }
 
   /**
@@ -76,8 +81,9 @@ public class BookRepository {
     query.select(from);
     List<BookstoreBook> bookstoreBookList = entityManager.createQuery(query).getResultList();
 
-    logger.info("Called getBooksFromDatabase(), returning " + bookstoreBookList.size() + " books");
+    LOGGER.info("Called getBooksFromDatabase(), returning " + bookstoreBookList.size() + " books");
     entityManager.close();
+    connectorProvider.close();
 
     return parseBookstoreBooksIntoBookDtos(bookstoreBookList);
   }
@@ -96,11 +102,11 @@ public class BookRepository {
     BookstoreBook bookstoreBook = entityManager.find(BookstoreBook.class, href);
 
     if (bookstoreBook == null) {
-      logger.info("Cannot find book with href " + href);
+      LOGGER.info("Cannot find book with href " + href);
       return null;
     }
 
-    logger.info("Called getBookstoreBookDtoById()");
+    LOGGER.info("Called getBookstoreBookDtoById()");
 
     entityManager.close();
 
@@ -114,11 +120,11 @@ public class BookRepository {
     BookstoreBook bookstoreBook = entityManager.find(BookstoreBook.class, id);
 
     if (bookstoreBook == null) {
-      logger.info("Cannot find book with id " + id);
+      LOGGER.info("Cannot find book with id " + id);
       return null;
     }
 
-    logger.info("Called getBookstoreBookDtoById()");
+    LOGGER.info("Called getBookstoreBookDtoById()");
 
     entityManager.close();
 
@@ -204,9 +210,5 @@ public class BookRepository {
 
   private void addBookToDatabase(BookDto bookDto) {
     bookDtoParser.parseBookDtoIntoModel(bookDto);
-  }
-
-  public BookstoreBook getBookstoreBookById(Long id) {
-    return entityManager.find(BookstoreBook.class, id);
   }
 }

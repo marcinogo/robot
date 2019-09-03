@@ -40,7 +40,7 @@ class AuthenticationRestController {
   @PostMapping("/auth/sign_in")
   ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginForm) {
     JwtResponse jwtResponse = authenticationService.login(loginForm);
-    LOGGER.info("attempt to login " + loginForm.toString());
+    LOGGER.info("attempt to login " + loginForm.getUsername());
     return ResponseEntity.ok(jwtResponse);
   }
 
@@ -70,7 +70,7 @@ class AuthenticationRestController {
     }
     if (authenticationService.createNewAccount(registerForm)) {
       returnMessage = "User registered successfully! ";
-      LOGGER.info(returnMessage + registerForm.toString());
+      LOGGER.info(returnMessage + registerForm.getUsername());
       return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.OK);
     }
     return new ResponseEntity<>(new ResponseMessage(returnMessage), HttpStatus.OK);

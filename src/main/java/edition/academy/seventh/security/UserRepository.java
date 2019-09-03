@@ -77,6 +77,7 @@ class UserRepository {
           String.format("Retrieving data from db unsuccessful. Message: %s", message));
     } finally {
       entityManager.close();
+      connectorProvider.close();
     }
   }
 
@@ -121,6 +122,7 @@ class UserRepository {
           String.format("Retrieving data from db unsuccessful. Message: %s", message));
     } finally {
       entityManager.close();
+      connectorProvider.close();
     }
   }
 
@@ -146,6 +148,7 @@ class UserRepository {
       return false;
     } finally {
       entityManager.close();
+      connectorProvider.close();
     }
     return true;
   }
@@ -158,14 +161,15 @@ class UserRepository {
       entityManager.remove(findByUsername(username));
       transaction.commit();
     } catch (EntityExistsException
-            | TransactionRequiredException
-            | IllegalArgumentException
-            | RollbackException
-            | IllegalStateException e) {
-      LOGGER.error(String.format("Delete user with username: %s failed%n", username), e.getMessage());
+        | TransactionRequiredException
+        | IllegalArgumentException
+        | RollbackException
+        | IllegalStateException e) {
+      LOGGER.error(
+          String.format("Delete user with username: %s failed%n", username), e.getMessage());
     } finally {
       entityManager.close();
+      connectorProvider.close();
     }
-
   }
 }

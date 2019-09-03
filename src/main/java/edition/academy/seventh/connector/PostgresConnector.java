@@ -8,7 +8,7 @@ class PostgresConnector extends EntityConnector {
   private Map<String, String> credentials;
 
   PostgresConnector() {
-    super("PostgreSQLUnit");
+    super("PostgreSQLUnit", true);
     credentials = System.getenv();
   }
 
