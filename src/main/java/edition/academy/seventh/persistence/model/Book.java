@@ -1,14 +1,17 @@
 package edition.academy.seventh.persistence.model;
 
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity(name = "book")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 public class Book {
 
@@ -25,5 +28,23 @@ public class Book {
   public Book(BookId bookId, String subtitle) {
     this.bookId = bookId;
     this.subtitle = subtitle;
+  }
+
+  @Override
+  public String toString() {
+    return "Book{" + "bookId=" + bookId + ", subtitle='" + subtitle + '\'' + '}';
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Book book = (Book) o;
+    return Objects.equals(bookId, book.bookId) && Objects.equals(subtitle, book.subtitle);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(bookId, subtitle);
   }
 }

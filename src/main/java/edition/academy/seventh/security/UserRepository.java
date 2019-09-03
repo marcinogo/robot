@@ -45,7 +45,7 @@ class UserRepository {
    * @return {@link User} which username was passed as parameter.
    * @throws NoResultException when user with given name wasn't found in database.
    */
-  public Optional<User> findByUsername(String username) throws NoResultException {
+  Optional<User> findByUsername(String username) throws NoResultException {
     entityManager = connectorProvider.getEntityManager();
 
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
@@ -102,7 +102,7 @@ class UserRepository {
    * @param user to be saved
    * @return true if operation was successful or false if otherwise.
    */
-  public boolean saveUser(User user) {
+  boolean saveUser(User user) {
     entityManager = connectorProvider.getEntityManager();
     EntityTransaction transaction = entityManager.getTransaction();
     transaction.begin();
@@ -129,7 +129,7 @@ class UserRepository {
    * @param username of user to be checked.
    * @return true if {@link User} with given username does exist in database or false otherwise.
    */
-  public Boolean existsByUsername(String username) {
+  Boolean existsByUsername(String username) {
     try {
       findByUsername(username);
     } catch (NoResultException e) {
@@ -144,7 +144,7 @@ class UserRepository {
    * @param email of user to be checked.
    * @return true if {@link User} with given email does exist in database or false otherwise.
    */
-  public Boolean existsByEmail(String email) {
+  Boolean existsByEmail(String email) {
     try {
       findByEmail(email);
     } catch (NoResultException e) {

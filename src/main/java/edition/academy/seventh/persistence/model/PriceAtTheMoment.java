@@ -1,7 +1,9 @@
 package edition.academy.seventh.persistence.model;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldNameConstants;
 
 import javax.persistence.*;
@@ -10,7 +12,9 @@ import java.time.LocalDateTime;
 
 /** @author Agnieszka Trzewik */
 @Entity(name = "price_at_the_moment")
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 public class PriceAtTheMoment {
 
