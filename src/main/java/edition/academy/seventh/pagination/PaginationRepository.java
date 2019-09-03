@@ -41,7 +41,6 @@ public class PaginationRepository implements Observer {
 
   public PaginationResult createPaginationResult() {
     try {
-
       entityManager = connectorProvider.getEntityManager();
       Session session = entityManager.unwrap(Session.class);
       String sql = "FROM " + BookstoreBook.class.getName();

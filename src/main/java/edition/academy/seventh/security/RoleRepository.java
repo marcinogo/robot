@@ -45,12 +45,12 @@ class RoleRepository {
    */
   Optional<Role> findByName(RoleName roleName) throws NoResultException {
     entityManager = connectorProvider.getEntityManager();
-
     CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Role> query = criteriaBuilder.createQuery(Role.class);
     Root<Role> from = query.from(Role.class);
     Path<Object> name = from.get("name");
     query.select(from).where(criteriaBuilder.equal(name, roleName));
+
     try {
       return Optional.ofNullable(entityManager.createQuery(query).getSingleResult());
     } catch (Exception e) {
@@ -65,7 +65,6 @@ class RoleRepository {
 
   void addRole(RoleName roleName) {
     try {
-
       entityManager = connectorProvider.getEntityManager();
       EntityTransaction transaction = entityManager.getTransaction();
       transaction.begin();
