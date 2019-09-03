@@ -97,7 +97,7 @@ public class AuthenticationService {
    *
    * @param registerForm {@link RegisterForm} with requested user data needed to create an account.
    */
-  public boolean createNewAccount(@RequestBody @Valid RegisterForm registerForm) {
+  boolean createNewAccount(@RequestBody @Valid RegisterForm registerForm) {
     boolean createdAccountSuccessfully;
     User user =
         new User(registerForm.getEmail(), registerForm.getUsername(), encodePassword(registerForm));
@@ -141,7 +141,7 @@ public class AuthenticationService {
    * @param username of {@link User}
    * @return true if user with given username exists or false otherwise.
    */
-  public boolean userExistsByUsername(String username) {
+  boolean userExistsByUsername(String username) {
     return userRepository.existsByUsername(username);
   }
 
@@ -152,7 +152,7 @@ public class AuthenticationService {
    * @param email of {@link User}
    * @return true if {@link User} was found, false otherwise.
    */
-  public boolean userExistsByEmail(String email) {
+  boolean userExistsByEmail(String email) {
     return userRepository.existsByEmail(email);
   }
 
