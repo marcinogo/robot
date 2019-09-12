@@ -36,8 +36,7 @@ pipeline {
         stage('Performance test') {
             steps {
                 echo 'Performance testing...'
-//                 sh 'mvn gatling:test'
-                sh 'gatlingArchive()'
+                gatlingArchive()
             }
         }
         stage('Deploy') {
