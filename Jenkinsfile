@@ -1,6 +1,5 @@
 pipeline {
     agent any
-
     stages {
         stage('Clean') {
             steps {
@@ -14,7 +13,7 @@ pipeline {
                 sh 'mvn compile'
             }
         }
-        stage('Unit testing') {
+        stage('Unit test') {
             steps {
                 echo 'Unit testing..'
                 sh 'mvn test'
@@ -26,14 +25,21 @@ pipeline {
                 sh 'mvn package'
             }
         }
-       stage('Integration testing') {
+        stage('Integration test') {
            steps {
                echo 'Integration testing...'
                retry(3) {
-                    sh 'mvn verify'
+                    sh 'mvn test-compile failsafe:integration-test'
                }
            }
-       }
+        }
+        stage('Performance test') {
+            steps {
+                echo 'Performance testing...'
+//                 sh 'mvn gatling:test'
+                sh 'gatlingArchive()'
+            }
+        }
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
