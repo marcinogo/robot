@@ -29,13 +29,14 @@ pipeline {
            steps {
                echo 'Integration testing...'
                retry(3) {
-                    sh 'mvn test-compile failsafe:integration-test'
+                    sh 'mvn failsafe:integration-test'
                }
            }
         }
         stage('Performance test') {
             steps {
                 echo 'Performance testing...'
+                sh 'gatling:test'
                 gatlingArchive()
             }
         }
