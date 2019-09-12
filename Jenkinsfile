@@ -2,16 +2,38 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Clean') {
             steps {
-                echo 'Building..'
+                echo 'Cleaning environment...'
+                sh 'mvn clean'
             }
         }
-        stage('Test') {
+        stage('Compile') {
             steps {
-                echo 'Testing..'
+                echo 'Compiling..'
+                sh 'mvn compile'
             }
         }
+        stage('Unit testing') {
+            steps {
+                echo 'Unit testing..'
+                sh 'mvn test'
+            }
+        }
+        stage('Package') {
+            steps {
+                echo 'Packaging...'
+                sh 'mvn package'
+            }
+        }
+       stage('Integration testing') {
+           steps {
+               echo 'Integration testing...'
+               retry(3) {
+                    sh 'mvn verify'
+               }
+           }
+       }
         stage('Deploy') {
             steps {
                 echo 'Deploying....'
