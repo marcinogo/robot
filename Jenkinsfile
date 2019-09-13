@@ -6,13 +6,13 @@ pipeline {
     stages {
         stage('Compile') {
             steps {
-                echo 'Compiling..'
+                echo 'Compiling...'
                 sh 'mvn compile'
             }
         }
         stage('Unit test') {
             steps {
-                echo 'Unit testing..'
+                echo 'Unit testing...'
                 sh 'mvn test'
             }
         }
@@ -35,6 +35,11 @@ pipeline {
                 echo 'Performance testing...'
                 sh 'mvn gatling:test -Dgatling.useOldJenkinsJUnitSupport=true'
                 gatlingArchive()
+            }
+        }
+        stage('Performance gate') {
+            steps {
+                echo 'Checking Gatling Performance gate...'
                 gatlingCheck(metrics: [
                     'global.okRate = 60',
                 ])
@@ -42,14 +47,17 @@ pipeline {
         }
         stage('SonarQube analysis') {
             steps {
+                echo 'Perform SonarQube analysis...'
                 withSonarQubeEnv('Sonar') {
 //                 TODO: Pass sonar-jenkins.properties in other way
                     sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=/opt/sonarqube/conf/sonar-jenkins.properties"
+//                 Fixme: integration tests dose not count to test coverage
                 }
             }
         }
-        stage("Quality Gate") {
+        stage("Quality gate") {
             steps {
+                echo 'Checking SonarQube Quality gate...'
                 timeout(time: 1, unit: 'HOURS') {
                     waitForQualityGate abortPipeline: true
                 }
