@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        def scannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+    }
     stages {
         stage('Compile') {
             steps {
@@ -35,10 +38,10 @@ pipeline {
             }
         }
         stage('SonarQube analysis') {
-            def sonarqubeScannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation';
             steps {
                 withSonarQubeEnv('Sonar') {
-                    sh "${scannerHome}/bin/sonar-scanner"
+//                 TODO: Pass sonar-jenkins.properties in other way
+                    sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=/opt/sonarqube/conf/sonar-jenkins.properties"
                 }
             }
         }
