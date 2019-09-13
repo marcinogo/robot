@@ -1,12 +1,6 @@
 pipeline {
     agent any
     stages {
-        stage('Clean') {
-            steps {
-                echo 'Cleaning environment...'
-                sh 'mvn clean'
-            }
-        }
         stage('Compile') {
             steps {
                 echo 'Compiling..'
@@ -52,8 +46,11 @@ pipeline {
                 junit 'target/surefire-reports/*.xml'
                 echo 'Publish integration tests reports'
                 junit 'target/failsafe-reports/*.xml'
-                echo 'Publish performance test report'
-                junit 'target/gatling/assertions-*.xml'
+//                 Fixme: can not find this report
+//                 echo 'Publish performance test report'
+//                 junit 'target/gatling/assertions-*.xml'
+                echo 'Cleaning workspace'
+                deleteDir()
             }
             success {
                 echo 'This will run only if successful'
