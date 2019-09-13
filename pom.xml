@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.6.RELEASE</version>
+        <version>2.1.8.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -15,6 +15,7 @@
     <artifactId>robot</artifactId>
     <version>0.1</version>
     <name>robot</name>
+    <url>https://bookrobot-front.herokuapp.com/</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -28,7 +29,7 @@
         <version.maven>3.3.9</version.maven>
         <version.testng>6.9.10</version.testng>
         <version.mockito>2.26.0</version.mockito>
-        <version.jacoco>0.8.3</version.jacoco>
+        <version.plugin.jacoco>0.8.3</version.plugin.jacoco>
         <version.log4j>2.11.2</version.log4j>
         <version.hibernate>5.4.2.Final</version.hibernate>
         <version.plugin.maven.enforcer>3.0.0-M2</version.plugin.maven.enforcer>
@@ -40,8 +41,11 @@
         <version.plugin.maven.failsafe>3.0.0-M3</version.plugin.maven.failsafe>
         <version.plugin.spotbugs>3.1.11</version.plugin.spotbugs>
         <version.plugin.checkstyle>3.0.0</version.plugin.checkstyle>
+        <!-- jdepend dose not support Java 8+, need to find alternative-->
         <version.plugin.jdepend>2.0</version.plugin.jdepend>
         <version.plugin.jsoup>1.12.1</version.plugin.jsoup>
+        <version.plugin.pmd>3.12.0</version.plugin.pmd>
+        <version.plugin.jxr>3.0.0</version.plugin.jxr>
         <version.spring.security>5.0.12.RELEASE</version.spring.security>
         <version.gatling>3.2.0</version.gatling>
         <version.plugin.gatling>3.0.3</version.plugin.gatling>
@@ -233,11 +237,11 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${version.jacoco}</version>
+                <version>${version.plugin.jacoco}</version>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>prepare-agent</goal>
+                            <goal>report</goal>
                         </goals>
                     </execution>
                     <execution>
@@ -340,7 +344,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${version.jacoco}</version>
+                <version>${version.plugin.jacoco}</version>
                 <reportSets>
                     <reportSet>
                         <reports>
@@ -348,6 +352,16 @@
                         </reports>
                     </reportSet>
                 </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${version.plugin.pmd}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${version.plugin.jxr}</version>
             </plugin>
         </plugins>
     </reporting>
