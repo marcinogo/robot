@@ -35,7 +35,7 @@
         <version.plugin.maven.jar>3.1.0</version.plugin.maven.jar>
         <version.plugin.maven.compiler>3.8.0</version.plugin.maven.compiler>
         <version.plugin.maven.resources>3.1.0</version.plugin.maven.resources>
-        <version.plugin.maven.site>3.7.1</version.plugin.maven.site>
+        <version.plugin.maven.site>3.8.2</version.plugin.maven.site>
         <version.plugin.maven.reports>3.0.0</version.plugin.maven.reports>
         <version.plugin.maven.failsafe>3.0.0-M3</version.plugin.maven.failsafe>
         <version.plugin.spotbugs>3.1.11</version.plugin.spotbugs>

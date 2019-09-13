@@ -1,3 +1,4 @@
+// Fixme: Pass artifact - jar between jobs
 pipeline {
     agent any
     environment {
