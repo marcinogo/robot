@@ -27,7 +27,7 @@ pipeline {
            steps {
                retry(3) {
                   echo 'Integration testing...'
-                  sh 'mvn failsafe:integration-test'
+                  sh 'mvn verify -Dgatling.skip=true -DskipSurefire=true'
                }
            }
         }
@@ -46,10 +46,15 @@ pipeline {
                 ])
             }
         }
+        stage('Generate Site reports') {
+            steps {
+                echo 'Generating reports...'
+                sh 'mvn site'
+            }
+        }
         stage('SonarQube analysis') {
             steps {
                 echo 'Perform SonarQube analysis...'
-                sh 'mvn site'
                 withSonarQubeEnv('Sonar') {
 //                 TODO: Pass sonar-jenkins.properties in other way
                     sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=/opt/sonarqube/conf/sonar-jenkins.properties"

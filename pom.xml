@@ -39,6 +39,7 @@
         <version.plugin.maven.site>3.8.2</version.plugin.maven.site>
         <version.plugin.maven.reports>3.0.0</version.plugin.maven.reports>
         <version.plugin.maven.failsafe>3.0.0-M3</version.plugin.maven.failsafe>
+        <version.plugin.maven.surefire>3.0.0-M3</version.plugin.maven.surefire>
         <version.plugin.spotbugs>3.1.11</version.plugin.spotbugs>
         <version.plugin.checkstyle>3.0.0</version.plugin.checkstyle>
         <!-- jdepend dose not support Java 8+, need to find alternative-->
@@ -178,8 +179,8 @@
             <version>${version.gatling}</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -208,6 +209,14 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${version.plugin.maven.surefire}</version>
+                <configuration>
+                    <skip>${skipSurefire}</skip>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -240,12 +249,19 @@
                 <version>${version.plugin.jacoco}</version>
                 <executions>
                     <execution>
+                        <id>unit-tests</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>integration-tests</id>
                         <goals>
                             <goal>prepare-agent-integration</goal>
                         </goals>
                     </execution>
                     <execution>
-                        <id>jacoco-check</id>
+                        <id>coverage-check</id>
                         <goals>
                             <goal>check</goal>
                         </goals>
@@ -349,6 +365,7 @@
                     <reportSet>
                         <reports>
                             <report>report</report>
+                            <report>report-integration</report>
                         </reports>
                     </reportSet>
                 </reportSets>
