@@ -35,6 +35,9 @@ pipeline {
                 echo 'Performance testing...'
                 sh 'mvn gatling:test -Dgatling.useOldJenkinsJUnitSupport=true'
                 gatlingArchive()
+                gatlingCheck(metrics: [
+                    'global.okRate = 60',
+                ])
             }
         }
         stage('SonarQube analysis') {
