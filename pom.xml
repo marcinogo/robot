@@ -241,7 +241,7 @@
                 <executions>
                     <execution>
                         <goals>
-                            <goal>report</goal>
+                            <goal>prepare-agent-integration</goal>
                         </goals>
                     </execution>
                     <execution>
