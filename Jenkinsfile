@@ -50,7 +50,7 @@ pipeline {
             always {
                 echo 'This will always run'
                 junit 'target/surefire-reports/*.xml'
-                junit 'target/gatling/assertions-*.xml'
+                junit 'target/gatling/*.xml'
             }
             success {
                 echo 'This will run only if successful'
