@@ -21,9 +21,9 @@ pipeline {
         }
         stage('Integration test') {
            steps {
-               echo 'Integration testing...'
                retry(3) {
-                    sh 'mvn failsafe:integration-test'
+                  echo 'Integration testing...'
+                  sh 'mvn failsafe:integration-test'
                }
            }
         }
@@ -36,7 +36,7 @@ pipeline {
         }
         stage('SonarQube analysis') {
             steps {
-                withSonarQubeEnv() {
+                withSonarQubeEnv('SonarQubeScanner') {
                 }
             }
         }
@@ -54,29 +54,29 @@ pipeline {
         }
     }
     post {
-            always {
-                echo 'Publish unit tests reports'
-                junit 'target/surefire-reports/*.xml'
-                echo 'Publish integration tests reports'
-                junit 'target/failsafe-reports/*.xml'
+        always {
+            echo 'Publish unit tests reports'
+            junit 'target/surefire-reports/*.xml'
+            echo 'Publish integration tests reports'
+            junit 'target/failsafe-reports/*.xml'
 //                 Fixme: can not find this report
 //                 echo 'Publish performance test report'
 //                 junit 'target/gatling/assertions-*.xml'
-                echo 'Cleaning workspace'
-                deleteDir()
-            }
-            success {
-                echo 'This will run only if successful'
-            }
-            failure {
-                echo 'This will run only if failed'
-            }
-            unstable {
-                echo 'This will run only if the run was marked as unstable'
-            }
-            changed {
-                echo 'This will run only if the state of the Pipeline has changed'
-                echo 'For example, if the Pipeline was previously failing but is now successful'
-            }
+            echo 'Cleaning workspace'
+            deleteDir()
         }
+        success {
+            echo 'This will run only if successful'
+        }
+        failure {
+            echo 'This will run only if failed'
+        }
+        unstable {
+            echo 'This will run only if the run was marked as unstable'
+        }
+        changed {
+            echo 'This will run only if the state of the Pipeline has changed'
+            echo 'For example, if the Pipeline was previously failing but is now successful'
+        }
+    }
 }
