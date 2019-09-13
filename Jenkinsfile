@@ -48,6 +48,7 @@ pipeline {
         stage('SonarQube analysis') {
             steps {
                 echo 'Perform SonarQube analysis...'
+                sh 'mvn site'
                 withSonarQubeEnv('Sonar') {
 //                 TODO: Pass sonar-jenkins.properties in other way
                     sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=/opt/sonarqube/conf/sonar-jenkins.properties"
