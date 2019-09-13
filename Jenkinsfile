@@ -48,14 +48,17 @@ pipeline {
     }
     post {
             always {
-                echo 'This will always run'
+                echo 'Publish unit tests reports'
                 junit 'target/surefire-reports/*.xml'
-                junit 'target/gatling/*.xml'
+                echo 'Publish integration tests reports'
+                junit 'target/failsafe-reports/*.xml'
+                echo 'Publish performance test report'
+                junit 'target/gatling/assertions-*.xml'
             }
             success {
                 echo 'This will run only if successful'
             }
-            failure {
+            failure {h
                 echo 'This will run only if failed'
             }
             unstable {
