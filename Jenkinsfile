@@ -36,7 +36,7 @@ pipeline {
         stage('Performance test') {
             steps {
                 echo 'Performance testing...'
-                sh 'mvn gatling:test'
+                sh 'mvn gatling:test -Dgatling.useOldJenkinsJUnitSupport=true'
                 gatlingArchive()
             }
         }
@@ -49,6 +49,7 @@ pipeline {
     post {
             always {
                 echo 'This will always run'
+                junit 'build/reports/**/*.xml'
             }
             success {
                 echo 'This will run only if successful'
