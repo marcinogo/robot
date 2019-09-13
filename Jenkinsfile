@@ -49,7 +49,8 @@ pipeline {
     post {
             always {
                 echo 'This will always run'
-                junit 'build/reports/**/*.xml'
+                junit 'target/surefire-reports/*.xml'
+                junit 'target/gatling/assertions-*.xml'
             }
             success {
                 echo 'This will run only if successful'
