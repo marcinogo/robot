@@ -20,7 +20,7 @@ pipeline {
         stage('Package') {
             steps {
                 echo 'Packaging...'
-                sh 'mvn package -Dmaven.test.skip=true'
+                sh 'mvn package -DskipTests'
             }
         }
         stage('Integration tests') {
@@ -49,7 +49,7 @@ pipeline {
         stage('Generate Site reports') {
             steps {
                 echo 'Generating reports...'
-                sh 'mvn site'
+                sh 'mvn install -DskipTests -Dgatling.skip=true site'
             }
         }
         stage('SonarQube analysis') {
