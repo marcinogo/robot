@@ -1,6 +1,12 @@
-// Fixme: Pass artifact - jar between jobs
 pipeline {
     agent any
+      options {
+        buildDiscarder(
+          logRotator(
+            daysToKeepStr: '5',
+            numToKeepStr: '10',
+            artifactNumToKeepStr: '3'))
+      }
     environment {
         def scannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
     }
@@ -58,7 +64,6 @@ pipeline {
                 withSonarQubeEnv('Sonar') {
 //                 TODO: Pass sonar-jenkins.properties in other way
                     sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=/opt/sonarqube/conf/sonar-jenkins.properties"
-//                 Fixme: integration tests dose not count to test coverage
                 }
             }
         }
@@ -78,18 +83,18 @@ pipeline {
     }
     post {
         always {
-            echo 'Publish unit tests reports'
+            echo 'Publish reports'
             junit 'target/surefire-reports/*.xml'
-            echo 'Publish integration tests reports'
             junit 'target/failsafe-reports/*.xml'
-//                 Fixme: can not find this report
-//                 echo 'Publish performance test report'
-//                 junit 'target/gatling/assertions-*.xml'
+            recordIssues enabledForFailure: true, tool: checkStyle()
+            recordIssues enabledForFailure: true, tool: spotBugs()
+            recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
             echo 'Cleaning workspace'
             deleteDir()
         }
         success {
-            echo 'This will run only if successful'
+            echo 'Archiving artifacts'
+            archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
         }
         failure {
             echo 'This will run only if failed'
