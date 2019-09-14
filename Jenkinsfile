@@ -11,7 +11,7 @@ pipeline {
                 sh 'mvn compile'
             }
         }
-        stage('Unit test') {
+        stage('Unit tests') {
             steps {
                 echo 'Unit testing...'
                 sh 'mvn test'
@@ -23,11 +23,11 @@ pipeline {
                 sh 'mvn package -Dmaven.test.skip=true'
             }
         }
-        stage('Integration test') {
+        stage('Integration tests') {
            steps {
                retry(3) {
                   echo 'Integration testing...'
-                  sh 'mvn verify -Dgatling.skip=true -DskipSurefire=true'
+                  sh 'mvn pre-integration-test failsafe:integration-test -DskipSurefire=true'
                }
            }
         }
