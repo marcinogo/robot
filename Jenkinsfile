@@ -1,14 +1,5 @@
 pipeline {
-//     agent any
-    agent any {([
-      $class: 'GitSCM',
-      branches: [[name: '*/test_jenkins_pipeline']],
-      doGenerateSubmoduleConfigurations: false,
-      extensions: [], submoduleCfg: [],
-      userRemoteConfigs: [
-        [credentialsId: '8653edf6-4c1d-446a-8dab-3a9748e4ca58', url: 'https://github.com/marcinogo/robot']
-      ]
-    ])}
+    agent any
       options {
         buildDiscarder(
           logRotator(
