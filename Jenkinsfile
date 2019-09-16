@@ -5,7 +5,8 @@ pipeline {
           logRotator(
             daysToKeepStr: '5',
             numToKeepStr: '10',
-            artifactNumToKeepStr: '3'))
+            artifactNumToKeepStr: '3')
+          )
       }
     environment {
         def scannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
@@ -89,6 +90,8 @@ pipeline {
             recordIssues enabledForFailure: true, tool: checkStyle()
             recordIssues enabledForFailure: true, tool: spotBugs()
             recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+            echo 'Sending email to DevOps...'
+            emailext attachLog: true, body: '$DEFAULT_CONTENT', compressLog: true, subject: '$DEFAULT_SUBJECT', to: 'marcin.grzegorz.ogorzalek@gmail.com'
             echo 'Cleaning workspace'
             deleteDir()
         }
@@ -97,14 +100,16 @@ pipeline {
             archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
         }
         failure {
-            echo 'This will run only if failed'
+            echo 'Sending email to developers on fail...'
+            emailext attachLog: true, body: '$DEFAULT_CONTENT', compressLog: true, recipientProviders: [developers(), culprits()], subject: '$DEFAULT_SUBJECT'
         }
         unstable {
-            echo 'This will run only if the run was marked as unstable'
+            echo 'Sending email to developers on unstable...'
+            emailext attachLog: true, body: '$DEFAULT_CONTENT', compressLog: true, recipientProviders: [developers(), culprits()], subject: '$DEFAULT_SUBJECT'
         }
         changed {
-            echo 'This will run only if the state of the Pipeline has changed'
-            echo 'For example, if the Pipeline was previously failing but is now successful'
+            echo 'Sending email to developers on change...'
+            emailext attachLog: true, body: '$DEFAULT_CONTENT', compressLog: true, recipientProviders: [developers(), culprits()], subject: '$DEFAULT_SUBJECT'
         }
     }
 }
