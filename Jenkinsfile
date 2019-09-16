@@ -5,8 +5,10 @@ pipeline {
           logRotator(
             daysToKeepStr: '5',
             numToKeepStr: '10',
-            artifactNumToKeepStr: '3')
+            artifactNumToKeepStr: '3'
           )
+        )
+        timestamps ()
       }
     environment {
         def scannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
