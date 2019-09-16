@@ -34,10 +34,8 @@ pipeline {
         }
         stage('Integration tests') {
            steps {
-               retry(3) {
-                  echo 'Integration testing...'
-                  sh 'mvn pre-integration-test failsafe:integration-test -DskipSurefire=true'
-               }
+              echo 'Integration testing...'
+              sh 'mvn pre-integration-test failsafe:integration-test -DskipSurefire=true'
            }
         }
         stage('Performance test') {
