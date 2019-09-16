@@ -21,7 +21,7 @@ class PostgresConnector extends EntityConnector {
     settings.put("javax.persistence.jdbc.url", credentials.get("DB_URL"));
     settings.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQL95Dialect");
     settings.put("hibernate.show_sql", "true");
-    settings.put("hibernate.hbm2ddl.auto", "update");
+    settings.put("hibernate.hbm2ddl.auto", "create-drop");
 
     return settings;
   }
