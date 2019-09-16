@@ -56,7 +56,7 @@ pipeline {
         stage('Generate Site reports') {
             steps {
                 echo 'Generating reports...'
-                sh 'mvn install -DskipTests -Dgatling.skip=true site'
+                sh 'mvn install -DskipTests -Dgatling.skip=true site site:deploy'
             }
         }
         stage('SonarQube analysis') {
