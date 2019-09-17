@@ -48,6 +48,7 @@ pipeline {
         stage('Performance gate') {
             steps {
                 echo 'Checking Gatling Performance gate...'
+//                 Skipped due to problem with Heroku deployed application
 //                 gatlingCheck(metrics: [
 //                     'global.okRate = 60',
 //                 ])
@@ -76,9 +77,12 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
+        stage('Deploy to test server') {
+            when {
+                branch 'test_jenkins_pipeline'
+            }
             steps {
-                echo 'Deploying....'
+                echo 'Deploying to test server....'
             }
         }
     }
@@ -91,9 +95,7 @@ pipeline {
             recordIssues enabledForFailure: true, tool: spotBugs()
             recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
             echo 'Sending email to DevOps...'
-            emailext attachLog: true, body: '$DEFAULT_CONTENT', compressLog: true, subject: '$DEFAULT_SUBJECT', to: 'marcin.grzegorz.ogorzalek@gmail.com'
-            echo 'Cleaning workspace'
-            deleteDir()
+            emailext attachLog: true, body: '$DEFAULT_CONTENT', compressLog: true, subject: 'Robot Jenkins - $DEFAULT_SUBJECT', to: 'marcin.grzegorz.ogorzalek@gmail.com'
         }
         success {
             echo 'Archiving artifacts'
