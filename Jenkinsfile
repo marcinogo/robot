@@ -80,7 +80,7 @@ pipeline {
         stage('Deploy to test server') {
             when {
 //              Change to develop after tests
-                branch 'test_jenkins_pipeline'
+                branch 'develop'
             }
             steps {
                 echo 'Deploying to test server....'
@@ -90,7 +90,7 @@ pipeline {
         stage('Client acceptance test') {
             when {
 //              Change to develop after tests
-                branch 'test_jenkins_pipeline'
+                branch 'develop'
             }
             steps {
                 echo 'Acceptance test....'
