@@ -106,14 +106,15 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to production server...') {
-            when {
-                branch 'master'
-            }
-            steps {
-                echo 'Deploying to production server....'
-            }
-        }
+//      No need for Herok
+//         stage('Deploy to production server...') {
+//             when {
+//                 branch 'master'
+//             }
+//             steps {
+//                 echo 'Deploying to production server....'
+//             }
+//         }
     }
     post {
         always {
