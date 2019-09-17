@@ -140,7 +140,7 @@ public class BookDtoParser {
     bookRepository.saveOrUpdateBookstoreBook(bookstoreBook, entities.bookstoreBook);
   }
 
-  private class EntitiesInDatabase {
+  private static class EntitiesInDatabase {
 
     private final Book book;
     private final Bookstore bookstore;

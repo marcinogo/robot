@@ -79,10 +79,19 @@ pipeline {
         }
         stage('Deploy to test server') {
             when {
+//             Change to develop after tests
                 branch 'test_jenkins_pipeline'
             }
             steps {
                 echo 'Deploying to test server....'
+            }
+        }
+        stage('Deploy to production server...') {
+            when {
+                branch 'master'
+            }
+            steps {
+                echo 'Deploying to production server....'
             }
         }
     }
@@ -112,6 +121,10 @@ pipeline {
         changed {
             echo 'Sending email to developers on change...'
             emailext attachLog: true, body: '$DEFAULT_CONTENT', compressLog: true, recipientProviders: [developers(), culprits()], subject: '$DEFAULT_SUBJECT'
+        }
+        cleanup {
+            echo 'Cleaning workspace'
+            deleteDir()
         }
     }
 }
