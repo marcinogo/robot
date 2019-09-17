@@ -1,15 +1,15 @@
 pipeline {
     agent any
-      options {
-        buildDiscarder(
+    options {
+       buildDiscarder(
           logRotator(
             daysToKeepStr: '5',
             numToKeepStr: '10',
             artifactNumToKeepStr: '3'
           )
-        )
+       )
         timestamps ()
-      }
+    }
     environment {
         def scannerHome = tool name: 'SonarQubeScanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
     }
@@ -48,7 +48,7 @@ pipeline {
         stage('Performance gate') {
             steps {
                 echo 'Checking Gatling Performance gate...'
-//                 Skipped due to problem with Heroku deployed application
+//                 Skipped due to problem with Heroku deployed application / Heroku's Dynos hours limit
 //                 gatlingCheck(metrics: [
 //                     'global.okRate = 60',
 //                 ])
@@ -79,11 +79,24 @@ pipeline {
         }
         stage('Deploy to test server') {
             when {
-//             Change to develop after tests
+//              Change to develop after tests
                 branch 'test_jenkins_pipeline'
             }
             steps {
                 echo 'Deploying to test server....'
+//              Here should go configuration to deploy on a test server
+            }
+        }
+        stage('Client acceptance test') {
+            when {
+//              Change to develop after tests
+                branch 'test_jenkins_pipeline'
+            }
+            steps {
+                echo 'Client acceptance test....'
+                timeout(time:5, unit:'DAYS') {
+                    input message:'Approve deployment?', submitter: 'it-ops'
+                }
             }
         }
         stage('Deploy to production server...') {
