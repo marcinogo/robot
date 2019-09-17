@@ -92,8 +92,6 @@ pipeline {
             recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
             echo 'Sending email to DevOps...'
             emailext attachLog: true, body: '$DEFAULT_CONTENT', compressLog: true, subject: '$DEFAULT_SUBJECT', to: 'marcin.grzegorz.ogorzalek@gmail.com'
-            echo 'Cleaning workspace'
-            deleteDir()
         }
         success {
             echo 'Archiving artifacts'
@@ -110,6 +108,10 @@ pipeline {
         changed {
             echo 'Sending email to developers on change...'
             emailext attachLog: true, body: '$DEFAULT_CONTENT', compressLog: true, recipientProviders: [developers(), culprits()], subject: '$DEFAULT_SUBJECT'
+        }
+        cleanup {
+            echo 'Cleaning workspace'
+            deleteDir()
         }
     }
 }

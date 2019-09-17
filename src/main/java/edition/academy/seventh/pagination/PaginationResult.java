@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /** @author Agnieszka Trzewik */
-public class PaginationResult {
+class PaginationResult {
 
-  private final int MAX_RESULT_ON_PAGE = 20;
+  private static final int MAX_RESULT_ON_PAGE = 20;
 
   private List<BookstoreBook> bookstoreBooksOnPage;
   private List<BookstoreBook> bookstoreBooks;
