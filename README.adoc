@@ -2,6 +2,7 @@
 
 == ABOUT ROBOT PROJECT
 
+image:https://jenkins-nasz-pan.pl/buildStatus/icon?job=test_pipeline_1%2Fmaster[Build Status]
 image:https://jenkins-nasz-pan.pl/sonar/api/project_badges/measure?project=edition.academy.seventh%3Arobot&metric=alert_status[Quality Gate Status]
 
 Robot collects information about books on promotion and those available for
