@@ -93,9 +93,16 @@ pipeline {
                 branch 'test_jenkins_pipeline'
             }
             steps {
-                echo 'Client acceptance test....'
+                echo 'Acceptance test....'
+//              Change to appropriate content and email to client representative one.
+                emailext body: '''Dear Client
+
+                If the newest version of the Robot application meets your requirements, please approve  Build # $BUILD_NUMBER on $JOB_URL page.
+
+                Sincerely
+                Your Dev Team''', subject: 'Robot application - Acceptance test - Build # $BUILD_NUMBER', to: 'marcin.grzegorz.ogorzalek@gmail.com'
                 timeout(time:5, unit:'DAYS') {
-                    input message:'Approve deployment?', submitter: 'it-ops'
+                    input message:'Do you want to proceed this build?', submitter: 'Client'
                 }
             }
         }
