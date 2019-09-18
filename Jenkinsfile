@@ -106,15 +106,23 @@ pipeline {
                 }
             }
         }
-//      No need for Herok
-//         stage('Deploy to production server...') {
-//             when {
-//                 branch 'master'
-//             }
-//             steps {
-//                 echo 'Deploying to production server....'
-//             }
-//         }
+        stage('Create Pull Request to master...') {
+            when {
+                branch 'test_jenkins_pipeline'
+            }
+            steps {
+                echo 'Creating Pull Request to master....'
+            }
+        }
+        stage('Deploy to production server...') {
+            when {
+                branch 'master'
+            }
+            steps {
+                echo 'Deploying to production server....'
+                releaseHeroku
+            }
+        }
     }
     post {
         always {
