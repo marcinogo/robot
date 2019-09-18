@@ -116,11 +116,13 @@ pipeline {
         }
         stage('Deploy to production server...') {
             when {
-                branch 'master'
+                branch 'test_jenkins_pipeline'
             }
             steps {
                 echo 'Deploying to production server....'
-                releaseHeroku
+                withCredentials([usernamePassword(credentialsId: 'a190c75d-b71f-4841-99bc-f6b6ba4ec38d', usernameVariable: 'ACCESS_TOKEN_USERNAME', passwordVariable: 'ACCESS_TOKEN_PASSWORD')]) {
+                    sh('git push https://git.heroku.com/bookrobotja7.git HEAD:master -f')
+                }
             }
         }
     }
