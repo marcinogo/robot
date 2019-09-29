@@ -184,7 +184,9 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
-          <mainClass>edition.academy.seventh.Main</mainClass>
+          <mainClass>
+            edition.academy.seventh.Main
+          </mainClass>
         </configuration>
       </plugin>
       <plugin>

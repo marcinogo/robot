@@ -32,6 +32,7 @@ pipeline {
                 sh 'mvn package -DskipTests'
             }
         }
+//      mvn verify runs unit, integration and performance tests
         stage('Integration tests') {
            steps {
               echo 'Integration testing...'
@@ -54,6 +55,7 @@ pipeline {
 //                 ])
             }
         }
+//      TODO: Publish site reports and javadoc - low priority
         stage('Generate Site reports') {
             steps {
                 echo 'Generating reports...'
@@ -64,7 +66,8 @@ pipeline {
             steps {
                 echo 'Perform SonarQube analysis...'
                 withSonarQubeEnv('Sonar') {
-//                 TODO: Pass sonar-jenkins.properties in other way
+//                  TODO: Pass sonar-jenkins.properties in other way
+//                  TODO: Create github issues with TODOs
                     sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=/opt/sonarqube/conf/sonar-jenkins.properties"
                 }
             }
@@ -79,7 +82,6 @@ pipeline {
         }
         stage('Deploy to test server') {
             when {
-//              Change to develop after tests
                 branch 'develop'
             }
             steps {
@@ -89,7 +91,6 @@ pipeline {
         }
         stage('Client acceptance test') {
             when {
-//              Change to develop after tests
                 branch 'develop'
             }
             steps {
@@ -100,21 +101,29 @@ pipeline {
                 If the newest version of the Robot application meets your requirements, please approve  Build # $BUILD_NUMBER on $JOB_URL page.
 
                 Sincerely
-                Your Dev Team''', subject: 'Robot application - Acceptance test - Build # $BUILD_NUMBER', to: 'marcin.grzegorz.ogorzalek@gmail.com'
+                Your Dev Team''', subject: 'Robot application - Acceptance test - Build # $BUILD_NUMBER', to: '$DEFAULT_RECIPIENTS'
                 timeout(time:5, unit:'DAYS') {
                     input message:'Do you want to proceed this build?', submitter: 'Client'
                 }
             }
         }
-//      No need for Herok
-//         stage('Deploy to production server...') {
-//             when {
-//                 branch 'master'
-//             }
-//             steps {
-//                 echo 'Deploying to production server....'
-//             }
-//         }
+        stage('Create Pull Request to master...') {
+            when {
+                branch 'test_jenkins_pipeline'
+            }
+            steps {
+                echo 'Creating Pull Request to master....'
+            }
+        }
+        stage('Deploy to production server...') {
+            when {
+                branch 'test_jenkins_pipeline'
+            }
+            steps {
+                echo 'Deploying to production server....'
+//              TODO: Find out how deploy to server
+            }
+        }
     }
     post {
         always {
@@ -125,7 +134,7 @@ pipeline {
             recordIssues enabledForFailure: true, tool: spotBugs()
             recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
             echo 'Sending email to DevOps...'
-            emailext attachLog: true, body: '$DEFAULT_CONTENT', compressLog: true, subject: 'Robot Jenkins - $DEFAULT_SUBJECT', to: 'marcin.grzegorz.ogorzalek@gmail.com'
+            emailext attachLog: true, body: '$DEFAULT_CONTENT', compressLog: true, subject: 'Robot Jenkins - $DEFAULT_SUBJECT', to: '$DEFAULT_RECIPIENTS'
         }
         success {
             echo 'Archiving artifacts'
