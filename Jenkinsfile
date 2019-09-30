@@ -67,7 +67,7 @@ pipeline {
                 echo 'Perform SonarQube analysis...'
                 withSonarQubeEnv('Sonar') {
 //                  TODO: Pass sonar-jenkins.properties in other way
-//                  TODO:  Create github issues with TODOs
+//                  TODO: Create github issues with TODOs
                     sh "${scannerHome}/bin/sonar-scanner -Dproject.settings=/opt/sonarqube/conf/sonar-jenkins.properties"
                 }
             }
@@ -82,7 +82,6 @@ pipeline {
         }
         stage('Deploy to test server') {
             when {
-//              Change to develop after tests
                 branch 'develop'
             }
             steps {
@@ -92,7 +91,6 @@ pipeline {
         }
         stage('Client acceptance test') {
             when {
-//              Change to develop after tests
                 branch 'develop'
             }
             steps {
@@ -135,6 +133,7 @@ pipeline {
             recordIssues enabledForFailure: true, tool: checkStyle()
             recordIssues enabledForFailure: true, tool: spotBugs()
             recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'target/site', reportFiles: 'index.html', reportName: 'Maven Site', reportTitles: ''])
             echo 'Sending email to DevOps...'
             emailext attachLog: true, body: '$DEFAULT_CONTENT', compressLog: true, subject: 'Robot Jenkins - $DEFAULT_SUBJECT', to: '$DEFAULT_RECIPIENTS'
         }
