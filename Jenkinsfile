@@ -109,7 +109,7 @@ pipeline {
         }
         stage('Create Pull Request to master...') {
             when {
-                branch 'test_jenkins_pipeline'
+                branch 'develop'
             }
             steps {
                 echo 'Creating Pull Request to master....'
@@ -117,7 +117,7 @@ pipeline {
         }
         stage('Deploy to production server...') {
             when {
-                branch 'test_jenkins_pipeline'
+                branch 'master'
             }
             steps {
                 echo 'Deploying to production server....'
@@ -133,6 +133,7 @@ pipeline {
             recordIssues enabledForFailure: true, tool: checkStyle()
             recordIssues enabledForFailure: true, tool: spotBugs()
             recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: false, reportDir: 'target/site', reportFiles: 'index.html', reportName: 'Maven Site', reportTitles: ''])
             echo 'Sending email to DevOps...'
             emailext attachLog: true, body: '$DEFAULT_CONTENT', compressLog: true, subject: 'Robot Jenkins - $DEFAULT_SUBJECT', to: '$DEFAULT_RECIPIENTS'
         }
