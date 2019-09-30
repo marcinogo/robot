@@ -111,7 +111,7 @@ pipeline {
         }
         stage('Create Pull Request to master...') {
             when {
-                branch 'test_jenkins_pipeline'
+                branch 'develop'
             }
             steps {
                 echo 'Creating Pull Request to master....'
@@ -119,7 +119,7 @@ pipeline {
         }
         stage('Deploy to production server...') {
             when {
-                branch 'test_jenkins_pipeline'
+                branch 'master'
             }
             steps {
                 echo 'Deploying to production server....'
