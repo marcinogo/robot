@@ -46,7 +46,7 @@
     <version.plugin.checkstyle>3.0.0</version.plugin.checkstyle>
     <!-- jdepend throws 'Unknown constant 18'. Plugin dose not support Java 8+, need to find alternative or remove-->
     <version.plugin.jdepend>2.0</version.plugin.jdepend>
-    <version.plugin.jsoup>1.12.1</version.plugin.jsoup>
+    <version.plugin.jsoup>1.14.2</version.plugin.jsoup>
     <version.plugin.pmd>3.12.0</version.plugin.pmd>
     <version.plugin.jxr>3.0.0</version.plugin.jxr>
     <version.spring.security>5.3.3.RELEASE</version.spring.security>
