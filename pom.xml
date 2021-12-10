@@ -31,7 +31,7 @@
     <version.testng>6.9.10</version.testng>
     <version.mockito>2.26.0</version.mockito>
     <version.plugin.jacoco>0.8.4</version.plugin.jacoco>
-    <version.log4j>2.13.3</version.log4j>
+    <version.log4j>2.15.0</version.log4j>
     <version.hibernate>5.4.2.Final</version.hibernate>
     <version.plugin.maven.enforcer>3.0.0-M2</version.plugin.maven.enforcer>
     <version.plugin.maven.jar>3.1.0</version.plugin.maven.jar>
