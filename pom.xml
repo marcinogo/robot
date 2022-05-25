@@ -49,7 +49,7 @@
     <version.plugin.jsoup>1.12.1</version.plugin.jsoup>
     <version.plugin.pmd>3.12.0</version.plugin.pmd>
     <version.plugin.jxr>3.0.0</version.plugin.jxr>
-    <version.spring.security>5.3.3.RELEASE</version.spring.security>
+    <version.spring.security>5.5.7</version.spring.security>
     <version.gatling>3.2.0</version.gatling>
     <version.plugin.gatling>3.0.3</version.plugin.gatling>
     <version.plugin.scala>3.4.4</version.plugin.scala>
